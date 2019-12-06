@@ -1,0 +1,51 @@
+
+dimension algorithm
+
+
+[add,subtract](Lhs_dim, rhs_dim) -> result_dim
+{
+   for( base : base_dimensions){
+      // find returns a zero base_ratio for not found or zero dim
+
+      if ( not_zero([add,subtract](find(base_dim_ratio(base) in lhs_dim) , find(base_dim_ratio(base) in rhs_dim)))){
+         push_back(result_dim,result_base_ratio);
+      }
+   }
+   return result_dim;
+}
+
+negate (dim) -> result_dim
+   for( base : base_dimensions){
+     base_dim = find(base_dim_ratio(base)
+     if ( not_zero(base_dim)){
+         push_back(result_dim, negate(base_dim));
+     }
+   }
+   return result_dim;
+}
+
+[multiply,divide] (dim, value) -> result_dim
+{
+   for(base : base_dimemsions){
+      result_base_ratio = [multiply,divide](find(base_dim_ratio(base) in dim, value);
+      if ( not_zero(result_base_ratio)){
+         push_back(result_dim,result_base_ratio);
+      }
+   }
+   return result_dim;
+}
+
+equal_to(Lhs_dim, rhs_dim) -> bool
+{
+   for( base : base_dimensions){
+      if ( not_equal_to(find(base_dim_ratio(base) in lhs_dim) , find(base_dim_ratio(base) in rhs_dim)){
+         return false;
+      }
+   }
+   return true;
+}
+
+not_equal(Lhs_dim, rhs_dim) -> bool
+{
+   return ! equal_to(lhs_dim,rhs_dim);
+}
