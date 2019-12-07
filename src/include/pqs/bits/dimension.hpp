@@ -154,7 +154,7 @@ namespace pqs{ namespace detail{
    >::type type;   
    };
 
-   //ll interfce to extract the base_dim with id Id from dimension D
+   //ll interface to extract the base_dim with id Id from dimension D
    // base_dim of zero extent signifies not found
    template <typename D, base_dimension_id_t Id>
    struct get_base_dimension : get_base_dimension_i<
@@ -303,7 +303,19 @@ namespace pqs{ namespace detail{
      // ll multiplicative ops on dimensions interface
    template <typename LhsD, typename Ratio>
    struct divide_dimension : multiplicative_op_dimensions_i<LhsD,divide_base_dimension_ratio, Ratio, base_dimension_id_t::first_element,dimension<> >{};
-   
+
+   // negate dimension
+
+   template <typename D>
+   struct negate_dimension : multiply_dimension<D,std::ratio<-1> >{};
+
+  // compare
+
+   template <typename DL, typename DR> 
+   struct are_equal_dimensions : std::is_same<typename subtract_dimensions<DL,DR>::type, pqs::dimension<> >{}; 
+  
+   template <typename DL, typename DR> 
+   struct are_not_equal_dimensions : std::negation< are_equal_dimensions<DL,DR> >{};
        
 }} // pqs::detail
 
