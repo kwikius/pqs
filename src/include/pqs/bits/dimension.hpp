@@ -166,7 +166,7 @@ namespace quan{ namespace meta{
    
 }}// quan::meta
 
-namespace pqs{ namespace si {namespace detail{
+namespace pqs{ namespace detail{
 
    // algorthim to extract the base_dimension from the dimension
    template <typename D, base_dimension_id_t Id, int Size>
@@ -192,6 +192,6 @@ namespace pqs{ namespace si {namespace detail{
       D, Id,quan::meta::get_num_elements<typename D::type>::value
    >{};
 
-}}}
+}} // pqs::detail
 
 #endif // PQS_DIMENSION_HPP_INCLUDED

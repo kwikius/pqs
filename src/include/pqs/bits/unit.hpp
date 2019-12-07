@@ -1,11 +1,10 @@
-#ifndef PQS_SI_UNIT_HPP_INCLUDED
-#define PQS_SI_UNIT_HPP_INCLUDED
-
+#ifndef PQS_UNIT_HPP_INCLUDED
+#define PQS_UNIT_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/dimension.hpp>
+#include <pqs/bits/dimension.hpp>
 
-namespace pqs{ namespace si{
+namespace pqs{ 
 
    //interface
    template <typename Dim, int ExpN , int ExpD >
@@ -28,6 +27,6 @@ namespace pqs{ namespace si{
    };
 
 
-}} // pqs::si
+}// pqs
 
-#endif // PQS_SI_UNIT_HPP_INCLUDED
+#endif // PQS_UNIT_HPP_INCLUDED
