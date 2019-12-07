@@ -11,7 +11,10 @@ void quantity_syntax_test1()
    auto qa = quantity<
       si::unit<
          dimension<
-            si::dim_length<1>, si::dim_time<-1>, si::dim_mass<2>, si::dim_temperature<3>
+            si::dim_length<1>, 
+            si::dim_time<-1>,
+            si::dim_mass<2>, 
+            si::dim_temperature<3>
          >, 3
       >,double
    > {};
