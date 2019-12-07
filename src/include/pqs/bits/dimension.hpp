@@ -14,7 +14,7 @@ namespace pqs{
 
    template <> struct dimension<>{
       typedef dimension type;
-      static constexpr uint32_t length = 0;
+      static constexpr uint32_t num_elements = 0;
    };
 
 }
@@ -31,7 +31,7 @@ namespace quan{ namespace impl{
 }} // quan::impl
 */
 namespace quan{ namespace meta{
-
+/*
    namespace impl{
 
        template <typename ... D>
@@ -40,7 +40,7 @@ namespace quan{ namespace meta{
        > : std::integral_constant<uint32_t, (sizeof...(D) )>{};
 
    }
-
+*/
    template <typename T>
    struct push_back<pqs::dimension<>,T >{
       typedef pqs::dimension<T> type;
@@ -109,45 +109,10 @@ namespace quan{ namespace meta{
    };
 
 }}//quan::meta
-/*
-namespace pqs {
-   namespace detail {
 
-      template <uint32_t N,typename List, typename other_list = pqs::dimension<> >
-      struct dimension_get_first_n{
-         
-         typedef typename quan::meta::front<List>::type first_type;
-         typedef typename quan::meta::pop_front<List>::type rest_type;
-         typedef typename quan::meta::push_back<other_list,first_type>::type result_list_type;
-         typedef typename quan::meta::eval_if_c<
-            result_list_type::length == N,
-            result_list_type,
-            dimension_get_first_n<N,rest_type,result_list_type>
-         >::type type;
-      };
-   }//detail
-}// pqs
-*/
+/*
 namespace quan{ namespace meta{
 
-/*
-   template<typename... List>
-   struct pop_back<pqs::dimension<List...> >{
-      typedef pqs::dimension<List...> list_type;
-      typedef typename pqs::detail::dimension_get_first_n<list_type::length-1,list_type>::type type;
-   };
-
-   template< typename Last>
-   struct pop_back<pqs::dimension<Last> >{
-       typedef pqs::dimension<> type;
-   };
-
-   template <>
-   struct pop_back<pqs::dimension<> >
-   {
-      typedef quan::undefined type;
-   };
-*/
    template <uint32_t N, typename... List>
    struct at<N,pqs::dimension<List...> >{
        typedef pqs::dimension<List...> list_type;
@@ -165,17 +130,19 @@ namespace quan{ namespace meta{
    };
    
 }}// quan::meta
-
+*/
 namespace pqs{ namespace detail{
 
-   // algorthim to extract the base_dimension from the dimension
+   // algorthim to extract the base_dimension from the dimension D
    template <typename D, base_dimension_id_t Id, int Size>
    struct get_base_dimension_i;
 
-   // zero base_dim is same as not found
+   // end of dimension D, base_dim not found so return zero size base_dim
    template <typename D, base_dimension_id_t Id>
    struct get_base_dimension_i<D,Id,0> : make_base_dimension_ratio<Id, std::ratio<0,1> >{};
 
+   // not end of dimension D
+   // return base_dim recursively
    template <typename D, base_dimension_id_t Id, int Size>
    struct get_base_dimension_i {
    typedef typename D::type dimension;
@@ -187,11 +154,65 @@ namespace pqs{ namespace detail{
    >::type type;   
    };
 
+   //ll interfce to extract the base_dim with id Id from dimension D
+   // base_dim of zero extent signifies not found
    template <typename D, base_dimension_id_t Id>
    struct get_base_dimension : get_base_dimension_i<
-      D, Id,quan::meta::get_num_elements<typename D::type>::value
+      D, Id,D::type::num_elements
    >{};
 
+}} // pqs::detail
+
+namespace pqs{ namespace detail{
+
+/*
+   find the base dimensions with id in lhs and rhs 
+   apply Op and if result not zero add to result dimension
+*/
+   template <
+      typename LhsD,    
+      typename RhsD, 
+      typename ResultD,
+      base_dimension_id_t Id,
+      template <typename, typename> class Op
+   >struct result_push_back_additive_op_dims_base_dims{
+
+       typedef Op< 
+          typename get_base_dimension<LhsD,Id>::type,
+          typename get_base_dimension<RhsD,Id>::type
+       >::type result_base_dim;
+
+       typedef typename quan::meta::eval_if_c<
+          base_dimension_is_zero<result_base_dim>::value,
+          ResultD,
+          quan::meta::push_back<ResultD,result_base_dim>
+       >::type type;
+   };
+
+   template <
+      typename LhsD,    
+      typename RhsD, 
+      typename ResultD,
+      base_dimension_id_t Id
+   >
+   struct result_push_back_add_dims_base_dims :
+   result_push_back_additive_op_dims_base_dims<
+      LhsD, RhsD, ResultD, Id,
+      add_base_dimension_ratio
+   >{};
+
+   template <
+      typename LhsD,    
+      typename RhsD, 
+      typename ResultD,
+      base_dimension_id_t Id
+   >
+   struct result_push_back_subtract_dims_base_dims :
+   result_push_back_additive_op_dims_base_dims<
+      LhsD, RhsD, ResultD, Id,
+      subtract_base_dimension_ratio
+   >{};
+       
 }} // pqs::detail
 
 #endif // PQS_DIMENSION_HPP_INCLUDED

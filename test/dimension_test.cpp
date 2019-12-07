@@ -13,7 +13,7 @@ namespace {
   // attempt to not use this
        QUAN_CHECK((quan::is_model_of<quan::meta::TypeSequence_,dimension>::value))
 */
-       QUAN_CHECK((quan::meta::get_num_elements<dimension>::value == 1))
+       QUAN_CHECK((dimension::num_elements == 1))
 
        typedef quan::meta::front<dimension>::type base_dimension1;
 
@@ -26,11 +26,9 @@ namespace {
        typedef quan::meta::pop_front<dimension>::type empty_dimension;
 
        QUAN_CHECK((std::is_same<empty_dimension,pqs::dimension<> >::value))
-       QUAN_CHECK((quan::meta::get_num_elements<empty_dimension>::value == 0))
+       QUAN_CHECK((empty_dimension::num_elements == 0))
    }
-} // namespace
 
-namespace {
    void get_base_dimension_from_length_dim_test()
    {
       typedef pqs::length_unit::mm::dimension dimension;
@@ -86,105 +84,79 @@ namespace {
       >::type intensity_dim;
       QUAN_CHECK((std::is_same<intensity_dim,pqs::dim_intensity<0> >::value))
    }
+
+   void add_base_dim_test()
+   {
+      typedef pqs::dimension<
+         pqs::dim_length<1>,
+         pqs::dim_time<-1>, 
+         pqs::dim_mass<2>, 
+         pqs::dim_temperature<3>,
+         pqs::dim_current_ratio<1,3>
+      > lhs_dimension;
+
+      typedef pqs::dimension< pqs::dim_mass<2>, pqs::dim_time<1> > rhs_dimension;
+
+      typedef pqs::dimension<> empty_dimension;
+
+      typedef pqs::detail::result_push_back_add_dims_base_dims<
+         lhs_dimension,rhs_dimension,empty_dimension, 
+         pqs::detail::base_dimension_id_t::mass
+      >::type result_dimension1;
+
+      QUAN_CHECK((std::is_same<result_dimension1, pqs::dimension<pqs::dim_mass<4> > >::value))
+
+      typedef pqs::detail::result_push_back_add_dims_base_dims<
+         lhs_dimension,rhs_dimension,result_dimension1, 
+         pqs::detail::base_dimension_id_t::time
+      >::type result_dimension2;
+
+      // mass shouldnt have been added as result has zero extent
+      // so no change
+      QUAN_CHECK((std::is_same<result_dimension2, result_dimension1 >::value))
+
+      typedef pqs::detail::result_push_back_subtract_dims_base_dims<
+         lhs_dimension,rhs_dimension,result_dimension1, 
+         pqs::detail::base_dimension_id_t::time
+      >::type result_dimension3;
+
+      QUAN_CHECK((std::is_same<result_dimension3, pqs::dimension<pqs::dim_mass<4>, pqs::dim_time<-2> > >::value))
+   }
 }
 
 namespace pqs{ namespace detail{
 
-/*
-   find the base dimensions with id in lhs and rhs 
-   apply Op and if result not zero add to result dimension
-*/
-   template <
-      typename LhsD,    
-      typename RhsD, 
-      typename ResultD,
-      pqs::detail::base_dimension_id_t Id,
-      template <typename, typename> class Op
-   >struct result_push_back_additive_op_dims_base_dims{
-
-       typedef Op< 
-          typename get_base_dimension<LhsD,Id>::type,
-          typename get_base_dimension<RhsD,Id>::type
-       >::type result_base_dim;
-
-       typedef typename quan::meta::eval_if_c<
-          base_dimension_is_zero<result_base_dim>::value,
-          ResultD,
-          quan::meta::push_back<ResultD,result_base_dim>
-       >::type type;
+   template <typename LhsD, typename RhsD,typename ResultD, base_dimension_id_t I>
+   struct add_dimensions_i{
+        typedef typename result_push_back_add_dims_base_dims<LhsD,RhsD,ResultD,I>::type result;
+        typedef typename quan::meta::eval_if_c<
+            I == base_dimension_id_t::last_element,
+            result,
+            add_dimensions_i<LhsD,RhsD,result,static_cast<base_dimension_id_t>(static_cast<uint8_t>(I)+1)>
+        >::type type;
    };
+ 
+   template <typename LhsD, typename RhsD>
+   struct add_dimensions : add_dimensions_i<LhsD,RhsD,dimension<>, base_dimension_id_t::first_element >{};
+    
+}}
 
-   template <
-      typename LhsD,    
-      typename RhsD, 
-      typename ResultD,
-      pqs::detail::base_dimension_id_t Id
-   >
-   struct result_push_back_add_dims_base_dims :
-   result_push_back_additive_op_dims_base_dims<
-      LhsD,
-      RhsD,
-      ResultD,
-      Id,
-      pqs::detail::add_base_dimension_ratio
-   >{};
+namespace {
 
-   template <
-      typename LhsD,    
-      typename RhsD, 
-      typename ResultD,
-      pqs::detail::base_dimension_id_t Id
-   >
-   struct result_push_back_subtract_dims_base_dims :
-   result_push_back_additive_op_dims_base_dims<
-      LhsD,
-      RhsD,
-      ResultD,
-      Id,
-      pqs::detail::subtract_base_dimension_ratio
-   >{};
-       
-}} // pqs::detail
+  void add_dimensions_test()
+  {
+    typedef pqs::dimension<pqs::dim_length<1>, pqs::dim_time<-1>, pqs::dim_mass<2> > lhs_dimension;
+    typedef pqs::dimension< pqs::dim_mass<2>, pqs::dim_time<1> > rhs_dimension;
 
-namespace{
+    typedef pqs::detail::add_dimensions<lhs_dimension,rhs_dimension> :: type result;
+    
+   // int x = result{};
 
-   void add_base_dim_test()
-   {
-   typedef pqs::dimension<
-      pqs::dim_length<1>,
-      pqs::dim_time<-1>, 
-      pqs::dim_mass<2>, 
-      pqs::dim_temperature<3>,
-      pqs::dim_current_ratio<1,3>
-   > lhs_dimension;
+    typedef pqs::dimension<pqs::dim_length<1>,  pqs::dim_mass<4> > expected_result;
 
-   typedef pqs::dimension< pqs::dim_mass<2>, pqs::dim_time<1> > rhs_dimension;
+    QUAN_CHECK( (std::is_same<result,expected_result>::value ))
 
-   typedef pqs::dimension<> empty_dimension;
-   typedef pqs::detail::result_push_back_add_dims_base_dims<
-      lhs_dimension,rhs_dimension,empty_dimension, 
-      pqs::detail::base_dimension_id_t::mass
-   >::type result_dimension1;
-
-   QUAN_CHECK((std::is_same<result_dimension1, pqs::dimension<pqs::dim_mass<4> > >::value))
-
-   typedef pqs::detail::result_push_back_add_dims_base_dims<
-      lhs_dimension,rhs_dimension,result_dimension1, 
-      pqs::detail::base_dimension_id_t::time
-   >::type result_dimension2;
-
-   // mass shouldnt have been added as result has zero extent
-   // so no change
-   QUAN_CHECK((std::is_same<result_dimension2, result_dimension1 >::value))
-
-   typedef pqs::detail::result_push_back_subtract_dims_base_dims<
-      lhs_dimension,rhs_dimension,result_dimension1, 
-      pqs::detail::base_dimension_id_t::time
-   >::type result_dimension3;
-
-      QUAN_CHECK((std::is_same<result_dimension3, pqs::dimension<pqs::dim_mass<4>, pqs::dim_time<-2> > >::value))
-
-   }
+  }
 }
 
 void dimension_test()
@@ -193,6 +165,7 @@ void dimension_test()
    get_base_dimension_from_length_dim_test();
    get_base_dimension_from_synth_dim_test();
    add_base_dim_test();
+   add_dimensions_test();
 }
 
 

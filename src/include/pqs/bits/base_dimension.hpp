@@ -12,12 +12,14 @@ namespace pqs{
 
       enum class base_dimension_id_t : uint8_t {
          length,
+         first_element = length,
          time,
          mass,
          temperature,
          current,
          substance,
-         intensity
+         intensity,
+         last_element = intensity
       };
 
       template <base_dimension_id_t ID, int N, int D>
