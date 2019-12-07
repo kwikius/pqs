@@ -49,8 +49,7 @@ namespace {
       QUAN_CHECK(ratio::num == 1)
       QUAN_CHECK(ratio::den == 1)
       QUAN_CHECK( (std::is_same<result_type,dim_length<1> >::value) )
-      // check default arg
-       QUAN_CHECK((std::is_same<result_type,dim_length<> >::value))
+
    }
 
    void add_test_int_r_r()

@@ -168,16 +168,17 @@ namespace pqs{ namespace detail{
 /*
    find the base dimensions with id in lhs and rhs 
    apply Op and if result not zero add to result dimension
+   Op is  Op<base_dimension,base_dimension> -> base_dimenion
 */
    template <
-      typename LhsD,    
+      typename LhsD,  
+      template <typename, typename> class Op,
       typename RhsD, 
-      typename ResultD,
       base_dimension_id_t Id,
-      template <typename, typename> class Op
+      typename ResultD      
    >struct result_push_back_additive_op_dims_base_dims{
 
-       typedef Op< 
+       typedef typename Op< 
           typename get_base_dimension<LhsD,Id>::type,
           typename get_base_dimension<RhsD,Id>::type
        >::type result_base_dim;
@@ -189,28 +190,28 @@ namespace pqs{ namespace detail{
        >::type type;
    };
 
+   // specialise above for addition
    template <
       typename LhsD,    
       typename RhsD, 
-      typename ResultD,
-      base_dimension_id_t Id
+      base_dimension_id_t Id,
+      typename ResultD
    >
    struct result_push_back_add_dims_base_dims :
    result_push_back_additive_op_dims_base_dims<
-      LhsD, RhsD, ResultD, Id,
-      add_base_dimension_ratio
+      LhsD, add_base_dimension_ratio, RhsD,Id, ResultD
    >{};
 
+   // specialise above for subtraction
    template <
       typename LhsD,    
       typename RhsD, 
-      typename ResultD,
-      base_dimension_id_t Id
+      base_dimension_id_t Id,
+      typename ResultD
    >
    struct result_push_back_subtract_dims_base_dims :
    result_push_back_additive_op_dims_base_dims<
-      LhsD, RhsD, ResultD, Id,
-      subtract_base_dimension_ratio
+      LhsD,subtract_base_dimension_ratio, RhsD, Id, ResultD
    >{};
        
 }} // pqs::detail

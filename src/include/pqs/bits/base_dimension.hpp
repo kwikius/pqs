@@ -46,13 +46,13 @@ namespace pqs{
 
    // interface
    // the dimension ratio interface for the usual case of an integer base_deminsion extent
-   template <int N=1> struct dim_length : dim_length_ratio<N,1>{};
-   template <int N=1> struct dim_time : dim_time_ratio<N,1>{};
-   template <int N=1> struct dim_mass : dim_mass_ratio<N,1>{};
-   template <int N=1> struct dim_temperature : dim_temperature_ratio<N,1>{};
-   template <int N=1> struct dim_current : dim_current_ratio<N,1>{};
-   template <int N=1> struct dim_substance : dim_substance_ratio<N,1>{};
-   template <int N=1> struct dim_intensity : dim_intensity_ratio<N,1>{};
+   template <int N> struct dim_length : dim_length_ratio<N,1>{};
+   template <int N> struct dim_time : dim_time_ratio<N,1>{};
+   template <int N> struct dim_mass : dim_mass_ratio<N,1>{};
+   template <int N> struct dim_temperature : dim_temperature_ratio<N,1>{};
+   template <int N> struct dim_current : dim_current_ratio<N,1>{};
+   template <int N> struct dim_substance : dim_substance_ratio<N,1>{};
+   template <int N> struct dim_intensity : dim_intensity_ratio<N,1>{};
 
    namespace detail {
 
