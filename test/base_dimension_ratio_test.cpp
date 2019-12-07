@@ -372,6 +372,30 @@ namespace {
       not_equal_to_r_r_test();
    }
 
+   void is_zero_test_int()
+   {
+         typedef si::dim_mass<0> zero;
+         typedef si::dim_mass<1> one;
+         
+         QUAN_CHECK(detail::base_dimension_is_zero<zero>::value)
+         QUAN_CHECK(!detail::base_dimension_is_zero<one>::value)
+   }
+
+   void is_zero_test_r()
+   {
+         typedef si::dim_mass_ratio<0,3> zero;
+         typedef si::dim_mass_ratio<1,1> one;
+         
+         QUAN_CHECK(detail::base_dimension_is_zero<zero>::value)
+         QUAN_CHECK(!detail::base_dimension_is_zero<one>::value)
+   }
+
+   void is_zero_test()
+   {
+      is_zero_test_int();
+      is_zero_test_r();
+   }
+
 }
 
 void base_dimension_ratio_test()
@@ -383,5 +407,6 @@ void base_dimension_ratio_test()
    divide_test();
    equal_to_test();
    not_equal_to_test();
+   is_zero_test();
 
 }

@@ -145,6 +145,9 @@ namespace pqs{
          template <typename BdrL, typename BdrR>
          struct base_dimension_ratio_not_equal_to: std::ratio_not_equal<typename BdrL::ratio,typename BdrR::ratio> {};
 
+         template <typename Bdr>
+         struct base_dimension_is_zero : std::ratio_equal<typename Bdr::ratio, std::ratio<0> >{};
+
       }//detail
    } //si
 } // pqs

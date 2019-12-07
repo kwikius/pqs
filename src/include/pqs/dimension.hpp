@@ -21,6 +21,7 @@ namespace pqs{
 
 namespace quan{ namespace impl{
 
+   // 
    template <typename ...D>
       struct is_model_of_impl<
          quan::meta::TypeSequence_,
@@ -128,6 +129,7 @@ namespace pqs {
 }// pqs
 
 namespace quan{ namespace meta{
+
 
    template<typename... List>
    struct pop_back<pqs::dimension<List...> >{
