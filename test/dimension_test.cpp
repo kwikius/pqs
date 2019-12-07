@@ -28,33 +28,6 @@ namespace {
    }
 } // namespace
 
-namespace pqs{ namespace si {namespace detail{
-
-   
-    template <typename D, base_dimension_id_t Id, int Size>
-    struct get_base_dimension_i;
-
-    template <typename D, base_dimension_id_t Id>
-    struct get_base_dimension_i<D,Id,0> : make_base_dimension_ratio<Id, std::ratio<0,1> >{};
-
-    template <typename D, base_dimension_id_t Id, int Size>
-    struct get_base_dimension_i {
-
-      typedef typename quan::meta::front<D>::type base_dim;
-      typedef typename quan::meta::eval_if_c<
-         (base_dim::base_dimension_id == Id),
-         make_base_dimension_ratio<Id,typename base_dim::ratio>, // reduce
-         get_base_dimension_i<typename quan::meta::pop_front<D>::type,Id,Size -1>
-      >::type type;   
-    };
-    
-    template <typename D, base_dimension_id_t Id>
-    struct get_base_dimension : get_base_dimension_i<
-         typename D::type, Id,quan::meta::get_num_elements<typename D::type>::value
-    >{};
-
-}}}
-
 namespace {
    void get_base_dimension_from_length_dim_test()
    {
