@@ -127,42 +127,8 @@ namespace {
 
 namespace pqs{ namespace detail{
 
-#if 0
-   template <typename LhsD, typename RhsD, base_dimension_id_t I, typename ResultD>
-   struct add_dimensions_i{
-      typedef typename result_push_back_add_dims_base_dims<LhsD,RhsD,I,ResultD>::type result;
-      typedef typename quan::meta::eval_if_c<
-         I == base_dimension_id_t::last_element,
-         result,
-         add_dimensions_i<LhsD,RhsD,static_cast<base_dimension_id_t>(static_cast<uint8_t>(I)+1),result>
-      >::type type;
-   };
- 
-   template <typename LhsD, typename RhsD>
-   struct add_dimensions : add_dimensions_i<LhsD,RhsD, base_dimension_id_t::first_element,dimension<> >{};
-#else
 
-   template < typename LhsD,template<typename,typename> class Op, typename RhsD, base_dimension_id_t I, typename ResultD>
-   struct additive_op_dimensions_i{
-      typedef typename result_push_back_additive_op_dims_base_dims<LhsD,Op,RhsD,I,ResultD>::type result;
-      typedef typename quan::meta::eval_if_c<
-         I == base_dimension_id_t::last_element,
-         result,
-         additive_op_dimensions_i<LhsD,Op,RhsD,static_cast<base_dimension_id_t>(static_cast<uint8_t>(I)+1),result>
-      >::type type;
-   };
- 
-   template <typename LhsD, template<typename,typename> class Op,typename RhsD>
-   struct additive_op_dimensions : additive_op_dimensions_i<LhsD,Op,RhsD,base_dimension_id_t::first_element, dimension<> >{};
 
-   // ll interface
-   template <typename LhsD, typename RhsD>
-   struct add_dimensions : additive_op_dimensions_i<LhsD,add_base_dimension_ratio, RhsD, base_dimension_id_t::first_element,dimension<> >{};
-
-   template <typename LhsD, typename RhsD>
-   struct subtract_dimensions : additive_op_dimensions_i<LhsD,subtract_base_dimension_ratio, RhsD, base_dimension_id_t::first_element,dimension<> >{};
-#endif
-    
 }}
 
 namespace {
@@ -172,9 +138,7 @@ namespace {
     typedef pqs::dimension<pqs::dim_length<1>, pqs::dim_time<-1>, pqs::dim_mass<2> > lhs_dimension;
     typedef pqs::dimension< pqs::dim_mass<2>, pqs::dim_time<1> > rhs_dimension;
 
-    typedef pqs::detail::add_dimensions<lhs_dimension,rhs_dimension> :: type result;
-    
-   // int x = result{};
+    typedef pqs::detail::add_dimensions<lhs_dimension,rhs_dimension>::type result;
 
     typedef pqs::dimension<pqs::dim_length<1>,  pqs::dim_mass<4> > expected_result;
 
@@ -187,10 +151,8 @@ namespace {
     typedef pqs::dimension<pqs::dim_length<1>, pqs::dim_time<-1>, pqs::dim_mass<2> ,pqs::dim_current<2> > lhs_dimension;
     typedef pqs::dimension< pqs::dim_mass<2>, pqs::dim_time<1>, pqs::dim_length<3>, pqs::dim_current<1> > rhs_dimension;
 
-    typedef pqs::detail::subtract_dimensions<lhs_dimension,rhs_dimension> :: type result;
+    typedef pqs::detail::subtract_dimensions<lhs_dimension,rhs_dimension>::type result;
     
-   // int x = result{};
-
     typedef pqs::dimension<pqs::dim_length<-2>, pqs::dim_time<-2>, pqs::dim_current<1> > expected_result;
 
     QUAN_CHECK( (std::is_same<result,expected_result>::value ))

@@ -108,9 +108,8 @@ namespace pqs{
          Ratio::den == 1, pqs::dim_intensity<Ratio::num>,pqs::dim_intensity_ratio<Ratio::num,Ratio::den>
       >{};
 
-      //  ---operations -----------------------------------
-      // add,subtract, negate, multiply divide by ratio
-      // compare
+      //  ---operations on base dimensions -----------------------------------
+      // add,subtract, negate, multiply divide by ratio, compare
       template <typename BdrL, typename BdrR>
       struct add_base_dimension_ratio : make_base_dimension_ratio<
          BdrL::base_dimension_id,std::ratio_add<typename BdrL::ratio,typename BdrR::ratio>

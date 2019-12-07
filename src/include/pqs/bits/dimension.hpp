@@ -168,7 +168,7 @@ namespace pqs{ namespace detail{
 /*
    find the base dimensions with id in lhs and rhs 
    apply Op and if result not zero add to result dimension
-   Op is  Op<base_dimension,base_dimension> -> base_dimenion
+   Op is  Op<base_dimension,base_dimension> -> base_dimension
 */
    template <
       typename LhsD,  
@@ -213,6 +213,29 @@ namespace pqs{ namespace detail{
    result_push_back_additive_op_dims_base_dims<
       LhsD,subtract_base_dimension_ratio, RhsD, Id, ResultD
    >{};
+
+   // ll additive binary ops on dimensions
+   // Op is  Op<base_dimension,base_dimension> -> base_dimension
+   template < typename LhsD,template<typename,typename> class Op, typename RhsD, base_dimension_id_t I, typename ResultD>
+   struct additive_op_dimensions_i{
+      typedef typename result_push_back_additive_op_dims_base_dims<LhsD,Op,RhsD,I,ResultD>::type result;
+      typedef typename quan::meta::eval_if_c<
+         I == base_dimension_id_t::last_element,
+         result,
+         additive_op_dimensions_i<LhsD,Op,RhsD,static_cast<base_dimension_id_t>(static_cast<uint8_t>(I)+1),result>
+      >::type type;
+   };
+ 
+   //Op is  Op<base_dimension,base_dimension> -> base_dimension
+   template <typename LhsD, template<typename,typename> class Op,typename RhsD>
+   struct additive_op_dimensions : additive_op_dimensions_i<LhsD,Op,RhsD,base_dimension_id_t::first_element, dimension<> >{};
+
+   // ll additive ops on dimensions interface
+   template <typename LhsD, typename RhsD>
+   struct add_dimensions : additive_op_dimensions_i<LhsD,add_base_dimension_ratio, RhsD, base_dimension_id_t::first_element,dimension<> >{};
+
+   template <typename LhsD, typename RhsD>
+   struct subtract_dimensions : additive_op_dimensions_i<LhsD,subtract_base_dimension_ratio, RhsD, base_dimension_id_t::first_element,dimension<> >{};
        
 }} // pqs::detail
 
