@@ -18,7 +18,7 @@ namespace pqs{
    };
 
 }
-
+/*
 namespace quan{ namespace impl{
 
    // 
@@ -29,7 +29,7 @@ namespace quan{ namespace impl{
       > : std::true_type{};
 
 }} // quan::impl
-
+*/
 namespace quan{ namespace meta{
 
    namespace impl{
@@ -109,7 +109,7 @@ namespace quan{ namespace meta{
    };
 
 }}//quan::meta
-
+/*
 namespace pqs {
    namespace detail {
 
@@ -127,10 +127,10 @@ namespace pqs {
       };
    }//detail
 }// pqs
-
+*/
 namespace quan{ namespace meta{
 
-
+/*
    template<typename... List>
    struct pop_back<pqs::dimension<List...> >{
       typedef pqs::dimension<List...> list_type;
@@ -147,7 +147,7 @@ namespace quan{ namespace meta{
    {
       typedef quan::undefined type;
    };
-
+*/
    template <uint32_t N, typename... List>
    struct at<N,pqs::dimension<List...> >{
        typedef pqs::dimension<List...> list_type;

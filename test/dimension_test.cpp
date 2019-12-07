@@ -9,8 +9,10 @@ namespace {
    void length_dimension_test()
    {
        typedef pqs::length_unit::mm::dimension dimension;
+/*
+  // attempt to not use this
        QUAN_CHECK((quan::is_model_of<quan::meta::TypeSequence_,dimension>::value))
-
+*/
        QUAN_CHECK((quan::meta::get_num_elements<dimension>::value == 1))
 
        typedef quan::meta::front<dimension>::type base_dimension1;
