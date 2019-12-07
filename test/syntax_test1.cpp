@@ -1,10 +1,9 @@
 
-#include <si_units/si_units.hpp>
+#include <pqs/si/length.hpp>
 
-
-namespace si = std::si;
-using std::quantity;
-using std::dimension;
+namespace si = pqs::si;
+using pqs::quantity;
+using pqs::dimension;
 
 void quantity_syntax_test1() 
 {
@@ -25,8 +24,9 @@ void quantity_syntax_test1()
    // same type
    qb = qc;
 
-  // should succeed
- //  qd = qa;
+ //  qd = qa;  // error
+
+  // should succeed once implemented
   // qd = qc;
 
 }

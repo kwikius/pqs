@@ -1,12 +1,10 @@
 
-
-
 #include <quan_matters/test/test.hpp>
 
-#include <si_units/si_units.hpp>
+#include <pqs/si/base_dimension.hpp>
 
-namespace si = std::si;
-namespace detail = std::si::detail;
+namespace si = pqs::si;
+namespace detail = pqs::si::detail;
 
 namespace {
 
@@ -52,6 +50,8 @@ namespace {
       QUAN_CHECK(ratio::num == 1)
       QUAN_CHECK(ratio::den == 1)
       QUAN_CHECK( (std::is_same<result_type,si::dim_length<1> >::value) )
+      // check default arg
+       QUAN_CHECK((std::is_same<result_type,si::dim_length<> >::value))
    }
 
    void add_test_int_r_r()
