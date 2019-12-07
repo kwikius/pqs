@@ -236,6 +236,74 @@ namespace pqs{ namespace detail{
 
    template <typename LhsD, typename RhsD>
    struct subtract_dimensions : additive_op_dimensions_i<LhsD,subtract_base_dimension_ratio, RhsD, base_dimension_id_t::first_element,dimension<> >{};
+
+// -- multiplicative ops on dimension----
+//  MultiplicativeOp<base_dim, Ratio> -> base_dim
+
+   template <
+      typename LhsD,  
+      template <typename, typename> class MultiplicativeOp,
+      typename Ratio, 
+      base_dimension_id_t Id,
+      typename ResultD      
+   >struct result_push_back_multiplicative_op_dims_base_dims{
+
+       typedef typename MultiplicativeOp< 
+          typename get_base_dimension<LhsD,Id>::type,
+          typename Ratio::type
+       >::type result_base_dim;
+
+       typedef typename quan::meta::eval_if_c<
+          base_dimension_is_zero<result_base_dim>::value,
+          ResultD,
+          quan::meta::push_back<ResultD,result_base_dim>
+       >::type type;
+   };
+
+   template <
+      typename LhsD,    
+      typename Ratio, 
+      base_dimension_id_t Id,
+      typename ResultD
+   >
+   struct result_push_back_multiply_dims_base_dims :
+   result_push_back_multiplicative_op_dims_base_dims<
+      LhsD, multiply_base_dimension_ratio, Ratio,Id, ResultD
+   >{};
+
+   template <
+      typename LhsD,    
+      typename Ratio, 
+      base_dimension_id_t Id,
+      typename ResultD
+   >
+   struct result_push_back_divide_dims_base_dims :
+   result_push_back_multiplicative_op_dims_base_dims<
+      LhsD, divide_base_dimension_ratio, Ratio,Id, ResultD
+   >{};
+
+     // Op is  Op<base_dimension,base_dimension> -> base_dimension
+   template < typename LhsD,template<typename,typename> class Op, typename Ratio, base_dimension_id_t I, typename ResultD>
+   struct multiplicative_op_dimensions_i{
+      typedef typename result_push_back_multiplicative_op_dims_base_dims<LhsD,Op,Ratio,I,ResultD>::type result;
+      typedef typename quan::meta::eval_if_c<
+         I == base_dimension_id_t::last_element,
+         result,
+         multiplicative_op_dimensions_i<LhsD,Op,Ratio,static_cast<base_dimension_id_t>(static_cast<uint8_t>(I)+1),result>
+      >::type type;
+   };
+
+   template <typename LhsD, template<typename,typename> class Op,typename Ratio>
+   struct multiplicative_op_dimensions : additive_op_dimensions_i<LhsD,Op,Ratio,base_dimension_id_t::first_element, dimension<> >{};
+
+   // ll multiplicative ops on dimensions interface
+   template <typename LhsD, typename Ratio>
+   struct multiply_dimension : multiplicative_op_dimensions_i<LhsD,multiply_base_dimension_ratio, Ratio, base_dimension_id_t::first_element,dimension<> >{};
+
+     // ll multiplicative ops on dimensions interface
+   template <typename LhsD, typename Ratio>
+   struct divide_dimension : multiplicative_op_dimensions_i<LhsD,divide_base_dimension_ratio, Ratio, base_dimension_id_t::first_element,dimension<> >{};
+   
        
 }} // pqs::detail
 

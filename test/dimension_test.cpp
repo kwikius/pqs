@@ -127,7 +127,8 @@ namespace {
 
 namespace pqs{ namespace detail{
 
-
+   // multiply_dimension<typename Lhs, typename Rhs>
+   
 
 }}
 
@@ -158,6 +159,38 @@ namespace {
     QUAN_CHECK( (std::is_same<result,expected_result>::value ))
 
   }
+
+  void multiply_dimension_test()
+  {
+     typedef pqs::dimension<pqs::dim_length<1>, pqs::dim_time<-1>, pqs::dim_mass<2> ,pqs::dim_current<2> > dimension;
+     typedef std::ratio<2> multiplier;
+
+     typedef pqs::detail::multiply_dimension<dimension,multiplier>::type result;
+
+     typedef pqs::dimension<pqs::dim_length<2>, pqs::dim_time<-2>, pqs::dim_mass<4> ,pqs::dim_current<4> > expected_result;
+
+     QUAN_CHECK( (std::is_same<result,expected_result>::value ))
+  }
+
+  void divide_dimension_test()
+  {
+     typedef pqs::dimension<pqs::dim_length<2>, pqs::dim_time<-2>, pqs::dim_mass<4> ,pqs::dim_current<4> > dimension;
+
+     typedef std::ratio<2> divisor;
+
+     typedef pqs::detail::divide_dimension<dimension,divisor>::type result1;
+
+     typedef pqs::dimension<pqs::dim_length<1>, pqs::dim_time<-1>, pqs::dim_mass<2> ,pqs::dim_current<2> > expected_result1;
+
+     QUAN_CHECK( (std::is_same<result1,expected_result1>::value ))
+
+     typedef pqs::detail::divide_dimension<result1,divisor>::type result2;
+
+     typedef pqs::dimension<pqs::dim_length_ratio<1,2>, pqs::dim_time_ratio<-1,2>, pqs::dim_mass<1> ,pqs::dim_current<1> > expected_result2;
+
+     QUAN_CHECK( (std::is_same<result2,expected_result2>::value ))
+     
+  }
 }
 
 void dimension_test()
@@ -168,6 +201,8 @@ void dimension_test()
    add_base_dim_test();
    add_dimensions_test();
    subtract_dimensions_test();
+   multiply_dimension_test();
+   divide_dimension_test();
 }
 
 
