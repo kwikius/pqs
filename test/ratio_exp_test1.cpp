@@ -17,7 +17,7 @@ namespace {
 
       QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp>::value));
 
-      QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp1>::value == false));
+      QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp1>::value == true));
    }
 
    void  ratio_exp_lt_10_test()

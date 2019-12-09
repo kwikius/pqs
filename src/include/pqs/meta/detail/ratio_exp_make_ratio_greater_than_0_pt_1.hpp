@@ -16,10 +16,7 @@ namespace pqs{ namespace meta{
             ,RatioExp
             ,ratio_exp_abs_make_ratio_greater_than_0_pt_1<
                ratio_exp< 
-                  typename std::ratio_multiply<
-                     typename RatioExp::ratio
-                     ,std::ratio<10,1> 
-                  >::type
+                  std::ratio_multiply<typename RatioExp::ratio,std::ratio<10,1> >
                  ,RatioExp::exp - 1
                >
             >
@@ -31,25 +28,25 @@ namespace pqs{ namespace meta{
       struct ratio_exp_non_zero_make_ratio_greater_than_0_pt_1{
 
          static_assert(std::ratio_not_equal<typename RatioExp::ratio,std::ratio<0,1> >::value);
-         static constexpr bool is_negative = std::ratio_less< 
+         typedef std::ratio_less< 
             typename RatioExp::ratio,std::ratio<0,1> 
-         >::value;
+         > is_negative;
 
-         typedef typename meta::eval_if_c<
+         typedef typename meta::eval_if<
             is_negative
             ,ratio_exp<
-               typename std::ratio_multiply<typename RatioExp::ratio,std::ratio<-1,1> >::type, 
-               RatioExp::exp
+               std::ratio_multiply<typename RatioExp::ratio,std::ratio<-1,1> > 
+               ,RatioExp::exp
             >
             ,RatioExp
          >::type abs_type_in;
 
          typedef typename ratio_exp_abs_make_ratio_greater_than_0_pt_1<abs_type_in>::type abs_type_out;
 
-         typedef typename meta::eval_if_c<
+         typedef typename meta::eval_if<
             is_negative
              ,ratio_exp<
-                 typename std::ratio_multiply<typename abs_type_out::ratio, std::ratio<-1,1> >::type 
+                std::ratio_multiply<typename abs_type_out::ratio, std::ratio<-1,1> > 
                ,abs_type_out::exp
             >,
             abs_type_out
