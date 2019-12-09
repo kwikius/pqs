@@ -2,6 +2,7 @@
 #define PQS_DIMENSION_HPP_INCLUDED
 
 #include <quan/meta/type_sequence.hpp>
+#include <quan/meta/eval_if.hpp>
 #include <type_traits>
 
 namespace pqs{

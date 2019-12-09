@@ -6,6 +6,7 @@ void quantity_syntax_test1();
 void base_dimension_ratio_test();
 void dimension_test();
 void ratio_exp_test();
+void type_list_test();
 
 int errors = 0;
 
@@ -15,6 +16,7 @@ int main()
    base_dimension_ratio_test();
    dimension_test();
    ratio_exp_test();
+   type_list_test();
 
    QUAN_EPILOGUE
 }

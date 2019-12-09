@@ -20,7 +20,7 @@ namespace {
       QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp1>::value == true));
    }
 
-   void  ratio_exp_lt_10_test()
+   void ratio_exp_lt_10_test()
    {
       typedef  pqs::meta::ratio_exp<
          std::ratio<210000,2>

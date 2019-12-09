@@ -8,11 +8,12 @@ namespace pqs{ namespace meta{
 
    template <typename T> struct is_ratio_exp : std::false_type{};
 
+   // N.B Ratio::type is a std::ratio
    template < typename Ratio, int64_t Exp>
    struct ratio_exp{
        typedef typename Ratio::type ratio;
        static constexpr int64_t exp = Exp;
-       typedef ratio_exp type;
+       typedef ratio_exp<ratio,exp> type;
    };
 
    template < typename R, int64_t Exp>
