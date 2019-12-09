@@ -9,21 +9,18 @@ namespace {
    void length_dimension_test()
    {
        typedef pqs::length_unit::mm::dimension dimension;
-/*
-  // attempt to not require this
-       QUAN_CHECK((quan::is_model_of<quan::meta::TypeSequence_,dimension>::value))
-*/
+
        QUAN_CHECK((dimension::num_elements == 1))
 
-       typedef quan::meta::front<dimension>::type base_dimension1;
+       typedef pqs::meta::front<dimension>::type base_dimension1;
 
        QUAN_CHECK((std::is_same<base_dimension1,pqs::dim_length<1> >::value))
        
-       typedef quan::meta::back<dimension>::type base_dimension2;
+       typedef pqs::meta::back<dimension>::type base_dimension2;
 
        QUAN_CHECK((std::is_same<base_dimension2,pqs::dim_length<1> >::value)) 
 
-       typedef quan::meta::pop_front<dimension>::type empty_dimension;
+       typedef pqs::meta::pop_front<dimension>::type empty_dimension;
 
        QUAN_CHECK((std::is_same<empty_dimension,pqs::dimension<> >::value))
        QUAN_CHECK((empty_dimension::num_elements == 0))

@@ -1,9 +1,11 @@
 #ifndef PQS_DIMENSION_HPP_INCLUDED
 #define PQS_DIMENSION_HPP_INCLUDED
 
-#include <quan/meta/type_sequence.hpp>
-#include <quan/meta/eval_if.hpp>
+
 #include <type_traits>
+#include <pqs/bits/undefined.hpp>
+#include <pqs/concepts/meta/type_list.hpp>
+#include <pqs/meta/eval_if_else.hpp>
 
 namespace pqs{
 
@@ -17,120 +19,106 @@ namespace pqs{
       typedef dimension type;
       static constexpr uint32_t num_elements = 0;
    };
-
 }
-/*
-namespace quan{ namespace impl{
 
-   // 
-   template <typename ...D>
-      struct is_model_of_impl<
-         quan::meta::TypeSequence_,
-         pqs::dimension<D...> 
-      > : std::true_type{};
+namespace pqs{ namespace meta{
 
-}} // quan::impl
-*/
-namespace quan{ namespace meta{
-/*
    namespace impl{
 
-       template <typename ... D>
-       struct get_num_elements_impl<
-            pqs::dimension<D...>
-       > : std::integral_constant<uint32_t, (sizeof...(D) )>{};
+      template <typename ... D>
+      struct get_num_elements_impl<
+         pqs::dimension<D...>
+      > : std::integral_constant<uint32_t, (sizeof...(D) )>{};
 
-   }
-*/
-   template <typename T>
-   struct push_back<pqs::dimension<>,T >{
-      typedef pqs::dimension<T> type;
-   };
+      template <typename T>
+      struct push_back_impl<pqs::dimension<>,T >{
+         typedef pqs::dimension<T> type;
+      };
 
-   template <typename ... L, typename T>
-   struct push_back<pqs::dimension<L...>,T >{
-      typedef pqs::dimension<L...,T> type;
-   };
+      template <typename ... L, typename T>
+      struct push_back_impl<pqs::dimension<L...>,T >{
+         typedef pqs::dimension<L...,T> type;
+      };
 
-   template <typename Front, typename ... List>
-   struct pop_front<pqs::dimension<Front,List...> >
-   {
-      typedef pqs::dimension<List...> type;
-   };
+      template <typename Front, typename ... List>
+      struct pop_front_impl<pqs::dimension<Front,List...> >
+      {
+         typedef pqs::dimension<List...> type;
+      };
 
-   template <>
-   struct pop_front<pqs::dimension<> >
-   {
-      // could just be empty_list?
-      typedef quan::undefined type;
-   };
+      template <>
+      struct pop_front_impl<pqs::dimension<> >
+      {
+         typedef pqs::undefined type;
+      };
 
-   template <typename...L, typename T>
-   struct push_front<pqs::dimension<L...> , T>
-   {
-       typedef pqs::dimension<T,L...> type;
-   };
+      template <typename...L, typename T>
+      struct push_front_impl<pqs::dimension<L...> , T>
+      {
+          typedef pqs::dimension<T,L...> type;
+      };
 
-   template < typename Front, typename... List> 
-   struct front<pqs::dimension<Front,List...> >
-   {
-      typedef Front type;
-   };
+      template < typename Front, typename... List> 
+      struct front_impl<pqs::dimension<Front,List...> >
+      {
+         typedef Front type;
+      };
 
-   template < typename Front> 
-   struct front<pqs::dimension<Front> >
-   {
-      typedef Front type;
-   };
+      template < typename Front> 
+      struct front_impl<pqs::dimension<Front> >
+      {
+         typedef Front type;
+      };
 
-   template <>
-   struct front<pqs::dimension<> >
-   {
-      // could just be empty_list?
-      typedef quan::undefined type;
-   };
+      template <>
+      struct front_impl<pqs::dimension<> >
+      {
+         // could just be empty_list?
+         typedef pqs::undefined type;
+      };
 
-   template < typename Front ,typename... List> 
-   struct back< pqs::dimension<Front,List...> >
-   {
-      typedef typename back<pqs::dimension<List...> >::type type;
-   };
+      template < typename Front ,typename... List> 
+      struct back_impl< pqs::dimension<Front,List...> >
+      {
+         typedef typename back_impl<pqs::dimension<List...> >::type type;
+      };
 
-   template < typename Back> 
-   struct back< pqs::dimension<Back> >
-   {
-      typedef Back type;
-   };
+      template < typename Back> 
+      struct back_impl< pqs::dimension<Back> >
+      {
+         typedef Back type;
+      };
 
-   template <>
-   struct back<pqs::dimension<> >
-   {
-      // could just be empty_list?
-      typedef quan::undefined type;
-   };
+      template <>
+      struct back_impl<pqs::dimension<> >
+      {
+         typedef pqs::undefined type;
+      };
 
-}}//quan::meta
+   }// impl
+
+}}//pqs::meta
 
 /*
-namespace quan{ namespace meta{
+namespace pqs{ namespace meta{ namespace impl{
 
    template <uint32_t N, typename... List>
-   struct at<N,pqs::dimension<List...> >{
+   struct at_impl<N,pqs::dimension<List...> >{
        typedef pqs::dimension<List...> list_type;
        static_assert(N < list_type::length,"index out of range in pqs::dimension");
-       typedef typename quan::meta::eval_if_c<
+       typedef typename pqs::meta::eval_if_else_c<
             N==0,
-            quan::meta::front<list_type>,
-            quan::meta::at<N-1,typename quan::meta::pop_front<list_type>::type>
+            pqs::meta::front_impl<list_type>,
+            pqs::meta::at<N-1,typename pqs::meta::pop_front<list_type>::type>
        >::type type; 
    };
 
    template <uint32_t N>
    struct at<N,pqs::dimension<> >{
-      typedef quan::undefined type;
+      typedef pqs::undefined type;
    };
    
-}}// quan::meta
+}}}// pqs::meta::impl
 */
 namespace pqs{ namespace detail{
 
@@ -147,11 +135,11 @@ namespace pqs{ namespace detail{
    template <typename D, base_dimension_id_t Id, int Size>
    struct get_base_dimension_i {
    typedef typename D::type dimension;
-   typedef typename quan::meta::front<dimension>::type base_dim;
-   typedef typename quan::meta::eval_if_c<
+   typedef typename pqs::meta::front<dimension>::type base_dim;
+   typedef typename pqs::meta::eval_if_else_c<
       (base_dim::base_dimension_id == Id),
       make_base_dimension_ratio<Id,typename base_dim::ratio>, // reduce
-      get_base_dimension_i<quan::meta::pop_front<dimension>,Id,Size - 1>
+      get_base_dimension_i<pqs::meta::pop_front<dimension>,Id,Size - 1>
    >::type type;   
    };
 
@@ -184,10 +172,10 @@ namespace pqs{ namespace detail{
           typename get_base_dimension<RhsD,Id>::type
        >::type result_base_dim;
 
-       typedef typename quan::meta::eval_if_c<
+       typedef typename pqs::meta::eval_if_else_c<
           base_dimension_is_zero<result_base_dim>::value,
           ResultD,
-          quan::meta::push_back<ResultD,result_base_dim>
+          pqs::meta::push_back<ResultD,result_base_dim>
        >::type type;
    };
 
@@ -220,7 +208,7 @@ namespace pqs{ namespace detail{
    template < typename LhsD,template<typename,typename> class Op, typename RhsD, base_dimension_id_t I, typename ResultD>
    struct additive_op_dimensions_i{
       typedef typename result_push_back_additive_op_dims_base_dims<LhsD,Op,RhsD,I,ResultD>::type result;
-      typedef typename quan::meta::eval_if_c<
+      typedef typename pqs::meta::eval_if_else_c<
          I == base_dimension_id_t::last_element,
          result,
          additive_op_dimensions_i<LhsD,Op,RhsD,static_cast<base_dimension_id_t>(static_cast<uint8_t>(I)+1),result>
@@ -254,10 +242,10 @@ namespace pqs{ namespace detail{
           typename Ratio::type
        >::type result_base_dim;
 
-       typedef typename quan::meta::eval_if_c<
+       typedef typename pqs::meta::eval_if_else_c<
           base_dimension_is_zero<result_base_dim>::value,
           ResultD,
-          quan::meta::push_back<ResultD,result_base_dim>
+          pqs::meta::push_back<ResultD,result_base_dim>
        >::type type;
    };
 
@@ -287,7 +275,7 @@ namespace pqs{ namespace detail{
    template < typename LhsD,template<typename,typename> class Op, typename Ratio, base_dimension_id_t I, typename ResultD>
    struct multiplicative_op_dimensions_i{
       typedef typename result_push_back_multiplicative_op_dims_base_dims<LhsD,Op,Ratio,I,ResultD>::type result;
-      typedef typename quan::meta::eval_if_c<
+      typedef typename pqs::meta::eval_if_else_c<
          I == base_dimension_id_t::last_element,
          result,
          multiplicative_op_dimensions_i<LhsD,Op,Ratio,static_cast<base_dimension_id_t>(static_cast<uint8_t>(I)+1),result>
