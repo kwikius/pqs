@@ -7,6 +7,7 @@ void base_dimension_ratio_test();
 void dimension_test();
 void ratio_exp_test();
 void type_list_test();
+void eval_if_test();
 
 int errors = 0;
 
@@ -17,6 +18,7 @@ int main()
    dimension_test();
    ratio_exp_test();
    type_list_test();
+   eval_if_test();
 
    QUAN_EPILOGUE
 }
