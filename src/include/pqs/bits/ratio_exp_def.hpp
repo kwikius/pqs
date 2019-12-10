@@ -16,6 +16,7 @@ namespace pqs{
    template < typename Ratio, int64_t Exp>
    struct ratio_exp{
       typedef typename Ratio::type ratio;
+      static_assert(ratio::num != 0, "only non-zero ratios values allowed");
       static constexpr int64_t exp = Exp;
       typedef ratio_exp<ratio,exp> type;
    };
