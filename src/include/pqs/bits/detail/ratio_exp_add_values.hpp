@@ -2,7 +2,6 @@
 #define PQS_DETAIL_RATIO_EXP_ADD_VALUES_HPP_INCLUDED
 
 #include <ratio>
-
 #include <pqs/bits/ratio_exp_def.hpp>
 
 namespace pqs{ namespace detail{

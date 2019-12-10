@@ -1,6 +1,7 @@
 #ifndef QUAN_DETAIL_RATIO_EXP_MAKE_GREATER_EQUAL_1_HPP_INCLUDED
 #define QUAN_DETAIL_RATIO_EXP_MAKE_GREATER_EQUAL_1_HPP_INCLUDED
 
+
 #include <pqs/bits/ratio_exp_def.hpp>
 #include <pqs/meta/eval_if.hpp>
 

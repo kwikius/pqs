@@ -109,33 +109,33 @@ namespace {
    void ratio_exp_normalise_test()
    {
        typedef pqs::ratio_exp<std::ratio<1,200>,4> t1;
-       typedef pqs::detail::ratio_exp_normalise<t1>::type t2;
+       typedef pqs::ratio_exp_normalise<t1>::type t2;
 
        QUAN_CHECK((std::is_same<t2,pqs::ratio_exp<std::ratio<5,1>,1> >::value ))
 
      //  int x = t2{};
 
        typedef pqs::ratio_exp<std::ratio<201,20>,-3> t3;
-       typedef pqs::detail::ratio_exp_normalise<t3>::type t4;
+       typedef pqs::ratio_exp_normalise<t3>::type t4;
 
        QUAN_CHECK((std::is_same<t4,pqs::ratio_exp<std::ratio<201,200>,-2> >::value ))
 
        typedef pqs::ratio_exp<std::ratio<202000,20>,-9> t5;
-       typedef pqs::detail::ratio_exp_normalise<t5>::type t6;
+       typedef pqs::ratio_exp_normalise<t5>::type t6;
 
        QUAN_CHECK((std::is_same<t6,pqs::ratio_exp<std::ratio<101,100>,-5> >::value ))
 
        typedef pqs::ratio_exp<std::ratio<9,1>,4> t7;
-       typedef pqs::detail::ratio_exp_normalise<t7>::type t8;
+       typedef pqs::ratio_exp_normalise<t7>::type t8;
 
        QUAN_CHECK((std::is_same<t7,t8 >::value ))
 
        typedef pqs::ratio_exp<std::ratio<1>,4> t9;
-       typedef pqs::detail::ratio_exp_normalise<t9>::type t10;
+       typedef pqs::ratio_exp_normalise<t9>::type t10;
        QUAN_CHECK((std::is_same<t9,t10 >::value ))
 
        typedef pqs::ratio_exp<std::ratio<1,10>,4> t11;
-       typedef pqs::detail::ratio_exp_normalise<t11>::type t12;
+       typedef pqs::ratio_exp_normalise<t11>::type t12;
 
      // int x = t12{};
        QUAN_CHECK((std::is_same<t12,pqs::ratio_exp<std::ratio<1,1>,3 > >::value ))

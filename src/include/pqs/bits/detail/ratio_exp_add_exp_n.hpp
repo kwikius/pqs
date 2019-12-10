@@ -2,6 +2,7 @@
 #define PQS_DETAIL_RATIO_EXP_ADD_EXP_N_HPP_INCLUDED
 
 #include <type_traits>
+#include <ratio>
 #include <pqs/bits/ratio_exp_def.hpp>
 #include <pqs/meta/eval_if.hpp>
 #include <pqs/meta/to_power.hpp>
