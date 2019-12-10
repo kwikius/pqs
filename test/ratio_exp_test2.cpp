@@ -60,9 +60,6 @@ namespace {
 
       QUAN_CHECK(( pqs::detail::ratio_exp_compare<v2,v1>::value > 0 ))
       QUAN_CHECK(( pqs::detail::ratio_exp_compare<v2,v2>::value == 0 ))
-
-      
-      
    }
 
    void compare_test2()
@@ -95,7 +92,7 @@ namespace {
   
       typedef pqs::detail::ratio_exp_normalise<t3>::type v3;
 
-      QUAN_CHECK(( std::is_same<v3,pqs::ratio_exp<std::ratio<101,200>,3> >::value ))
+      QUAN_CHECK(( std::is_same<v3,pqs::ratio_exp<std::ratio<101,20>,2> >::value ))
 
        // make exps same
        
