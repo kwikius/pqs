@@ -7,22 +7,21 @@
 
 namespace pqs{ namespace meta{ namespace detail{
 
-   template <signed Val, signed Exp>
+   template <intmax_t Val, intmax_t Exp>
    struct to_power{
       typedef to_power type;
-      static_assert(Val >0 );
-      static_assert( (Exp >0 ) &&  (Exp < 10));
+      static_assert( ( Val > 0 ) && (Exp > 0 ) ,"unexpected negative values");
       static constexpr uintmax_t value = Val * to_power<Val,Exp-1>::value;
    };
 
-   template <signed Val>
+   template <intmax_t Val>
    struct to_power<Val,0> {  
       
       typedef to_power type;
       static constexpr intmax_t value = 1;
    };
 
-   template <typename RatioExp, signed N>
+   template <typename RatioExp, intmax_t N>
    struct add_ratio_exp1 {
        static_assert(N >= 0);
        typedef to_power<10,N> mux;
@@ -36,7 +35,7 @@ namespace pqs{ namespace meta{ namespace detail{
        > type;
    };
 
-   template <typename RatioExp, signed N>
+   template <typename RatioExp, intmax_t N>
    struct sub_ratio_exp1 {
        static_assert(N >= 0);
        typedef to_power<10,N> mux;
@@ -45,13 +44,13 @@ namespace pqs{ namespace meta{ namespace detail{
             typename RatioExp::ratio
             ,std::ratio<mux::value,1> 
          >::type
-         ,RatioExp::exp + N
+         ,RatioExp::exp - N
        > type;
    };
 
     // ratio_exp::exp -> ratio_exp::exp + n
     // but number represented has same value
-   template <typename RatioExp, int64_t N>
+   template <typename RatioExp, intmax_t N>
    struct ratio_exp_add_exp_n :
       pqs::meta::eval_if<
          std::bool_constant<(N > 0)> 
