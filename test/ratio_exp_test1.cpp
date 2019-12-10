@@ -17,7 +17,6 @@ namespace {
 
       QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp>::value));
 
-      // could make this tighter!
       QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp1>::value == false));
    }
 
@@ -29,7 +28,7 @@ namespace {
       > ratio_exp2;
 
       typedef  typename pqs::detail::ratio_exp_make_ratio_less_than_10<
-            ratio_exp2
+         ratio_exp2
       >::type result_type;
 
       QUAN_CHECK( (std::is_same<result_type,pqs::ratio_exp<std::ratio<21,20>, 6 > >::value ))
@@ -82,10 +81,7 @@ namespace {
    // e.g 1 km + 1 n.m. After that there may be issues
    void ratio_add_exp_test()
    {
-      QUAN_CHECK( (pqs::meta::to_power<10,0>::value == 1));
 
-      QUAN_CHECK( (pqs::meta::to_power<10,1>::value == 10));
-      QUAN_CHECK( (pqs::meta::to_power<10,2>::value == 100));
 
       typedef pqs::ratio_exp<std::ratio<1,2>,3> t1;
        

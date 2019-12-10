@@ -7,7 +7,9 @@
 namespace pqs{ 
 
    namespace meta{
+
       template <typename T> struct is_ratio_exp : std::false_type{};
+
    }
 
    // N.B Ratio::type is a std::ratio
@@ -19,8 +21,10 @@ namespace pqs{
    };
 
    namespace meta{
+
       template < intmax_t N, intmax_t D, int64_t Exp>
       struct is_ratio_exp<pqs::ratio_exp<std::ratio<N,D>,Exp> > : std::true_type{};
+
    }
 
 }  // pqs

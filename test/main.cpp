@@ -8,6 +8,7 @@ void dimension_test();
 void ratio_exp_test();
 void type_list_test();
 void eval_if_test();
+void meta_to_power_test();
 
 int errors = 0;
 
@@ -19,6 +20,7 @@ int main()
    ratio_exp_test();
    type_list_test();
    eval_if_test();
+   meta_to_power_test();
 
    QUAN_EPILOGUE
 }
