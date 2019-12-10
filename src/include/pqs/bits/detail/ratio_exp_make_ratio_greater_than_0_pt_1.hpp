@@ -1,10 +1,10 @@
-#ifndef QUAN_META_DETAIL_RATIO_EXP_MAKE_RATIO_GREATER_THAN_0_PT_1_HPP_INCLUDED
-#define QUAN_META_DETAIL_RATIO_EXP_MAKE_RATIO_GREATER_THAN_0_PT_1_HPP_INCLUDED
+#ifndef QUAN_DETAIL_RATIO_EXP_MAKE_RATIO_GREATER_THAN_0_PT_1_HPP_INCLUDED
+#define QUAN_DETAIL_RATIO_EXP_MAKE_RATIO_GREATER_THAN_0_PT_1_HPP_INCLUDED
 
-#include <pqs/meta/ratio_exp_def.hpp>
+#include <pqs/bits/ratio_exp_def.hpp>
 #include <pqs/meta/eval_if.hpp>
 
-namespace pqs{ namespace meta{
+namespace pqs{
 
    namespace detail{
       // input RatioExp must always be positive
@@ -66,6 +66,6 @@ namespace pqs{ namespace meta{
 
    } // detail
 
-}} //pqs::meta
+} //pqs
 
-#endif // QUAN_META_DETAIL_RATIO_EXP_MAKE_RATIO_GREATER_THAN_0_PT_1_HPP_INCLUDED
+#endif // QUAN_DETAIL_RATIO_EXP_MAKE_RATIO_GREATER_THAN_0_PT_1_HPP_INCLUDED

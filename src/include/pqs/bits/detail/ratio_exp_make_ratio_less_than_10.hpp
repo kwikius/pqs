@@ -1,17 +1,17 @@
-#ifndef QUAN_META_DETAIL_RATIO_EXP_MAKE_RATIO_LESS_THAN_10_HPP_INCLUDED
-#define QUAN_META_DETAIL_RATIO_EXP_MAKE_RATIO_LESS_THAN_10_HPP_INCLUDED
+#ifndef QUAN_DETAIL_RATIO_EXP_MAKE_RATIO_LESS_THAN_10_HPP_INCLUDED
+#define QUAN_DETAIL_RATIO_EXP_MAKE_RATIO_LESS_THAN_10_HPP_INCLUDED
 
-#include <pqs/meta/ratio_exp_def.hpp>
+#include <pqs/bits/ratio_exp_def.hpp>
 #include <pqs/meta/eval_if.hpp>
 
-namespace pqs{ namespace meta{
+namespace pqs{ 
 
    namespace detail{
       // input RatioExp must always be positive
       template <typename RatioExp>
       struct ratio_exp_abs_make_ratio_less_than_10{
          static_assert(std::ratio_greater<typename RatioExp::ratio,std::ratio<0,1> >::value);
-         typedef typename meta::eval_if<
+         typedef typename pqs::meta::eval_if<
             std::ratio_less<typename RatioExp::ratio,std::ratio<10,1> >
             ,RatioExp
             ,ratio_exp_abs_make_ratio_less_than_10<
@@ -32,7 +32,7 @@ namespace pqs{ namespace meta{
             typename RatioExp::ratio,std::ratio<0,1> 
          > is_negative;
 
-         typedef typename meta::eval_if<
+         typedef typename pqs::meta::eval_if<
             is_negative
             ,ratio_exp<
                std::ratio_multiply<typename RatioExp::ratio,std::ratio<-1,1> >, 
@@ -43,7 +43,7 @@ namespace pqs{ namespace meta{
 
          typedef typename ratio_exp_abs_make_ratio_less_than_10<abs_type_in>::type abs_type_out;
 
-         typedef typename meta::eval_if<
+         typedef typename pqs::meta::eval_if<
             is_negative
              ,ratio_exp<
                 std::ratio_multiply<typename abs_type_out::ratio, std::ratio<-1,1> > 
@@ -57,7 +57,7 @@ namespace pqs{ namespace meta{
       template <typename RatioExp>
       struct ratio_exp_make_ratio_less_than_10{
           // remove zero case
-          typedef typename meta::eval_if<
+          typedef typename pqs::meta::eval_if<
             std::ratio_equal<typename RatioExp::ratio,std::ratio<0,1> >
             ,ratio_exp< std::ratio<0,1>,0>
             ,ratio_exp_non_zero_make_ratio_less_than_10<RatioExp>
@@ -66,6 +66,6 @@ namespace pqs{ namespace meta{
 
    } // detail
 
-}} //pqs::meta
+} //pqs
 
-#endif // QUAN_META_DETAIL_RATIO_EXP_MAKE_RATIO_LESS_THAN_10_HPP_INCLUDED
+#endif // QUAN_DETAIL_RATIO_EXP_MAKE_RATIO_LESS_THAN_10_HPP_INCLUDED

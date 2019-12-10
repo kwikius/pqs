@@ -1,74 +1,75 @@
 
 #include <quan_matters/test/test.hpp>
 
-#include <pqs/meta/ratio_exp.hpp>
+#include <pqs/bits/ratio_exp.hpp>
 
 namespace {
 
    void is_ratio_exp_test()
    {
-      typedef pqs::meta::ratio_exp<
+      typedef pqs::ratio_exp<
          std::ratio<1,2>,1
       > ratio_exp;
 
-      typedef pqs::meta::ratio_exp<
+      typedef pqs::ratio_exp<
          int,1
       > ratio_exp1;
 
       QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp>::value));
 
-      QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp1>::value == true));
+      // could make this tighter!
+      QUAN_CHECK((pqs::meta::is_ratio_exp<ratio_exp1>::value == false));
    }
 
    void ratio_exp_lt_10_test()
    {
-      typedef  pqs::meta::ratio_exp<
+      typedef  pqs::ratio_exp<
          std::ratio<210000,2>
          ,1
       > ratio_exp2;
 
-      typedef  typename pqs::meta::detail::ratio_exp_make_ratio_less_than_10<
+      typedef  typename pqs::detail::ratio_exp_make_ratio_less_than_10<
             ratio_exp2
       >::type result_type;
 
-      QUAN_CHECK( (std::is_same<result_type,pqs::meta::ratio_exp<std::ratio<21,20>, 6 > >::value ))
+      QUAN_CHECK( (std::is_same<result_type,pqs::ratio_exp<std::ratio<21,20>, 6 > >::value ))
 
-      typedef  pqs::meta::ratio_exp<
+      typedef  pqs::ratio_exp<
          std::ratio<-210000,2>
          ,1
       > ratio_exp3;
-         typedef  typename pqs::meta::detail::ratio_exp_make_ratio_less_than_10<
+         typedef  typename pqs::detail::ratio_exp_make_ratio_less_than_10<
             ratio_exp3
       >::type result_type1;
 
-      QUAN_CHECK( (std::is_same<result_type1,pqs::meta::ratio_exp<std::ratio<-21,20>, 6 > >::value ))
+      QUAN_CHECK( (std::is_same<result_type1,pqs::ratio_exp<std::ratio<-21,20>, 6 > >::value ))
 
    }
 
    void ratio_exp_gt_0_pt_1_test()
    {
 
-     typedef  pqs::meta::ratio_exp<
+     typedef  pqs::ratio_exp<
          std::ratio<21,20000>
          ,6
       > ratio_exp2;
 
-      typedef  typename pqs::meta::detail::ratio_exp_make_ratio_greater_than_0_pt_1<
+      typedef  typename pqs::detail::ratio_exp_make_ratio_greater_than_0_pt_1<
             ratio_exp2
       >::type result_type;
 
-      QUAN_CHECK( (std::is_same<result_type,pqs::meta::ratio_exp<std::ratio<21,200>, 4 > >::value ))
+      QUAN_CHECK( (std::is_same<result_type,pqs::ratio_exp<std::ratio<21,200>, 4 > >::value ))
 
-      typedef  pqs::meta::ratio_exp<
+      typedef  pqs::ratio_exp<
          std::ratio<-21,20000>
          ,6
       > ratio_exp3;
 
-      typedef  typename pqs::meta::detail::ratio_exp_make_ratio_greater_than_0_pt_1<
+      typedef  typename pqs::detail::ratio_exp_make_ratio_greater_than_0_pt_1<
             ratio_exp3
       >::type result_type1;
 
-      QUAN_CHECK( (std::is_same<result_type1,pqs::meta::ratio_exp<std::ratio<-21,200>, 4 > >::value ))
+      QUAN_CHECK( (std::is_same<result_type1,pqs::ratio_exp<std::ratio<-21,200>, 4 > >::value ))
 
    }
 
@@ -81,18 +82,18 @@ namespace {
    // e.g 1 km + 1 n.m. After that there may be issues
    void ratio_add_exp_test()
    {
-      QUAN_CHECK( (pqs::meta::detail::to_power<10,0>::value == 1));
+      QUAN_CHECK( (pqs::meta::to_power<10,0>::value == 1));
 
-      QUAN_CHECK( (pqs::meta::detail::to_power<10,1>::value == 10));
-      QUAN_CHECK( (pqs::meta::detail::to_power<10,2>::value == 100));
+      QUAN_CHECK( (pqs::meta::to_power<10,1>::value == 10));
+      QUAN_CHECK( (pqs::meta::to_power<10,2>::value == 100));
 
-      typedef pqs::meta::ratio_exp<std::ratio<1,2>,3> t1;
+      typedef pqs::ratio_exp<std::ratio<1,2>,3> t1;
        
-      using pqs::meta::detail::ratio_exp_add_exp_n;
+      using pqs::detail::ratio_exp_add_exp_n;
 
       typedef ratio_exp_add_exp_n<t1,4>::type t2;
 
-      QUAN_CHECK((std::is_same<t2,pqs::meta::ratio_exp<std::ratio<1,20000>,7> >::value ))
+      QUAN_CHECK((std::is_same<t2,pqs::ratio_exp<std::ratio<1,20000>,7> >::value ))
 
       typedef ratio_exp_add_exp_n<t2,-4>::type t3;
 
@@ -100,7 +101,7 @@ namespace {
 
       typedef ratio_exp_add_exp_n<t1,4>::type t2;
 
-      QUAN_CHECK((std::is_same<t2,pqs::meta::ratio_exp<std::ratio<1,20000>,7> >::value ))
+      QUAN_CHECK((std::is_same<t2,pqs::ratio_exp<std::ratio<1,20000>,7> >::value ))
 
       typedef ratio_exp_add_exp_n<t2,-4>::type t3;
 
@@ -114,30 +115,27 @@ namespace {
   */
    void ratio_exp_normalise_test()
    {
-       typedef pqs::meta::ratio_exp<std::ratio<1,200>,4> t1;
-       typedef pqs::meta::detail::ratio_exp_normalise<t1>::type t2;
+       typedef pqs::ratio_exp<std::ratio<1,200>,4> t1;
+       typedef pqs::detail::ratio_exp_normalise<t1>::type t2;
 
-       QUAN_CHECK((std::is_same<t2,pqs::meta::ratio_exp<std::ratio<1,2>,2> >::value ))
+       QUAN_CHECK((std::is_same<t2,pqs::ratio_exp<std::ratio<1,2>,2> >::value ))
 
-       typedef pqs::meta::ratio_exp<std::ratio<201,20>,-3> t3;
-       typedef pqs::meta::detail::ratio_exp_normalise<t3>::type t4;
+       typedef pqs::ratio_exp<std::ratio<201,20>,-3> t3;
+       typedef pqs::detail::ratio_exp_normalise<t3>::type t4;
 
-       QUAN_CHECK((std::is_same<t4,pqs::meta::ratio_exp<std::ratio<201,200>,-2> >::value ))
+       QUAN_CHECK((std::is_same<t4,pqs::ratio_exp<std::ratio<201,200>,-2> >::value ))
 
-       typedef pqs::meta::ratio_exp<std::ratio<202000,20>,-9> t5;
-       typedef pqs::meta::detail::ratio_exp_normalise<t5>::type t6;
+       typedef pqs::ratio_exp<std::ratio<202000,20>,-9> t5;
+       typedef pqs::detail::ratio_exp_normalise<t5>::type t6;
 
-       QUAN_CHECK((std::is_same<t6,pqs::meta::ratio_exp<std::ratio<101,100>,-5> >::value ))
+       QUAN_CHECK((std::is_same<t6,pqs::ratio_exp<std::ratio<101,100>,-5> >::value ))
 
-       typedef pqs::meta::ratio_exp<std::ratio<9,1>,4> t7;
-       typedef pqs::meta::detail::ratio_exp_normalise<t7>::type t8;
+       typedef pqs::ratio_exp<std::ratio<9,1>,4> t7;
+       typedef pqs::detail::ratio_exp_normalise<t7>::type t8;
 
-        QUAN_CHECK((std::is_same<t7,t8 >::value ))
-       
-       
+       QUAN_CHECK((std::is_same<t7,t8 >::value ))
    }
   
-
 } // namespace
 
 void ratio_exp_test()

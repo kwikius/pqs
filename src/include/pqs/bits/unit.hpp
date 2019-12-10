@@ -26,7 +26,6 @@ namespace pqs{
       typedef typename std::ratio<MuxExp,MuxD>::type multiplier;
    };
 
-
 }// pqs
 
 #endif // PQS_UNIT_HPP_INCLUDED
