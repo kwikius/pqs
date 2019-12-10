@@ -15,6 +15,4 @@ void meta_to_power_test()
    QUAN_CHECK( (pqs::meta::to_power<2,12>::value == 4096));
    QUAN_CHECK( (pqs::meta::to_power<1,12>::value == 1));
 
-      QUAN_CHECK( (pqs::meta::to_power<-10,12>::value == 1));
-
 }

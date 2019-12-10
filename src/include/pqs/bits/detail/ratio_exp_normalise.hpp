@@ -1,7 +1,7 @@
 #ifndef PQS_DETAIL_RATIO_EXP_NORMALISE_HPP_INCLUDED
 #define PQS_DETAIL_RATIO_EXP_NORMALISE_HPP_INCLUDED
 
-#include <pqs/bits/detail/ratio_exp_make_ratio_less_than_10.hpp>
+#include <pqs/bits/detail/ratio_exp_make_ratio_less_equal_1.hpp>
 #include <pqs/bits/detail/ratio_exp_make_ratio_greater_than_0_pt_1.hpp>
 
 namespace  pqs { namespace detail{
@@ -19,7 +19,7 @@ namespace  pqs { namespace detail{
 
       typedef typename pqs::meta::eval_if<
          std::ratio_greater_equal<typename ratio_abs<typename RatioExp::ratio>::type,std::ratio<10,1> >
-            ,ratio_exp_make_ratio_less_than_10<
+            ,ratio_exp_make_ratio_less_equal_1<
                 RatioExp
             >
          ,std::ratio_less_equal<typename ratio_abs<typename RatioExp::ratio>::type,std::ratio<1,10> >
