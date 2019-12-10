@@ -6,6 +6,7 @@ using namespace pqs;
 void quantity_syntax_test1() 
 {
    // anonymous or r-value quantity
+   // si quantity
    auto qa = quantity<
       unit<
          dimension<
@@ -13,7 +14,7 @@ void quantity_syntax_test1()
             dim_time<-1>,
             dim_mass<2>, 
             dim_temperature<3>
-         >, 3
+         >, 3  //<-- exponent
       >,double
    > {};
 
@@ -25,7 +26,8 @@ void quantity_syntax_test1()
    // same type
    qb = qc;
 
- //  qd = qa;  // error
+  //  should succeed once implemented
+  //  qd = qa;  
 
   // should succeed once implemented
   // qd = qc;
