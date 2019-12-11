@@ -1,0 +1,29 @@
+
+
+The mux_exp represents a conversion_factor. Maybe call it that?
+
+conversion factor has a multiplier which is ratio and and exponent which is an integer or a rational in rare cases
+
+in context of q1, q2 quantities represnting the same value, where v is the value and k is the conversion_factor
+
+ q{
+  value v;
+  conversion_factor k;
+}
+
+q q1, q2;
+if ( q1 == q2)
+implies
+q1.v * q1.k ==  q2.v * q2.k
+
+conversion_factor ops
+
+can conversion_factor be zero ? , theoretically yes.
+
+addition - no. It is a factor so only multiplied by
+
+scaling - yes
+
+multiplication by other conversion_factor ?
+
+
