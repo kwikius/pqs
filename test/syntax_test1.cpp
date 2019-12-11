@@ -1,5 +1,7 @@
 
 #include <pqs/length.hpp>
+#include <pqs/meta/type_list.hpp>
+#include <tuple>
 
 using namespace pqs;
 
@@ -13,20 +15,24 @@ template <typename ... Tags>
 struct find_quantity_value_type{
    typedef float type;
 };
-// ummy for demo only
-template <typename... Tags>
-int make_quantity(typename find_quantity_value_type<Tags...>::type V)
-{
-  return 1;
-}
-
-struct affine;
 
 void quantity_syntax_test1() 
 {
+
+   auto qx = quantity<
+      unit<
+         3,          
+         dim_length<1>, 
+         dim_time<-1>,
+         dim_mass<2>, 
+         dim_temperature<3>
+      >,
+      double
+   >{};
+   
    // anonymous or r-value quantity
    auto qa = quantity<
-      unit<
+      derived_unit<
          dimension<
             dim_length<1>, 
             dim_time<-1>,
@@ -43,17 +49,6 @@ void quantity_syntax_test1()
   // non si unit
    auto qd = length::ft<>{};
    // same type
-   qb = qc;
-
-   // or create from a bag of tags ...
-   auto qe = make_quantity<
-      affine,  // make an affine quantity
-      kilo,    // exponenet
-      dim_length<1>,
-      double,  // value_type
-      dim_time<-1>,
-      dim_mass<2>,
-      dim_temperature<3>
-   >(20);
+  // qb = qx;
 
 }

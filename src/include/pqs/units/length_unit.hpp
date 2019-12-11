@@ -8,13 +8,13 @@
 // length unit definition namespace 
 namespace pqs{ namespace length_unit{
 
-   struct mm : unit< 
+   struct mm : derived_unit< 
       dimension<dim_length<1> > 
       ,-3
    >{};
 
    struct ft : unit_conversion< 
-      unit< 
+      derived_unit< 
          dimension<dim_length<1> >
          ,-1
       >

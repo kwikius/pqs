@@ -16,7 +16,10 @@ namespace pqs{
 
    // derive named si_units from here
    template <typename Dim, int ExpN> 
-   struct unit : unit_ratio<Dim, ExpN,1>{};
+   struct derived_unit : unit_ratio<Dim, ExpN,1>{};
+
+   template <int ExpN, typename ... Dims>
+   struct unit : unit_ratio<dimension<Dims... >, ExpN,1>{};
 
    // derive non_si_units from here
    template <typename SiUnit, int MuxExp, int MuxD>

@@ -2,11 +2,11 @@
 
 The mux_exp represents a conversion_factor. Maybe call it that?
 
-conversion factor has a multiplier which is ratio and and exponent which is an integer or a rational in rare cases
+conversion factor has a multiplier which is rational and and exponent which is an integer or a rational in rare cases
 
-in context of q1, q2 quantities represnting the same value, where v is the value and k is the conversion_factor
+in context of quantities representing the same value, where v is the value and k is the conversion_factor
 
- q{
+struct q{
   value v;
   conversion_factor k;
 }
@@ -14,16 +14,42 @@ in context of q1, q2 quantities represnting the same value, where v is the value
 q q1, q2;
 if ( q1 == q2)
 implies
-q1.v * q1.k ==  q2.v * q2.k
+q1.v * q1.k == q2.v * q2.k
+
+example from quan:
+
+lhs outputs as : 1 km
+lhs.numeric_value = 1
+lhs.conversion_factor.mux = 1
+lhs.conversion_factor.exp = 3
+converison factor calc = lhs.conversion_factor.mux * pow(10,q_name.conversion_factor.exp)
+lhs.conversion_factor = 1000
+lhs.normalised value =  1000
+
+rhs outputs as : 1e+06 mm
+rhs.numeric_value = 1e+06
+rhs.conversion_factor.mux = 1
+rhs.conversion_factor.exp = -3
+converison factor calc = rhs.conversion_factor.mux * pow(10,q_name.conversion_factor.exp)
+rhs.conversion_factor = 0.001
+rhs.normalised value =  1000
+
+so  1 * 1000  == 1.e6 * 0.0001
 
 conversion_factor ops
 
-can conversion_factor be zero ? , theoretically yes.
+can conversion_factor be zero ? , theoretically yes. May be useful for something?
+Is negative multiplier allowed
+Negative exponent surely allowed
+non integer exponent allowed? - probably
 
-addition - no. It is a factor so only multiplied by
+addition - no. It is a factor so only multiplied by, however moving the exponent is probably useful to align
+2 conversion factors
 
 scaling - yes
 
-multiplication by other conversion_factor ?
+multiplication by other conversion_factor ? yes for q^n
+
+-------------------------------------------
 
 

@@ -4,7 +4,15 @@
 namespace pqs{
 
    template <typename U, typename V = double>
-   class quantity{};
+   struct quantity{
+      constexpr explicit quantity(V const & v) : m_numeric_value{v}{}
+      constexpr explicit quantity() : m_numeric_value{V{0}}{}
+
+      constexpr V numeric_value() const { return m_numeric_value; }
+
+      private:
+        V m_numeric_value;
+   };
 
 }
 

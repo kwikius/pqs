@@ -11,6 +11,8 @@ void type_list_test();
 void eval_if_test();
 void meta_to_power_test();
 
+void make_quantity_test();
+
 void ratio_exp_test2();
 
 int errors = 0;
@@ -25,6 +27,7 @@ int main()
    eval_if_test();
    meta_to_power_test();
    ratio_exp_test2();
+   make_quantity_test();
 
    QUAN_EPILOGUE
 }
