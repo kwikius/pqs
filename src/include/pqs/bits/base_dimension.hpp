@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <type_traits>
 #include <ratio>
+#include <pqs/meta/and.hpp>
 
 namespace pqs{
    namespace detail{
@@ -30,6 +31,25 @@ namespace pqs{
 
       template <typename T>
       struct is_base_dimension_ratio : std::is_base_of<base_dimension_ratio_base_class,T>{};
+
+      // have same id but not necessarily same value
+      template <typename TL, typename TR, typename = void>
+      struct same_base_dimension_impl : std::false_type{};
+
+      template <typename TL, typename TR>
+      struct same_base_dimension_impl<TL,TR,
+         typename std::enable_if<
+            pqs::meta::and_<
+               is_base_dimension_ratio<TL>, 
+               is_base_dimension_ratio<TR>
+            >::value
+         >::type
+      > : std::bool_constant< (TL::base_dimension_id == TR::base_dimension_id)>{};
+
+      template <typename TL, typename TR>
+      struct same_base_dimension : same_base_dimension_impl<TL,TR>{};
+
+      
 
    } // detail
 

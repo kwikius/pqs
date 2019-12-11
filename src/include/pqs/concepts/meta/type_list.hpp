@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_META_TYPE_LIST_HPP_INCLUDED
 
 #include <type_traits>
+#include <cstdint>
 
 namespace pqs { namespace concepts { namespace meta{
 
@@ -66,7 +67,6 @@ namespace pqs{ namespace meta{
   template <uint32_t N, typename List>
   struct at : impl::at_impl<N,List>{};
 
-
-}}
+}} // pqs::meta
 
 #endif // PQS_CONCEPTS_META_TYPE_LIST_HPP_INCLUDED

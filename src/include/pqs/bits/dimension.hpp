@@ -1,11 +1,12 @@
 #ifndef PQS_DIMENSION_HPP_INCLUDED
 #define PQS_DIMENSION_HPP_INCLUDED
 
-
 #include <type_traits>
-#include <pqs/bits/undefined.hpp>
+
 #include <pqs/concepts/meta/type_list.hpp>
 #include <pqs/meta/eval_if_else.hpp>
+#include <pqs/bits/undefined.hpp>
+#include <pqs/bits/base_dimension.hpp>
 
 namespace pqs{
 
@@ -100,6 +101,7 @@ namespace pqs{ namespace meta{
 }}//pqs::meta
 
 /*
+not reqd atm
 namespace pqs{ namespace meta{ namespace impl{
 
    template <uint32_t N, typename... List>

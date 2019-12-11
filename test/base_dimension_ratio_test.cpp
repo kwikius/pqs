@@ -7,6 +7,24 @@ using namespace pqs;
 
 namespace {
 
+   void same_id_test()
+   {
+      typedef dim_length<2> tl;
+      typedef dim_length<3> tr;
+
+      QUAN_CHECK(( not detail::is_base_dimension_ratio<int>::value))
+      QUAN_CHECK((detail::is_base_dimension_ratio<tl>::value))
+      QUAN_CHECK((detail::same_base_dimension<tl,tr>::value))
+
+      typedef dim_length_ratio<3,2> tx;
+      QUAN_CHECK((detail::is_base_dimension_ratio<tx>::value))
+      QUAN_CHECK((detail::same_base_dimension<tl,tx>::value))
+
+      QUAN_CHECK(( not detail::same_base_dimension<dim_time<-2>,tl>::value)) 
+
+      
+   }
+
    void add_test_int_int_int()
    {
       typedef dim_length<2> tl;
@@ -398,6 +416,7 @@ namespace {
 
 void base_dimension_ratio_test()
 {
+   same_id_test();
    add_test();
    subtract_test();
    negate_test();

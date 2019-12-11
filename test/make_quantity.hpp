@@ -1,6 +1,12 @@
 #ifndef PQS_TEST_MAKE_QUANTITY_HPP_INCLUDED
 #define PQS_TEST_MAKE_QUANTITY_HPP_INCLUDED
 
+
+#include <tuple>
+#include <pqs/meta/type_list.hpp>
+#include <pqs/bits/quantity.hpp>
+#include <pqs/bits/unit.hpp>
+
 namespace pqs{
 
    namespace detail{
