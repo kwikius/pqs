@@ -222,16 +222,6 @@ namespace {
 
 void make_quantity_test()
 {
-   // instantiate some quantity type
-   auto constexpr q = make_quantity<3>(
-      mass_dim,              // -> dim_mass<1> 
-      length_dim,            // -> dim_length<1>
-      time_dim * time_dim,   // -> dim_time<2>
-      length_dim * time_dim, // -> dimension<dim_length<1>,dim_time<1> >
-      dim_current<2>{},
-      20.0  // -> value_type
-   );
-
 
    auto constexpr q2 = make_quantity<-3>(
       mass_dim * length_dim / (time_dim * time_dim), 20.0
@@ -242,15 +232,21 @@ void make_quantity_test()
    int x = q2;
 }
 /*
+
+-------------- Build: Quan in std_units (compiler: GNU GCC-9 Compiler)---------------
+
+g++-9 -std=c++2a -fconcepts -Wno-literal-suffix -Wno-non-template-friend -Wno-stringop-overflow -Wno-pedantic -I/home/andy/cpp/projects/std_units/pqs/src/include -I/home/andy/cpp/projects/quan-trunk -c /home/andy/cpp/projects/std_units/pqs/test/syntax_test2.cpp -o obj/Debug/pqs/test/syntax_test2.o
 /home/andy/cpp/projects/std_units/pqs/test/syntax_test2.cpp: In function ‘void make_quantity_test()’:
-/home/andy/cpp/projects/std_units/pqs/test/syntax_test2.cpp:242:12: error: cannot convert ‘const pqs::quantity<pqs::unit<-3, pqs::dimension<pqs::dim_length<1>, pqs::dim_time<-2>, pqs::dim_mass<1> > >, double>’ to ‘int’ in initialization
-  242 |    int x = q2;
+/home/andy/cpp/projects/std_units/pqs/test/syntax_test2.cpp:232:12: error: cannot convert ‘const pqs::quantity<pqs::unit<-3, pqs::dim_length<1>, pqs::dim_time<-2>, pqs::dim_mass<1> >, double>’ to ‘int’ in initialization
+  232 |    int x = q2;
       |            ^~
       |            |
-      |            const pqs::quantity<pqs::unit<-3, pqs::dimension<pqs::dim_length<1>, pqs::dim_time<-2>, pqs::dim_mass<1> > >, double>
-Process terminated with status 1 (0 minute(s), 11 second(s))
-1 error(s), 0 warning(s) (0 minute(s), 11 second(s))
+      |            const pqs::quantity<pqs::unit<-3, pqs::dim_length<1>, pqs::dim_time<-2>, pqs::dim_mass<1> >, double>
+Process terminated with status 1 (0 minute(s), 1 second(s))
+1 error(s), 0 warning(s) (0 minute(s), 1 second(s))
+ 
 */
+
 
 
 
