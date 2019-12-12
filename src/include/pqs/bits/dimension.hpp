@@ -20,7 +20,18 @@ namespace pqs{
       typedef dimension type;
       static constexpr uint32_t num_elements = 0;
    };
-}
+
+   namespace detail{
+
+      template <typename D>
+      struct is_dimension : std::false_type{};
+
+      template <typename ... D >
+      struct is_dimension<pqs::dimension<D...> > : std::true_type{};
+
+   }// detail
+   
+}// pqs
 
 namespace pqs{ namespace meta{
 
