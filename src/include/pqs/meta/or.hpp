@@ -1,7 +1,7 @@
 #ifndef PQS_META_OR_HPP_INCLUDED
 #define PQS_META_OR_HPP_INCLUDED
 /*
- Copyright (c) 2006-2013 Andy Little 
+ Copyright (c) 2006-2019 Andy Little 
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 
 #include <type_traits>
-#include <quan/meta/eval_if.hpp>
+#include <pqs/meta/eval_if.hpp>
 
 namespace pqs{ namespace meta{
 

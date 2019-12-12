@@ -15,7 +15,7 @@ Copyright (c) 2003-2014 Andy Little.
  along with this program. If not, see http://www.gnu.org/licenses.
 */
 
-#include <quan_matters/test/test.hpp>
+#include "test.hpp"
 #include <type_traits>
 
 #include <pqs/meta/type_list.hpp>

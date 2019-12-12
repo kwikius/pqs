@@ -1,6 +1,6 @@
 
 
-#include <quan_matters/test/test.hpp>
+#include "test.hpp"
 
 void quantity_syntax_test1();
 void base_dimension_ratio_test();
@@ -29,5 +29,5 @@ int main()
    ratio_exp_test2();
    make_quantity_test();
 
-   QUAN_EPILOGUE
+   EPILOGUE
 }
