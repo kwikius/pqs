@@ -22,23 +22,17 @@ namespace pqs{
    struct binary_op_impl <
       Lhs,meta::times,Rhs,
       typename where_<detail::same_base_dimension<Lhs,Rhs> >::type
-   >
-   {
-      typedef dimension<
+   > : dimension<
          typename pqs::detail::add_base_dimension_ratio<Lhs,Rhs>::type
-      > type;
-   };
+      >{};
 
    template <typename Lhs, typename Rhs>
    struct binary_op_impl <
       Lhs,meta::divides,Rhs,
       typename where_<detail::same_base_dimension<Lhs,Rhs> >::type
-   >
-   {
-      typedef dimension<
+   > : dimension<
          typename pqs::detail::subtract_base_dimension_ratio<Lhs,Rhs>::type
-      > type;
-   };
+      >{};
 
    // create a dimension of two base_dims
    template <typename Lhs, typename Rhs>
@@ -51,10 +45,7 @@ namespace pqs{
             meta::not_<detail::same_base_dimension<Lhs,Rhs> >
          > 
       >::type
-   >
-   {
-      typedef typename pqs::dimension<Lhs,Rhs> type;
-   };
+   > : dimension<Lhs,Rhs>{};
 
    template <typename Lhs, typename Rhs>
    struct binary_op_impl <
@@ -66,13 +57,9 @@ namespace pqs{
             meta::not_<detail::same_base_dimension<Lhs,Rhs> >
          > 
       >::type
-   >
-   {
-      
-      typedef typename pqs::dimension<Lhs,
+   > : dimension<Lhs,
          typename detail::negate_base_dimension_ratio<Rhs>::type
-      > type;
-   };
+      >{};
 
 
    // add to a dimension
