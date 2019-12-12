@@ -39,9 +39,9 @@ namespace pqs{ namespace detail{
    template <typename RatioExp, intmax_t N>
    struct ratio_exp_add_exp_n :
       pqs::meta::eval_if<
-         std::bool_constant<(N > 0)> 
+         std::integral_constant<bool,(N > 0)> 
             ,add_ratio_exp1<RatioExp,N>
-         ,std::bool_constant<(N < 0)>
+         ,std::integral_constant<bool,(N < 0)>
             ,sub_ratio_exp1<RatioExp,-N>
          ,RatioExp
       >{};

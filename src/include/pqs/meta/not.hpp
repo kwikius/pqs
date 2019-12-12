@@ -22,7 +22,7 @@
 namespace pqs { namespace meta{
 
    template <typename T>
-   struct not_ : std::bool_constant<( T::type::value == 0)>{};
+   struct not_ : std::integral_constant<bool,(T::type::value == 0)>{};
    
 }}
 

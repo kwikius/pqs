@@ -48,6 +48,14 @@ void quantity_syntax_test1()
    auto qc = length::mm<>{};
   // non si unit
    auto qd = length::ft<>{};
+
+  // suppress set not used warnings
+  (void) qx;
+  (void) qa;
+  (void) qb;
+  (void) qc;
+  (void) qd;
+
    // same type
   // qb = qx;
 

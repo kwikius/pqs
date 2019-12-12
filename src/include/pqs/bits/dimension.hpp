@@ -7,6 +7,7 @@
 #include <pqs/meta/eval_if_else.hpp>
 #include <pqs/bits/undefined.hpp>
 #include <pqs/bits/base_dimension.hpp>
+#include <pqs/meta/not.hpp>
 
 namespace pqs{
 
@@ -317,7 +318,7 @@ namespace pqs{ namespace detail{
    struct are_equal_dimensions : std::is_same<typename subtract_dimensions<DL,DR>::type, pqs::dimension<> >{}; 
   
    template <typename DL, typename DR> 
-   struct are_not_equal_dimensions : std::negation< are_equal_dimensions<DL,DR> >{};
+   struct are_not_equal_dimensions : meta::not_< are_equal_dimensions<DL,DR> >{};
        
 }} // pqs::detail
 

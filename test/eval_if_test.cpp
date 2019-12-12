@@ -136,13 +136,13 @@ namespace {
        typedef eval_if_c<
          arg == 0
             ,my_fun<0>
-         ,std::bool_constant<arg == 1>
+         ,std::integral_constant<bool,arg == 1>
             ,my_fun<1>
-         ,std::bool_constant<arg == 2>
+         ,std::integral_constant<bool,arg == 2>
             ,my_fun<2>
-         ,std::bool_constant<arg == 3>
+         ,std::integral_constant<bool,arg == 3>
             ,my_fun<3>
-         ,std::bool_constant<arg == 4>
+         ,std::integral_constant<bool,arg == 4>
             ,my_fun<4>
             ,my_fun<5>
         >::type type;

@@ -7,6 +7,7 @@
 #include <pqs/meta/and.hpp>
 
 namespace pqs{
+
    namespace detail{
 
       struct base_dimension_ratio_base_class{};
@@ -44,7 +45,8 @@ namespace pqs{
                is_base_dimension_ratio<TR>
             >::value
          >::type
-      > : std::bool_constant< (TL::base_dimension_id == TR::base_dimension_id)>{};
+
+      > : std::integral_constant< bool,(TL::base_dimension_id == TR::base_dimension_id)>{};
 
       template <typename TL, typename TR>
       struct same_base_dimension : same_base_dimension_impl<TL,TR>{};
@@ -169,6 +171,7 @@ namespace pqs{
       struct base_dimension_is_zero : std::ratio_equal<typename Bdr::ratio, std::ratio<0> >{};
 
    }//detail
+
 } // pqs
 
 #endif // PQS_BASE_DIMENSION_HPP_INCLUDED

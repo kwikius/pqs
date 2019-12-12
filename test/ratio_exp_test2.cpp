@@ -17,9 +17,9 @@ namespace pqs {
       typedef typename pqs::ratio_exp_normalise<RatioExpLhs>::type lhs_type;
       typedef typename pqs::ratio_exp_normalise<RatioExpRhs>::type rhs_type;
       typedef typename pqs::meta::eval_if<
-         std::bool_constant<(lhs_type::exp < rhs_type::exp)>
+         std::integral_constant<bool,(lhs_type::exp < rhs_type::exp)>
             ,std::integral_constant<int,-1>
-         ,std::bool_constant<(lhs_type::exp > rhs_type::exp)>
+         ,std::integral_constant<bool,(lhs_type::exp > rhs_type::exp)>
             ,std::integral_constant<int,1>
          ,std::ratio_equal<typename lhs_type::ratio,typename rhs_type::ratio>
             ,std::integral_constant<int,0>
@@ -31,22 +31,22 @@ namespace pqs {
    };
 
    template <typename RatioExpLhs, typename RatioExpRhs>
-   struct ratio_exp_less : std::bool_constant<( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value < 0 )>{};
+   struct ratio_exp_less : std::integral_constant<bool,( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value < 0 )>{};
 
    template <typename RatioExpLhs, typename RatioExpRhs>
-   struct ratio_exp_less_equal : std::bool_constant<( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value <= 0 )>{};
+   struct ratio_exp_less_equal : std::integral_constant<bool,( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value <= 0 )>{};
 
    template <typename RatioExpLhs, typename RatioExpRhs>
-   struct ratio_exp_equal : std::bool_constant<( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value == 0 )>{};
+   struct ratio_exp_equal : std::integral_constant<bool,( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value == 0 )>{};
 
    template <typename RatioExpLhs, typename RatioExpRhs>
-   struct ratio_exp_not_equal : std::bool_constant<( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value != 0 )>{};
+   struct ratio_exp_not_equal : std::integral_constant<bool,( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value != 0 )>{};
 
    template <typename RatioExpLhs, typename RatioExpRhs>
-   struct ratio_exp_greater_equal : std::bool_constant<( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value >= 0 )>{};
+   struct ratio_exp_greater_equal : std::integral_constant<bool,( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value >= 0 )>{};
 
    template <typename RatioExpLhs, typename RatioExpRhs>
-   struct ratio_exp_greater : std::bool_constant<( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value > 0 )>{}; 
+   struct ratio_exp_greater : std::integral_constant<bool,( ratio_exp_compare<RatioExpLhs, RatioExpRhs>::value > 0 )>{}; 
 
    template <typename RatioExpLhs, typename RatioExpRhs>
    struct ratio_exp_add{
@@ -54,18 +54,18 @@ namespace pqs {
       typedef typename pqs::ratio_exp_normalise<RatioExpLhs>::type lhs_type;
       typedef typename pqs::ratio_exp_normalise<RatioExpRhs>::type rhs_type;
 
-      typedef ratio_exp_compare<lhs_type,rhs_type>::type comp_type;
+      typedef typename ratio_exp_compare<lhs_type,rhs_type>::type comp_type;
 
       typedef typename pqs::meta::eval_if<
-         std::bool_constant<(comp_type::value == 0)>,
+         std::integral_constant<bool,(comp_type::value == 0)>,
             lhs_type,
-         std::bool_constant<(comp_type::value < 0)>,  // lhs is smaller, so adjust rhs
+         std::integral_constant<bool,(comp_type::value < 0)>,  // lhs is smaller, so adjust rhs
             pqs::detail::ratio_exp_add_exp_n<rhs_type, lhs_type::exp - rhs_type::exp>,
          pqs::detail::ratio_exp_add_exp_n<lhs_type, rhs_type::exp - lhs_type::exp>
       >::type aligned_type;
 
       typedef typename pqs::meta::eval_if<
-         std::bool_constant<(comp_type::value == 0)>,
+         std::integral_constant<bool,(comp_type::value == 0)>,
             pqs::ratio_exp<
                typename std::ratio_add<
                   typename lhs_type::ratio,
@@ -73,7 +73,7 @@ namespace pqs {
                >::type,
                aligned_type::exp
              >,
-         std::bool_constant<(comp_type::value < 0)>,  // lhs is smaller so use 
+         std::integral_constant<bool,(comp_type::value < 0)>,  // lhs is smaller so use 
             pqs::ratio_exp<
                typename std::ratio_add<
                   typename lhs_type::ratio,

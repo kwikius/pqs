@@ -220,16 +220,33 @@ namespace {
 
 }
 
+namespace pqs{
+
+     template <int Exp, typename List>
+     using make_unit = typename detail::make_unit<Exp,List>::type;
+}
+
 void make_quantity_test()
 {
 
    auto constexpr q2 = make_quantity<-3>(
       mass_dim * length_dim / (time_dim * time_dim), 20.0
    );
-    //########################################
+   
+   // alternative form
+   auto q3 = quantity<
+     make_unit<
+       -3,
+       decltype(mass_dim * length_dim / (time_dim * time_dim))
+     >,
+     double
+   >{20.0};
 
-       // COMPILE FAIL To get type in error message
-   int x = q2;
+   q3 = q2; // check structural equality
+
+
+   // COMPILE FAIL To get type in error message
+  // int x = q2;
 }
 /*
 
