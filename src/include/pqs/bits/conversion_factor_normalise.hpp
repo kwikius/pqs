@@ -1,9 +1,9 @@
-#ifndef PQS_DETAIL_RATIO_EXP_NORMALISE_HPP_INCLUDED
-#define PQS_DETAIL_RATIO_EXP_NORMALISE_HPP_INCLUDED
+#ifndef PQS_DETAIL_CONVERSION_FACTOR_NORMALISE_HPP_INCLUDED
+#define PQS_DETAIL_CONVERSION_FACTOR_NORMALISE_HPP_INCLUDED
 
 #include <ratio>
-#include <pqs/bits/detail/ratio_exp_make_ratio_less_than_10.hpp>
-#include <pqs/bits/detail/ratio_exp_make_ratio_greater_equal_1.hpp>
+#include <pqs/bits/detail/conversion_factor_make_ratio_less_than_10.hpp>
+#include <pqs/bits/detail/conversion_factor_make_ratio_greater_equal_1.hpp>
 
 namespace  pqs { 
 
@@ -18,15 +18,15 @@ namespace  pqs {
    }
 
    template <typename RatioExp>
-   struct ratio_exp_normalise{
+   struct conversion_factor_normalise{
 
       typedef typename pqs::meta::eval_if<
          std::ratio_greater_equal<typename pqs::detail::ratio_abs<typename RatioExp::ratio>::type,std::ratio<10,1> >
-            ,pqs::detail::ratio_exp_make_ratio_less_than_10<
+            ,pqs::detail::conversion_factor_make_ratio_less_than_10<
                 RatioExp
             >
          ,std::ratio_less<typename pqs::detail::ratio_abs<typename RatioExp::ratio>::type,std::ratio<1,1> >
-             ,pqs::detail::ratio_exp_make_ratio_greater_equal_1<
+             ,pqs::detail::conversion_factor_make_ratio_greater_equal_1<
                RatioExp
              >
          ,RatioExp
@@ -35,4 +35,4 @@ namespace  pqs {
 
 } // pqs
 
-#endif // PQS_DETAIL_RATIO_EXP_NORMALISE_HPP_INCLUDED
+#endif // PQS_DETAIL_CONVERSION_FACTOR_NORMALISE_HPP_INCLUDED

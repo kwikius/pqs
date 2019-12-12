@@ -1,15 +1,13 @@
 
 PQS_ROOT = ../src/include
 
-
-
 OBJECTS = \
 	base_dimension_ratio_test.o \
 	dimension_test.o \
 	eval_if_test.o \
 	main.o \
-	ratio_exp_test1.o \
-	ratio_exp_test2.o \
+	conversion_factor_test1.o \
+	conversion_factor_test2.o \
 	syntax_test1.o \
 	syntax_test2.o \
 	to_power_test.o \
