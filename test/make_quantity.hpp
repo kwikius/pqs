@@ -6,6 +6,7 @@
 #include <pqs/meta/type_list.hpp>
 #include <pqs/bits/quantity.hpp>
 #include <pqs/bits/unit.hpp>
+#include <pqs/meta/strip_cr.hpp>
 
 namespace pqs{
 
@@ -56,12 +57,17 @@ namespace pqs{
    namespace detail{
 
       template <int Exp, typename List>
-      struct make_unit;
+      struct make_unit_impl;
+
 
       template <int Exp, typename ... List>
-      struct make_unit<Exp, pqs::dimension<List...> > {
+      struct make_unit_impl<Exp, pqs::dimension<List...> > {
          typedef pqs::unit<Exp, List...> type;
       };
+
+      template <int Exp, typename List>
+      struct make_unit : make_unit_impl<Exp,typename meta::strip_cr<List>::type>{};
+      
    }
 
    template <int Exp,typename D, typename V>

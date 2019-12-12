@@ -1,201 +1,7 @@
 
-#include <type_traits>
-#include <pqs/meta/and.hpp>
-#include <pqs/meta/or.hpp>
-#include <pqs/meta/not.hpp>
-#include <pqs/bits/base_dimension.hpp>
-#include <pqs/bits/dimension.hpp>
-#include <pqs/bits/undefined.hpp>
-#include <pqs/bits/where.hpp>
-#include <pqs/meta/binary_op_tags.hpp>
-
-namespace pqs{
-
-   template <typename Lhs, typename Op, typename Rhs, typename Where = void>
-   struct binary_op_impl : pqs::undefined{};
-
-   template <typename Lhs, typename Op, typename Rhs>
-   struct binary_op : binary_op_impl<Lhs,Op,Rhs> {};
-
-   // add base_dims -> to same base dim of higher extent
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::times,Rhs,
-      typename where_<detail::same_base_dimension<Lhs,Rhs> >::type
-   > : dimension<
-         typename pqs::detail::add_base_dimension_ratio<Lhs,Rhs>::type
-      >{};
-
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::divides,Rhs,
-      typename where_<detail::same_base_dimension<Lhs,Rhs> >::type
-   > : dimension<
-         typename pqs::detail::subtract_base_dimension_ratio<Lhs,Rhs>::type
-      >{};
-
-   // create a dimension of two base_dims
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::times,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_base_dimension_ratio<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>, 
-            meta::not_<detail::same_base_dimension<Lhs,Rhs> >
-         > 
-      >::type
-   > : dimension<Lhs,Rhs>{};
-
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::divides,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_base_dimension_ratio<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>, 
-            meta::not_<detail::same_base_dimension<Lhs,Rhs> >
-         > 
-      >::type
-   > : dimension<Lhs,
-         typename detail::negate_base_dimension_ratio<Rhs>::type
-      >{};
-
-
-   // add to a dimension
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::times,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_dimension<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>
-         > 
-      >::type
-   > : pqs::detail::add_dimensions<Lhs,pqs::dimension<Rhs> >{};
-
-      // add to a dimension
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::divides,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_dimension<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>
-         > 
-      >::type
-   > : pqs::detail::subtract_dimensions<Lhs,pqs::dimension<Rhs> >{};
-
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::times,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_base_dimension_ratio<Lhs>, 
-            detail::is_dimension<Rhs>
-         > 
-      >::type
-   > : pqs::detail::add_dimensions<pqs::dimension<Lhs>,Rhs >{};
-
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::divides,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_base_dimension_ratio<Lhs>, 
-            detail::is_dimension<Rhs>
-         > 
-      >::type
-   > : pqs::detail::subtract_dimensions<pqs::dimension<Lhs>,Rhs>{};
-
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::times,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_dimension<Lhs>, 
-            detail::is_dimension<Rhs>
-         > 
-      >::type
-   > : pqs::detail::add_dimensions<Lhs,Rhs>{};
-
-   template <typename Lhs, typename Rhs>
-   struct binary_op_impl <
-      Lhs,meta::divides,Rhs,
-      typename where_< 
-         meta::and_<
-            detail::is_dimension<Lhs>, 
-            detail::is_dimension<Rhs>
-         > 
-      >::type
-   > : pqs::detail::subtract_dimensions<Lhs,Rhs>{};
-   
-
-   template <typename Lhs, typename Rhs>
-   inline
-   constexpr
-   typename eval_where<
-      meta::or_<
-         meta::and_<
-           detail::is_base_dimension_ratio<Lhs>,
-           detail::is_base_dimension_ratio<Rhs> 
-         >,
-         meta::and_<
-            detail::is_dimension<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>
-         > ,
-         meta::and_<
-          detail::is_base_dimension_ratio<Lhs>, 
-          detail::is_dimension<Rhs>
-         >, 
-         meta::and_<
-            detail::is_dimension<Lhs>, 
-            detail::is_dimension<Rhs>
-         > 
-      >,  
-      binary_op<Lhs,meta::times,Rhs>
-   >::type
-   operator * ( Lhs , Rhs ) 
-   {
-      return typename binary_op<Lhs,pqs::meta::times,Rhs>::type{};
-   }
-
-   template <typename Lhs, typename Rhs>
-   inline
-   constexpr
-   typename eval_where<
-      meta::or_<
-         meta::and_<
-           detail::is_base_dimension_ratio<Lhs>,
-           detail::is_base_dimension_ratio<Rhs> 
-         >,
-         meta::and_<
-            detail::is_dimension<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>
-         > ,
-         meta::and_<
-          detail::is_base_dimension_ratio<Lhs>, 
-          detail::is_dimension<Rhs>
-         >, 
-         meta::and_<
-            detail::is_dimension<Lhs>, 
-            detail::is_dimension<Rhs>
-         > 
-      >,  
-      binary_op<Lhs,meta::divides,Rhs>
-   >::type
-   operator / ( Lhs , Rhs ) 
-   {
-      return typename binary_op<Lhs,pqs::meta::divides,Rhs>::type{};
-   }
-
-}
-
-#include "make_quantity.hpp"
-
-#include <pqs/length.hpp>
-
 #include <iostream>
+#include <pqs/bits/quantity.hpp>
+#include "make_quantity.hpp"
 
 using namespace pqs;
 
@@ -205,6 +11,10 @@ namespace {
    constexpr dim_length<1> length_dim;
    constexpr dim_time<1> time_dim;
 
+   // these will be wrapped into a dimension e.g dimension<dim_length<1>,dim_time<-1>
+   constexpr auto velocity_dim = length_dim / time_dim; 
+   constexpr auto acceleration_dim = velocity_dim / time_dim; 
+   constexpr auto force_dim = mass_dim * acceleration_dim;
 }
 
 namespace pqs{
@@ -216,21 +26,35 @@ namespace pqs{
 void make_quantity_test()
 {
 
-   auto constexpr q2 = make_quantity<-3>(
+   auto q2 = make_quantity<-3>(
       mass_dim * length_dim / (time_dim * time_dim), 20.0
    );
    
    // alternative form
-   auto q3 = quantity<
-     make_unit<
+   auto constexpr q3 = quantity<
+     make_unit<  // the unit will have form unit<3, dims... >)
        -3,
        decltype(mass_dim * length_dim / (time_dim * time_dim))
      >,
      double
    >{20.0};
 
-   q3 = q2; // check structural equality
+   q2 = q3; // check structural equality
 
+   auto q4 = quantity<
+     unit<  // the unit will have form unit<3, dimension<dims...> >)
+       -3,
+       decltype(mass_dim * length_dim / (time_dim * time_dim))
+     >,
+     double
+   >{20.0};
+
+   //q2 = q4; // not structurally equal unit <I,D...> v unit<I,dimension<D...> >
+   (void) q4;
+
+   auto q5 = quantity<make_unit<-3,decltype(force_dim)>,double>{20.0};
+
+   q2 = q5; // check structural equality
 
    // COMPILE FAIL To get type in error message
   // int x = q2;
