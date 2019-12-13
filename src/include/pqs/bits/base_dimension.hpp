@@ -51,8 +51,6 @@ namespace pqs{
       template <typename TL, typename TR>
       struct same_base_dimension : same_base_dimension_impl<TL,TR>{};
 
-      
-
    } // detail
 
    // interface

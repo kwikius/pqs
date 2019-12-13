@@ -1,8 +1,6 @@
 
 #include "test.hpp"
-
 #include <pqs/units/length_unit.hpp>
-
 
 namespace {
 

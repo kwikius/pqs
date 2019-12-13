@@ -1,0 +1,23 @@
+
+Generic operations on quantites and avoiding ambiguous overloads
+
+I think there are specifically 3 cases generally in multiplication/division of two types where one or both is a quantity
+
+Take 2 types Q1, T2 where Q1 is a Quantity 
+
+and a multiplicative op  { *, /}
+
+Q1{} op T2{}
+
+
+N.B that the result Type is irrelevant for overload resolution
+
+
+If T2 is a Quantity then T2 translates Q1 into another Quantity, into  "Quantity Space" at same level
+
+If T2 is a Numeric  then generally Q1 T2 consumes T2 into a higher space, so Q1 ranks higher than T2
+
+Third case is that T2 consumes Q1 into  eg T2 is a 3dvector( of Numeric or Quantity), then  Quantity is consumed into a higher vectors "space"
+
+
+

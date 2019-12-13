@@ -14,8 +14,10 @@ void meta_to_power_test();
 void make_quantity_test();
 
 void conversion_factor_test2();
-
+void basic_concepts_test();
 int errors = 0;
+
+void  experimental_test();
 
 int main()
 {
@@ -28,6 +30,7 @@ int main()
    meta_to_power_test();
    conversion_factor_test2();
    make_quantity_test();
+   basic_concepts_test();
 
    EPILOGUE
 }

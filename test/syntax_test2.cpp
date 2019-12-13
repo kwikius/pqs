@@ -57,7 +57,7 @@ void make_quantity_test()
    q2 = q5; // check structural equality
 
    // COMPILE FAIL To get type in error message
-  // int x = q2;
+   //int x = q2;
 }
 /*
 
