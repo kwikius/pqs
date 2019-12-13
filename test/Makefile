@@ -11,7 +11,9 @@ OBJECTS = \
 	syntax_test1.o \
 	syntax_test2.o \
 	to_power_test.o \
-	type_list_test.o
+	type_list_test.o \
+   basic_concepts_test.o \
+   experimental_test.o
 
 .PHONY : all test gcc7_cpp11 gcc9_cpp2a clean 
 
@@ -24,6 +26,10 @@ gcc7_cpp11 : test.exe
 gcc9_cpp2a : CXX      = g++-9
 gcc9_cpp2a : CXXFLAGS = -std=c++2a -I${PQS_ROOT}
 gcc9_cpp2a : test.exe
+
+gcc9_concepts_cpp2a : CXX      = g++-9
+gcc9_concepts_cpp2a : CXXFLAGS = -std=c++2a -fconcepts -I${PQS_ROOT} 
+gcc9_concepts_cpp2a : test.exe
 
 test.exe : $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -O3 -o $@  $(OBJECTS)

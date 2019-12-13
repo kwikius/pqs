@@ -12,6 +12,11 @@ namespace pqs{
 
    namespace impl {
 
+      /*
+          implement these for your set of base dimensions to fulfill the requirement
+          that your base dimensions are totally_ordered within your quantity_system
+      */
+
       template <typename BaseDimensionL, typename BaseDimensionR, typename Where = void>
       struct base_dimension_less_than_impl : pqs::undefined{};
 

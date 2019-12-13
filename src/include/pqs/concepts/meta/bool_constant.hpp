@@ -5,31 +5,35 @@
 #include <pqs/bits/where.hpp>
 
 /*
-   is a type a valid compile time bool function?
-   is there a static 'value' member that is convertible to bool at compile time?
+   is T a valid compile time bool constant?
+   implementeation : is there a static 'value' member that is convertible to bool at compile time?
+   SFINAE is used to detect the memeber so if it isnt there is not a bool constant, howvere if it is there
+   either value --> true or value --> false is ok
 */
 
-namespace pqs{ namespace meta{namespace impl{
+namespace pqs{ namespace meta{
 
-         template  <typename T, typename Where = void>
-         struct is_bool_constant_impl : std::false_type{};
+   namespace impl{
 
-          template <typename T>
-          struct is_bool_constant_impl<T,
-             typename pqs::where_c<(T::value || !T::value)>::type  
-          > : std::true_type{};
-
-      }// impl
+      template  <typename T, typename Where = void>
+      struct is_bool_constant_impl : std::false_type{};
 
       template <typename T>
-      struct is_bool_constant : impl::is_bool_constant_impl<T>{};
+      struct is_bool_constant_impl<T,
+         typename pqs::where_c<(T::value || !T::value)>::type  
+      > : std::true_type{};
 
-      #if defined __cpp_concepts
+   }// impl
 
-      template <typename T>
-      concept bool_constant = is_bool_constant<T>::value;
+   template <typename T>
+   struct is_bool_constant : impl::is_bool_constant_impl<T>{};
 
-      #endif
+   #if defined __cpp_concepts
+
+   template <typename T>
+   concept bool_constant = is_bool_constant<T>::value;
+
+   #endif
 
 }}//pqs::meta
 
