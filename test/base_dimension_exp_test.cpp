@@ -12,12 +12,12 @@ namespace {
       typedef dim_length<2> tl;
       typedef dim_length<3> tr;
 
-      QUAN_CHECK(( not detail::is_base_dimension_ratio<int>::value))
-      QUAN_CHECK((detail::is_base_dimension_ratio<tl>::value))
+      QUAN_CHECK(( not detail::is_base_dimension_exp<int>::value))
+      QUAN_CHECK((detail::is_base_dimension_exp<tl>::value))
       QUAN_CHECK((detail::same_base_dimension<tl,tr>::value))
 
       typedef dim_length_ratio<3,2> tx;
-      QUAN_CHECK((detail::is_base_dimension_ratio<tx>::value))
+      QUAN_CHECK((detail::is_base_dimension_exp<tx>::value))
       QUAN_CHECK((detail::same_base_dimension<tl,tx>::value))
 
       QUAN_CHECK(( not detail::same_base_dimension<dim_time<-2>,tl>::value)) 

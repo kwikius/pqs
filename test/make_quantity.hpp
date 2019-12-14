@@ -77,7 +77,7 @@ namespace pqs{
       typename detail::make_unit< 
          Exp,
          typename meta::eval_if< 
-            detail::is_base_dimension_ratio<D>,
+            detail::is_base_dimension_exp<D>,
             dimension<D>,
             D
          >::type
@@ -90,7 +90,7 @@ namespace pqs{
          typename detail::make_unit< 
             Exp,
             typename meta::eval_if< 
-               detail::is_base_dimension_ratio<D>,
+               detail::is_base_dimension_exp<D>,
                dimension<D>,
                D
             >::type

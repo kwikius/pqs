@@ -2,7 +2,7 @@
 PQS_ROOT ?= ../src/include
 
 OBJECTS = \
-	base_dimension_ratio_test.o \
+	base_dimension_exp_test.o \
 	dimension_test.o \
 	eval_if_test.o \
 	main.o \

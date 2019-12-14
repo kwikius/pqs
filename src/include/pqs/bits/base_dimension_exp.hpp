@@ -10,7 +10,7 @@ namespace pqs{
 
    namespace detail{
 
-      struct base_dimension_ratio_base_class{};
+      struct base_dimension_exp_base_class{};
 
       enum class base_dimension_id_t : uint8_t {
          length,
@@ -25,13 +25,13 @@ namespace pqs{
       };
 
       template <base_dimension_id_t ID, int N, int D>
-      struct base_dimension_ratio : base_dimension_ratio_base_class{ 
+      struct base_dimension_exp : base_dimension_exp_base_class{ 
          typedef typename std::ratio<N,D>::type ratio;
          static constexpr base_dimension_id_t base_dimension_id  = ID;
       };
 
       template <typename T>
-      struct is_base_dimension_ratio : std::is_base_of<base_dimension_ratio_base_class,T>{};
+      struct is_base_dimension_exp : std::is_base_of<base_dimension_exp_base_class,T>{};
 
       // have same id but not necessarily same value
       template <typename TL, typename TR, typename = void>
@@ -41,8 +41,8 @@ namespace pqs{
       struct same_base_dimension_impl<TL,TR,
          typename std::enable_if<
             pqs::meta::and_<
-               is_base_dimension_ratio<TL>, 
-               is_base_dimension_ratio<TR>
+               is_base_dimension_exp<TL>, 
+               is_base_dimension_exp<TR>
             >::value
          >::type
 
@@ -56,13 +56,13 @@ namespace pqs{
    // interface
    // the dimension ratio interface when base dimension extent is not an integer
    // which is infrequent but allowed
-   template <int N, int D > struct dim_length_ratio : detail::base_dimension_ratio<detail::base_dimension_id_t::length,N,D>{ };
-   template <int N, int D > struct dim_time_ratio : detail::base_dimension_ratio<detail::base_dimension_id_t::time,N,D>{};
-   template <int N, int D > struct dim_mass_ratio : detail::base_dimension_ratio<detail::base_dimension_id_t::mass,N,D>{};
-   template <int N, int D > struct dim_temperature_ratio : detail::base_dimension_ratio<detail::base_dimension_id_t::temperature,N,D>{};
-   template <int N, int D > struct dim_current_ratio : detail::base_dimension_ratio<detail::base_dimension_id_t::current,N,D>{};
-   template <int N, int D > struct dim_substance_ratio : detail::base_dimension_ratio<detail::base_dimension_id_t::substance,N,D>{};
-   template <int N, int D > struct dim_intensity_ratio : detail::base_dimension_ratio<detail::base_dimension_id_t::intensity,N,D>{};
+   template <int N, int D > struct dim_length_ratio : detail::base_dimension_exp<detail::base_dimension_id_t::length,N,D>{ };
+   template <int N, int D > struct dim_time_ratio : detail::base_dimension_exp<detail::base_dimension_id_t::time,N,D>{};
+   template <int N, int D > struct dim_mass_ratio : detail::base_dimension_exp<detail::base_dimension_id_t::mass,N,D>{};
+   template <int N, int D > struct dim_temperature_ratio : detail::base_dimension_exp<detail::base_dimension_id_t::temperature,N,D>{};
+   template <int N, int D > struct dim_current_ratio : detail::base_dimension_exp<detail::base_dimension_id_t::current,N,D>{};
+   template <int N, int D > struct dim_substance_ratio : detail::base_dimension_exp<detail::base_dimension_id_t::substance,N,D>{};
+   template <int N, int D > struct dim_intensity_ratio : detail::base_dimension_exp<detail::base_dimension_id_t::intensity,N,D>{};
 
    // interface
    // the dimension ratio interface for the usual case of an integer base_deminsion extent
@@ -76,7 +76,7 @@ namespace pqs{
 
    namespace detail {
 
-      // use the id to generate the most derived base_dimension_ratio
+      // use the id to generate the most derived base_dimension_exp
       template <base_dimension_id_t ID, typename Ratio> 
       struct make_base_dimension_ratio_impl;
 

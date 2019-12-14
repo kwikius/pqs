@@ -35,8 +35,8 @@ namespace pqs{
          Lhs,meta::times,Rhs,
          typename where_< 
             meta::and_<
-               detail::is_base_dimension_ratio<Lhs>,
-               detail::is_base_dimension_ratio<Rhs>, 
+               detail::is_base_dimension_exp<Lhs>,
+               detail::is_base_dimension_exp<Rhs>, 
                meta::not_<detail::same_base_dimension<Lhs,Rhs> >
             > 
          >::type
@@ -47,8 +47,8 @@ namespace pqs{
          Lhs,meta::divides,Rhs,
          typename where_< 
             meta::and_<
-               detail::is_base_dimension_ratio<Lhs>,
-               detail::is_base_dimension_ratio<Rhs>, 
+               detail::is_base_dimension_exp<Lhs>,
+               detail::is_base_dimension_exp<Rhs>, 
                meta::not_<detail::same_base_dimension<Lhs,Rhs> >
             > 
          >::type
@@ -64,7 +64,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                detail::is_dimension<Lhs>,
-               detail::is_base_dimension_ratio<Rhs>
+               detail::is_base_dimension_exp<Rhs>
             > 
          >::type
       > : pqs::detail::add_dimensions<Lhs,pqs::dimension<Rhs> >{};
@@ -76,7 +76,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                detail::is_dimension<Lhs>,
-               detail::is_base_dimension_ratio<Rhs>
+               detail::is_base_dimension_exp<Rhs>
             > 
          >::type
       > : pqs::detail::subtract_dimensions<Lhs,pqs::dimension<Rhs> >{};
@@ -86,7 +86,7 @@ namespace pqs{
          Lhs,meta::times,Rhs,
          typename where_< 
             meta::and_<
-               detail::is_base_dimension_ratio<Lhs>, 
+               detail::is_base_dimension_exp<Lhs>, 
                detail::is_dimension<Rhs>
             > 
          >::type
@@ -97,7 +97,7 @@ namespace pqs{
          Lhs,meta::divides,Rhs,
          typename where_< 
             meta::and_<
-               detail::is_base_dimension_ratio<Lhs>, 
+               detail::is_base_dimension_exp<Lhs>, 
                detail::is_dimension<Rhs>
             > 
          >::type
@@ -134,15 +134,15 @@ namespace pqs{
    typename eval_where<
       meta::or_<
          meta::and_<
-           detail::is_base_dimension_ratio<Lhs>,
-           detail::is_base_dimension_ratio<Rhs> 
+           detail::is_base_dimension_exp<Lhs>,
+           detail::is_base_dimension_exp<Rhs> 
          >,
          meta::and_<
             detail::is_dimension<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>
+            detail::is_base_dimension_exp<Rhs>
          > ,
          meta::and_<
-          detail::is_base_dimension_ratio<Lhs>, 
+          detail::is_base_dimension_exp<Lhs>, 
           detail::is_dimension<Rhs>
          >, 
          meta::and_<
@@ -163,15 +163,15 @@ namespace pqs{
    typename eval_where<
       meta::or_<
          meta::and_<
-           detail::is_base_dimension_ratio<Lhs>,
-           detail::is_base_dimension_ratio<Rhs> 
+           detail::is_base_dimension_exp<Lhs>,
+           detail::is_base_dimension_exp<Rhs> 
          >,
          meta::and_<
             detail::is_dimension<Lhs>,
-            detail::is_base_dimension_ratio<Rhs>
+            detail::is_base_dimension_exp<Rhs>
          > ,
          meta::and_<
-          detail::is_base_dimension_ratio<Lhs>, 
+          detail::is_base_dimension_exp<Lhs>, 
           detail::is_dimension<Rhs>
          >, 
          meta::and_<
