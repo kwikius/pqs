@@ -17,18 +17,115 @@ Copyright (c) 2003-2019 Andy Little.
 
 #include "test.hpp"
 
+#include <pqs/meta/eval_if.hpp>
 #include <pqs/meta/type_list.hpp>
 #include <pqs/meta/split_list.hpp>
 #include <pqs/meta/join_list.hpp>
 
+
+namespace pqs{ namespace meta{
+
+      template <typename Lhs_list, typename Rhs_list>
+      struct merge;
+
+      template <typename Lhs_list, typename Rhs_list>
+      struct left_merge : push_front<
+         typename merge<typename pop_front<Lhs_list>::type,Rhs_list>::type,
+         typename front<Lhs_list>::type
+      >{};
+
+      template <typename Lhs_list, typename Rhs_list>
+      struct right_merge : push_front<
+         typename merge<Lhs_list,typename pop_front<Rhs_list>::type>::type,
+         typename front<Rhs_list>::type
+      >{};
+
+      template <typename... Lhs, typename... Rhs>
+      struct merge<type_list<Lhs...>,type_list<Rhs...> >{
+
+          typedef type_list<Lhs...> lhs_list;
+          typedef type_list<Rhs...> rhs_list;
+
+          typedef typename front<lhs_list>::type lhs_front;
+          typedef typename front<rhs_list>::type rhs_front;
+
+          typedef typename pqs::meta::eval_if_c<
+             (lhs_front::value < rhs_front::value),
+             left_merge<lhs_list,rhs_list>,
+             right_merge<lhs_list,rhs_list>
+          >::type type;
+      }; 
+
+      template <typename ...Lhs>
+      struct merge<type_list<Lhs...>,type_list<> > : type_list<Lhs...>{};
+
+      template <typename... Rhs>
+      struct merge<type_list<>,type_list<Rhs...> > : type_list<Rhs...>{};
+
+      template <>
+      struct merge<type_list<>,type_list<> > : type_list<> {};
+
+      template <typename List>
+      struct merge_sort{
+         typedef pqs::meta::split_list<List> split_type;
+         typedef typename split_type::lhs_type_list lhs_split;
+         typedef typename split_type::rhs_type_list rhs_split;
+         typedef typename merge_sort<lhs_split>::type lhs_merge;
+         typedef typename merge_sort<rhs_split>::type rhs_merge;
+         typedef typename merge<lhs_merge,rhs_merge>::type type;
+      };
+
+      template <typename T> 
+      struct merge_sort< type_list<T> > : type_list<T>{};
+
+      template <> 
+      struct merge_sort< type_list<> > : type_list<> {};
+
+}}
+
 namespace {
+   // used in tests
    struct my_type;
 
-  template <int N>
-  struct index;
+   template <int N>
+   struct index;
 }
 
 namespace {
+
+   // simple sorting
+   template <int N> struct v : std::integral_constant<int,N>{};
+
+   void sort_test1()
+   {
+      typedef pqs::meta::type_list<v<10> > list;
+      typedef pqs::meta::merge_sort<list>::type result_type;
+      typedef list expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+      void sort_test2()
+   {
+      typedef pqs::meta::type_list<v<10>,v<-3> > list;
+      typedef pqs::meta::merge_sort<list>::type result_type;
+      typedef pqs::meta::type_list<v<-3>,v<10> > expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+      void sort_test3()
+   {
+      typedef pqs::meta::type_list<v<10>,v<-10>,v<4>,v<0>,v<2>,v<1>,v<3> > list;
+      typedef pqs::meta::merge_sort<list>::type result_type;
+      typedef pqs::meta::type_list<v<-10>,v<0>,v<1>,v<2>,v<3>,v<4>,v<10> > expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+   void sort_test()
+   {
+      sort_test1();
+      sort_test2();
+      sort_test3();
+   }
 
    void odd_split_test()
    {
@@ -164,4 +261,5 @@ void type_list_test()
    push_pop_test();
    split_test();
    at_test();
+   sort_test();
 }
