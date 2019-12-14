@@ -1,0 +1,7 @@
+A base_dimension is a unique entity.
+exponents of base_dimensions can be combined in a set known as a dimension.
+
+For convenience c++ classes representing unique base_dimensions must be totally orderable
+
+
+
