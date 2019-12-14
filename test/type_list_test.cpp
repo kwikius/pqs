@@ -25,6 +25,18 @@ namespace {
 
    template <int N>
    struct index;
+
+   struct meta_less {
+      template <typename Lhs, typename Rhs>
+      struct apply : std::integral_constant<bool,Lhs::value < Rhs::value>{};
+   };
+
+   struct meta_greater {
+      template <typename Lhs, typename Rhs>
+      struct apply : std::integral_constant<bool,Rhs::value < Lhs::value>{};
+   };
+
+   
 }
 
 namespace {
@@ -35,7 +47,15 @@ namespace {
    void sort_test1()
    {
       typedef pqs::meta::type_list<v<10> > list;
-      typedef pqs::meta::merge_sort<list>::type result_type;
+      typedef pqs::meta::merge_sort<list,meta_less>::type result_type;
+      typedef list expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+   void sort_test1a()
+   {
+      typedef pqs::meta::type_list<v<10> > list;
+      typedef pqs::meta::merge_sort<list,meta_greater>::type result_type;
       typedef list expected_type;
       QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
@@ -43,24 +63,67 @@ namespace {
       void sort_test2()
    {
       typedef pqs::meta::type_list<v<10>,v<-3> > list;
-      typedef pqs::meta::merge_sort<list>::type result_type;
+      typedef pqs::meta::merge_sort<list,meta_less>::type result_type;
       typedef pqs::meta::type_list<v<-3>,v<10> > expected_type;
       QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
 
-      void sort_test3()
+   void sort_test2a()
+   {
+      typedef pqs::meta::type_list<v<10>,v<-3> > list;
+      typedef pqs::meta::merge_sort<list,meta_greater>::type result_type;
+      typedef pqs::meta::type_list<v<10>,v<-3> > expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+
+   void sort_test3()
+   {
+      typedef pqs::meta::type_list<v<10>,v<1>,v<-3> > list;
+      typedef pqs::meta::merge_sort<list,meta_less>::type result_type;
+      typedef pqs::meta::type_list<v<-3>,v<1>,v<10> > expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+   void sort_test3a()
+   {
+      typedef pqs::meta::type_list<v<10>,v<-3>,v<1> > list;
+      typedef pqs::meta::merge_sort<list,meta_greater>::type result_type;
+      typedef pqs::meta::type_list<v<10>,v<1>,v<-3> > expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+
+   void sort_test4()
    {
       typedef pqs::meta::type_list<v<10>,v<-10>,v<4>,v<0>,v<2>,v<1>,v<3> > list;
-      typedef pqs::meta::merge_sort<list>::type result_type;
+      typedef pqs::meta::merge_sort<list,meta_less>::type result_type;
+
       typedef pqs::meta::type_list<v<-10>,v<0>,v<1>,v<2>,v<3>,v<4>,v<10> > expected_type;
+      QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
+
+   void sort_test4a()
+   {
+      typedef pqs::meta::type_list<v<10>,v<-10>,v<4>,v<0>,v<2>,v<1>,v<3> > list;
+      typedef pqs::meta::merge_sort<list,meta_greater>::type result_type;
+
+     // int x = result_type{};
+
+      typedef pqs::meta::type_list<v<10>,v<4>,v<3>,v<2>,v<1>,v<0>,v<-10> > expected_type;
       QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
 
    void sort_test()
    {
       sort_test1();
+      sort_test1a();
       sort_test2();
+      sort_test2a();
       sort_test3();
+      sort_test3a();
+      sort_test4();
+      sort_test4a();
    }
 
    void odd_split_test()
@@ -189,8 +252,6 @@ namespace {
       static_assert(get_num_elements<t7>::value == 3, "error");
    }
 }
-
-
 
 void type_list_test()
 {
