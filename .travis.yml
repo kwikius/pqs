@@ -13,7 +13,7 @@ addons:
     - g++-9
     
 script: 
-    - cd /home/travis/build/kwikius/test
+    - cd /home/travis/build/kwikius/pqs/test
     - make gcc7_cpp11
     - make clean
     - make gcc9_cpp2a
