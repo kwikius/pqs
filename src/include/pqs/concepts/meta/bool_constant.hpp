@@ -2,7 +2,6 @@
 #define PQS_CONCEPTS_META_BOOL_FUN_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/bits/where.hpp>
 
 /*
    is T a valid compile time bool constant?
@@ -20,7 +19,7 @@ namespace pqs{ namespace meta{
 
       template <typename T>
       struct is_bool_constant_impl<T,
-         typename pqs::where_c<(T::value || !T::value)>::type  
+         typename std::enable_if<(T::value || !T::value)>::type  
       > : std::true_type{};
 
    }// impl

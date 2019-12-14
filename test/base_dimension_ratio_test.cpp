@@ -21,8 +21,6 @@ namespace {
       QUAN_CHECK((detail::same_base_dimension<tl,tx>::value))
 
       QUAN_CHECK(( not detail::same_base_dimension<dim_time<-2>,tl>::value)) 
-
-      
    }
 
    void add_test_int_int_int()
