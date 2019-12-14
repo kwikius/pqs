@@ -1,5 +1,5 @@
 
-PQS_ROOT = ../src/include
+PQS_ROOT ?= ../src/include
 
 OBJECTS = \
 	base_dimension_ratio_test.o \

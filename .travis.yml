@@ -1,0 +1,22 @@
+language: cpp
+
+env: 	
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - build-essential
+    - ccache
+    - g++-7
+    - g++-9
+    
+script: 
+    - cd /home/travis/build/kwikius/test
+    - make gcc7_cpp11
+    - make clean
+    - make gcc9_cpp2a
+    - make clean
+    - make gcc9_concepts_cpp2a
+    - make clean
