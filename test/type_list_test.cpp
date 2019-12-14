@@ -18,6 +18,7 @@ Copyright (c) 2003-2019 Andy Little.
 #include "test.hpp"
 #include <pqs/meta/type_list.hpp>
 #include <pqs/meta/merge_sort.hpp>
+#include <pqs/bits/dimension.hpp>
 
 namespace {
    // used in tests
@@ -43,6 +44,27 @@ namespace {
 
    // simple sorting
    template <int N> struct v : std::integral_constant<int,N>{};
+
+   void alias_test()
+   {
+      typedef pqs::dimension< v<5>, v<10>, v<7>, v<2> > dim_type;
+
+      typedef pqs::meta::type_list_alias<dim_type>::apply<pqs::meta::type_list>::type alias1;
+
+      QUAN_CHECK((std::is_same<alias1,pqs::meta::type_list< v<5>, v<10>, v<7>, v<2> > >::value ))
+
+      typedef pqs::meta::type_list_alias<alias1>::apply<pqs::dimension>::type alias2;
+
+      QUAN_CHECK((std::is_same<alias2,dim_type>::value))
+   }
+
+   void sort_dim_test()
+   {
+        typedef pqs::dimension< v<5>, v<10>, v<7>, v<2> > dim_type;
+        typedef pqs::meta::merge_sort<dim_type,meta_less>::type result_type;
+        typedef pqs::dimension< v<2>,v<5>,v<7>,v<10> > expected_type;
+        QUAN_CHECK((std::is_same<result_type,expected_type>::value))
+   }
 
    void sort_test1()
    {
@@ -122,6 +144,7 @@ namespace {
       sort_test3a();
       sort_test4();
       sort_test4a();
+      sort_dim_test();
    }
 
    void odd_split_test()
@@ -257,4 +280,5 @@ void type_list_test()
    split_test();
    at_test();
    sort_test();
+   alias_test();
 }

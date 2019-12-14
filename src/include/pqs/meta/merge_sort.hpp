@@ -5,6 +5,7 @@
 #include <pqs/meta/type_list.hpp>
 #include <pqs/meta/split_list.hpp>
 #include <pqs/meta/join_list.hpp>
+#include <pqs/meta/type_list_alias.hpp>
 
 namespace pqs{ namespace meta{
 
@@ -69,9 +70,28 @@ namespace pqs{ namespace meta{
 
    }// detail
 
+   /*
+      F is a polymorphic functor of two args
+      e.g  an example for that list contains types modelling pqs::meta::bool_constant
+      This lss_than function will sort the list in increasing order from left to right
+      
+      struct less_than {
+         template <typename Lhs, typename Rhs>
+         struct apply : std::integral_constant<bool,Lhs::value < Rhs::value>{};
+
+      };
+      
+   */
+
    template <typename List, typename F>
-   struct merge_sort {
-      typedef typename detail::merge_sort_impl<List,F>::type type;;
+   struct merge_sort ;
+
+   template <template <typename...> class List, typename ... Elems, typename F>
+   struct merge_sort<List<Elems...>,F >{
+
+       typedef typename pqs::meta::type_list_alias<List<Elems...> >:: template apply<pqs::meta::type_list>::type list_in_alias_type;
+       typedef typename detail::merge_sort_impl<list_in_alias_type,F>::type list_out_alias_type;
+       typedef typename pqs::meta::type_list_alias<list_out_alias_type >:: template apply<List>::type type;
    };
       
 }} // pqs::meta
