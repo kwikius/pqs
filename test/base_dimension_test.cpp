@@ -2,7 +2,7 @@
 
 
 #include <pqs/concepts/base_dimension.hpp>
-#include <pqs/bits/base_dimension.hpp>
+#include <pqs/bits/base_dimension_exp.hpp>
 
 
 namespace {

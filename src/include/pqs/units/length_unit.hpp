@@ -1,7 +1,7 @@
 #ifndef PQS_UNITS_LENGTH_UNIT_HPP_INCLUDED
 #define PQS_UNITS_LENGTH_UNIT_HPP_INCLUDED
 
-#include <pqs/bits/base_dimension.hpp>
+#include <pqs/bits/base_dimension_exp.hpp>
 #include <pqs/bits/dimension.hpp>
 #include <pqs/bits/unit.hpp>
 

@@ -1,7 +1,7 @@
 
 #include "test.hpp"
 
-#include <pqs/bits/base_dimension.hpp>
+#include <pqs/bits/base_dimension_exp.hpp>
 
 using namespace pqs;
 

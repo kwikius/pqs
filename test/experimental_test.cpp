@@ -2,7 +2,7 @@
 
 #include <pqs/concepts/meta/bool_constant.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
-#include <pqs/bits/base_dimension.hpp>
+#include <pqs/bits/base_dimension_exp.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/and.hpp>
 #include <pqs/meta/or.hpp>
@@ -17,9 +17,6 @@ namespace pqs{
 
    template <typename T>
    struct is_base_dimension ;
-
-   template <typename T, typename Universe> 
-   struct is_base_dimension_of;
 
    namespace impl {
 
@@ -37,16 +34,11 @@ namespace pqs{
    template <typename T>
    struct is_base_dimension : impl::is_base_dimension_impl<T>{};
 
-   template <typename T, typename U>
-   struct is_base_dimension_of : impl::is_base_dimension_of_impl<T, U>{};
-
-
 #if defined __cpp_concepts
 
 // TODO
 
 #endif
-
 
 }
 
