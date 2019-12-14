@@ -60,7 +60,7 @@ namespace {
       QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
 
-      void sort_test2()
+   void sort_test2()
    {
       typedef pqs::meta::type_list<v<10>,v<-3> > list;
       typedef pqs::meta::merge_sort<list,meta_less>::type result_type;
@@ -75,7 +75,6 @@ namespace {
       typedef pqs::meta::type_list<v<10>,v<-3> > expected_type;
       QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
-
 
    void sort_test3()
    {
@@ -92,7 +91,6 @@ namespace {
       typedef pqs::meta::type_list<v<10>,v<1>,v<-3> > expected_type;
       QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
-
 
    void sort_test4()
    {
