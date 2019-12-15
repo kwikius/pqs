@@ -3,13 +3,19 @@
 #include <pqs/bits/quantity.hpp>
 #include "make_quantity.hpp"
 
+#include <pqs/exposition/length.hpp>
+
 using namespace pqs;
+using namespace pqs_exposition;
 
 namespace {
 
    constexpr dim_mass<1> mass_dim;
    constexpr dim_length<1> length_dim;
    constexpr dim_time<1> time_dim;
+
+   static_assert(pqs::is_base_quantity_exp<dim_length<1> >::value,"");
+   static_assert(pqs::is_base_quantity_exp<dim_time<1> >::value,"");
 
    // these will be wrapped into a dimension e.g dimension<dim_length<1>,dim_time<-1>
    constexpr auto velocity_dim = length_dim / time_dim; 

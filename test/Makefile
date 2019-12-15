@@ -1,15 +1,19 @@
 
 PQS_ROOT ?= ../src/include
 
+CXXFLAGS = -fmax-errors=1
+
+# 	exposition/base_quantity_exp_test.o \
+#  exposition/base_quantity_test.o \
+#  exposition/dimension_test.o \
+#	exposition/syntax_test1.o \
+#	exposition/syntax_test2.o \
+
 OBJECTS = \
-	base_dimension_exp_test.o \
-	dimension_test.o \
 	eval_if_test.o \
 	main.o \
 	conversion_factor_test1.o \
 	conversion_factor_test2.o \
-	syntax_test1.o \
-	syntax_test2.o \
 	to_power_test.o \
 	type_list_test.o \
    basic_concepts_test.o \
@@ -20,15 +24,15 @@ OBJECTS = \
 all : gcc7_cpp11
 
 gcc7_cpp11 : CXX      = g++-7
-gcc7_cpp11 : CXXFLAGS = -std=c++11 -I${PQS_ROOT}
+gcc7_cpp11 : CXXFLAGS += -std=c++11 -I${PQS_ROOT}
 gcc7_cpp11 : test.exe
 
 gcc9_cpp2a : CXX      = g++-9
-gcc9_cpp2a : CXXFLAGS = -std=c++2a -I${PQS_ROOT}
+gcc9_cpp2a : CXXFLAGS += -std=c++2a -I${PQS_ROOT}
 gcc9_cpp2a : test.exe
 
 gcc9_concepts_cpp2a : CXX      = g++-9
-gcc9_concepts_cpp2a : CXXFLAGS = -std=c++2a -fconcepts -I${PQS_ROOT} 
+gcc9_concepts_cpp2a : CXXFLAGS += -std=c++2a -fconcepts -I${PQS_ROOT} 
 gcc9_concepts_cpp2a : test.exe
 
 test.exe : $(OBJECTS)
@@ -36,6 +40,7 @@ test.exe : $(OBJECTS)
 	@echo .......................
 	./$@
 	@echo ....... OK ............
+
 
 %.o : %.cpp 
 	$(CXX) $(CXXFLAGS) -O3 -c $<

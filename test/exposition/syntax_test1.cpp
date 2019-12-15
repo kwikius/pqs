@@ -1,9 +1,10 @@
 
-#include <pqs/length.hpp>
+#include <pqs/exposition/length.hpp>
 #include <pqs/meta/type_list.hpp>
 #include <tuple>
 
 using namespace pqs;
+using namespace pqs_exposition;
 
 struct kilo : std::ratio<3>{};
 

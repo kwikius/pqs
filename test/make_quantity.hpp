@@ -7,6 +7,7 @@
 #include <pqs/bits/quantity.hpp>
 #include <pqs/bits/unit.hpp>
 #include <pqs/meta/strip_cr.hpp>
+#include <pqs/bits/dimension.hpp>
 
 namespace pqs{
 
@@ -77,7 +78,7 @@ namespace pqs{
       typename detail::make_unit< 
          Exp,
          typename meta::eval_if< 
-            detail::is_base_dimension_exp<D>,
+            pqs::is_base_quantity_exp<D>,
             dimension<D>,
             D
          >::type
@@ -90,7 +91,7 @@ namespace pqs{
          typename detail::make_unit< 
             Exp,
             typename meta::eval_if< 
-               detail::is_base_dimension_exp<D>,
+               pqs::is_base_quantity_exp<D>,
                dimension<D>,
                D
             >::type

@@ -1,14 +1,17 @@
 #ifndef PQS_DIMENSION_IMPL_HPP_INCLUDED
 #define PQS_DIMENSION_IMPL_HPP_INCLUDED
 
+#error deprecated
+
 #include <type_traits>
 
 #include <pqs/concepts/meta/type_list.hpp>
 #include <pqs/meta/eval_if_else.hpp>
 #include <pqs/bits/undefined.hpp>
-#include <pqs/bits/base_dimension_exp.hpp>
+//#include <pqs/bits/base_dimension_exp.hpp>
 #include <pqs/meta/not.hpp>
 
+/*
 namespace pqs{
 
    template <typename ...D>
@@ -111,7 +114,7 @@ namespace pqs{ namespace meta{
    }// impl
 
 }}//pqs::meta
-
+*/
 /*
 not reqd atm
 namespace pqs{ namespace meta{ namespace impl{
@@ -134,9 +137,10 @@ namespace pqs{ namespace meta{ namespace impl{
    
 }}}// pqs::meta::impl
 */
+#if 0
 namespace pqs{ namespace detail{
 
-   // algorthim to extract the base_dimension from the dimension D
+   // algorthim to extract the base_quantity from the dimension D
    template <typename D, base_dimension_id_t Id, int Size>
    struct get_base_dimension_i;
 
@@ -171,7 +175,7 @@ namespace pqs{ namespace detail{
 /*
    find the base dimensions with id in lhs and rhs 
    apply Op and if result not zero add to result dimension
-   Op is  Op<base_dimension,base_dimension> -> base_dimension
+   Op is  Op<base_quantity,base_quantity> -> base_quantity
 */
    template <
       typename LhsD,  
@@ -218,7 +222,7 @@ namespace pqs{ namespace detail{
    >{};
 
    // ll additive binary ops on dimensions
-   // Op is  Op<base_dimension,base_dimension> -> base_dimension
+   // Op is  Op<base_quantity,base_quantity> -> base_quantity
    template < typename LhsD,template<typename,typename> class Op, typename RhsD, base_dimension_id_t I, typename ResultD>
    struct additive_op_dimensions_i{
       typedef typename result_push_back_additive_op_dims_base_dims<LhsD,Op,RhsD,I,ResultD>::type result;
@@ -229,7 +233,7 @@ namespace pqs{ namespace detail{
       >::type type;
    };
  
-   //Op is  Op<base_dimension,base_dimension> -> base_dimension
+   //Op is  Op<base_quantity,base_quantity> -> base_quantity
    template <typename LhsD, template<typename,typename> class Op,typename RhsD>
    struct additive_op_dimensions : additive_op_dimensions_i<LhsD,Op,RhsD,base_dimension_id_t::first_element, dimension<> >{};
 
@@ -285,7 +289,7 @@ namespace pqs{ namespace detail{
       LhsD, divide_base_dimension_ratio, Ratio,Id, ResultD
    >{};
 
-     // Op is  Op<base_dimension,base_dimension> -> base_dimension
+     // Op is  Op<base_quantity,base_quantity> -> base_quantity
    template < typename LhsD,template<typename,typename> class Op, typename Ratio, base_dimension_id_t I, typename ResultD>
    struct multiplicative_op_dimensions_i{
       typedef typename result_push_back_multiplicative_op_dims_base_dims<LhsD,Op,Ratio,I,ResultD>::type result;
@@ -321,5 +325,6 @@ namespace pqs{ namespace detail{
    struct are_not_equal_dimensions : meta::not_< are_equal_dimensions<DL,DR> >{};
        
 }} // pqs::detail
+#endif // #if 0
 
 #endif // PQS_DIMENSION_IMPL_HPP_INCLUDED

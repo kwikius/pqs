@@ -1,15 +1,15 @@
 
+#include "../test.hpp"
 
-
-#include <pqs/concepts/base_dimension.hpp>
-#include <pqs/bits/base_dimension_exp.hpp>
+#include <pqs/concepts/base_quantity.hpp>
+//#include <pqs/bits/base_dimension_exp.hpp>
 
 
 namespace {
 
    void base_dimension_concept_test()
    {
-      QUAN_CHECK
+      QUAN_CHECK (false)
 
    }
 }

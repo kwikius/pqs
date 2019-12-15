@@ -1,0 +1,7 @@
+#ifndef PQS_BASE_QUANTITIES_PHYSICAL_LENGTH_HPP_INCLUDED
+#define PQS_BASE_QUANTITIES_PHYSICAL_LENGTH_HPP_INCLUDED
+
+#include <pqs/bits/base_quantity.hpp>
+#include <pqs/bits/uuid.hpp>
+
+#endif // PQS_BASE_QUANTITIES_PHYSICAL_LENGTH_HPP_INCLUDED

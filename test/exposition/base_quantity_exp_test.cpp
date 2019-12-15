@@ -1,9 +1,9 @@
 
-#include "test.hpp"
+#include "../test.hpp"
 
-#include <pqs/bits/base_dimension_exp.hpp>
+#include <pqs/exposition/base_quantity_exp.hpp>
 
-using namespace pqs;
+using namespace pqs_exposition;
 
 namespace {
 
@@ -12,22 +12,22 @@ namespace {
       typedef dim_length<2> tl;
       typedef dim_length<3> tr;
 
-      QUAN_CHECK(( not detail::is_base_dimension_exp<int>::value))
-      QUAN_CHECK((detail::is_base_dimension_exp<tl>::value))
-      QUAN_CHECK((detail::same_base_dimension<tl,tr>::value))
+      QUAN_CHECK((not pqs::is_base_quantity_exp<int>::value))
+      QUAN_CHECK((pqs::is_base_quantity_exp<tl>::value))
+      QUAN_CHECK((pqs::of_same_base_quantity<tl,tr>::value))
 
       typedef dim_length_ratio<3,2> tx;
-      QUAN_CHECK((detail::is_base_dimension_exp<tx>::value))
-      QUAN_CHECK((detail::same_base_dimension<tl,tx>::value))
+      QUAN_CHECK((pqs::is_base_quantity_exp<tx>::value))
+      QUAN_CHECK((pqs::of_same_base_quantity<tl,tx>::value))
 
-      QUAN_CHECK(( not detail::same_base_dimension<dim_time<-2>,tl>::value)) 
+      QUAN_CHECK(( not pqs::of_same_base_quantity<dim_time<-2>,tl>::value)) 
    }
 
    void add_test_int_int_int()
    {
       typedef dim_length<2> tl;
       typedef dim_length<3> tr;
-      typedef detail::add_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::add_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 5)
       QUAN_CHECK(ratio::den == 1)
@@ -38,7 +38,7 @@ namespace {
    {
       typedef dim_length_ratio<20,10> tl;
       typedef dim_length<3> tr;
-      typedef detail::add_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::add_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 5)
       QUAN_CHECK(ratio::den == 1)
@@ -49,7 +49,7 @@ namespace {
    {
       typedef dim_length<3> tl;
       typedef dim_length_ratio<20,10> tr;
-      typedef detail::add_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::add_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 5)
       QUAN_CHECK(ratio::den == 1)
@@ -60,7 +60,7 @@ namespace {
    {
       typedef dim_length_ratio<1,2> tl;
       typedef dim_length_ratio<10,20> tr;
-      typedef detail::add_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::add_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 1)
       QUAN_CHECK(ratio::den == 1)
@@ -72,7 +72,7 @@ namespace {
    {
       typedef dim_length<3> tl;
       typedef dim_length_ratio<1,2> tr;
-      typedef detail::add_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::add_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 7)
       QUAN_CHECK(ratio::den == 2)
@@ -83,7 +83,7 @@ namespace {
    {
       typedef dim_length_ratio<1,2> tl;
       typedef dim_length<3> tr;
-      typedef detail::add_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::add_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 7)
       QUAN_CHECK(ratio::den == 2)
@@ -94,7 +94,7 @@ namespace {
    {
       typedef dim_length_ratio<1,2> tl;
       typedef dim_length_ratio<1,3> tr;
-      typedef detail::add_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::add_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 5)
       QUAN_CHECK(ratio::den == 6)
@@ -116,7 +116,7 @@ namespace {
    {
       typedef dim_length<2> tl;
       typedef dim_length<3> tr;
-      typedef detail::subtract_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::subtract_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == -1)
       QUAN_CHECK(ratio::den == 1)
@@ -127,7 +127,7 @@ namespace {
    {
       typedef dim_length_ratio<20,10> tl;
       typedef dim_length<3> tr;
-      typedef detail::subtract_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::subtract_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == -1)
       QUAN_CHECK(ratio::den == 1)
@@ -138,7 +138,7 @@ namespace {
    {
       typedef dim_length<3> tl;
       typedef dim_length_ratio<20,10> tr;
-      typedef detail::subtract_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::subtract_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 1)
       QUAN_CHECK(ratio::den == 1)
@@ -149,7 +149,7 @@ namespace {
    {
       typedef dim_length_ratio<1,2> tl;
       typedef dim_length_ratio<10,20> tr;
-      typedef detail::subtract_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::subtract_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 0)
       QUAN_CHECK(ratio::den == 1)
@@ -160,7 +160,7 @@ namespace {
    {
       typedef dim_length<3> tl;
       typedef dim_length_ratio<1,2> tr;
-      typedef detail::subtract_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::subtract_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 5)
       QUAN_CHECK(ratio::den == 2)
@@ -171,7 +171,7 @@ namespace {
    {
       typedef dim_length_ratio<1,2> tl;
       typedef dim_length<3> tr;
-      typedef detail::subtract_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::subtract_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == -5)
       QUAN_CHECK(ratio::den == 2)
@@ -182,7 +182,7 @@ namespace {
    {
       typedef dim_length_ratio<1,2> tl;
       typedef dim_length_ratio<1,3> tr;
-      typedef detail::subtract_base_dimension_ratio<tl,tr>::type result_type;
+      typedef pqs::subtract_base_quantity_exp<tl,tr>::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 1)
       QUAN_CHECK(ratio::den == 6)
@@ -203,7 +203,7 @@ namespace {
    void int_negate_test()
    {
        typedef dim_length<-5> tl;
-       typedef detail::negate_base_dimension_ratio<tl>::type result_type;
+       typedef pqs::negate_base_quantity_exp<tl>::type result_type;
        typedef result_type::ratio ratio;
        QUAN_CHECK(ratio::num == 5)
        QUAN_CHECK(ratio::den == 1)
@@ -213,7 +213,7 @@ namespace {
    void r_negate_test()
    {
        typedef dim_length_ratio<5,7> tl;
-       typedef detail::negate_base_dimension_ratio<tl>::type result_type;
+       typedef pqs::negate_base_quantity_exp<tl>::type result_type;
        typedef result_type::ratio ratio;
        QUAN_CHECK(ratio::num == -5)
        QUAN_CHECK(ratio::den == 7)
@@ -229,7 +229,7 @@ namespace {
    void multiply_test_int_int()
    {
       typedef dim_mass<5> tl;
-      typedef detail::multiply_base_dimension_ratio<tl, std::ratio<4,2> >::type result_type;
+      typedef pqs::multiply_base_quantity_exp<tl, std::ratio<4,2> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 10)
       QUAN_CHECK(ratio::den == 1)
@@ -239,7 +239,7 @@ namespace {
    void multiply_test_int_r()
    {
       typedef dim_mass<5> tl;
-      typedef detail::multiply_base_dimension_ratio<tl, std::ratio<3,2> >::type result_type;
+      typedef pqs::multiply_base_quantity_exp<tl, std::ratio<3,2> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 2)
@@ -249,7 +249,7 @@ namespace {
    void multiply_test_r_r()
    {
       typedef dim_mass_ratio<5,8> tl;
-      typedef detail::multiply_base_dimension_ratio<tl, std::ratio<3,2> >::type result_type;
+      typedef pqs::multiply_base_quantity_exp<tl, std::ratio<3,2> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 16)
@@ -259,7 +259,7 @@ namespace {
    void multiply_test_r_int()
    {
       typedef dim_mass_ratio<5,8> tl;
-      typedef detail::multiply_base_dimension_ratio<tl, std::ratio<16,5> >::type result_type;
+      typedef pqs::multiply_base_quantity_exp<tl, std::ratio<16,5> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 2)
       QUAN_CHECK(ratio::den == 1)
@@ -277,7 +277,7 @@ namespace {
    void divide_test_int_int()
    {
       typedef dim_mass<5> tl;
-      typedef detail::divide_base_dimension_ratio<tl, std::ratio<2,4> >::type result_type;
+      typedef pqs::divide_base_quantity_exp<tl, std::ratio<2,4> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 10)
       QUAN_CHECK(ratio::den == 1)
@@ -287,7 +287,7 @@ namespace {
    void divide_test_int_r()
    {
       typedef dim_mass<5> tl;
-      typedef detail::divide_base_dimension_ratio<tl, std::ratio<2,3> >::type result_type;
+      typedef pqs::divide_base_quantity_exp<tl, std::ratio<2,3> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 2)
@@ -297,7 +297,7 @@ namespace {
    void divide_test_r_r()
    {
       typedef dim_mass_ratio<5,8> tl;
-      typedef detail::divide_base_dimension_ratio<tl, std::ratio<2,3> >::type result_type;
+      typedef pqs::divide_base_quantity_exp<tl, std::ratio<2,3> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 16)
@@ -307,7 +307,7 @@ namespace {
    void divide_test_r_int()
    {
       typedef dim_mass_ratio<5,8> tl;
-      typedef detail::divide_base_dimension_ratio<tl, std::ratio<-5,16> >::type result_type;
+      typedef pqs::divide_base_quantity_exp<tl, std::ratio<-5,16> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == -2)
       QUAN_CHECK(ratio::den == 1)
@@ -326,7 +326,7 @@ namespace {
   {
       typedef dim_mass<5> tl;
       typedef dim_mass<5> tr;
-      typedef detail::base_dimension_ratio_equal_to<tl,tr>::type result_type;
+      typedef pqs::base_quantity_exp_equal_to<tl,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -334,7 +334,7 @@ namespace {
   {
       typedef dim_mass<5> tl;
       typedef dim_mass_ratio<15,3> tr;
-      typedef detail::base_dimension_ratio_equal_to<tl,tr>::type result_type;
+      typedef pqs::base_quantity_exp_equal_to<tl,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -342,7 +342,7 @@ namespace {
   {
       typedef dim_mass_ratio<100,20> tl;
       typedef dim_mass_ratio<1000,200> tr;
-      typedef detail::base_dimension_ratio_equal_to<tl,tr>::type result_type;
+      typedef pqs::base_quantity_exp_equal_to<tl,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -358,7 +358,7 @@ namespace {
   {
       typedef dim_mass<5> tl;
       typedef dim_mass<4> tr;
-      typedef detail::base_dimension_ratio_not_equal_to<tl,tr>::type result_type;
+      typedef pqs::base_quantity_exp_not_equal_to<tl,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -366,7 +366,7 @@ namespace {
   {
       typedef dim_mass<5> tl;
       typedef dim_mass_ratio<5,3> tr;
-      typedef detail::base_dimension_ratio_not_equal_to<tl,tr>::type result_type;
+      typedef pqs::base_quantity_exp_not_equal_to<tl,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -374,7 +374,7 @@ namespace {
   {
       typedef dim_mass_ratio<100,500> tl;
       typedef dim_mass_ratio<500,200> tr;
-      typedef detail::base_dimension_ratio_not_equal_to<tl,tr>::type result_type;
+      typedef pqs::base_quantity_exp_not_equal_to<tl,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -391,8 +391,8 @@ namespace {
          typedef dim_mass<0> zero;
          typedef dim_mass<1> one;
          
-         QUAN_CHECK(detail::base_dimension_is_zero<zero>::value)
-         QUAN_CHECK(!detail::base_dimension_is_zero<one>::value)
+         QUAN_CHECK(pqs::base_dimension_is_zero<zero>::value)
+         QUAN_CHECK(!pqs::base_dimension_is_zero<one>::value)
    }
 
    void is_zero_test_r()
@@ -400,8 +400,8 @@ namespace {
          typedef dim_mass_ratio<0,3> zero;
          typedef dim_mass_ratio<1,1> one;
          
-         QUAN_CHECK(detail::base_dimension_is_zero<zero>::value)
-         QUAN_CHECK(!detail::base_dimension_is_zero<one>::value)
+         QUAN_CHECK(pqs::base_dimension_is_zero<zero>::value)
+         QUAN_CHECK(!pqs::base_dimension_is_zero<one>::value)
    }
 
    void is_zero_test()
@@ -412,7 +412,7 @@ namespace {
 
 }
 
-void base_dimension_ratio_test()
+void base_quantity_exp_test()
 {
    same_id_test();
    add_test();

@@ -2,13 +2,14 @@
 
 #include <pqs/concepts/meta/bool_constant.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
-#include <pqs/bits/base_dimension_exp.hpp>
+
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/and.hpp>
 #include <pqs/meta/or.hpp>
 #include <pqs/meta/not.hpp>
 #include <pqs/bits/undefined.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
+//#include <pqs/bits/base_dimension_exp.hpp>
 
 namespace pqs{
 
@@ -16,7 +17,7 @@ namespace pqs{
    struct get_universe;
 
    template <typename T>
-   struct is_base_dimension ;
+   struct is_base_quantity ;
 
    namespace impl {
 
@@ -32,7 +33,7 @@ namespace pqs{
    }// impl
 
    template <typename T>
-   struct is_base_dimension : impl::is_base_dimension_impl<T>{};
+   struct is_base_quantity : impl::is_base_dimension_impl<T>{};
 
 #if defined __cpp_concepts
 
