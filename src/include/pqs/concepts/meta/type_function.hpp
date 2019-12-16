@@ -5,7 +5,6 @@
 #include <pqs/meta/detail/yes_no_type.hpp>
 #include <pqs/meta/detail/has_type_member.hpp>
 #include <pqs/meta/strip_cr.hpp>
-#include <quan/where.hpp>
 
 namespace pqs{ namespace meta{ 
 

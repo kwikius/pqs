@@ -9,6 +9,7 @@ CXXFLAGS = -fmax-errors=1
 #	exposition/syntax_test2.o \
 
 OBJECTS = \
+ 	 exposition/base_quantity_exp_test.o \
 	eval_if_test.o \
 	main.o \
 	conversion_factor_test1.o \
@@ -18,7 +19,7 @@ OBJECTS = \
    basic_concepts_test.o \
    experimental_test.o \
    base_quantity_test.o \
- 	exposition/base_quantity_exp_test.o
+
  
 
 .PHONY : all test gcc7_cpp11 gcc9_cpp2a clean 
@@ -43,10 +44,9 @@ test.exe : $(OBJECTS)
 	./$@
 	@echo ....... OK ............
 
-
 %.o : %.cpp 
-	$(CXX) $(CXXFLAGS) -O3 -c $<
+	$(CXX) $(CXXFLAGS) -O3 -c $< -o $@
 
 clean :
-	rm -rf *.o
+	rm -rf *.o exposition/*.o
 	rm -rf *.exe

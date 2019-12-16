@@ -17,7 +17,7 @@ struct PQS_MACRO_CAT(has_type_member_,name){\
    pqs::meta::detail::yes_type static has_type_member_test(typename T1:: name *);\
    template <typename T1>\
    pqs::meta::detail::no_type static has_type_member_test(...);\
-   static const bool value = (sizeof(has_type_member_test<T>(0)) == sizeof(pqs::meta::detail::yes_type));\
+   static constexpr bool value = (sizeof(has_type_member_test<T>(0)) == sizeof(pqs::meta::detail::yes_type));\
 };
 
 #endif
