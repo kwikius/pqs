@@ -3,8 +3,7 @@ PQS_ROOT ?= ../src/include
 
 CXXFLAGS = -fmax-errors=1
 
-# 	exposition/base_quantity_exp_test.o \
-#  exposition/base_quantity_test.o \
+
 #  exposition/dimension_test.o \
 #	exposition/syntax_test1.o \
 #	exposition/syntax_test2.o \
@@ -17,7 +16,10 @@ OBJECTS = \
 	to_power_test.o \
 	type_list_test.o \
    basic_concepts_test.o \
-   experimental_test.o
+   experimental_test.o \
+   base_quantity_test.o \
+ 	exposition/base_quantity_exp_test.o
+ 
 
 .PHONY : all test gcc7_cpp11 gcc9_cpp2a clean 
 

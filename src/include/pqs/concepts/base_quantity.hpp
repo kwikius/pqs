@@ -20,17 +20,20 @@ namespace pqs{
 
       template <typename BaseDimLhs,typename BaseDimRhs, typename Where = void>
       struct base_quantity_less_impl : pqs::undefined{};
+      
+      template <typename BaseDimLhs,typename BaseDimRhs, typename Where = void>
+      struct base_quantity_equal_to_impl : pqs::undefined{};
 
    }
 
    template <typename T>
    struct is_base_quantity : impl::is_base_quantity_impl<T>{};
 
-   // check that  less op is available
-   // generic implementation of less and equal_to
    template <typename BaseDimLhs,typename BaseDimRhs>
    struct base_quantity_less : impl::base_quantity_less_impl<BaseDimLhs,BaseDimRhs>{};
 
+   template <typename BaseDimLhs,typename BaseDimRhs>
+   struct base_quantity_equal_to : impl::base_quantity_equal_to_impl<BaseDimLhs,BaseDimRhs>{};
 
 }
 

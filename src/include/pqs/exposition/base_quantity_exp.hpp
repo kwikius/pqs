@@ -6,8 +6,58 @@
 #include <ratio>
 #include <pqs/meta/and.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
+#include <pqs/base_quantities/physical/length.hpp>
 
 namespace pqs_exposition{
+
+   namespace detail{
+      struct base_quantity_exp_base{};
+
+      template <typename T>
+      struct is_base_quantity_exp : std::is_base_of<pqs_exposition::detail::base_quantity_exp_base,T>{};
+   }
+
+   template < int N, int D , typename BaseQuantity>
+   struct base_quantity_exp : pqs_exposition::detail::base_quantity_exp_base{
+      static_assert(pqs::is_base_quantity<BaseQuantity>::value,"Not a model of base_quantity");
+      typedef BaseQuantity base_quantity;
+      typedef typename std::ratio<N,D>::type ratio;
+      typedef base_quantity_exp type;
+   };
+
+}
+
+namespace pqs{
+
+   namespace impl{
+
+      template <  typename T>
+      struct is_base_quantity_exp_impl<T,
+         typename pqs::where_<pqs_exposition::detail::is_base_quantity_exp<T> >::type
+      > : std::true_type{};
+
+      
+
+   } // impl
+
+} // pqs
+
+
+namespace pqs_exposition{
+
+   template <int N, int D>
+   struct exp_length_r : base_quantity_exp<N,D,pqs::physical::base_quantity_length>{
+      typedef exp_length_r type;
+   };
+
+   template <int N>
+   struct exp_length : base_quantity_exp<N,1,pqs::physical::base_quantity_length>{
+      typedef exp_length type;
+   };
+}
+
+//##############################################################################
+#if 0
 
    namespace detail{
 
@@ -32,9 +82,9 @@ namespace pqs_exposition{
       };
 
   }
+#endif 
 
-}
-  
+ 
 // TODO customise in pqs impl namespace
 #if 0
       template <typename T>
@@ -60,6 +110,8 @@ namespace pqs_exposition{
 
   // } // detail
 #endif
+
+#if 0
 namespace pqs_exposition{
    // interface
    // the dimension ratio interface when base dimension extent is not an integer
@@ -179,5 +231,5 @@ namespace pqs_exposition{
    }//detail
 
 } // pqs_exposition
-
+#endif
 #endif // PQS_EXPOSITION_BASE_QUANTITY_EXP_HPP_INCLUDED

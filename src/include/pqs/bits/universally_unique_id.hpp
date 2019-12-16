@@ -9,7 +9,7 @@ namespace pqs{
    struct universally_unique_id {
       static constexpr uint16_t elements[] = {Id...};
       static constexpr std::size_t num_elements = sizeof...(Id);
-   }
+   };
 
    template <uint16_t... Id>
    constexpr uint16_t universally_unique_id<Id... >::elements[] ;
