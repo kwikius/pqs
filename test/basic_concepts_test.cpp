@@ -5,6 +5,7 @@
 #include <pqs/concepts/meta/equality_comparable.hpp>
 #include <pqs/concepts/meta/less_than_comparable.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
+#include <pqs/concepts/meta/is_type_function.hpp>
 #include <pqs/bits/undefined.hpp>
 
 namespace {
@@ -39,6 +40,16 @@ namespace {
       QUAN_CHECK((pqs::meta::bool_constant<std::integral_constant<bool,false> >))
 
     #endif
+   }
+
+   struct type_function_no {};
+   struct type_function_yes{ typedef int type;};
+
+   void type_function_test()
+   {
+       QUAN_CHECK ( ( not pqs::meta::detail::is_type_function<type_function_no>::type::value) )
+
+       QUAN_CHECK ( ( pqs::meta::detail::is_type_function<type_function_yes>::type::value) )
    }
 }
 
@@ -114,6 +125,7 @@ namespace{
 
 void basic_concepts_test()
 {
+   type_function_test();
    test_meta_is_boolean_metafunction();
    test_meta_equality_comparable();
    test_meta_less_than_comparable();

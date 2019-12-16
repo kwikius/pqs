@@ -10,6 +10,17 @@
 
 namespace pqs{
 
+/*
+  Interesting on base_quantity v base_dimension
+  http://www.science-campus.com/physics/measurement/meas_2_6.html
+*/
+
+/*
+   concepts
+    meta::totally_ordered
+    meta::identity_metafunction
+*/
+
    template <typename T>
    struct is_base_quantity;
 
@@ -34,6 +45,33 @@ namespace pqs{
 
    template <typename BaseDimLhs,typename BaseDimRhs>
    struct base_quantity_equal_to : impl::base_quantity_equal_to_impl<BaseDimLhs,BaseDimRhs>{};
+
+   namespace impl {
+
+      // automatic once above metafunctions are defined
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::meta::less, Rhs, 
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs::is_base_quantity<Lhs>,
+               pqs::is_base_quantity<Rhs>
+            >
+         >::type
+      > : base_quantity_less<Lhs,Rhs>{};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::meta::equal_to, Rhs, 
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs::is_base_quantity<Lhs>,
+               pqs::is_base_quantity<Rhs>
+            >
+         >::type
+      > : base_quantity_equal_to<Lhs,Rhs>{};
+
+   }
 
 }
 

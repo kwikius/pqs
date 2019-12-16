@@ -15,11 +15,11 @@ namespace {
 
 
       QUAN_CHECK((pqs::is_base_quantity_exp<tl>::value))
-      QUAN_CHECK((pqs::of_same_base_quantity<tl,tr>::value))
+    //  QUAN_CHECK((pqs::of_same_base_quantity<tl,tr>::value))
 
       typedef exp_length_r<3,2> tx;
       QUAN_CHECK((pqs::is_base_quantity_exp<tx>::value))
-      QUAN_CHECK((pqs::of_same_base_quantity<tl,tx>::value))
+     // QUAN_CHECK((pqs::of_same_base_quantity<tl,tx>::value))
 
      // QUAN_CHECK(( not pqs::of_same_base_quantity<dim_time<-2>,tl>::value)) 
    }

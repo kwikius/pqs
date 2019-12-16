@@ -4,6 +4,8 @@
 #include <type_traits>
 #include <pqs/bits/undefined.hpp>
 
+#include <pqs/concepts/base_quantity.hpp>
+
 namespace pqs{
 
    namespace impl{

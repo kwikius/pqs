@@ -23,6 +23,10 @@
 
 namespace pqs{ 
 
+   /*
+     TODO change to undefined<T...>, will show args info then
+   */
+
    struct undefined {
      
       typedef undefined type;

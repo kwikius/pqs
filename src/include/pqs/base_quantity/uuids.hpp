@@ -3,7 +3,7 @@
 
 #include <pqs/bits/universally_unique_id.hpp>
 
-namespace pqs{ namespace physical{
+namespace pqs{ 
 
 /*
 These correspond to the 'short form' ids in the bluetooth specification
@@ -18,6 +18,6 @@ https://www.bluetooth.com/specifications/assigned-numbers/units/
    struct substance_uuid   : universally_unique_id<0x2706>{};
    struct intensity_uuid   : universally_unique_id<0x2707>{};
 
-}}
+}
 
 #endif // PQS_BASE_UUIDS_HPP_INCLUDED

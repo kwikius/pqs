@@ -5,8 +5,9 @@
 #include <type_traits>
 #include <ratio>
 #include <pqs/meta/and.hpp>
+
 #include <pqs/concepts/base_quantity_exp.hpp>
-#include <pqs/base_quantities/physical/length.hpp>
+#include <pqs/base_quantity/length.hpp>
 
 namespace pqs_exposition{
 
@@ -35,10 +36,17 @@ namespace pqs{
       struct is_base_quantity_exp_impl<T,
          typename pqs::where_<pqs_exposition::detail::is_base_quantity_exp<T> >::type
       > : std::true_type{};
-
-      
-
    } // impl
+
+   namespace impl{
+      template <typename T>
+      struct get_base_quantity_impl<
+         T,
+         typename pqs::where_<pqs_exposition::detail::is_base_quantity_exp<T> >::type
+      > {
+           //typedef 
+      };
+   }
 
 } // pqs
 
@@ -46,12 +54,12 @@ namespace pqs{
 namespace pqs_exposition{
 
    template <int N, int D>
-   struct exp_length_r : base_quantity_exp<N,D,pqs::physical::base_quantity_length>{
+   struct exp_length_r : base_quantity_exp<N,D,pqs::base_length>{
       typedef exp_length_r type;
    };
 
    template <int N>
-   struct exp_length : base_quantity_exp<N,1,pqs::physical::base_quantity_length>{
+   struct exp_length : base_quantity_exp<N,1,pqs::base_length>{
       typedef exp_length type;
    };
 }
