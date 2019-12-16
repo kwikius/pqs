@@ -18,7 +18,7 @@ namespace pqs{
 /*
    concepts
     meta::totally_ordered
-    meta::identity_metafunction
+    meta::identity_function
 */
 
    template <typename T>

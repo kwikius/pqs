@@ -5,7 +5,8 @@
 #include <pqs/concepts/meta/equality_comparable.hpp>
 #include <pqs/concepts/meta/less_than_comparable.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
-#include <pqs/concepts/meta/is_type_function.hpp>
+#include <pqs/concepts/meta/type_function.hpp>
+#include <pqs/concepts/meta/identity_function.hpp>
 #include <pqs/bits/undefined.hpp>
 
 namespace {
@@ -47,9 +48,18 @@ namespace {
 
    void type_function_test()
    {
-       QUAN_CHECK ( ( not pqs::meta::detail::is_type_function<type_function_no>::type::value) )
+       QUAN_CHECK ( ( not pqs::meta::is_type_function<type_function_no>::type::value) )
 
-       QUAN_CHECK ( ( pqs::meta::detail::is_type_function<type_function_yes>::type::value) )
+       QUAN_CHECK ( ( pqs::meta::is_type_function<type_function_yes>::type::value) )
+   }
+
+   struct identity{ typedef identity type;};
+   struct not_identity{typedef identity type;};
+
+   void identity_type_function_test()
+   {
+      QUAN_CHECK( ( pqs::meta::is_identity_function<identity>::value ) )
+      QUAN_CHECK( ( not pqs::meta::is_identity_function<not_identity>::value ) )
    }
 }
 
@@ -126,6 +136,7 @@ namespace{
 void basic_concepts_test()
 {
    type_function_test();
+   identity_type_function_test();
    test_meta_is_boolean_metafunction();
    test_meta_equality_comparable();
    test_meta_less_than_comparable();

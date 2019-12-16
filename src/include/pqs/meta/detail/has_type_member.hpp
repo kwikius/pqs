@@ -10,14 +10,14 @@
 #include <pqs/meta/detail/yes_no_type.hpp>
 #include <pqs/meta/detail/cat.hpp>
 
-#define PQS_MACRO_HAS_MEMBER_TYPE(name) \
+#define PQS_MACRO_HAS_TYPE_MEMBER(name) \
 template<typename T> \
-struct PQS_MACRO_CAT(has_member_type_,name){\
+struct PQS_MACRO_CAT(has_type_member_,name){\
    template <typename T1>\
-   pqs::meta::detail::yes_type static test(typename T1:: name *);\
+   pqs::meta::detail::yes_type static has_type_member_test(typename T1:: name *);\
    template <typename T1>\
-   pqs::meta::detail::no_type static test(...);\
-   static const bool value = (sizeof(test<T>(0)) == sizeof(pqs::meta::detail::yes_type));\
+   pqs::meta::detail::no_type static has_type_member_test(...);\
+   static const bool value = (sizeof(has_type_member_test<T>(0)) == sizeof(pqs::meta::detail::yes_type));\
 };
 
 #endif

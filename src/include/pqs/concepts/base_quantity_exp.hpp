@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <pqs/bits/undefined.hpp>
 
+#include <pqs/concepts/ratio.hpp>
 #include <pqs/concepts/base_quantity.hpp>
 
 namespace pqs{
@@ -34,22 +35,22 @@ namespace pqs{
       template <typename Lhs, typename Where = void>
       struct negate_base_quantity_exp_impl : pqs::undefined{};
 
-      template <typename Lhs, typename Rhs>
+      template <typename Lhs, typename Rhs, typename Where = void>
       struct base_quantity_exp_equal_to_impl : pqs::undefined {};
 
       // derive default from equality ?
-      template <typename Lhs, typename Rhs>
+      template <typename Lhs, typename Rhs, typename Where = void>
       struct base_quantity_exp_not_equal_impl : pqs::undefined {};
 
       // derive default
-      template <typename T>
+      template <typename T, typename Where = void>
       struct base_quantity_exp_is_zero_impl : pqs::undefined {};
    }
 
    template <typename T>
    struct is_base_quantity_exp : pqs::impl::is_base_quantity_exp_impl<T>{};
 
-   template <typename T, typename Where = void>
+   template <typename T>
    struct get_base_quantity : pqs::impl::get_base_quantity_impl<T>{};
 
    template <typename Lhs, typename Rhs>

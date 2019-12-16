@@ -3,7 +3,9 @@
 
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/base_quantity/length.hpp>
+#include <pqs/base_quantity/time.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
+#include <pqs/concepts/meta/identity_function.hpp>
 
 namespace {
 
@@ -13,7 +15,7 @@ namespace {
    // my_length is not compile time totally ordered so this should fail
    void compile_fail()
    {
-       struct my_base_quantity : pqs::base_quantity_of<my_length>{};
+      struct my_base_quantity : pqs::base_quantity_of<my_length>{};
    }
 #endif
    struct derived_uuid1 : pqs::universally_unique_id<0,100>{};
@@ -54,9 +56,18 @@ namespace {
       typedef pqs::base_length base_length;
 
       QUAN_CHECK(( pqs::is_base_quantity<base_length>::value))
+      QUAN_CHECK(( pqs::meta::is_identity_function<base_length>::value))
 
       QUAN_CHECK(( pqs::base_quantity_equal_to<base_length,base_length>::value))
       QUAN_CHECK(( pqs::base_quantity_less<base_length,base_length>::value == false))
+
+      typedef pqs::base_time base_time;
+
+      QUAN_CHECK(( pqs::meta::is_identity_function<base_time>::value))
+
+      QUAN_CHECK(( not pqs::base_quantity_equal_to<base_length,base_time>::value))
+      QUAN_CHECK(( pqs::base_quantity_less<base_length,base_time>::value))
+      QUAN_CHECK(( not pqs::base_quantity_less<base_time,base_length>::value))
 
    }
 }
