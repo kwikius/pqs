@@ -73,12 +73,12 @@ namespace pqs{ namespace impl{
 
    template <int L, int R>
    struct binary_op_impl<
-      my::type<L>,pqs::meta::equal_to,my::type<R> 
+      my::type<L>,pqs::equal_to,my::type<R> 
    > : std::integral_constant<bool,(L==R)>{};
 
    template <int L, int R>
    struct binary_op_impl<
-      my::type<L>,pqs::meta::less,my::type<R> 
+      my::type<L>,pqs::less,my::type<R> 
    > : std::integral_constant<bool,(L < R)>{};
 
 }}

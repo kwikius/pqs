@@ -59,13 +59,13 @@ namespace pqs{
          >::type
        > : pqs::binary_op<
           typename pqs::get_base_quantity<Lhs>::type,
-          pqs::meta::equal_to,
+          pqs::equal_to,
           typename pqs::get_base_quantity<Rhs>::type
        >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs,pqs::meta::plus, Rhs,
+         Lhs,pqs::plus, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -75,12 +75,12 @@ namespace pqs{
          >::type
       > : pqs_exposition::make_base_quantity_exp<
             pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<typename Lhs::ratio,pqs::meta::plus,typename Rhs::ratio>
+            pqs::binary_op<typename Lhs::ratio,pqs::plus,typename Rhs::ratio>
       >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::meta::minus, Rhs,
+         Lhs, pqs::minus, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -90,12 +90,12 @@ namespace pqs{
          >::type
       > : pqs_exposition::make_base_quantity_exp<
             pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<typename Lhs::ratio,pqs::meta::minus,typename Rhs::ratio>
+            pqs::binary_op<typename Lhs::ratio,pqs::minus,typename Rhs::ratio>
       >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::meta::times, Rhs,
+         Lhs, pqs::times, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -104,7 +104,7 @@ namespace pqs{
          >::type
       > : pqs_exposition::make_base_quantity_exp<
             pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<typename Lhs::ratio,pqs::meta::times,typename Rhs::type>
+            pqs::binary_op<typename Lhs::ratio,pqs::times,typename Rhs::type>
       >{};
 
       template <typename T>
@@ -121,7 +121,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::meta::divides,Rhs,
+         Lhs, pqs::divides,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -130,12 +130,12 @@ namespace pqs{
          >::type
       > : pqs_exposition::make_base_quantity_exp<
             pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<typename Lhs::ratio,pqs::meta::divides,typename Rhs::type>
+            pqs::binary_op<typename Lhs::ratio,pqs::divides,typename Rhs::type>
       >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::meta::equal_to, Rhs,
+         Lhs, pqs::equal_to, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -143,11 +143,11 @@ namespace pqs{
                pqs::of_same_base_quantity<Lhs,Rhs>
             >
          >::type
-      > : pqs::binary_op<typename Lhs::ratio,pqs::meta::equal_to,typename Rhs::ratio>{};
+      > : pqs::binary_op<typename Lhs::ratio,pqs::equal_to,typename Rhs::ratio>{};
 
      template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::meta::not_equal_to, Rhs,
+         Lhs, pqs::not_equal_to, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -155,7 +155,7 @@ namespace pqs{
                pqs::of_same_base_quantity<Lhs,Rhs>
             >
          >::type
-      > : pqs::binary_op<typename Lhs::ratio,pqs::meta::not_equal_to,typename Rhs::ratio>{};
+      > : pqs::binary_op<typename Lhs::ratio,pqs::not_equal_to,typename Rhs::ratio>{};
 
      
 /*

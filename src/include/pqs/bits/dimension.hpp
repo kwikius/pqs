@@ -33,9 +33,9 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::times,Rhs,
+         Lhs,pqs::times,Rhs,
          typename where_<
-            meta::and_<
+            pqs::meta::and_<
                pqs::is_base_quantity_exp<Lhs>,
                pqs::is_base_quantity_exp<Rhs>, 
                pqs::of_same_base_quantity<Lhs,Rhs>
@@ -43,12 +43,12 @@ namespace pqs{
          >::type
       > : dimension<
             //typename pqs::add_base_quantity_exp<Lhs,Rhs>::type
-            typename pqs::binary_op<Lhs,pqs::meta::plus,Rhs>::type
+            typename pqs::binary_op<Lhs,pqs::plus,Rhs>::type
          >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::divides,Rhs,
+         Lhs,pqs::divides,Rhs,
          typename where_<
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>,
@@ -58,13 +58,13 @@ namespace pqs{
          >::type
       > : dimension<
           //  typename pqs::subtract_base_quantity_exp<Lhs,Rhs>::type
-            typename pqs::binary_op<Lhs,pqs::meta::minus,Rhs>::type
+            typename pqs::binary_op<Lhs,pqs::minus,Rhs>::type
          >{};
 
       // create a dimension of two base_dims
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::times,Rhs,
+         Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>,
@@ -76,7 +76,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::divides,Rhs,
+         Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>,
@@ -94,7 +94,7 @@ namespace pqs{
       // add to a dimension
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::times,Rhs,
+         Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_dimension<Lhs>,
@@ -106,7 +106,7 @@ namespace pqs{
          // add to a dimension
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::divides,Rhs,
+         Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_dimension<Lhs>,
@@ -117,7 +117,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::times,Rhs,
+         Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>, 
@@ -128,7 +128,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::divides,Rhs,
+         Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>, 
@@ -139,7 +139,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::times,Rhs,
+         Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_dimension<Lhs>, 
@@ -150,7 +150,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,meta::divides,Rhs,
+         Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_dimension<Lhs>, 
@@ -184,11 +184,11 @@ namespace pqs{
             pqs::is_dimension<Rhs>
          > 
       >,  
-      pqs::binary_op<Lhs,pqs::meta::times,Rhs>
+      pqs::binary_op<Lhs,pqs::times,Rhs>
    >::type
    operator * ( Lhs , Rhs ) 
    {
-      return typename pqs::binary_op<Lhs,pqs::meta::times,Rhs>::type{};
+      return typename pqs::binary_op<Lhs,pqs::times,Rhs>::type{};
    }
 
    template <typename Lhs, typename Rhs>
@@ -213,11 +213,11 @@ namespace pqs{
             pqs::is_dimension<Rhs>
          > 
       >,  
-      pqs::binary_op<Lhs,pqs::meta::divides,Rhs>
+      pqs::binary_op<Lhs,pqs::divides,Rhs>
    >::type
    operator / ( Lhs , Rhs ) 
    {
-      return typename pqs::binary_op<Lhs,pqs::meta::divides,Rhs>::type{};
+      return typename pqs::binary_op<Lhs,pqs::divides,Rhs>::type{};
    }
 
 //} //pqs

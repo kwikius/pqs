@@ -19,7 +19,7 @@ namespace pqs{ namespace meta{
 
       template <typename TL, typename TR, typename Where = void>
       struct are_equality_comparable_impl : pqs::meta::is_bool_constant<
-         pqs::binary_op<TL,pqs::meta::equal_to,TR>
+         pqs::binary_op<TL,pqs::equal_to,TR>
       >{};
 
    }

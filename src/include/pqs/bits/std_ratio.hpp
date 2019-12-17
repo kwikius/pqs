@@ -58,7 +58,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::plus, R,
+        L, pqs::plus, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -69,7 +69,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::minus, R,
+        L, pqs::minus, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -80,7 +80,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::times, R,
+        L, pqs::times, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -91,7 +91,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::divides, R,
+        L, pqs::divides, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -102,7 +102,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::less, R,
+        L, pqs::less, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -114,7 +114,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::equal_to, R,
+        L, pqs::equal_to, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -125,7 +125,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::not_equal_to, R,
+        L, pqs::not_equal_to, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -136,7 +136,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::greater_equal, R,
+        L, pqs::greater_equal, R,
         typename pqs::where_<
            pqs::meta::and_<
             pqs::impl::detail::is_std_ratio<L>,
@@ -147,7 +147,7 @@ namespace pqs{ namespace impl{
 
       template<typename L, typename R>
       struct binary_op_impl<
-        L, pqs::meta::greater, R,
+        L, pqs::greater, R,
         typename pqs::where_<
            pqs::meta::and_<
               pqs::impl::detail::is_std_ratio<L>,

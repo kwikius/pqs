@@ -13,10 +13,10 @@ using pqs::base_time;
 using pqs::base_mass;
 
 using pqs::binary_op;
-using pqs::meta::plus;
-using pqs::meta::minus;
-using pqs::meta::times;
-using pqs::meta::divides;
+using pqs::plus;
+using pqs::minus;
+using pqs::times;
+using pqs::divides;
 
 namespace {
 
@@ -254,7 +254,7 @@ namespace {
    void multiply_test_int_int()
    {
       typedef exp<base_mass,5> tl;
-      typedef pqs::binary_op<tl,pqs::meta::times, std::ratio<4,2> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::times, std::ratio<4,2> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 10)
       QUAN_CHECK(ratio::den == 1)
@@ -264,7 +264,7 @@ namespace {
    void multiply_test_int_r()
    {
       typedef exp<base_mass,5> tl;
-      typedef pqs::binary_op<tl,pqs::meta::times, std::ratio<3,2> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::times, std::ratio<3,2> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 2)
@@ -274,7 +274,7 @@ namespace {
    void multiply_test_r_r()
    {
       typedef exp<base_mass,5,8> tl;
-      typedef pqs::binary_op<tl,pqs::meta::times, std::ratio<3,2> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::times, std::ratio<3,2> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 16)
@@ -284,7 +284,7 @@ namespace {
    void multiply_test_r_int()
    {
       typedef exp<base_mass,5,8> tl;
-      typedef pqs::binary_op<tl,pqs::meta::times, std::ratio<16,5> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::times, std::ratio<16,5> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 2)
       QUAN_CHECK(ratio::den == 1)
@@ -302,7 +302,7 @@ namespace {
    void divide_test_int_int()
    {
       typedef exp<base_mass,5> tl;
-      typedef pqs::binary_op<tl,pqs::meta::divides, std::ratio<2,4> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::divides, std::ratio<2,4> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 10)
       QUAN_CHECK(ratio::den == 1)
@@ -312,7 +312,7 @@ namespace {
    void divide_test_int_r()
    {
       typedef exp<base_mass,5> tl;
-      typedef pqs::binary_op<tl,pqs::meta::divides, std::ratio<2,3> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::divides, std::ratio<2,3> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 2)
@@ -322,7 +322,7 @@ namespace {
    void divide_test_r_r()
    {
       typedef exp<base_mass,5,8> tl;
-      typedef pqs::binary_op<tl,pqs::meta::divides, std::ratio<2,3> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::divides, std::ratio<2,3> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == 15)
       QUAN_CHECK(ratio::den == 16)
@@ -332,7 +332,7 @@ namespace {
    void divide_test_r_int()
    {
       typedef exp<base_mass,5,8> tl;
-      typedef pqs::binary_op<tl,pqs::meta::divides, std::ratio<-5,16> >::type result_type;
+      typedef pqs::binary_op<tl,pqs::divides, std::ratio<-5,16> >::type result_type;
       typedef result_type::ratio ratio;
       QUAN_CHECK(ratio::num == -2)
       QUAN_CHECK(ratio::den == 1)
@@ -351,7 +351,7 @@ namespace {
   {
       typedef exp<base_mass,5> tl;
       typedef exp<base_mass,5> tr;
-      typedef pqs::binary_op<tl,pqs::meta::equal_to,tr>::type result_type;
+      typedef pqs::binary_op<tl,pqs::equal_to,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -359,7 +359,7 @@ namespace {
   {
       typedef exp<base_mass,5> tl;
       typedef exp<base_mass,15,3> tr;
-      typedef pqs::binary_op<tl,pqs::meta::equal_to,tr>::type result_type;
+      typedef pqs::binary_op<tl,pqs::equal_to,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -367,7 +367,7 @@ namespace {
   {
       typedef exp<base_mass,100,20> tl;
       typedef exp<base_mass,1000,200> tr;
-      typedef pqs::binary_op<tl,pqs::meta::equal_to,tr>::type result_type;
+      typedef pqs::binary_op<tl,pqs::equal_to,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -383,7 +383,7 @@ namespace {
   {
       typedef exp<base_mass,5> tl;
       typedef exp<base_mass,4> tr;
-      typedef pqs::binary_op<tl,pqs::meta::not_equal_to,tr>::type result_type;
+      typedef pqs::binary_op<tl,pqs::not_equal_to,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -391,7 +391,7 @@ namespace {
   {
       typedef exp<base_mass,5> tl;
       typedef exp<base_mass,5,3> tr;
-      typedef pqs::binary_op<tl,pqs::meta::not_equal_to,tr>::type result_type;
+      typedef pqs::binary_op<tl,pqs::not_equal_to,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 
@@ -399,7 +399,7 @@ namespace {
   {
       typedef exp<base_mass,100,500> tl;
       typedef exp<base_mass,500,200> tr;
-      typedef pqs::binary_op<tl,pqs::meta::not_equal_to,tr>::type result_type;
+      typedef pqs::binary_op<tl,pqs::not_equal_to,tr>::type result_type;
       QUAN_CHECK(result_type::value == true);
   }
 

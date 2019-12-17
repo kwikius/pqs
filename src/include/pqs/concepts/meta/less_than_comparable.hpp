@@ -20,7 +20,7 @@ namespace pqs{ namespace meta{
 
       template <typename TL, typename TR, typename Where = void>
       struct are_less_than_comparable_impl : pqs::meta::is_bool_constant<
-         pqs::binary_op<TL,pqs::meta::less,TR>
+         pqs::binary_op<TL,pqs::less,TR>
       >{};
 
    }

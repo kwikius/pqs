@@ -32,25 +32,25 @@ namespace pqs{
      
       template <typename Lhs,typename Rhs>
       struct binary_op_impl<
-         Lhs,pqs::meta::less, Rhs,
+         Lhs,pqs::less, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                std::is_base_of<pqs::detail::base_quantity_base_class,Lhs>,
                std::is_base_of<pqs::detail::base_quantity_base_class,Rhs>
             >
          >::type 
-      > : pqs::binary_op<typename Lhs::identifier, pqs::meta::less, typename Rhs::identifier>{};
+      > : pqs::binary_op<typename Lhs::identifier, pqs::less, typename Rhs::identifier>{};
 
       template <typename Lhs,typename Rhs>
       struct binary_op_impl<
-         Lhs,pqs::meta::equal_to, Rhs,
+         Lhs,pqs::equal_to, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                std::is_base_of<pqs::detail::base_quantity_base_class,Lhs>,
                std::is_base_of<pqs::detail::base_quantity_base_class,Rhs>
             >
          >::type 
-      > : pqs::binary_op<typename Lhs::identifier, pqs::meta::equal_to, typename Rhs::identifier>{};
+      > : pqs::binary_op<typename Lhs::identifier, pqs::equal_to, typename Rhs::identifier>{};
 
    }
 

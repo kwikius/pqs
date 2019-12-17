@@ -24,48 +24,49 @@
     operator tags for use with binary_operation 
 */
 
-namespace pqs{ namespace meta{
+namespace pqs{
 
-    struct plus;
-    struct minus;
-    struct times;
-    struct divides;
-    struct modulus;
-    struct div;
+   struct plus;
+   struct minus;
+   struct times;
+   struct divides;
 
-    struct logical_or;
-    struct logical_and;
+   struct less;
+   struct less_equal;
+   struct equal_to;
+   struct not_equal_to;
+   struct greater_equal;
+   struct greater;
 
-    struct equal_to;
-    struct not_equal_to;
+   struct modulus;
 
-    struct greater;
-    struct greater_equal;
-    struct less_equal;
-    struct less;
+   struct div;     // integer/integer division op
 
-    struct pow;
+   struct logical_or;
+   struct logical_and;
 
-    struct equals;
-    struct plus_equals;
-    struct minus_equals;
-    struct times_equals;
-    struct divide_equals;
-    struct modulus_equals;
-    struct shift_left_equals;
-    struct shift_right_equals;
-    struct or_equals;
-    struct and_equals;
-    struct xor_equals;
+   struct pow;
 
-    struct bit_or;
-    struct bit_xor;
-    struct bit_and;
-    struct shift_left;
-    struct shift_right;
+   struct equals;
+   struct plus_equals;
+   struct minus_equals;
+   struct times_equals;
+   struct divide_equals;
+   struct modulus_equals;
+   struct shift_left_equals;
+   struct shift_right_equals;
+   struct or_equals;
+   struct and_equals;
+   struct xor_equals;
+
+   struct bit_or;
+   struct bit_xor;
+   struct bit_and;
+   struct shift_left;
+   struct shift_right;
     
        
-}}//pqs::meta
+}//pqs
 
 #endif
 

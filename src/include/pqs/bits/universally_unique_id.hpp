@@ -88,7 +88,7 @@ namespace pqs{
       template <typename TL, typename TR >
       struct binary_op_impl<
          TL,
-         pqs::meta::less,
+         pqs::less,
          TR,
          typename pqs::where_<
             pqs::meta::and_<
@@ -101,7 +101,7 @@ namespace pqs{
       template <typename TL, typename TR >
       struct binary_op_impl<
          TL,
-         pqs::meta::equal_to,
+         pqs::equal_to,
          TR,
          typename pqs::where_<
             pqs::meta::and_<
