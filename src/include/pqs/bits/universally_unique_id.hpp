@@ -96,7 +96,7 @@ namespace pqs{
                pqs::detail::is_uuid<TR>
             >
          >::type
-       > : detail::less_uuid<TL,TR>{};
+       > : pqs::detail::less_uuid<TL,TR>{};
 
       template <typename TL, typename TR >
       struct binary_op_impl<
@@ -109,7 +109,7 @@ namespace pqs{
                pqs::detail::is_uuid<TR>
             >
          >::type
-       > : detail::equal_to_uuid<TL,TR>{};
+       > : pqs::detail::equal_to_uuid<TL,TR>{};
 
   }// impl
 }

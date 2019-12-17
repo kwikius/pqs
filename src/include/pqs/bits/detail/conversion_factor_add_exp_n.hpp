@@ -2,7 +2,7 @@
 #define PQS_DETAIL_CONVERSION_FACTOR_ADD_EXP_N_HPP_INCLUDED
 
 #include <type_traits>
-#include <ratio>
+#include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/conversion_factor_def.hpp>
 #include <pqs/meta/eval_if.hpp>
 #include <pqs/meta/to_power.hpp>

@@ -58,16 +58,16 @@ namespace {
       QUAN_CHECK(( pqs::is_base_quantity<base_length>::value))
       QUAN_CHECK(( pqs::meta::is_identity_function<base_length>::value))
 
-      QUAN_CHECK(( pqs::base_quantity_equal_to<base_length,base_length>::value))
-      QUAN_CHECK(( pqs::base_quantity_less<base_length,base_length>::value == false))
+      QUAN_CHECK(( pqs::binary_op<base_length,pqs::meta::equal_to, base_length>::value))
+      QUAN_CHECK(( pqs::binary_op<base_length,pqs::meta::less,base_length>::value == false))
 
       typedef pqs::base_time base_time;
 
       QUAN_CHECK(( pqs::meta::is_identity_function<base_time>::value))
 
-      QUAN_CHECK(( not pqs::base_quantity_equal_to<base_length,base_time>::value))
-      QUAN_CHECK(( pqs::base_quantity_less<base_length,base_time>::value))
-      QUAN_CHECK(( not pqs::base_quantity_less<base_time,base_length>::value))
+      QUAN_CHECK(( not pqs::binary_op<base_length,pqs::meta::equal_to, base_time>::value))
+      QUAN_CHECK(( pqs::binary_op<base_length,pqs::meta::less,base_time>::value))
+      QUAN_CHECK(( not pqs::binary_op<base_time,pqs::meta::less,base_length>::value))
 
    }
 }

@@ -6,6 +6,7 @@
 #include <pqs/concepts/meta/totally_ordered.hpp>
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/bits/where.hpp>
+#include <pqs/bits/binary_op.hpp>
 
 namespace pqs{
 
@@ -30,8 +31,8 @@ namespace pqs{
 
      
       template <typename Lhs,typename Rhs>
-      struct base_quantity_less_impl<
-         Lhs, Rhs,
+      struct binary_op_impl<
+         Lhs,pqs::meta::less, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                std::is_base_of<pqs::detail::base_quantity_base_class,Lhs>,
@@ -41,8 +42,8 @@ namespace pqs{
       > : pqs::binary_op<typename Lhs::identifier, pqs::meta::less, typename Rhs::identifier>{};
 
       template <typename Lhs,typename Rhs>
-      struct base_quantity_equal_to_impl<
-         Lhs, Rhs,
+      struct binary_op_impl<
+         Lhs,pqs::meta::equal_to, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                std::is_base_of<pqs::detail::base_quantity_base_class,Lhs>,

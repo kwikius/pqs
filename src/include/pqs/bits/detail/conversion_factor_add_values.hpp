@@ -1,7 +1,7 @@
 #ifndef PQS_DETAIL_CONVERSION_FACTOR_ADD_VALUES_HPP_INCLUDED
 #define PQS_DETAIL_CONVERSION_FACTOR_ADD_VALUES_HPP_INCLUDED
 
-#include <ratio>
+#include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/conversion_factor_def.hpp>
 
 namespace pqs{ namespace detail{

@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <type_traits>
-#include <ratio>
+#include <pqs/bits/std_ratio.hpp>
 #include <pqs/meta/and.hpp>
 
 #include <pqs/concepts/base_quantity_exp.hpp>
@@ -57,8 +57,9 @@ namespace pqs{
                pqs_exposition::detail::is_base_quantity_exp<Rhs>
             >
          >::type
-       > : pqs::base_quantity_equal_to<
+       > : pqs::binary_op<
           typename pqs::get_base_quantity<Lhs>::type,
+          pqs::meta::equal_to,
           typename pqs::get_base_quantity<Rhs>::type
        >{};
 

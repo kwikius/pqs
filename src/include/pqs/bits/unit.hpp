@@ -2,7 +2,7 @@
 #define PQS_UNIT_HPP_INCLUDED
 
 #include <type_traits>
-#include <ratio>
+#include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/dimension.hpp>
 
 namespace pqs{ 

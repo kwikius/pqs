@@ -1,0 +1,139 @@
+#ifndef PQS_BITS_STD_RATIO_HPP_INCLUDED
+#define PQS_BITS_STD_RATIO_HPP_INCLUDED
+
+#include <pqs/concepts/ratio.hpp>
+#include <ratio>
+#include <pqs/bits/where.hpp>
+#include <pqs/meta/and.hpp>
+#include <pqs/bits/binary_op.hpp>
+
+namespace pqs{namespace detail{
+
+   template <typename Ratio>
+   struct std_ratio_abs{
+      typedef typename std::ratio< 
+         ((Ratio::num < 0)?-Ratio::num:Ratio::num)
+        ,((Ratio::den < 0)?-Ratio::den:Ratio::den)
+      >::type type;
+   };
+
+}} // pqs::detail
+
+namespace pqs{ namespace impl{
+
+     template< intmax_t N, intmax_t D>
+     struct is_ratio_impl<std::ratio<N,D> > : std::true_type{};
+
+      namespace detail{
+
+         template <typename T>
+         struct is_std_ratio : std::false_type{};
+
+         template <int N, int D>
+         struct is_std_ratio<std::ratio<N,D> > : std::true_type{};
+
+      }
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::plus, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_add<L,R>{};
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::minus, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_subtract<L,R>{};
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::times, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_multiply<L,R>{};
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::divides, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_divide<L,R>{};
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::less, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_less<L,R>{};
+
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::equal_to, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_equal<L,R>{};
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::not_equal_to, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_not_equal<L,R>{};
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::greater_equal, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+            pqs::impl::detail::is_std_ratio<L>,
+            pqs::impl::detail::is_std_ratio<R>
+         >
+        >::type
+      > : std::ratio_greater_equal<L,R>{};
+
+      template<typename L, typename R>
+      struct binary_op_impl<
+        L, pqs::meta::greater, R,
+        typename pqs::where_<
+           pqs::meta::and_<
+              pqs::impl::detail::is_std_ratio<L>,
+              pqs::impl::detail::is_std_ratio<R>
+           >
+        >::type
+      > : std::ratio_greater<L,R>{};
+
+}} // pqs::impl
+
+#endif // PQS_BITS_STD_RATIO_HPP_INCLUDED
