@@ -8,7 +8,7 @@
 #include <pqs/meta/not.hpp>
 #include <pqs/bits/where.hpp>
 #include <pqs/bits/binary_op.hpp>
-
+#include <pqs/bits/unary_op.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/concepts/dimension.hpp>
 
@@ -16,8 +16,8 @@ namespace pqs{
 
    template <typename ...D>
    struct dimension{
-       typedef dimension type;
-       static constexpr uint32_t num_elements = sizeof...(D);
+      typedef dimension type;
+      static constexpr uint32_t num_elements = sizeof...(D);
    };
 
    // Probably not needed... 
@@ -42,7 +42,8 @@ namespace pqs{
             >
          >::type
       > : dimension<
-            typename pqs::add_base_quantity_exp<Lhs,Rhs>::type
+            //typename pqs::add_base_quantity_exp<Lhs,Rhs>::type
+            typename pqs::binary_op<Lhs,pqs::meta::plus,Rhs>::type
          >{};
 
       template <typename Lhs, typename Rhs>
@@ -56,7 +57,8 @@ namespace pqs{
             >
          >::type
       > : dimension<
-            typename pqs::subtract_base_quantity_exp<Lhs,Rhs>::type
+          //  typename pqs::subtract_base_quantity_exp<Lhs,Rhs>::type
+            typename pqs::binary_op<Lhs,pqs::meta::minus,Rhs>::type
          >{};
 
       // create a dimension of two base_dims
@@ -82,8 +84,10 @@ namespace pqs{
                meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
             > 
          >::type
-      > : dimension<Lhs,
-            typename pqs::negate_base_quantity_exp<Rhs>::type
+      > : dimension<
+            Lhs,
+           // typename pqs::negate_base_quantity_exp<Rhs>::type
+            typename pqs::unary_op<pqs::meta::negate,Rhs>::type
          >{};
 
 

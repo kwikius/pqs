@@ -7,8 +7,6 @@
 
 namespace  pqs { 
 
-
-
    template <typename RatioExp>
    struct conversion_factor_normalise{
 

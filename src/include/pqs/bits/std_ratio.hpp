@@ -1,11 +1,12 @@
-#ifndef PQS_BITS_STD_RATIO_HPP_INCLUDED
-#define PQS_BITS_STD_RATIO_HPP_INCLUDED
+#ifndef PQS_BITS_STD_RATIO_HPP_INCLUDED1
+#define PQS_BITS_STD_RATIO_HPP_INCLUDED1
 
 #include <pqs/concepts/ratio.hpp>
 #include <ratio>
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/and.hpp>
 #include <pqs/bits/binary_op.hpp>
+#include <pqs/bits/unary_op.hpp>
 
 namespace pqs{namespace detail{
 
@@ -29,10 +30,31 @@ namespace pqs{ namespace impl{
          template <typename T>
          struct is_std_ratio : std::false_type{};
 
-         template <int N, int D>
+         template <intmax_t N, intmax_t D>
          struct is_std_ratio<std::ratio<N,D> > : std::true_type{};
 
       }
+
+      template <typename T>
+      struct unary_op_impl<
+         pqs::meta::abs,
+         T,
+         typename pqs::where_< pqs::impl::detail::is_std_ratio<T> >::type
+      > : pqs::detail::std_ratio_abs<T>{};
+
+      template <typename T>
+      struct unary_op_impl<
+         pqs::meta::negate,
+         T,
+         typename pqs::where_< pqs::impl::detail::is_std_ratio<T> >::type
+      > : std::ratio_subtract< std::ratio<0>,T >{};
+
+      template <typename T>
+      struct unary_op_impl<
+         pqs::meta::reciprocal,
+         T,
+         typename pqs::where_< pqs::impl::detail::is_std_ratio<T> >::type
+      > : std::ratio_divide<std::ratio<1>, T >{};
 
       template<typename L, typename R>
       struct binary_op_impl<

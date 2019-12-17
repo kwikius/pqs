@@ -5,9 +5,9 @@
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/meta/and.hpp>
-
+#include <pqs/bits/binary_op.hpp>
+#include <pqs/bits/unary_op.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
-
 
 namespace pqs_exposition{
 
@@ -18,7 +18,7 @@ namespace pqs_exposition{
       struct is_base_quantity_exp : std::is_base_of<pqs_exposition::detail::base_quantity_exp_base,T>{};
    }
 
-   template < typename BaseQuantity, int N, int D =1>
+   template <typename BaseQuantity, int N, int D =1>
    struct exp : pqs_exposition::detail::base_quantity_exp_base{
       static_assert(pqs::is_base_quantity<BaseQuantity>::value,"Not a model of base_quantity");
       typedef BaseQuantity base_quantity;
@@ -63,6 +63,102 @@ namespace pqs{
           typename pqs::get_base_quantity<Rhs>::type
        >{};
 
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs,pqs::meta::plus, Rhs,
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs_exposition::detail::is_base_quantity_exp<Lhs>,
+               pqs_exposition::detail::is_base_quantity_exp<Rhs>,
+               pqs::of_same_base_quantity<Lhs,Rhs>
+            >
+         >::type
+      > : pqs_exposition::make_base_quantity_exp<
+            pqs::get_base_quantity<Lhs>,
+            pqs::binary_op<typename Lhs::ratio,pqs::meta::plus,typename Rhs::ratio>
+      >{};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::meta::minus, Rhs,
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs_exposition::detail::is_base_quantity_exp<Lhs>,
+               pqs_exposition::detail::is_base_quantity_exp<Rhs>,
+               pqs::of_same_base_quantity<Lhs,Rhs>
+            >
+         >::type
+      > : pqs_exposition::make_base_quantity_exp<
+            pqs::get_base_quantity<Lhs>,
+            pqs::binary_op<typename Lhs::ratio,pqs::meta::minus,typename Rhs::ratio>
+      >{};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::meta::times, Rhs,
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs_exposition::detail::is_base_quantity_exp<Lhs>,
+               pqs::is_ratio<Rhs>
+            >
+         >::type
+      > : pqs_exposition::make_base_quantity_exp<
+            pqs::get_base_quantity<Lhs>,
+            pqs::binary_op<typename Lhs::ratio,pqs::meta::times,typename Rhs::type>
+      >{};
+
+      template <typename T>
+      struct unary_op_impl<
+          pqs::meta::negate,
+          T,
+          typename pqs::where_<
+            pqs_exposition::detail::is_base_quantity_exp<T> 
+          >::type
+      > : pqs_exposition::make_base_quantity_exp<
+             pqs::get_base_quantity<T>,
+             pqs::unary_op<pqs::meta::negate,typename T::ratio>
+      >{};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::meta::divides,Rhs,
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs_exposition::detail::is_base_quantity_exp<Lhs>,
+               pqs::is_ratio<Rhs>
+            >
+         >::type
+      > : pqs_exposition::make_base_quantity_exp<
+            pqs::get_base_quantity<Lhs>,
+            pqs::binary_op<typename Lhs::ratio,pqs::meta::divides,typename Rhs::type>
+      >{};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::meta::equal_to, Rhs,
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs_exposition::detail::is_base_quantity_exp<Lhs>,
+               pqs_exposition::detail::is_base_quantity_exp<Rhs>,
+               pqs::of_same_base_quantity<Lhs,Rhs>
+            >
+         >::type
+      > : pqs::binary_op<typename Lhs::ratio,pqs::meta::equal_to,typename Rhs::ratio>{};
+
+     template <typename Lhs, typename Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::meta::not_equal_to, Rhs,
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs_exposition::detail::is_base_quantity_exp<Lhs>,
+               pqs_exposition::detail::is_base_quantity_exp<Rhs>,
+               pqs::of_same_base_quantity<Lhs,Rhs>
+            >
+         >::type
+      > : pqs::binary_op<typename Lhs::ratio,pqs::meta::not_equal_to,typename Rhs::ratio>{};
+
+     
+/*
       template <typename Lhs, typename Rhs>
       struct add_base_quantity_exp_impl<
          Lhs, Rhs,
@@ -117,7 +213,7 @@ namespace pqs{
             pqs::get_base_quantity<Lhs>,
             std::ratio_multiply<typename Lhs::ratio,typename Rhs::type>
       >{};
-      
+ 
       template <typename Lhs, typename Rhs>
       struct divide_base_quantity_exp_impl<
          Lhs, Rhs,
@@ -131,7 +227,7 @@ namespace pqs{
             pqs::get_base_quantity<Lhs>,
             std::ratio_divide<typename Lhs::ratio,typename Rhs::type>
       >{};
-
+ 
       template <typename Lhs, typename Rhs>
       struct base_quantity_exp_equal_to_impl<
          Lhs, Rhs,
@@ -156,7 +252,7 @@ namespace pqs{
             >
          >::type
       > : std::ratio_not_equal<typename Lhs::ratio,typename Rhs::ratio>{};
-
+  */  
       template <typename T>
       struct base_quantity_exp_is_zero_impl<
          T,
