@@ -9,7 +9,6 @@
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
 
-
 namespace pqs_exposition{
 
    namespace detail{
@@ -66,7 +65,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs,pqs::plus, Rhs,
+         Lhs,pqs::times, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -81,7 +80,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::minus, Rhs,
+         Lhs, pqs::divides, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -96,7 +95,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::times, Rhs,
+         Lhs, pqs::pow, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,
@@ -110,7 +109,7 @@ namespace pqs{
 
       template <typename T>
       struct unary_op_impl<
-          pqs::meta::negate,
+          pqs::meta::reciprocal,
           T,
           typename pqs::where_<
             pqs_exposition::detail::is_base_quantity_exp<T> 
@@ -118,20 +117,6 @@ namespace pqs{
       > : pqs_exposition::make_base_quantity_exp<
              pqs::get_base_quantity<T>,
              pqs::unary_op<pqs::meta::negate,typename T::ratio>
-      >{};
-
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, pqs::divides,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs_exposition::detail::is_base_quantity_exp<Lhs>,
-               pqs::is_ratio<Rhs>
-            >
-         >::type
-      > : pqs_exposition::make_base_quantity_exp<
-            pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<typename Lhs::ratio,pqs::divides,typename Rhs::type>
       >{};
 
       template <typename Lhs, typename Rhs>

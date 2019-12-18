@@ -2,7 +2,6 @@
 #define PQS_DIMENSION_HPP_INCLUDED
 
 #include <type_traits>
-
 #include <pqs/meta/and.hpp>
 #include <pqs/meta/or.hpp>
 #include <pqs/meta/not.hpp>
@@ -10,69 +9,12 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
-#include <pqs/concepts/dimension.hpp>
+#include <pqs/bits/dimension_def.hpp>
+#include <pqs/meta/merge_dim.hpp>
 
 namespace pqs{
 
-   namespace detail {
-      struct dimension_base_class{};
-   }
-
-   template <typename ...D>
-   struct dimension : pqs::detail::dimension_base_class{
-      typedef dimension type;
-      static constexpr uint32_t num_elements = sizeof...(D);
-   };
-
-   // Probably not needed... 
-   template <> struct dimension<>{
-      typedef dimension type;
-      static constexpr uint32_t num_elements = 0;
-   };
-
-   // Thse two should probably be sorted 
-   // maybe is_basic_dimension so is_dimension is is_basic or derived?
-   template <typename ... D >
-   struct is_dimension<pqs::dimension<D...> > : std::true_type{};
-
-   template <typename D>
-   struct is_derived_dimension : 
-      pqs::meta::and_<
-         pqs::meta::not_<is_dimension<D> >,
-         std::is_base_of<pqs::detail::dimension_base_class,D>
-      >{};
-
    namespace impl{
-
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>, 
-               pqs::of_same_base_quantity<Lhs,Rhs>
-            >
-         >::type
-      > : dimension<
-            //typename pqs::add_base_quantity_exp<Lhs,Rhs>::type
-            typename pqs::binary_op<Lhs,pqs::plus,Rhs>::type
-         >{};
-
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_<
-            meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>, 
-               pqs::of_same_base_quantity<Lhs,Rhs>
-            >
-         >::type
-      > : dimension<
-          //  typename pqs::subtract_base_quantity_exp<Lhs,Rhs>::type
-            typename pqs::binary_op<Lhs,pqs::minus,Rhs>::type
-         >{};
 
       // create a dimension of two base_dims
       template <typename Lhs, typename Rhs>
@@ -99,12 +41,9 @@ namespace pqs{
          >::type
       > : dimension<
             Lhs,
-           // typename pqs::negate_base_quantity_exp<Rhs>::type
-            typename pqs::unary_op<pqs::meta::negate,Rhs>::type
+            typename pqs::unary_op<pqs::meta::reciprocal,Rhs>::type
          >{};
 
-
-      // add to a dimension
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::times,Rhs,
@@ -114,7 +53,18 @@ namespace pqs{
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
-      > : pqs::add_dimensions<Lhs,pqs::dimension<Rhs> >{};
+      > : pqs::binary_op<Lhs,pqs::times,pqs::dimension<Rhs> >{};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::times,Rhs,
+         typename where_< 
+            meta::and_<
+               pqs::is_base_quantity_exp<Lhs>, 
+               pqs::is_dimension<Rhs>
+            > 
+         >::type
+      > : pqs::binary_op<pqs::dimension<Lhs>,pqs::times,Rhs>{};
 
          // add to a dimension
       template <typename Lhs, typename Rhs>
@@ -126,18 +76,7 @@ namespace pqs{
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
-      > : pqs::subtract_dimensions<Lhs,pqs::dimension<Rhs> >{};
-
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_base_quantity_exp<Lhs>, 
-               pqs::is_dimension<Rhs>
-            > 
-         >::type
-      > : pqs::add_dimensions<pqs::dimension<Lhs>,Rhs >{};
+      > : pqs::binary_op<Lhs,pqs::divides,pqs::dimension<Rhs> >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -148,7 +87,7 @@ namespace pqs{
                pqs::is_dimension<Rhs>
             > 
          >::type
-      > : pqs::subtract_dimensions<pqs::dimension<Lhs>,Rhs>{};
+      > : pqs::binary_op<pqs::dimension<Lhs>,pqs::divides,Rhs>{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -159,7 +98,7 @@ namespace pqs{
                pqs::is_dimension<Rhs>
             > 
          >::type
-      > : pqs::add_dimensions<Lhs,Rhs>{};
+      > : pqs::meta::merge_dim<Lhs,pqs::times,Rhs>{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -170,7 +109,7 @@ namespace pqs{
                pqs::is_dimension<Rhs>
             > 
          >::type
-      > : pqs::subtract_dimensions<Lhs,Rhs>{};
+      > : pqs::meta::merge_dim<Lhs,divides,Rhs>{};
 
    } // impl
 }// pqs
