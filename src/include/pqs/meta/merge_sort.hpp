@@ -72,8 +72,8 @@ namespace pqs{ namespace meta{
 
    /*
       F is a polymorphic functor of two args
-      e.g  an example for that list contains types modelling pqs::meta::bool_constant
-      This lss_than function will sort the list in increasing order from left to right
+      e.g  an example for a list that contains types modelling pqs::meta::_integral_constant
+      This less_than function will sort the list in increasing order from left to right
       
       struct less_than {
          template <typename Lhs, typename Rhs>
