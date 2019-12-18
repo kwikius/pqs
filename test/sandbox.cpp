@@ -22,6 +22,10 @@ namespace exposition{
    // dimension<exp<base_length,1>,exp<base_time,-1> >
    constexpr auto velocity = length / time;
 
+   constexpr auto acceleration = velocity / time;
+   struct force_t : decltype(mass * acceleration) {};
+   force_t force;
+
    // derived_dimension
    struct vertical_velocity_t : decltype(velocity) {};
    constexpr vertical_velocity_t  vertical_velocity ;
@@ -88,5 +92,5 @@ int main()
    static_assert ( not is_abstract_quantity(q2),"");
    static_assert ( not is_abstract_quantity(q3),"");
 
-   int x = exposition::velocity;
+   //int x = exposition::force;
 }
