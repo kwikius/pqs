@@ -88,5 +88,5 @@ int main()
    static_assert ( not is_abstract_quantity(q2),"");
    static_assert ( not is_abstract_quantity(q3),"");
 
-   int x = exposition::velocity;
+  // int x = exposition::velocity;
 }
