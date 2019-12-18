@@ -4,7 +4,6 @@
 #include <pqs/bits/dimension.hpp>
 #include <pqs/exposition/base_quantity_exp.hpp>
 #include <pqs/bits/binary_op.hpp>
-//#include <pqs/meta/join_list.hpp>
 #include <pqs/meta/merge_sort.hpp>
 
 #include <pqs/base_quantity/length.hpp>
@@ -37,13 +36,27 @@ namespace pqs{ namespace meta{
          >::type
       >{};
 
-      template <typename ListL,typename Op, typename ListR, typename ListOut>
-      struct merge_dim_right : merge_dim<
+      template <typename ListL, typename Op, typename ListR, typename ListOut>
+      struct merge_dim_right;
+
+      template <typename ListL, typename ListR, typename ListOut>
+      struct merge_dim_right<ListL,pqs::plus,ListR,ListOut> : merge_dim<
          ListL,
-         Op,
+         pqs::plus,
          typename pop_front<ListR>::type,
          typename append_if_not_zero<
             typename front<ListR>::type,
+            ListOut
+         >::type
+      >{};
+
+      template <typename ListL, typename ListR, typename ListOut>
+      struct merge_dim_right<ListL,pqs::minus,ListR,ListOut> : merge_dim<
+         ListL,
+         pqs::minus,
+         typename pop_front<ListR>::type,
+         typename append_if_not_zero<
+            typename pqs::unary_op<negate, typename front<ListR>::type >::type,
             ListOut
          >::type
       >{};
@@ -110,7 +123,7 @@ namespace pqs{ namespace meta{
             typename pqs::get_base_quantity<LhsExp>::type,
             pqs::less,
             typename pqs::get_base_quantity<RhsExp>::type
-          >{};
+         >{};
       };
 
    }// detail
@@ -135,31 +148,58 @@ using pqs::meta::merge_dim;
 
 void  experimental_test()
 {
+   typedef type_list<> empty;
+   typedef merge_dim<empty,pqs::plus,empty,type_list<> >::type result0a;
+   static_assert(std::is_same<result0a,empty>::value,"");
+   typedef merge_dim<empty,pqs::minus,empty,type_list<> >::type result0b;
+   static_assert(std::is_same<result0b,empty>::value,"");
+   
    // n.b must be sorted
    typedef type_list<exp<base_time,1> > dim1;
    typedef merge_dim<dim1,pqs::plus,dim1,type_list<> >::type result1;
    typedef type_list<exp<base_time,2> > expected1;
    static_assert(std::is_same<result1,expected1>::value,"");
 
+   typedef merge_dim<dim1,pqs::minus,dim1,type_list<> >::type result1a;
+   typedef type_list<> expected1a;
+   static_assert(std::is_same<result1a,expected1a>::value,"");
+
    typedef type_list<exp<base_length,-2>, exp<base_time,2> >  dim2;
    typedef merge_dim<dim1,pqs::plus,dim2,type_list<> >::type result2;
    typedef type_list<exp<base_length,-2>, exp<base_time,3> > expected2;
-   static_assert(std::is_same<result2,expected2 >::value,"");
+   static_assert(std::is_same<result2,expected2>::value,"");
+
+   typedef merge_dim<dim1,pqs::minus,dim2,type_list<> >::type result2a;
+   typedef type_list<exp<base_length,2>, exp<base_time,-1> > expected2a;
+   static_assert(std::is_same<result2a,expected2a>::value,"");
 
    typedef type_list<exp<base_length,-1>, exp<base_time,1>, exp<base_mass,2> >  dim3;
    typedef merge_dim<dim2,pqs::plus,dim3,type_list<> >::type result3;
    typedef type_list<exp<base_length,-3>, exp<base_mass,2>, exp<base_time,3>  > expected3;
    static_assert(std::is_same<result3,expected3>::value,"");
 
+   typedef merge_dim<dim2,pqs::minus,dim3,type_list<> >::type result3a;
+   typedef type_list<exp<base_length,-1>,exp<base_mass,-2>,exp<base_time,1> > expected3a;
+   static_assert(std::is_same<result3a,expected3a>::value,"");
+
    typedef type_list<exp<base_length,1>, exp<base_time,1>, exp<base_mass,2> >  dim4;
    typedef merge_dim<dim3,pqs::plus,dim4,type_list<> >::type result4;
    typedef type_list<exp<base_mass,4>,exp<base_time,2> > expected4;
    static_assert(std::is_same<result4,expected4>::value,"");
 
+   typedef merge_dim<dim3,pqs::minus,dim4,type_list<> >::type result4a;
+   typedef type_list<exp<base_length,-2> > expected4a;
+   static_assert(std::is_same<result4a,expected4a>::value,"");
+
+
    typedef type_list<exp<base_length,-1>, exp<base_time,-1>, exp<base_mass,-2> >  dim5;
    typedef merge_dim<dim4,pqs::plus,dim5,type_list<> >::type result5;
    typedef type_list<> expected5;
    static_assert(std::is_same<result5,expected5>::value,"");
+
+   typedef merge_dim<dim4,pqs::minus,dim5,type_list<> >::type result5a;
+   typedef type_list<exp<base_length,2>,exp<base_mass,4>,exp<base_time,2> >::type expected5a;
+   static_assert(std::is_same<result5a,expected5a>::value,"");
 
 }
 
