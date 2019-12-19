@@ -98,13 +98,18 @@ namespace pqs{ namespace meta{
          >::type
       >{};
 
-      template <typename Op,typename DimR, typename DimOut>
+      template <typename DimR,typename Op, typename DimOut>
       struct merge_dim<pqs::dimension<>,Op,DimR,DimOut> : merge_dim<
          pqs::dimension<>,
          Op,
          typename pop_front<DimR>::type ,
          typename append_if_not_zero<
-            typename front<DimR>::type,DimOut
+            typename pqs::meta::eval_if<
+               std::is_same<Op,pqs::divides>,
+                  pqs::unary_op<reciprocal,typename front<DimR>::type>,
+               front<DimR>
+            >::type,
+           DimOut
          >::type
       >{};
 
