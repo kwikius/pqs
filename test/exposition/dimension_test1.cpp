@@ -16,7 +16,7 @@ using pqs::base_mass;
 using pqs::dimension;
 using pqs::meta::merge_dim;
 
-void  dimension_test1()
+void dimension_test1()
 {
    typedef dimension<> empty;
    typedef merge_dim<empty,pqs::times,empty >::type result0a;

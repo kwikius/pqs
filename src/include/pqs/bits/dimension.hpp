@@ -12,6 +12,7 @@
 #include <pqs/bits/dimension_def.hpp>
 #include <pqs/meta/merge_dim.hpp>
 #include <pqs/meta/transform.hpp>
+#include <pqs/meta/fold.hpp>
 
 namespace pqs{
 
@@ -119,6 +120,16 @@ namespace pqs{
             template <typename BaseQExp>
             struct apply : pqs::binary_op<BaseQExp,pqs::to_power,Ratio>{};
          };
+
+         struct push_back_not_zero{
+            
+            template <typename List, typename Elem>
+            struct apply : pqs::meta::eval_if<
+               pqs::base_quantity_exp_is_zero<Elem>,
+                  List,
+               pqs::meta::push_back<List,Elem>
+            >{};
+         };
       }
 
       template <typename Lhs, typename Rhs>
@@ -130,14 +141,18 @@ namespace pqs{
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
-      > : pqs::meta::transform<
-            typename pqs::meta::merge_sort<
-               Lhs,
-               pqs::meta::detail::base_quantity_exp_sort_fun
+      > : pqs::meta::fold<
+            typename pqs::meta::transform<
+               typename pqs::meta::merge_sort<
+                  Lhs,
+                  pqs::meta::detail::base_quantity_exp_sort_fun
+               >::type,
+               pqs::dimension<>, 
+               detail::to_power_impl<Rhs>
             >::type,
-            pqs::dimension<>, 
-            detail::to_power_impl<Rhs> 
-       >{};
+            pqs::dimension<>,
+            detail::push_back_not_zero
+         >{};
 
       template <typename D>
       struct unary_op_impl <
@@ -156,7 +171,10 @@ namespace pqs{
                pqs::is_dimension<Rhs>
             > 
          >::type
-      > : std::is_same<typename pqs::meta::merge_dim<Lhs,divides,Rhs>::type,pqs::dimension<> > {};
+      > : std::is_same<
+            typename pqs::meta::merge_dim<Lhs,divides,Rhs>::type,
+            pqs::dimension<> 
+      > {};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -169,7 +187,6 @@ namespace pqs{
          >::type
       > : pqs::meta::not_<pqs::binary_op<Lhs,pqs::equal_to,Rhs> > {};
       
-
    } // impl
 }// pqs
    
@@ -179,16 +196,16 @@ namespace pqs{
    typename pqs::eval_where<
       pqs::meta::or_<
          pqs::meta::and_<
-           pqs::is_base_quantity_exp<Lhs>,
-           pqs::is_base_quantity_exp<Rhs> 
+            pqs::is_base_quantity_exp<Lhs>,
+            pqs::is_base_quantity_exp<Rhs> 
          >,
          pqs::meta::and_<
             pqs::is_dimension<Lhs>,
             pqs::is_base_quantity_exp<Rhs>
          > ,
          pqs::meta::and_<
-          pqs::is_base_quantity_exp<Lhs>, 
-          pqs::is_dimension<Rhs>
+            pqs::is_base_quantity_exp<Lhs>, 
+            pqs::is_dimension<Rhs>
          >, 
          pqs::meta::and_<
             pqs::is_dimension<Lhs>, 
@@ -208,16 +225,16 @@ namespace pqs{
    typename pqs::eval_where<
       pqs::meta::or_<
          pqs::meta::and_<
-           pqs::is_base_quantity_exp<Lhs>,
-           pqs::is_base_quantity_exp<Rhs> 
+            pqs::is_base_quantity_exp<Lhs>,
+            pqs::is_base_quantity_exp<Rhs> 
          >,
          pqs::meta::and_<
             pqs::is_dimension<Lhs>,
             pqs::is_base_quantity_exp<Rhs>
          > ,
          pqs::meta::and_<
-          pqs::is_base_quantity_exp<Lhs>, 
-          pqs::is_dimension<Rhs>
+            pqs::is_base_quantity_exp<Lhs>, 
+            pqs::is_dimension<Rhs>
          >, 
          pqs::meta::and_<
             pqs::is_dimension<Lhs>, 

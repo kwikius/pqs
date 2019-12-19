@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd ./test
-echo '***** Starting pqs test suit...'
+echo '***** Starting pqs test suite...'
 make clean
 echo '***** Building with gcc7 c++11...'
 make gcc7_cpp11
