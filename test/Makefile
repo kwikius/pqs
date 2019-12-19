@@ -48,11 +48,6 @@ test.exe : $(OBJECTS)
 %.o : %.cpp 
 	$(CXX) $(CXXFLAGS) -O3 -c $< -o $@
 
-sandbox : sandbox.exe
-
-sandbox.exe : 
-	g++-7 -o sandbox.exe -std=c++11 -I${PQS_ROOT} -O3 -c sandbox.cpp
-
 clean :
 	rm -rf *.o exposition/*.o
 	rm -rf *.exe
