@@ -153,7 +153,6 @@ namespace {
       typedef pqs::binary_op<empty_result, pqs::times,lhs_dimension>::type result2;
 
       QUAN_CHECK((std::is_same<sort<lhs_dimension>::type,result2>::value))
-
    }
 
    void divide_dimensions_test()
@@ -180,7 +179,7 @@ namespace {
             pqs_exposition::exp<base_time,-2>, 
             pqs_exposition::exp<base_current,1> 
          > 
-      >::type  expected_result;
+      >::type expected_result;
 
 
       QUAN_CHECK( (std::is_same<result,expected_result>::value ))
@@ -190,7 +189,20 @@ namespace {
       QUAN_CHECK( (std::is_same<empty_result,pqs::dimension<> >::value ))
 
       typedef pqs::binary_op<pqs::dimension<>,pqs::divides,lhs_dimension>::type result2;
+
      // int x = result2{};
+      typedef sort<
+         pqs::dimension<
+            pqs_exposition::exp<base_length,-1>, 
+            pqs_exposition::exp<base_time,1>,
+            pqs_exposition::exp<base_mass,-2> ,
+            pqs_exposition::exp<base_current,-2> 
+         >
+      >::type expected2;
+
+      QUAN_CHECK( (std::is_same<result2,expected2>::value ))
+
+      QUAN_CHECK( ( std::is_same<result2,pqs::unary_op<pqs::meta::reciprocal,lhs_dimension>::type>::value) )
    }
 
 // TODO: dimension_multiply (etc) in user space ?
@@ -246,21 +258,35 @@ namespace {
       typedef pqs::unary_op<pqs::meta::reciprocal,dimension>::type result1;
 
    //   int x = result1{};
-      typedef pqs::dimension<pqs_exposition::exp<
-         base_length,-2>, 
-         pqs_exposition::exp<base_time,2>, 
-         pqs_exposition::exp<base_mass,-4>,
-         pqs_exposition::exp<base_current,-4> 
-      > expected_result1;
+      typedef sort<
+         pqs::dimension<pqs_exposition::exp<
+            base_length,-2>, 
+            pqs_exposition::exp<base_time,2>, 
+            pqs_exposition::exp<base_mass,-4>,
+            pqs_exposition::exp<base_current,-4> 
+         > 
+      >::type expected_result1;
   
      //###
      QUAN_CHECK( (std::is_same<result1,expected_result1>::value ))
 
-     typedef pqs::dimension<pqs_exposition::exp<base_length,1,2>, pqs_exposition::exp<base_time,-5,2>, pqs_exposition::exp<base_mass,1> ,pqs_exposition::exp<base_current,10> > dimension2;
+     typedef pqs::dimension<
+         pqs_exposition::exp<base_length,1,2>,
+         pqs_exposition::exp<base_time,-5,2>, 
+         pqs_exposition::exp<base_mass,1> ,
+         pqs_exposition::exp<base_current,10> 
+     > dimension2;
 
      typedef pqs::unary_op<pqs::meta::reciprocal,dimension2>::type result2;
 
-     typedef pqs::dimension<pqs_exposition::exp<base_length,-1,2>, pqs_exposition::exp<base_time,5,2>, pqs_exposition::exp<base_mass,-1> ,pqs_exposition::exp<base_current,-10> > expected_result2;
+     typedef sort<
+         pqs::dimension<
+            pqs_exposition::exp<base_length,-1,2>,
+            pqs_exposition::exp<base_time,5,2>,
+            pqs_exposition::exp<base_mass,-1>,
+            pqs_exposition::exp<base_current,-10> 
+         > 
+      >::type expected_result2;
 
      //###
      QUAN_CHECK( (std::is_same<result2,expected_result2>::value ))
