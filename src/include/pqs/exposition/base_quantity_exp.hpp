@@ -95,7 +95,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
-         Lhs, pqs::pow, Rhs,
+         Lhs, pqs::to_power, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
                pqs_exposition::detail::is_base_quantity_exp<Lhs>,

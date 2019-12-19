@@ -45,7 +45,7 @@ namespace pqs{
    struct logical_or;
    struct logical_and;
 
-   struct pow;
+   struct to_power;
 
    struct equals;
    struct plus_equals;

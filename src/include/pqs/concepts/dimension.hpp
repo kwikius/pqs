@@ -15,7 +15,7 @@ namespace pqs{
         
         binary_op<Lhs,times,Rhs> -> T
         binary_op<Lhs,divides,Rhs> -> T
-        binary_op<lhs,pow,R>  -> T
+        binary_op<lhs,to_power,R>  -> T
         unary_op<reciprocal,Lhs> -> T
         binary_op<lhs,equal_to,Rhs> -> B
         binary_op<lhs,not_equal_to,Rhs> -> B

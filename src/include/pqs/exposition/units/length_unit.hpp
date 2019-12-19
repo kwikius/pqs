@@ -4,19 +4,20 @@
 #include <pqs/exposition/base_quantity_exp.hpp>
 #include <pqs/bits/dimension.hpp>
 #include <pqs/bits/unit.hpp>
+#include <pqs/base_quantity/length.hpp>
 
 // length unit definition namespace 
 namespace pqs_exposition{ namespace length_unit{
 
-   struct mm : pqs::derived_unit< 
-      pqs::dimension<dim_length<1> > 
-      ,-3
+   struct mm : pqs::base_unit< 
+      pqs_exposition::exp<pqs::base_length,1> ,
+      -3
    >{};
 
    struct ft : pqs::unit_conversion< 
-      pqs::derived_unit< 
-         pqs::dimension<dim_length<1> >
-         ,-1
+      pqs::base_unit< 
+         pqs_exposition::exp<pqs::base_length,1>, 
+         -1
       >
       ,381,125
     >{};

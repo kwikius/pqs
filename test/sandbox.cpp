@@ -86,7 +86,7 @@ void sandbox()
    static_assert(is_abstract_quantity(expo::vertical_velocity ),"");
 
    constexpr auto q1 = make_quantity<3>(expo::length,20.0);
-   constexpr auto q2 = make_quantity<3>(expo::velocity,20.0);
+   constexpr auto q2 = make_quantity<3>(expo::acceleration,20.0);
    constexpr auto q3 = make_quantity<3>(expo::vertical_velocity,20.0);
    constexpr auto q4 = make_quantity<3>(expo::force,20.0);
 
@@ -96,5 +96,5 @@ void sandbox()
    static_assert ( not is_abstract_quantity(q4),"");
 
    // uncomment for error messages
-  // int x = q4;
+   //int x = q1;
 }

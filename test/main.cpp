@@ -7,6 +7,7 @@ void base_quantity_exp_test();
 
 void base_quantity_test();
 void dimension_test();
+void dimension_test1();
 void conversion_factor_test1();
 
 void type_list_test();
@@ -26,7 +27,8 @@ int main()
 {
   // quantity_syntax_test1();
   // base_dimension_ratio_test();
-  // dimension_test();
+   dimension_test();
+   dimension_test1();
 
    base_quantity_exp_test();
    conversion_factor_test1();
@@ -37,7 +39,8 @@ int main()
   // make_quantity_test();
    basic_concepts_test();
    base_quantity_test();
-   void sandbox();
+   experimental_test();
+   sandbox();
 
    EPILOGUE
 }

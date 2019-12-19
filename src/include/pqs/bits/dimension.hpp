@@ -11,6 +11,7 @@
 #include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/bits/dimension_def.hpp>
 #include <pqs/meta/merge_dim.hpp>
+#include <pqs/meta/transform.hpp>
 
 namespace pqs{
 
@@ -110,6 +111,58 @@ namespace pqs{
             > 
          >::type
       > : pqs::meta::merge_dim<Lhs,divides,Rhs>{};
+
+      namespace detail{
+
+         template<typename Ratio>
+         struct to_power_impl{
+            template <typename BaseQExp>
+            struct apply : pqs::binary_op<BaseQExp,pqs::to_power,Ratio>{};
+         };
+      }
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::to_power,Rhs,
+         typename where_< 
+            meta::and_<
+               pqs::is_dimension<Lhs>, 
+               pqs::impl::detail::is_std_ratio<Rhs>
+            > 
+         >::type
+       // TODO Sort ?
+      > : pqs::meta::transform<Lhs,pqs::dimension<>, detail::to_power_impl<Rhs> >{};
+
+      template <typename D>
+      struct unary_op_impl <
+         pqs::meta::reciprocal,D,
+         typename where_< 
+            pqs::is_dimension<D>
+         >::type
+      > : pqs::binary_op<D,pqs::to_power,std::ratio<-1> >{};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::equal_to,Rhs,
+         typename where_< 
+            meta::and_<
+               pqs::is_dimension<Lhs>, 
+               pqs::is_dimension<Rhs>
+            > 
+         >::type
+      > : std::is_same<typename pqs::meta::merge_dim<Lhs,divides,Rhs>::type,pqs::dimension<> > {};
+
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::not_equal_to,Rhs,
+         typename where_< 
+            meta::and_<
+               pqs::is_dimension<Lhs>, 
+               pqs::is_dimension<Rhs>
+            > 
+         >::type
+      > : pqs::meta::not_<pqs::binary_op<Lhs,pqs::equal_to,Rhs> > {};
+      
 
    } // impl
 }// pqs
