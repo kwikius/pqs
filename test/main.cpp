@@ -25,7 +25,7 @@ void sandbox();
 
 int main()
 {
-  // quantity_syntax_test1();
+   quantity_syntax_test1();
   // base_dimension_ratio_test();
    dimension_test();
    dimension_test1();

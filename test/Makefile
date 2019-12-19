@@ -3,15 +3,12 @@ PQS_ROOT ?= ../src/include
 
 CXXFLAGS = -fmax-errors=1
 
-
-#  
-#	exposition/syntax_test1.o \
-#	exposition/syntax_test2.o \
-
 OBJECTS = \
  	exposition/base_quantity_exp_test.o \
    exposition/dimension_test.o \
    exposition/dimension_test1.o \
+   exposition/syntax_test1.o \
+   exposition/syntax_test2.o \
 	eval_if_test.o \
 	main.o \
 	conversion_factor_test1.o \
@@ -22,8 +19,6 @@ OBJECTS = \
    experimental_test.o \
    base_quantity_test.o \
    sandbox.o
-
- 
 
 .PHONY : all test gcc7_cpp11 gcc9_cpp2a clean 
 

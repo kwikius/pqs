@@ -1,5 +1,6 @@
 
 #include <pqs/exposition/length.hpp>
+#include <pqs/bits/base_quantities.hpp>
 #include <pqs/meta/type_list.hpp>
 #include <tuple>
 
@@ -23,10 +24,10 @@ void quantity_syntax_test1()
    auto qx = quantity<
       unit<
          3,          
-         dim_length<1>, 
-         dim_time<-1>,
-         dim_mass<2>, 
-         dim_temperature<3>
+         exp<base_length,1>, 
+         exp<base_time,-1>,
+         exp<base_mass,2>, 
+         exp<base_temperature,3>
       >,
       double
    >{};
@@ -35,10 +36,10 @@ void quantity_syntax_test1()
    auto qa = quantity<
       derived_unit<
          dimension<
-            dim_length<1>, 
-            dim_time<-1>,
-            dim_mass<2>, 
-            dim_temperature<3>
+            exp<base_length,1>, 
+            exp<base_time,-1>,
+            exp<base_mass,2>, 
+            exp<base_temperature,3>
          >, 3  //<-- exponent
       >,double
    > {};
