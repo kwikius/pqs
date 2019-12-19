@@ -130,8 +130,14 @@ namespace pqs{
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
-       // TODO Sort ?
-      > : pqs::meta::transform<Lhs,pqs::dimension<>, detail::to_power_impl<Rhs> >{};
+      > : pqs::meta::transform<
+            typename pqs::meta::merge_sort<
+               Lhs,
+               pqs::meta::detail::base_quantity_exp_sort_fun
+            >::type,
+            pqs::dimension<>, 
+            detail::to_power_impl<Rhs> 
+       >{};
 
       template <typename D>
       struct unary_op_impl <
