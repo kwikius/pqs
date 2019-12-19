@@ -11,8 +11,9 @@ using pqs_exposition::exp;
 using pqs::base_length;
 using pqs::base_time;
 using pqs::base_mass;
+using pqs::make_quantity;
 
-namespace exposition{
+namespace expo{
 
    // base_quantity exponent aka base_dimension exponent
    constexpr exp<base_length,1> length;
@@ -66,31 +67,34 @@ namespace {
    }
 }
 
-int main()
+void sandbox()
 { 
-   static_assert(is_base_quantity_exp(exposition::length),"");
-   static_assert(is_abstract_quantity(exposition::length),"");
+   static_assert(is_base_quantity_exp(expo::length),"");
+   static_assert(is_abstract_quantity(expo::length),"");
 
-   static_assert(is_base_quantity_exp(exposition::mass),"");
-   static_assert(is_abstract_quantity(exposition::mass),"");
+   static_assert(is_base_quantity_exp(expo::mass),"");
+   static_assert(is_abstract_quantity(expo::mass),"");
 
-   static_assert(is_base_quantity_exp(exposition::time),"");
-   static_assert(is_abstract_quantity(exposition::time),"");
+   static_assert(is_base_quantity_exp(expo::time),"");
+   static_assert(is_abstract_quantity(expo::time),"");
 
-   static_assert(is_dimension(exposition::velocity),"");
-   static_assert(is_abstract_quantity(exposition::velocity),"");
-   static_assert(not is_derived_dimension(exposition::velocity),"");
+   static_assert(is_dimension(expo::velocity),"");
+   static_assert(is_abstract_quantity(expo::velocity),"");
+   static_assert(not is_derived_dimension(expo::velocity),"");
 
-   static_assert(is_derived_dimension(exposition::vertical_velocity),"");
-   static_assert(is_abstract_quantity(exposition::vertical_velocity ),"");
+   static_assert(is_derived_dimension(expo::vertical_velocity),"");
+   static_assert(is_abstract_quantity(expo::vertical_velocity ),"");
 
-   constexpr auto q1 = make_quantity<3>(exposition::length,20.0);
-   constexpr auto q2 = make_quantity<3>(exposition::velocity,20.0);
-   constexpr auto q3 = make_quantity<3>(exposition::vertical_velocity,20.0);
+   constexpr auto q1 = make_quantity<3>(expo::length,20.0);
+   constexpr auto q2 = make_quantity<3>(expo::velocity,20.0);
+   constexpr auto q3 = make_quantity<3>(expo::vertical_velocity,20.0);
+   constexpr auto q4 = make_quantity<3>(expo::force,20.0);
 
    static_assert ( not is_abstract_quantity(q1),"");
    static_assert ( not is_abstract_quantity(q2),"");
    static_assert ( not is_abstract_quantity(q3),"");
+   static_assert ( not is_abstract_quantity(q4),"");
 
-   //int x = exposition::force;
+   // uncomment for error messages
+  // int x = q4;
 }

@@ -19,6 +19,7 @@ OBJECTS = \
    basic_concepts_test.o \
    experimental_test.o \
    base_quantity_test.o \
+   sandbox.o
 
  
 
@@ -46,6 +47,11 @@ test.exe : $(OBJECTS)
 
 %.o : %.cpp 
 	$(CXX) $(CXXFLAGS) -O3 -c $< -o $@
+
+sandbox : sandbox.exe
+
+sandbox.exe : 
+	g++-7 -o sandbox.exe -std=c++11 -I${PQS_ROOT} -O3 -c sandbox.cpp
 
 clean :
 	rm -rf *.o exposition/*.o
