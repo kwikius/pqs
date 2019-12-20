@@ -60,7 +60,7 @@ multiplication by other conversion_factor ? yes for q^n
 -------------------------------------------
 
 So ops on conversion factor
-where K, K1 and K2 are coversion factors
+where K, K1 and K2 are conversion factors
 n
 K + K1 -> K3 is OK, do we need this?
 
@@ -122,8 +122,27 @@ q1 * q2
 q1 / q2
 -> q{ q1.v / q2.v , q1.k / q2.k};
 
+// #######################################
+// N.b convert q to a coherent quantity 
+// then  the multiplier is 1 so only need rational exponent
 q ^ R
 -> q{ q1.v^r * q.k ^ R};
+//##########################################
+To convert from an incoherent quantity to a coherent quantity
+
+
+incoherent
+   v_inco * km * 10^ke  
+
+coherent 
+  v_co * 1 * 10^ke
+
+v_inco * km *10^ke = v_co * 1 *10^ke
+
+v_inco * km   = v_co
+
+therefore
+v_co = v_inco * km
 
 
 
