@@ -43,6 +43,13 @@ namespace {
 
       QUAN_CHECK( (std::is_same<result_type1,pqs::conversion_factor<std::ratio<-21,20>, 6 > >::value ))
 
+     typedef pqs::conversion_factor<std::ratio<1>,0> one;
+
+     typedef  typename pqs::detail::conversion_factor_make_ratio_less_than_10<
+          one
+      >::type one_result_type;
+      QUAN_CHECK( (std::is_same<one_result_type,one>::value ))
+
    }
 
    void conversion_factor_gte_1_test()
@@ -69,6 +76,15 @@ namespace {
       >::type result_type1;
 
       QUAN_CHECK( (std::is_same<result_type1,pqs::conversion_factor<std::ratio<-21,20>, 3 > >::value ))
+
+     typedef pqs::conversion_factor<std::ratio<1>,0> one;
+
+     typedef  typename pqs::detail::conversion_factor_make_ratio_greater_equal_1<
+          one
+      >::type one_result_type;
+      QUAN_CHECK( (std::is_same<one_result_type,one>::value ))
+
+     
 
    }
 
