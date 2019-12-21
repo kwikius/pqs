@@ -13,20 +13,25 @@ namespace pqs{
 
    }
 
-   // N.B Ratio::type is a std::ratio
-   template < typename Ratio, int64_t Exp>
+   // Mulriplier and exponent are compile time rationals
+   template < typename Multiplier, typename  Exponent>
    struct conversion_factor{
-      typedef typename Ratio::type ratio;
-     // TODO make 0 special case
+      typedef typename Multiplier::type multiplier;
+      typedef typename Exponent::type exponent;
+     // TODO make 0 special case?
      // static_assert(ratio::num != 0, "only non-zero ratios values allowed");
-      static constexpr int64_t exp = Exp;
-      typedef conversion_factor<ratio,exp> type;
+      typedef conversion_factor<multiplier,exponent> type;
    };
 
    namespace meta{
 
-      template < intmax_t N, intmax_t D, int64_t Exp>
-      struct is_conversion_factor<pqs::conversion_factor<std::ratio<N,D>,Exp> > : std::true_type{};
+      template <intmax_t MuxNum, intmax_t MuxDenom, intmax_t ExpNum, intmax_t ExpDenom>
+      struct is_conversion_factor<
+         pqs::conversion_factor<
+            std::ratio<MuxNum,MuxDenom>,
+            std::ratio<ExpNum,ExpDenom> 
+         >
+      > : std::true_type{};
 
    }
 

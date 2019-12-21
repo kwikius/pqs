@@ -11,27 +11,32 @@ namespace pqs{ namespace detail{
 
    template <typename RatioExp, intmax_t N>
    struct add_conversion_factor1 {
-       static_assert(N >= 0);
-       typedef pqs::meta::to_power<10,N> mux;
+      static_assert(N >= 0);
+      typedef pqs::meta::to_power<10,N> mux;
 
-       typedef conversion_factor<
-          typename std::ratio_multiply<
-             typename RatioExp::ratio,std::ratio<1,mux::value> 
-          >::type
-          ,RatioExp::exp + N
-       > type;
+      typedef conversion_factor<
+         typename std::ratio_multiply<
+            typename RatioExp::multiplier,std::ratio<1,mux::value> 
+         >::type,
+         typename std::ratio_add<
+            typename RatioExp::exponent,std::ratio<N> 
+         >::type
+      > type;
    };
 
    template <typename RatioExp, intmax_t N>
    struct sub_conversion_factor1 {
-       static_assert(N >= 0);
-       typedef pqs::meta::to_power<10,N> mux;
-       typedef conversion_factor<
-          typename std::ratio_multiply<
-             typename RatioExp::ratio,std::ratio<mux::value,1> 
-          >::type
-          ,RatioExp::exp - N
-       > type;
+      static_assert(N >= 0);
+      typedef pqs::meta::to_power<10,N> mux;
+      typedef conversion_factor<
+         typename std::ratio_multiply<
+            typename RatioExp::multiplier,std::ratio<mux::value,1> 
+          >::type,
+         typename std::ratio_subtract<
+            typename RatioExp::exponent, 
+            std::ratio<N> 
+         >::type
+      > type;
    };
 
     // conversion_factor::exp -> conversion_factor::exp + n

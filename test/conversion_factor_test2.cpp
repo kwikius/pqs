@@ -17,17 +17,17 @@ namespace pqs {
       typedef typename pqs::conversion_factor_normalise<RatioExpLhs>::type lhs_type;
       typedef typename pqs::conversion_factor_normalise<RatioExpRhs>::type rhs_type;
       typedef typename pqs::meta::eval_if<
-         std::integral_constant<bool,(lhs_type::exp < rhs_type::exp)>
-            ,std::integral_constant<int,-1>
-         ,std::integral_constant<bool,(lhs_type::exp > rhs_type::exp)>
-            ,std::integral_constant<int,1>
-         ,std::ratio_equal<typename lhs_type::ratio,typename rhs_type::ratio>
-            ,std::integral_constant<int,0>
-         ,std::ratio_greater<typename lhs_type::ratio,typename rhs_type::ratio>
-            ,std::integral_constant<int,1>
-         ,std::integral_constant<int,-1>
-       >::type type;
-       static constexpr int value = type::value;
+         std::ratio_less<typename lhs_type::exponent,typename rhs_type::exponent>,
+            std::integral_constant<int,-1>,
+         std::ratio_greater<typename lhs_type::exponent,typename rhs_type::exponent>,
+            std::integral_constant<int,1>,
+         std::ratio_equal<typename lhs_type::multiplier,typename rhs_type::multiplier>,
+            std::integral_constant<int,0>,
+         std::ratio_greater<typename lhs_type::multiplier,typename rhs_type::multiplier>,
+            std::integral_constant<int,1>,
+         std::integral_constant<int,-1>
+      >::type type;
+      static constexpr int value = type::value;
    };
 
    template <typename RatioExpLhs, typename RatioExpRhs>
@@ -48,6 +48,7 @@ namespace pqs {
    template <typename RatioExpLhs, typename RatioExpRhs>
    struct conversion_factor_greater : std::integral_constant<bool,( conversion_factor_compare<RatioExpLhs, RatioExpRhs>::value > 0 )>{}; 
 
+   // addition of two conv  
    template <typename RatioExpLhs, typename RatioExpRhs>
    struct conversion_factor_add{
 
@@ -56,37 +57,40 @@ namespace pqs {
 
       typedef typename conversion_factor_compare<lhs_type,rhs_type>::type comp_type;
 
+      // align the conversion_factors so that the exponents are the same
+      // N.B this can only work if the conversion_factor::exponent denominators are the same
+      static_assert(RatioExpLhs::exponent::den == RatioExpRhs::exponent::den, "conversion_factor add: Exponent::denoms must be same");
       typedef typename pqs::meta::eval_if<
          std::integral_constant<bool,(comp_type::value == 0)>,
             lhs_type,
          std::integral_constant<bool,(comp_type::value < 0)>,  // lhs is smaller, so adjust rhs
-            pqs::detail::conversion_factor_add_exp_n<rhs_type, lhs_type::exp - rhs_type::exp>,
-         pqs::detail::conversion_factor_add_exp_n<lhs_type, rhs_type::exp - lhs_type::exp>
+            pqs::detail::conversion_factor_add_exp_n<rhs_type, lhs_type::exponent::num - rhs_type::exponent::num>,
+         pqs::detail::conversion_factor_add_exp_n<lhs_type, rhs_type::exponent::num - lhs_type::exponent::num>
       >::type aligned_type;
 
       typedef typename pqs::meta::eval_if<
          std::integral_constant<bool,(comp_type::value == 0)>,
             pqs::conversion_factor<
                typename std::ratio_add<
-                  typename lhs_type::ratio,
-                  typename lhs_type::ratio
+                  typename lhs_type::multiplier,
+                  typename lhs_type::multiplier
                >::type,
-               aligned_type::exp
+               typename aligned_type::exponent
              >,
          std::integral_constant<bool,(comp_type::value < 0)>,  // lhs is smaller so use 
             pqs::conversion_factor<
                typename std::ratio_add<
-                  typename lhs_type::ratio,
-                  typename aligned_type::ratio
+                  typename lhs_type::multiplier,
+                  typename aligned_type::multiplier
                >::type,
-               aligned_type::exp
+               typename aligned_type::exponent
             >,
          pqs::conversion_factor<
             typename std::ratio_add<
-               typename aligned_type::ratio,
-               typename rhs_type::ratio
+               typename aligned_type::multiplier,
+               typename rhs_type::multiplier
             >::type,
-            aligned_type::exp
+            typename aligned_type::exponent
          >
       >::type result_type;
 
@@ -99,8 +103,8 @@ namespace {
 
    void compare_test1()
    {
-      typedef pqs::conversion_factor<std::ratio<1,2>,2> v1;  // 50
-      typedef pqs::conversion_factor<std::ratio<1,2>,1> v2;  // 5
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v1;  // 50
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v2;  // 5
       QUAN_CHECK(( pqs::conversion_factor_compare<v1,v2>::value > 0 ))
 
       QUAN_CHECK(( pqs::conversion_factor_compare<v2,v1>::value < 0 ))
@@ -109,8 +113,8 @@ namespace {
 
    void compare_test2()
    {
-      typedef pqs::conversion_factor<std::ratio<10,3>,3> v1; //approx 3000
-      typedef pqs::conversion_factor<std::ratio<10,2>,3> v2; // 5000
+      typedef pqs::conversion_factor<std::ratio<10,3>,std::ratio<3> > v1; //approx 3000
+      typedef pqs::conversion_factor<std::ratio<10,2>,std::ratio<3> > v2; // 5000
       QUAN_CHECK(( pqs::conversion_factor_compare<v1,v2>::value < 0 ))
       QUAN_CHECK(( pqs::conversion_factor_compare<v2,v1>::value > 0 ))
       QUAN_CHECK(( pqs::conversion_factor_compare<v2,v2>::value == 0 ))
@@ -119,8 +123,8 @@ namespace {
    void compare_test3()
    {
       // different exp
-      typedef pqs::conversion_factor<std::ratio<10,3>,-2> v1;  
-      typedef pqs::conversion_factor<std::ratio<7,3>,-1> v2;
+      typedef pqs::conversion_factor<std::ratio<10,3>,std::ratio<-2> > v1;  
+      typedef pqs::conversion_factor<std::ratio<7,3>,std::ratio<-1> > v2;
 
       QUAN_CHECK((pqs::conversion_factor_less<v1,v2>::value == true)) //f
       QUAN_CHECK((!pqs::conversion_factor_less<v2,v1>::value))
@@ -142,8 +146,8 @@ namespace {
     
 
             // TODO same exp
-      typedef pqs::conversion_factor<std::ratio<1000,3>,-9> v3; // v3 < v4
-      typedef pqs::conversion_factor<std::ratio<1001,3>,-9> v4;
+      typedef pqs::conversion_factor<std::ratio<1000,3>,std::ratio<-9> > v3; // v3 < v4
+      typedef pqs::conversion_factor<std::ratio<1001,3>,std::ratio<-9> > v4;
 
       QUAN_CHECK((pqs::conversion_factor_less<v3,v4>::value))
       QUAN_CHECK((!pqs::conversion_factor_less<v4,v3>::value))
@@ -168,28 +172,28 @@ namespace {
 
    void add_test1()
    {
-      typedef pqs::conversion_factor<std::ratio<1,2>,1> v1;
-      typedef pqs::conversion_factor<std::ratio<1,2>,1> v2;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v2;
 
       typedef pqs::conversion_factor_add<v1,v2> add;
       typedef add::type v3;
 
-      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<1>,1> >::value ))
+      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<1>,std::ratio<1> > >::value ))
    }
 
    void add_test2()
    {
-      typedef pqs::conversion_factor<std::ratio<1,2>,1> v1;
-      typedef pqs::conversion_factor<std::ratio<1,2>,2> v2;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v2;
 
       typedef pqs::conversion_factor_add<v1,v2> add;
       typedef add::type v3;
 
-      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<11,2>,1> >::value ))
+      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<11,2>,std::ratio<1> > >::value ))
 
       // same test switching order
-      typedef pqs::conversion_factor<std::ratio<1,2>,2> v4;
-      typedef pqs::conversion_factor<std::ratio<1,2>,1> v5;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v4;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v5;
 
       typedef pqs::conversion_factor_add<v4,v5> add1;
       typedef add1::type v6;
@@ -199,6 +203,7 @@ namespace {
 
    void add_test3()
    {
+     //QUAN_CHECK(false)
    }
 
 
@@ -206,23 +211,23 @@ namespace {
    void add_test()
    {
       // TODO make this a ratio exp add metafun
-      typedef pqs::conversion_factor<std::ratio<1,2>,1> v1;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
 
-      typedef pqs::conversion_factor<std::ratio<1,2>,3> v2;
+      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<3> > v2;
 
       // (choose finest grained unit)
 
       using pqs::detail::conversion_factor_add_exp_n;
 
-      typedef conversion_factor_add_exp_n<v2,v1::exp - v2::exp>::type t2;
+      typedef conversion_factor_add_exp_n<v2,v1::exponent::num - v2::exponent::num>::type t2;
 
       typedef pqs::detail::conversion_factor_add_values<v1,t2>::type t3;
 
-      QUAN_CHECK(( std::is_same<t3,pqs::conversion_factor<std::ratio<101,2>,1> >::value ))
+      QUAN_CHECK(( std::is_same<t3,pqs::conversion_factor<std::ratio<101,2>,std::ratio<1> > >::value ))
   
       typedef pqs::conversion_factor_normalise<t3>::type v3;
 
-      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<101,20>,2> >::value ))
+      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<101,20>,std::ratio<2> > >::value ))
 
        // make exps same
        

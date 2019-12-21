@@ -8,10 +8,14 @@ namespace pqs{ namespace detail{
 
    template <typename RatioLhs, typename RatioRhs>
    struct conversion_factor_add_values{
-      static_assert( RatioLhs::exp == RatioRhs::exp,"conversion_factor exponents must be same for add");
-      typedef typename std::ratio_add< typename RatioLhs::ratio, typename RatioRhs::ratio>::type result_ratio;
+      static_assert( std::ratio_equal<
+         typename RatioLhs::exponent,typename RatioRhs::exponent
+      >::value,"conversion_factor exponents must be same for add");
+      typedef typename std::ratio_add< 
+         typename RatioLhs::multiplier, typename RatioRhs::multiplier
+      >::type result_ratio;
 
-      typedef pqs::conversion_factor<result_ratio,RatioLhs::exp> type;
+      typedef pqs::conversion_factor<result_ratio,typename RatioLhs::exponent> type;
    };
 }}
 
