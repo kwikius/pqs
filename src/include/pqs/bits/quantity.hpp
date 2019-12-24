@@ -1,6 +1,9 @@
 #ifndef PQS_QUANTITY_HPP_INCLUDED
 #define PQS_QUANTITY_HPP_INCLUDED
 
+#include <pqs/concepts/quantity.hpp>
+#include <pqs/bits/conversion_factor.hpp>
+
 namespace pqs{
 
    template <typename U, typename V = double>
