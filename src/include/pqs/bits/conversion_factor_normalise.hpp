@@ -7,24 +7,24 @@
 
 namespace  pqs { 
 
-   template <typename RatioExp>
+   template <typename ConversionFactor>
    struct conversion_factor_normalise{
 
       typedef typename pqs::meta::eval_if<
          std::ratio_greater_equal<
             typename pqs::detail::std_ratio_abs<
-               typename RatioExp::multiplier
+               typename ConversionFactor::multiplier
             >::type,
             std::ratio<10,1> 
          >,
             pqs::detail::conversion_factor_make_ratio_less_than_10<
-                RatioExp
+                ConversionFactor
             >,
-         std::ratio_less<typename pqs::detail::std_ratio_abs<typename RatioExp::multiplier>::type,std::ratio<1,1> >
+         std::ratio_less<typename pqs::detail::std_ratio_abs<typename ConversionFactor::multiplier>::type,std::ratio<1,1> >
              ,pqs::detail::conversion_factor_make_ratio_greater_equal_1<
-               RatioExp
+               ConversionFactor
              >,
-         RatioExp
+         ConversionFactor
       >::type type;
    };
 
