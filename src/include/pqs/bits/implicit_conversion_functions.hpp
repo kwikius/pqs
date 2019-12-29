@@ -12,6 +12,9 @@ namespace pqs{
    template <typename From, typename T>
    struct invalid_conversion{};
 
+   // todo runtime_checked_throw
+   //  runtime_saturate
+
    struct no_conversion{
 
        template <typename Tout, typename Tin>

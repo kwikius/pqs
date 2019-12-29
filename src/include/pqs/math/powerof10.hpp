@@ -8,19 +8,20 @@
 #include <pqs/meta/or.hpp>
 #include <pqs/meta/not.hpp>
 #include <type_traits>
+#include <limits>
 #include <pqs/math/to_power.hpp>
+#include <pqs/meta/identity.hpp>
 
 namespace pqs{ namespace impl{
 
-   template <typename ValueType, typename Exp, typename Where = void>
+   template <typename Exp, typename Where = void>
    struct pow10_impl : pqs::undefined{};
 
    template <
-      typename ValueType, // some numeric type
       typename Exp // std:ratio
    > 
    struct pow10_impl<
-      ValueType, Exp,
+      Exp,
       typename pqs::where_< 
          pqs::meta::and_<
             std::integral_constant<bool,(Exp::den == 1)>,
@@ -28,42 +29,46 @@ namespace pqs{ namespace impl{
          >
       >::type
    >{
-        typedef ValueType type;
+        typedef int8_t type;
         static constexpr type value = static_cast<type>(1);
    };
 
    template <
-      typename ValueType, // some numeric type
       typename Exp // std:ratio
    > 
    struct pow10_impl<
-      ValueType, Exp,
+      Exp,
       typename pqs::where_< 
          pqs::meta::and_<
-            std::is_integral<ValueType>,
             std::integral_constant<bool,(Exp::den == 1)>,
             std::integral_constant<bool,(Exp::num > 0)>,
-            std::integral_constant<bool,(Exp::num <= std::numeric_limits<ValueType>::digits10)>
-        >
+            std::integral_constant<bool,(Exp::num <= std::numeric_limits<int64_t>::digits10)>
+         >
       >::type
-    >{
-         typedef ValueType type;
-         static constexpr type value = static_cast<type>(10) * pow10_impl< ValueType, std::ratio<Exp::num -1,1> >::value;
-    };
+   >{
+      typedef typename pqs::meta::eval_if<
+         std::integral_constant<bool,(Exp::num <= std::numeric_limits<int8_t>::digits10 )>,
+            pqs::meta::identity<int8_t>,
+         std::integral_constant<bool,(Exp::num <= std::numeric_limits<int16_t>::digits10 )>,
+            pqs::meta::identity<int16_t>,
+         std::integral_constant<bool,(Exp::num <= std::numeric_limits<int32_t>::digits10 )>,
+            pqs::meta::identity<int32_t>,
+         pqs::meta::identity<int64_t>
+      >::type type;
+      static constexpr type value = static_cast<type>(10) * pow10_impl<std::ratio<Exp::num -1,1> >::value;
+   };
 
 
    template <
-      typename ValueType, // some numeric type
       typename Exp // std:ratio
    > 
    struct pow10_impl<
-      ValueType, Exp,
+      Exp,
       typename pqs::where_< 
          pqs::meta::or_<
-            pqs::meta::not_<std::is_integral<ValueType> >,
             std::integral_constant<bool,(Exp::den !=1)>,
             std::integral_constant<bool,(Exp::num < 0)>,
-            std::integral_constant<bool,(Exp::num > std::numeric_limits<ValueType>::digits10)>
+            std::integral_constant<bool,(Exp::num > std::numeric_limits<int64_t>::digits10)>
         >
       >::type
     >{
@@ -71,11 +76,10 @@ namespace pqs{ namespace impl{
          static constexpr type value = pqs::to_power<Exp::num,Exp::den>(static_cast<type>(10));
     };
 
+   } // impl
 
-}
-
-   template <typename ValueType, typename Exp>
-   struct powerof10 : impl::pow10_impl<ValueType,Exp>{};
+   template <typename Exp>
+   struct powerof10 : impl::pow10_impl<Exp>{};
 
 }//pqs
 

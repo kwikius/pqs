@@ -5,6 +5,8 @@
 #include <pqs/bits/scaled_value.hpp>
 #include <pqs/math/powerof10.hpp>
 #include <pqs/bits/binary_op.hpp>
+#include <pqs/meta/narrowest_runtime_type.hpp>
+#include <pqs/meta/integer_max.hpp>
 
 namespace pqs{
 
@@ -22,32 +24,63 @@ namespace pqs{
          ConvFactor
        >{};
 
+      template <typename ConvFactor>
+      struct eval_integral_conv_factor{
+
+         typedef typename pqs::meta::narrowest_runtime_type<typename ConvFactor::multiplier>::type mux_rt_type;
+         typedef typename pqs::powerof10<typename ConvFactor::exponent>::type exp_rt_type;
+         typedef typename std::common_type<mux_rt_type,exp_rt_type>::type un_promoted_rt_type;
+         static_assert(std::is_integral<un_promoted_rt_type>::value,"expected integral conv factor");
+         static constexpr int64_t eval_value = (static_cast<int64_t>(ConvFactor::multiplier::num)/ ConvFactor::multiplier::den)
+               * pqs::powerof10<typename ConvFactor::exponent>::value;
+         static_assert(eval_value > 0,"unexpected negative or zero eval value");
+         typedef typename pqs::meta::eval_if<
+            std::integral_constant<bool,(eval_value <= pqs::meta::integer_max<int8_t>::value)>,
+               pqs::meta::identity<int8_t>,
+            std::integral_constant<bool,(eval_value <= pqs::meta::integer_max<int16_t>::value)>,
+               pqs::meta::identity<int16_t>,
+             std::integral_constant<bool,(eval_value <= pqs::meta::integer_max<int32_t>::value)>,
+               pqs::meta::identity<int32_t>,
+             pqs::meta::identity<int64_t>
+         >::type type;
+            
+         static constexpr type apply()
+         {
+            return static_cast<type>(eval_value);
+         }
+
+      };
+
+      template <typename ConvFactor>
+      struct eval_float_conv_factor{
+         typedef pqs::real_type type;
+         static constexpr type apply()
+         {
+            return (static_cast<type>(ConvFactor::multiplier::num)/ ConvFactor::multiplier::den)
+               * pqs::powerof10<typename ConvFactor::exponent>::value;
+         }
+      };
+
    }//detail
 
-   template <typename ValueType,typename ConvFactor>
+   template <typename ConvFactor>
    struct conversion_factor_eval{
       //NB assume convfactor is already normalised?
       typedef typename pqs::detail::remove_fractions_of10<ConvFactor>::type reduced_type; 
 
-      typedef typename std::common_type<
-         ValueType,
-         typename std::conditional<
-            (reduced_type::multiplier::den == 1),
-               intmax_t,
-               double
-         >::type,
-         typename std::conditional<
-          ( (reduced_type::exponent::num >= 0) && (ConvFactor::exponent::den == 1) ),
-               intmax_t,
-               double
-         >::type
-      >::type type;
+      typedef pqs::meta::narrowest_runtime_type<typename reduced_type::multiplier>::type mux_rt_type;
+      typedef pqs::powerof10<typename reduced_type::exponent>::type exp_rt_type;
+      typedef typename std::common_type<mux_rt_type,exp_rt_type>::type un_promoted_rt_type;
+      typedef typename pqs::meta::eval_if<
+         std::is_integral<un_promoted_rt_type>,
+         pqs::meta::identity<detail::eval_integral_conv_factor<reduced_type> >,
+         pqs::meta::identity<detail::eval_float_conv_factor<reduced_type> >
+      >::type eval_type;
+      typedef typename eval_type::type type;
 
       constexpr type operator()() const
       {
-         return 
-            (static_cast<type>(reduced_type::multiplier::num)/ reduced_type::multiplier::den)
-               * pqs::powerof10<type,typename reduced_type::exponent>::value;
+         return eval_type::apply();
       }
       
    };

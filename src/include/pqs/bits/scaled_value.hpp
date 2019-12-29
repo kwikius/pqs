@@ -17,28 +17,15 @@ namespace pqs{
       typedef ValueType value_type;
       typedef ConversionFactor conversion_factor;
 
-//      template <typename ValueTypeR,typename ConversionFactorR>
-//      constexpr 
-//      static ValueType scale_from(ValueTypeR const & in);
-
-//      template <typename ValueTypeL, typename ConversionFactorL>
+      // F is a function to fix up the value_type
+      // se the <pqs/bits/implicit_conversion_functions.hpp> header for some examples
       template <typename ValueTypeR,typename ConversionFactorR, typename F>
       static constexpr 
-  //    inline
-  //    ValueTypeL
       ValueType
       scale_from (ValueTypeR const & vR, F const & f)
       {
          typedef typename pqs::binary_op<ConversionFactorR,pqs::divides,ConversionFactor>::type conv_factor;
-         typedef typename conversion_factor_eval<
-            typename std::common_type<ValueType,ValueTypeR>::type,
-            conv_factor
-         >::type value_type;
-         // #########################################################
-         // n.b narrowing possible here from ValueType to ValueTypeL
-         // use -Wnarrowing , -Wfloat-conversion,-WConversion to flag these conversions
-         //##########################################################
-         return F::template apply<ValueType>(vR * conversion_factor_eval<value_type, conv_factor>{}());
+         return F::template apply<ValueType>(vR * conversion_factor_eval<conv_factor>{}());
       }
 
       template <typename V>
