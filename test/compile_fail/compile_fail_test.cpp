@@ -46,6 +46,7 @@ int main()
    system (header.c_str());
 
    QUAN_CHECK( compile_fail_test("base_quantity_totally_ordered_test.cpp",compile_info) )
+   QUAN_CHECK( compile_fail_test("scaled_value_narrowing_conversion_test.cpp",compile_info) )
 
    std::string tail =  "echo '########## compile fail tests completed ##########\n'";// >> " + compile_info.log_file;
    system (tail.c_str());

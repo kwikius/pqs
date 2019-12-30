@@ -1,8 +1,7 @@
 
-#include <type_traits>
+
 #include <pqs/bits/scaled_value.hpp>
-#include <pqs/math/powerof10.hpp>
-#include <pqs/bits/binary_op.hpp>
+
 
 #include <iostream>
 
@@ -18,10 +17,7 @@ void sandbox()
 
       constexpr pqs::scaled_value<double,cf_from> sv{30.0};
 
-    // compile fail
-      pqs::scaled_value<int8_t,cf_to> sv1 = sv;
-
-      pqs::scaled_value<int8_t,cf_to> sv2{sv, pqs::warn_narrowing_conversion{}};
+      pqs::scaled_value<int8_t,cf_to> sv2{sv, pqs::saturating_conversion{}};
 
       std::cout << static_cast<int>(sv2.numeric_value()) <<'\n';
    }catch(std::exception & e){
