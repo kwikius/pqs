@@ -25,14 +25,20 @@ namespace pqs{
       scale_from (ValueTypeR const & vR, F const & f)
       {
          typedef typename pqs::binary_op<ConversionFactorR,pqs::divides,ConversionFactor>::type conv_factor;
-         return F::template apply<ValueType>(vR * conversion_factor_eval<conv_factor>{}());
+         return F::template apply<ValueType>(vR * pqs::conversion_factor_eval<conv_factor>{}());
       }
 
       template <typename V>
       constexpr 
       explicit
-      scaled_value(V const& v, typename pqs::where_<std::is_same<V,value_type> >::type * = nullptr)
-      :m_numeric_value{v}{}
+      scaled_value(V const& v )
+      :m_numeric_value{pqs::default_conversion::template apply<ValueType>(v)}{}
+
+      template <typename ValueTypeR,typename ConversionFactorR, typename F>
+      constexpr 
+      explicit
+      scaled_value(scaled_value<ValueTypeR,ConversionFactorR> const & in, F const & f)
+      :m_numeric_value{scale_from<ValueTypeR,ConversionFactorR>(in.numeric_value(),f)}{}
 
       template <typename ValueTypeR,typename ConversionFactorR>
       constexpr 

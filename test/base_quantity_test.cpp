@@ -9,15 +9,6 @@
 
 namespace {
 
-   struct my_length{};
-
-#if 0
-   // my_length is not compile time totally ordered so this should fail
-   void compile_fail()
-   {
-      struct my_base_quantity : pqs::base_quantity_of<my_length>{};
-   }
-#endif
    struct derived_uuid1 : pqs::universally_unique_id<0,100>{};
 
    void uuid_test()

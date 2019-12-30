@@ -11,12 +11,12 @@ using namespace pqs_exposition;
 
 namespace {
 
-   constexpr exp<base_mass,1> mass_dim;
-   constexpr exp<base_length,1> length_dim;
-   constexpr exp<base_time,1> time_dim;
+   constexpr pqs_exposition::exp<base_mass,1> mass_dim;
+   constexpr pqs_exposition::exp<base_length,1> length_dim;
+   constexpr pqs_exposition::exp<base_time,1> time_dim;
 
-   static_assert(pqs::is_base_quantity_exp<exp<base_length,1> >::value,"");
-   static_assert(pqs::is_base_quantity_exp<exp<base_time,1> >::value,"");
+   static_assert(pqs::is_base_quantity_exp<pqs_exposition::exp<base_length,1> >::value,"");
+   static_assert(pqs::is_base_quantity_exp<pqs_exposition::exp<base_time,1> >::value,"");
 
    // these will be wrapped into a dimension e.g dimension<base_length<1>,base_time<-1>
    constexpr auto velocity_dim = length_dim / time_dim; 

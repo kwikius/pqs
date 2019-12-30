@@ -7,7 +7,7 @@
 #include <pqs/bits/quantity.hpp>
 #include "../test/make_quantity.hpp"
 
-using pqs_exposition::exp;
+//using pqs_exposition::exp;
 using pqs::base_length;
 using pqs::base_time;
 using pqs::base_mass;
@@ -16,11 +16,11 @@ using pqs::make_quantity;
 namespace expo{
 
    // base_quantity exponent aka base_dimension exponent
-   constexpr exp<base_length,1> length;
-   constexpr exp<base_time,1> time;
-   constexpr exp<base_mass,1> mass;
+   constexpr pqs_exposition::exp<base_length,1> length;
+   constexpr pqs_exposition::exp<base_time,1> time;
+   constexpr pqs_exposition::exp<base_mass,1> mass;
 
-   // dimension<exp<base_length,1>,exp<base_time,-1> >
+   // dimension<pqs_exposition::exp<base_length,1>,pqs_exposition::exp<base_time,-1> >
    constexpr auto velocity = length / time;
 
    constexpr auto acceleration = velocity / time;

@@ -1,8 +1,7 @@
-#ifndef PQS_BITS_CONVERSION_FACTOR_EVAL_HPP_INCLUDED
-#define PQS_BITS_CONVERSION_FACTOR_EVAL_HPP_INCLUDED
+#ifndef PQS_BITS_CONVERSION_FACTOR_EVAL_HPP_INCLUDED1
+#define PQS_BITS_CONVERSION_FACTOR_EVAL_HPP_INCLUDED1
 
 #include <type_traits>
-#include <pqs/bits/scaled_value.hpp>
 #include <pqs/math/powerof10.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/narrowest_runtime_type.hpp>
@@ -68,8 +67,8 @@ namespace pqs{
       //NB assume convfactor is already normalised?
       typedef typename pqs::detail::remove_fractions_of10<ConvFactor>::type reduced_type; 
 
-      typedef pqs::meta::narrowest_runtime_type<typename reduced_type::multiplier>::type mux_rt_type;
-      typedef pqs::powerof10<typename reduced_type::exponent>::type exp_rt_type;
+      typedef typename pqs::meta::narrowest_runtime_type<typename reduced_type::multiplier>::type mux_rt_type;
+      typedef typename pqs::powerof10<typename reduced_type::exponent>::type exp_rt_type;
       typedef typename std::common_type<mux_rt_type,exp_rt_type>::type un_promoted_rt_type;
       typedef typename pqs::meta::eval_if<
          std::is_integral<un_promoted_rt_type>,

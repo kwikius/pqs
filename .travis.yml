@@ -20,3 +20,6 @@ script:
     - make clean
     - make gcc9_concepts_cpp2a
     - make clean
+    - cd ./compile_fail
+    - make
+    - make clean

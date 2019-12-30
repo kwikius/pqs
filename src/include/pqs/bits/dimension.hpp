@@ -118,7 +118,7 @@ namespace pqs{
          template<typename Ratio>
          struct to_power_impl{
             template <typename BaseQExp>
-            struct apply : pqs::binary_op<BaseQExp,pqs::to_power,Ratio>{};
+            struct apply : pqs::binary_op<BaseQExp,struct pqs::to_power,Ratio>{};
          };
 
          struct push_back_not_zero{
@@ -134,7 +134,7 @@ namespace pqs{
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
-         Lhs,pqs::to_power,Rhs,
+         Lhs,struct pqs::to_power,Rhs,
          typename where_< 
             meta::and_<
                pqs::is_dimension<Lhs>, 
@@ -160,7 +160,7 @@ namespace pqs{
          typename where_< 
             pqs::is_dimension<D>
          >::type
-      > : pqs::binary_op<D,pqs::to_power,std::ratio<-1> >{};
+      > : pqs::binary_op<D,struct pqs::to_power,std::ratio<-1> >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
