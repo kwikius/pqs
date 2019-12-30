@@ -1,6 +1,0 @@
-In file included from base_quantity_totally_ordered_test.cpp:3:0:
-../../src/include/pqs/bits/base_quantity_of.hpp: In instantiation of ‘struct pqs::base_quantity_of<{anonymous}::my_length>’:
-base_quantity_totally_ordered_test.cpp:13:38:   required from here
-../../src/include/pqs/bits/base_quantity_of.hpp:20:7: error: static assertion failed: base_quantity_of requires Id to be totally ordered at compile time
-       static_assert(pqs::meta::are_totally_ordered<Id,Id>::value, "base_quantity_of requires Id to be totally ordered at compile time");
-       ^~~~~~~~~~~~~
