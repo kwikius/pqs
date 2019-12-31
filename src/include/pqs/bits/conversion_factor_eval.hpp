@@ -6,6 +6,7 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/narrowest_runtime_type.hpp>
 #include <pqs/meta/integer_max.hpp>
+#include <pqs/bits/conversion_factor_normalise.hpp>
 
 namespace pqs{
 
@@ -65,7 +66,8 @@ namespace pqs{
    template <typename ConvFactor>
    struct conversion_factor_eval{
       //NB assume convfactor is already normalised?
-      typedef typename pqs::detail::remove_fractions_of10<ConvFactor>::type reduced_type; 
+      typedef typename pqs::conversion_factor_normalise<ConvFactor>::type normalised_type;
+      typedef typename pqs::detail::remove_fractions_of10<normalised_type>::type reduced_type; 
 
       typedef typename pqs::meta::narrowest_runtime_type<typename reduced_type::multiplier>::type mux_rt_type;
       typedef typename pqs::powerof10<typename reduced_type::exponent>::type exp_rt_type;

@@ -1,8 +1,6 @@
 
 
 #include <pqs/bits/scaled_value.hpp>
-
-
 #include <iostream>
 
 #if defined PQS_STANDALONE

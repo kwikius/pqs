@@ -32,6 +32,32 @@ namespace pqs{
          >::type type;
       };
 
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl<Lhs, pqs::times,Rhs,
+         typename pqs::where_<
+            pqs::meta::and_<
+               pqs::meta::is_conversion_factor<Lhs>,
+               pqs::meta::is_conversion_factor<Rhs>
+            >
+         >::type
+      >{
+         // prob normalise this?
+         typedef typename conversion_factor_normalise<
+            pqs::conversion_factor<
+               typename std::ratio_multiply<
+                  typename Lhs::multiplier,
+                  typename Rhs::multiplier
+               >::type,
+               typename std::ratio_add<
+                  typename Lhs::exponent,
+                  typename Rhs::exponent
+               >::type
+            >
+         >::type type;
+      };
+
+      
+
    } // impl
 
 }//pqs
