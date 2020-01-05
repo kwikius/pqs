@@ -130,7 +130,7 @@ namespace {
 
       QUAN_CHECK(( std::is_same<t3,pqs::conversion_factor<std::ratio<101,2>,std::ratio<1> > >::value ))
   
-      typedef pqs::conversion_factor_normalise<t3>::type v3;
+      typedef pqs::detail::conversion_factor_normalise<t3>::type v3;
 
       QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<101,20>,std::ratio<2> > >::value ))
 

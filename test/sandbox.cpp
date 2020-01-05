@@ -1,25 +1,36 @@
+#include "test.hpp"
 
+#include <pqs/bits/binary_op.hpp>
 
-#include <pqs/bits/scaled_value.hpp>
-#include <iostream>
+namespace {
+
+   struct my_type{};  
+
+   void binary_op_test()
+   {
+       QUAN_CHECK((pqs::is_valid_binary_op<my_type,pqs::plus,my_type>::value == false))
+       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::plus,int>::type,int>::value))
+       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::minus,int>::type,int>::value))
+       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::times,int>::type,int>::value))
+       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::divides,int>::type,int>::value))
+//TODO
+    //   QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::shift_left,int>::type,int>::value))
+    //   QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::shift_right,int>::type,int>::value))
+    //   QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::div,int>::type,int>::value))
+     //  QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::modulus,int>::type,int>::value))
+     //  QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::modulus,int>::type,int>::value))
+       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::bit_or,int>::type,int>::value))
+     //  QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::bit_xor,int>::type,int>::value))
+       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::bit_and,int>::type,int>::value))
+   }
+}
 
 #if defined PQS_STANDALONE
+int errors =0;
 int main()
 #else
 void sandbox()
 #endif
 {
-  try{
-      typedef pqs::conversion_factor<std::ratio<1>,std::ratio<0> > cf_from;  
-      typedef pqs::conversion_factor<std::ratio<1,7>,std::ratio<0> > cf_to;
-
-      constexpr pqs::scaled_value<double,cf_from> sv{30.0};
-
-      pqs::scaled_value<int8_t,cf_to> sv2{sv, pqs::saturating_conversion{}};
-
-      std::cout << static_cast<int>(sv2.numeric_value()) <<'\n';
-   }catch(std::exception & e){
-      std::cout << "exception \"" << e.what() << "\"\n";
-   }
-
+   binary_op_test();
 }

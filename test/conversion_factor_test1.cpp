@@ -15,9 +15,9 @@ namespace {
          int,int
       > conversion_factor1;
 
-      QUAN_CHECK((pqs::meta::is_conversion_factor<conversion_factor>::value));
+      QUAN_CHECK((pqs::is_conversion_factor<conversion_factor>::value));
 
-      QUAN_CHECK((pqs::meta::is_conversion_factor<conversion_factor1>::value == false));
+      QUAN_CHECK((pqs::is_conversion_factor<conversion_factor1>::value == false));
    }
 
    void conversion_factor_lt_10_test()
@@ -125,33 +125,33 @@ namespace {
    void conversion_factor_normalise_test()
    {
        typedef pqs::conversion_factor<std::ratio<1,200>,std::ratio<4> > t1;
-       typedef pqs::conversion_factor_normalise<t1>::type t2;
+       typedef pqs::detail::conversion_factor_normalise<t1>::type t2;
 
        QUAN_CHECK((std::is_same<t2,pqs::conversion_factor<std::ratio<5,1>,std::ratio<1> > >::value ))
 
      //  int x = t2{};
 
        typedef pqs::conversion_factor<std::ratio<201,20>,std::ratio<-3> > t3;
-       typedef pqs::conversion_factor_normalise<t3>::type t4;
+       typedef pqs::detail::conversion_factor_normalise<t3>::type t4;
 
        QUAN_CHECK((std::is_same<t4,pqs::conversion_factor<std::ratio<201,200>,std::ratio<-2> > >::value ))
 
        typedef pqs::conversion_factor<std::ratio<202000,20>,std::ratio<-9> > t5;
-       typedef pqs::conversion_factor_normalise<t5>::type t6;
+       typedef pqs::detail::conversion_factor_normalise<t5>::type t6;
 
        QUAN_CHECK((std::is_same<t6,pqs::conversion_factor<std::ratio<101,100>,std::ratio<-5> > >::value ))
 
        typedef pqs::conversion_factor<std::ratio<9,1>,std::ratio<4> > t7;
-       typedef pqs::conversion_factor_normalise<t7>::type t8;
+       typedef pqs::detail::conversion_factor_normalise<t7>::type t8;
 
        QUAN_CHECK((std::is_same<t7,t8 >::value ))
 
        typedef pqs::conversion_factor<std::ratio<1>,std::ratio<4> > t9;
-       typedef pqs::conversion_factor_normalise<t9>::type t10;
+       typedef pqs::detail::conversion_factor_normalise<t9>::type t10;
        QUAN_CHECK((std::is_same<t9,t10 >::value ))
 
        typedef pqs::conversion_factor<std::ratio<1,10>,std::ratio<4> > t11;
-       typedef pqs::conversion_factor_normalise<t11>::type t12;
+       typedef pqs::detail::conversion_factor_normalise<t11>::type t12;
 
      // int x = t12{};
        QUAN_CHECK((std::is_same<t12,pqs::conversion_factor<std::ratio<1,1>,std::ratio<3> > >::value ))

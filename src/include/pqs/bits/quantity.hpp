@@ -6,8 +6,18 @@
 
 namespace pqs{
 
+   /*
+      quantity is a model of concrete_quantity
+      if
+      U is a model of     concrete_quantity_unit
+      and V is a model of concrete_quantity_value_type
+
+      other concepts named_concrete_quantity
+                     anonymous_concrete_quantity
+   */
    template <typename U, typename V = double>
    struct quantity{
+      
       constexpr explicit quantity(V const & v) : m_numeric_value{v}{}
       constexpr explicit quantity() : m_numeric_value{V{0}}{}
 

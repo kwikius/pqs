@@ -1,12 +1,11 @@
 #ifndef PQS_BITS_CONVERSION_FACTOR_OPS_HPP_INCLUDED
 #define PQS_BITS_CONVERSION_FACTOR_OPS_HPP_INCLUDED
 
-#include <pqs/bits/conversion_factor_def.hpp>
+#include <pqs/concepts/conversion_factor.hpp>
+#include <pqs/bits/detail/conversion_factor_normalise.hpp>
 #include <pqs/bits/binary_op.hpp>
 
 namespace pqs{
-
-
 
    namespace detail{
 
@@ -16,8 +15,8 @@ namespace pqs{
 
       template <typename RatioExpLhs, typename RatioExpRhs>
       struct conversion_factor_compare{
-         typedef typename pqs::conversion_factor_normalise<RatioExpLhs>::type lhs_type;
-         typedef typename pqs::conversion_factor_normalise<RatioExpRhs>::type rhs_type;
+         typedef typename pqs::detail::conversion_factor_normalise<RatioExpLhs>::type lhs_type;
+         typedef typename pqs::detail::conversion_factor_normalise<RatioExpRhs>::type rhs_type;
          typedef typename pqs::meta::eval_if<
             std::ratio_less<typename lhs_type::exponent,typename rhs_type::exponent>,
                std::integral_constant<int,-1>,
@@ -37,14 +36,14 @@ namespace pqs{
       template <typename RatioExpLhs, typename RatioExpRhs>
       struct conversion_factor_add{
 
-         typedef typename pqs::conversion_factor_normalise<RatioExpLhs>::type lhs_type;
-         typedef typename pqs::conversion_factor_normalise<RatioExpRhs>::type rhs_type;
+         typedef typename pqs::detail::conversion_factor_normalise<RatioExpLhs>::type lhs_type;
+         typedef typename pqs::detail::conversion_factor_normalise<RatioExpRhs>::type rhs_type;
 
          typedef typename detail::conversion_factor_compare<lhs_type,rhs_type>::type comp_type;
 
          // align the conversion_factors so that the exponents are the same
          // N.B this can only work if the conversion_factor::exponent denominators are the same
-         static_assert(RatioExpLhs::exponent::den == RatioExpRhs::exponent::den, "conversion_factor add: Exponent::denoms must be same");
+         static_assert(lhs_type::exponent::den == rhs_type::exponent::den, "conversion_factor add: Exponent::denoms must be same");
          typedef typename pqs::meta::eval_if<
             std::integral_constant<bool,(comp_type::value == 0)>,
                lhs_type,
@@ -79,7 +78,7 @@ namespace pqs{
             >
          >::type result_type;
 
-        typedef typename pqs::conversion_factor_normalise<result_type>::type type;
+        typedef typename pqs::detail::conversion_factor_normalise<result_type>::type type;
          
       };
 
@@ -91,13 +90,13 @@ namespace pqs{
       struct binary_op_impl<Lhs, pqs::divides,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
       >{
          // prob normalise this?
-         typedef typename conversion_factor_normalise<
+         typedef typename pqs::detail::conversion_factor_normalise<
             pqs::conversion_factor<
                typename std::ratio_divide<
                   typename Lhs::multiplier,
@@ -115,13 +114,13 @@ namespace pqs{
       struct binary_op_impl<Lhs, pqs::times,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
       >{
          // prob normalise this?
-         typedef typename conversion_factor_normalise<
+         typedef typename pqs::detail::conversion_factor_normalise<
             pqs::conversion_factor<
                typename std::ratio_multiply<
                   typename Lhs::multiplier,
@@ -140,8 +139,8 @@ namespace pqs{
          Lhs, pqs::plus,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
         > : pqs::detail::conversion_factor_add<Lhs,Rhs>{};
@@ -153,8 +152,8 @@ namespace pqs{
          Lhs, pqs::less,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value < 0)>{};
@@ -164,8 +163,8 @@ namespace pqs{
          Lhs, pqs::less_equal,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value <= 0)>{};
@@ -175,8 +174,8 @@ namespace pqs{
          Lhs, pqs::equal_to,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value == 0)>{};
@@ -186,8 +185,8 @@ namespace pqs{
          Lhs, pqs::not_equal_to,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value != 0)>{};
@@ -197,8 +196,8 @@ namespace pqs{
          Lhs, pqs::greater_equal,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
       > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value >= 0)>{};
@@ -208,8 +207,8 @@ namespace pqs{
          Lhs, pqs::greater,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::meta::is_conversion_factor<Lhs>,
-               pqs::meta::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor<Lhs>,
+               pqs::is_conversion_factor<Rhs>
             >
          >::type
        > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value > 0)>{};

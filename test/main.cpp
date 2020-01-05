@@ -18,10 +18,16 @@ void make_quantity_test();
 
 void conversion_factor_test2();
 void basic_concepts_test();
+
+void experimental_test();
+void scaled_value_test();
+void binary_op_test();
+void sandbox();
+
+
 int  errors = 0;
 
-void  experimental_test();
-void sandbox();
+
 
 int main()
 {
@@ -40,6 +46,9 @@ int main()
    basic_concepts_test();
    base_quantity_test();
    experimental_test();
+   scaled_value_test();
+   binary_op_test();
+
    sandbox();
 
    EPILOGUE

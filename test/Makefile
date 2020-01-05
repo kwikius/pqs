@@ -18,6 +18,8 @@ OBJECTS = \
    basic_concepts_test.o \
    experimental_test.o \
    base_quantity_test.o \
+   scaled_value_test.o \
+   binary_op_test.o \
    sandbox.o
 
 .PHONY : all test gcc7_cpp11 gcc9_cpp2a clean 

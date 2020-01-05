@@ -4,7 +4,6 @@
 #include <pqs/bits/config.hpp>
 #include <pqs/concepts/quantity.hpp>
 #include <pqs/bits/conversion_factor.hpp>
-#include <pqs/bits/implicit_cast.hpp>
 
 namespace pqs{
 
@@ -12,7 +11,7 @@ namespace pqs{
   struct scaled_value{
 
       static_assert(pqs::is_quantity_value_type<ValueType>::value, "invalid value_type for scaled_value");
-      static_assert(pqs::meta::is_conversion_factor<ConversionFactor>::value, "invalid conversion factor type for scaled_value");
+      static_assert(pqs::is_conversion_factor<ConversionFactor>::value, "invalid conversion factor type for scaled_value");
 
       typedef ValueType value_type;
       typedef ConversionFactor conversion_factor;
@@ -50,6 +49,11 @@ namespace pqs{
          ValueType m_numeric_value;
 
   };
+
+  // addition
+  // 
+
+   
 
 }
 

@@ -24,22 +24,6 @@ namespace pqs{
    template <typename D>
    struct is_dimension : std::false_type{};
 
-
-//   template <typename LhsD, typename RhsD>
-//   struct add_dimensions;
-//
-//   template <typename LhsD, typename RhsD>
-//   struct subtract_dimensions;
-//
-//   template <typename LhsD, typename Ratio>
-//   struct multiply_dimension;
-//
-//   template <typename LhsD, typename Ratio>
-//   struct divide_dimension;
-//
-//   template <typename D>
-//   struct negate_dimension;
-
    template <typename DL, typename DR> 
    struct are_equal_dimensions;
 
