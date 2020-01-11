@@ -36,8 +36,6 @@ namespace pqs_exposition{
 
 namespace pqs{
 
-   struct to_power;
-
    // make pqs_exposition exp model of pqs::base_quantity_exp
    namespace impl{
 
