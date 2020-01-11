@@ -14,7 +14,7 @@ namespace pqs{
    /*
       Where T,Lhs,Rhs,are models of base_quantity_exp
         R is model of ratio
-        B is a nodel of meta_bool_constant
+        B is a model of meta_bool_constant
 
       requires 
             binary_op<Lhs,times,Rhs> -> T
