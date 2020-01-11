@@ -6,7 +6,7 @@
 
 namespace pqs{ 
 
-    struct base_mass : pqs::base_quantity_of<pqs::mass_uuid>{
+    struct base_mass : pqs::base_quantity_of<pqs::newtonian_universe::mass_uuid>{
        typedef base_mass type;
     };
 }

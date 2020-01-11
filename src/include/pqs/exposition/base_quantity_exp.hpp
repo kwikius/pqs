@@ -8,6 +8,9 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
+/*
+ base quantities are primitive members of a quantity universe
+*/
 
 namespace pqs_exposition{
 

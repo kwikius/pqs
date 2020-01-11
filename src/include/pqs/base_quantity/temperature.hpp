@@ -6,7 +6,7 @@
 
 namespace pqs{ 
 
-    struct base_temperature : pqs::base_quantity_of<pqs::temperature_uuid>{
+    struct base_temperature : pqs::base_quantity_of<pqs::newtonian_universe::temperature_uuid>{
        typedef base_temperature type;
     };
 }

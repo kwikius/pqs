@@ -6,7 +6,7 @@
 
 namespace pqs{ 
 
-    struct base_current : pqs::base_quantity_of<pqs::current_uuid>{
+    struct base_current : pqs::base_quantity_of<pqs::newtonian_universe::current_uuid>{
        typedef base_current type;
     };
 }

@@ -6,7 +6,7 @@
 
 namespace pqs{ 
 
-    struct base_substance : pqs::base_quantity_of<pqs::substance_uuid>{
+    struct base_substance : pqs::base_quantity_of<pqs::newtonian_universe::substance_uuid>{
        typedef base_substance type;
     };
 }

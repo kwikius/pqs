@@ -6,7 +6,7 @@
 
 namespace pqs{ 
 
-   struct base_length : pqs::base_quantity_of<pqs::length_uuid>{
+   struct base_length : pqs::base_quantity_of<pqs::newtonian_universe::length_uuid>{
       // the member type makes base_length a model of meta_identity_function
       // This provides somewhat more concise error messages
       typedef base_length type;

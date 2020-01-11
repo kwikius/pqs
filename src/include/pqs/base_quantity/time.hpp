@@ -6,7 +6,7 @@
 
 namespace pqs{ 
 
-    struct base_time : pqs::base_quantity_of<pqs::time_uuid>{
+    struct base_time : pqs::base_quantity_of<pqs::newtonian_universe::time_uuid>{
        typedef base_time type;
     };
 }
