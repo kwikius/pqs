@@ -27,8 +27,6 @@ void sandbox();
 
 int  errors = 0;
 
-
-
 int main()
 {
    quantity_syntax_test1();
