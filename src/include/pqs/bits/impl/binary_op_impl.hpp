@@ -37,8 +37,6 @@
 #include <pqs/bits/undefined.hpp>
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/is_any_type.hpp>
-#include <pqs/meta/is_numeric.hpp>
-#include <pqs/meta/is_scalar.hpp>
 #include <pqs/meta/binary_op_tags.hpp>
 #include <pqs/meta/binary_operator_types.hpp>
 #include <pqs/meta/is_runtime_type.hpp>
@@ -87,8 +85,11 @@ namespace pqs{
        >
        struct binary_op_impl<
            A,Op,B,
-           typename pqs::where_<           
-               pqs::meta::is_assignment_operator<Op> 
+           typename pqs::where_< 
+              pqs::meta::and_<          
+                  pqs::meta::is_assignment_operator<Op>,
+                  std::is_assignable<A,B>
+              >
            >::type
        >{
            typedef typename std::add_lvalue_reference<A>::type type;
@@ -103,9 +104,11 @@ namespace pqs{
            A,Op,B,
            typename pqs::where_<
                pqs::meta::and_<
-                  pqs::meta::is_scalar<A>,
-                  pqs::meta::is_scalar<B>,
-                  pqs::meta::is_comparison_operator<Op>,
+                  pqs::meta::are_arithmetic<A,B>,
+                  pqs::meta::or_<
+                     pqs::meta::is_comparison_operator<Op>,
+                     pqs::meta::is_logical_operator<Op>
+                  >,
                   pqs::meta::or_<
                      pqs::meta::is_runtime_type<A>,
                      pqs::meta::is_runtime_type<B>
@@ -120,94 +123,34 @@ namespace pqs{
                >
            >::type
        >{
-         typedef bool type;
+          typedef bool type;
        };
 
-      template<>
-      struct binary_op_impl<
-         bool, logical_or, bool
-      >{
-         typedef bool type;
-      };
-      
-      template<>
-      struct binary_op_impl<
-         bool, logical_and, bool
-      >{
-         typedef bool type;
-      };
-      
-      template<>
-      struct binary_op_impl<
-         bool, bit_and, bool
-      >{
-         typedef bool type;
-      };
-
-      template <
-       typename A,
-       typename B
-      >
-      struct binary_op_impl<
-        A , plus, B , 
-        typename pqs::where_<
-            pqs::meta::are_arithmetic<A,B>
-        >::type
-      > : std::common_type<A,B>{};
-
-      template <
-       typename A,
-       typename B
-      >
-      struct binary_op_impl<
-        A , minus, B , 
-        typename pqs::where_<
-            pqs::meta::are_arithmetic<A,B>
-        >::type
-       > : std::common_type<A,B>{};
-
-      template <
-       typename A,
-       typename B
-      >
-      struct binary_op_impl<
-        A , bit_or, B , 
-        typename pqs::where_<
-           pqs::meta::are_arithmetic<A,B>
-        >::type
-      > : std::common_type<A,B>{};
-
-      template <
-       typename A,
-       typename B
-      >
-      struct binary_op_impl<
-        A , bit_and, B , 
-        typename pqs::where_<
-            pqs::meta::are_arithmetic<A,B>
-        >::type
-      > : std::common_type<A,B>{};
-
-      template <
-         typename A,
+      template<
+         typename A, 
+         typename Op,
          typename B
       >
       struct binary_op_impl<
-        A , times, B , 
-        typename pqs::where_<
-            pqs::meta::are_arithmetic<A,B>
-        >::type
-      > : std::common_type<A,B>{};
-
-      template <
-         typename A,
-         typename B
-      >
-      struct binary_op_impl<
-        A , divides, B , 
-        typename pqs::where_<
-            pqs::meta::are_arithmetic<A,B>
-        >::type
+         A,Op,B,
+         typename pqs::where_<
+            pqs::meta::or_<
+               pqs::meta::and_<
+                  pqs::meta::are_arithmetic<A,B>,
+                  pqs::meta::is_arithmetic_operator<Op>
+               >,
+               pqs::meta::and_<
+                  std::is_integral<A>,
+                  std::is_integral<B>,
+                  std::integral_constant<bool,(
+                     (pqs::meta::op_class<Op>::value == pqs::meta::op_class_t::inclusive_or) ||
+                     (pqs::meta::op_class<Op>::value == pqs::meta::op_class_t::exclusive_or) ||
+                     (pqs::meta::op_class<Op>::value == pqs::meta::op_class_t::bit_and) ||
+                     (pqs::meta::op_class<Op>::value == pqs::meta::op_class_t::shift)
+                  )>
+               >
+            >
+         >::type
       > : std::common_type<A,B>{};
 
 /*

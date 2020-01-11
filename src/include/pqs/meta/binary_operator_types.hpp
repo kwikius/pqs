@@ -225,6 +225,19 @@ namespace pqs { namespace meta{
        ( (op_class<Op>::value == op_class_t::equality) ||  (op_class<Op>::value == op_class_t::relational) )
     >{};
 
+   template< 
+        typename Op
+    >
+    struct is_logical_operator : std::integral_constant<bool,
+       ( (op_class<Op>::value == op_class_t::logical_or) || (op_class<Op>::value == op_class_t::logical_and) ) 
+    >{};
+
+    template< 
+        typename Op
+    > struct is_arithmetic_operator : std::integral_constant<bool,
+       ( (op_class<Op>::value == op_class_t::additive) || (op_class<Op>::value == op_class_t::multiplicative) ) 
+    >{};
+
 #if 0
 
     template< 
