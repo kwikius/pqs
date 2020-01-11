@@ -13,6 +13,12 @@ using pqs::base_time;
 using pqs::base_mass;
 using pqs::make_quantity;
 
+namespace pqs{
+   
+   
+   
+}
+
 namespace expo{
 
    // base_quantity exponent aka base_dimension exponent
@@ -20,7 +26,6 @@ namespace expo{
    constexpr pqs_exposition::exp<base_time,1> time;
    constexpr pqs_exposition::exp<base_mass,1> mass;
 
-   // dimension<pqs_exposition::exp<base_length,1>,pqs_exposition::exp<base_time,-1> >
    constexpr auto velocity = length / time;
 
    constexpr auto acceleration = velocity / time;
