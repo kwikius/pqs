@@ -17,7 +17,7 @@ namespace pqs{
       typedef ConversionFactor conversion_factor;
 
       // F is a function to fix up the value_type
-      // se the <pqs/bits/implicit_conversion_functions.hpp> header for some examples
+      // see the <pqs/bits/implicit_conversion_functions.hpp> header for some examples
       template <typename ValueTypeR,typename ConversionFactorR, typename F>
       static constexpr 
       ValueType
@@ -50,11 +50,10 @@ namespace pqs{
 
   };
 
-  // addition
-  // 
-
-   
-
 }
+
+
+
+
 
 #endif // PQS_BITS_SCALED_VALUE_HPP_INCLUDED
