@@ -16,7 +16,7 @@ namespace pqs{
 */
 
 /*
-   model of base quantity reuires
+   model of base quantity requires
     meta::totally_ordered
     meta::identity_function
 
@@ -29,6 +29,8 @@ namespace pqs{
 
       template <typename T, typename Where = void>
       struct is_base_quantity_impl : std::false_type{};
+      
+      // get_uuid. 
       
    }
 
