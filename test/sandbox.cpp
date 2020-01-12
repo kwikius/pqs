@@ -1,103 +1,45 @@
 #include "test.hpp"
 
-#include <pqs/bits/binary_op.hpp>
+#include <pqs/exposition/base_quantity_exp.hpp>
+#include <pqs/base_quantity/length.hpp>
+#include <pqs/base_quantity/time.hpp>
+#include <pqs/base_quantity/mass.hpp>
 
-namespace {
-
-   struct my_type{};  
-
-   void binary_op_test1()
+namespace{
+   void fun()
    {
-      QUAN_CHECK((pqs::is_valid_binary_op<my_type,pqs::plus,my_type>::value == false))
+      using pqs_exposition::exp;
+      using pqs::base_length;
+      using pqs::times;
+      using pqs::binary_op;
+
+      QUAN_CHECK((not pqs::is_base_quantity_exp<int>::value))
+
+      typedef exp<base_length,2> tl;
+      typedef exp<base_length,3> tr;
+
+      typedef pqs::get_base_quantity<tl>::type lhsb;
+      typedef pqs::get_base_quantity<tr>::type rhsb;
+
+      static_assert(pqs::is_base_quantity<lhsb>::value,"");
+      static_assert(pqs::is_base_quantity<rhsb>::value,"");
+
+      typedef pqs::get_base_quantity_id<lhsb>::type lhsid;
+
+      typedef pqs::get_base_quantity_id<rhsb>::type rhsid;
+
+
+      typedef pqs::make_base_quantity_exp<lhsid,pqs::get_exponent<tl>::type>::type b;
+
+
+      //   int x = lhsid{};
+    // int x = pqs::newtonian_universe::length_uuid{};
+
+      typedef binary_op<tl,times,tr>::type result_type;
+
+   //   int x = result_type{};
+      
    }
-
-   void binary_op_bool_test()
-   {
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::plus,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::plus,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::minus,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::minus,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::times,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::times,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::divides,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::divides,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::bit_or,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::bit_or,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::bit_and,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::bit_and,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::logical_or,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::logical_or,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::logical_and,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::logical_and,bool>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::logical_and,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::logical_and,bool>::type,bool>::value))
-   }
-   
-
-   void binary_op_int_int_test()
-   {
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::plus,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::plus,int>::type,int>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::minus,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::minus,int>::type,int>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::times,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::times,int>::type,int>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::divides,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::divides,int>::type,int>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::bit_or,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::bit_or,int>::type,int>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::bit_and,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::bit_and,int>::type,int>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::logical_or,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::logical_or,int>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::logical_and,int>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::logical_and,int>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::logical_and,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::logical_and,bool>::type,bool>::value))
-   }
-
-   void binary_op_int_double_test()
-   {
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::plus,double>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::plus,double>::type,double>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::minus,double>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::minus,double>::type,double>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::times,double>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::times,double>::type,double>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::divides,double>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::divides,double>::type,double>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::logical_or,double>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::logical_or,double>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<int,pqs::logical_and,double>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<int, pqs::logical_and,double>::type,bool>::value))
-
-       QUAN_CHECK((pqs::is_valid_binary_op<bool,pqs::logical_and,bool>::value == true))
-       QUAN_CHECK((std::is_same<pqs::binary_op<bool, pqs::logical_and,bool>::type,bool>::value))
-   }
-
-   // TODO more tests on binary_op with inbuilt types
 }
 
 #if defined PQS_STANDALONE
@@ -107,11 +49,8 @@ int main()
 void sandbox()
 #endif
 {
-   binary_op_test1();
-   binary_op_bool_test();
-   binary_op_int_int_test();
-   binary_op_int_double_test();
 
+fun();
 #if defined PQS_STANDALONE
    EPILOGUE
 #endif

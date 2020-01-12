@@ -8,6 +8,17 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
+#include <pqs/bits/base_quantity_of.hpp>
+#include <pqs/bits/universally_unique_id.hpp>
+
+#include <pqs/base_quantity/time.hpp>
+#include <pqs/base_quantity/length.hpp>
+#include <pqs/base_quantity/mass.hpp>
+#include <pqs/base_quantity/temperature.hpp>
+#include <pqs/base_quantity/current.hpp>
+#include <pqs/base_quantity/intensity.hpp>
+#include <pqs/base_quantity/substance.hpp>
+
 /*
  base quantities are primitive members of a quantity universe
 */
@@ -28,10 +39,7 @@ namespace pqs_exposition{
       typedef typename std::ratio<N,D>::type ratio;
       typedef exp type;
    };
-#if 1
-   template <typename BaseQuantity ,typename Ratio>
-   struct make_base_quantity_exp : exp<typename BaseQuantity::type,Ratio::type::num, Ratio::type::den>{};
-#endif
+
 }
 
 namespace pqs{
@@ -52,145 +60,53 @@ namespace pqs{
       > : T::base_quantity {};
 
       template <typename T>
-      struct get_base_quantity_exp_exponent_impl<
+      struct get_exponent_impl<
          T,
          typename pqs::where_<pqs_exposition::detail::is_base_quantity_exp<T> >::type
       > {
          typedef typename T::ratio type;
       };
 
-      //  Generic can move to concepts base_quantity_exp
-      template <typename Lhs, typename Rhs>
-      struct of_same_base_quantity_impl<
-         Lhs,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>
-            >
-         >::type
-       > : pqs::binary_op<
-          typename pqs::get_base_quantity<Lhs>::type,
-          pqs::equal_to,
-          typename pqs::get_base_quantity<Rhs>::type
-       >{};
-
-      //  Generic Nearly can move to concepts base_quantity_exp
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs,pqs::times, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
-               pqs::of_same_base_quantity<Lhs,Rhs>
-            >
-         >::type
-      > : pqs_exposition::make_base_quantity_exp<
-            pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<
-               typename get_base_quantity_exp_exponent<Lhs>::type,
-               pqs::plus,
-               typename get_base_quantity_exp_exponent<Rhs>::type
-             >
+      template <typename Ratio>
+      struct make_base_quantity_exp_impl<pqs::newtonian_universe::time_uuid,Ratio>
+      : pqs_exposition::exp<
+          pqs::base_time,Ratio::type::num, Ratio::type::den
       >{};
 
-      //  Generic Nearly can move to concepts base_quantity_exp
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, pqs::divides, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
-               pqs::of_same_base_quantity<Lhs,Rhs>
-            >
-         >::type
-      > : pqs_exposition::make_base_quantity_exp<
-            pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<
-               typename get_base_quantity_exp_exponent<Lhs>::type,
-               pqs::minus,
-               typename get_base_quantity_exp_exponent<Rhs>::type
-            >
+      template <typename Ratio>
+      struct make_base_quantity_exp_impl<pqs::newtonian_universe::length_uuid,Ratio>
+      : pqs_exposition::exp<
+          pqs::base_length,Ratio::type::num, Ratio::type::den
       >{};
 
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, struct pqs::to_power, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_ratio<Rhs>
-            >
-         >::type
-      > : pqs_exposition::make_base_quantity_exp<
-            pqs::get_base_quantity<Lhs>,
-            pqs::binary_op<
-               typename get_base_quantity_exp_exponent<Lhs>::type,
-               pqs::times,
-               typename Rhs::type
-            >
+      template <typename Ratio>
+      struct make_base_quantity_exp_impl<pqs::newtonian_universe::mass_uuid,Ratio>
+      : pqs_exposition::exp<
+          pqs::base_mass,Ratio::type::num, Ratio::type::den
       >{};
 
-      template <typename T>
-      struct unary_op_impl<
-          pqs::meta::reciprocal,
-          T,
-          typename pqs::where_<
-            pqs_exposition::detail::is_base_quantity_exp<T> 
-          >::type
-      > : pqs_exposition::make_base_quantity_exp<
-             pqs::get_base_quantity<T>,
-             pqs::unary_op<
-               pqs::meta::negate,
-               typename get_base_quantity_exp_exponent<T>::type
-             >
+      template <typename Ratio>
+      struct make_base_quantity_exp_impl<pqs::newtonian_universe::temperature_uuid,Ratio>
+      : pqs_exposition::exp<
+          pqs::base_temperature,Ratio::type::num, Ratio::type::den
       >{};
 
-      
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, pqs::equal_to, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
-               pqs::of_same_base_quantity<Lhs,Rhs>
-            >
-         >::type
-      > : pqs::binary_op<
-            typename get_base_quantity_exp_exponent<Lhs>::type,
-            pqs::equal_to,
-            typename get_base_quantity_exp_exponent<Rhs>::type
+      template <typename Ratio>
+      struct make_base_quantity_exp_impl<pqs::newtonian_universe::current_uuid,Ratio>
+      : pqs_exposition::exp<
+          pqs::base_current,Ratio::type::num, Ratio::type::den
       >{};
 
-     
-     template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, pqs::not_equal_to, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
-               pqs::of_same_base_quantity<Lhs,Rhs>
-            >
-         >::type
-      > : pqs::binary_op<
-            typename get_base_quantity_exp_exponent<Lhs>::type,
-            pqs::not_equal_to,
-            typename get_base_quantity_exp_exponent<Rhs>::type
+      template <typename Ratio>
+      struct make_base_quantity_exp_impl<pqs::newtonian_universe::substance_uuid,Ratio>
+      : pqs_exposition::exp<
+          pqs::base_substance,Ratio::type::num, Ratio::type::den
       >{};
- 
-      template <typename T>
-      struct base_quantity_exp_is_zero_impl<
-         T,
-         typename pqs::where_<
-             pqs::is_base_quantity_exp<T>
-         >::type
-      > : std::ratio_equal<
-         typename get_base_quantity_exp_exponent<T>::type,
-         std::ratio<0> 
+
+      template <typename Ratio>
+      struct make_base_quantity_exp_impl<pqs::newtonian_universe::intensity_uuid,Ratio>
+      : pqs_exposition::exp<
+          pqs::base_intensity,Ratio::type::num, Ratio::type::den
       >{};
 
    } // impl

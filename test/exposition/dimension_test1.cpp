@@ -28,7 +28,10 @@ void dimension_test1()
    typedef dimension<exp<base_time,1> > dim1;
    typedef merge_dim<dim1,pqs::times,dim1 >::type result1;
    typedef dimension<exp<base_time,2> > expected1;
+
    static_assert(std::is_same<result1,expected1>::value,"");
+   static_assert(pqs::binary_op<result1,pqs::equal_to,expected1>::value,"");
+  // int x = result1{};
 
    typedef merge_dim<dim1,pqs::divides,dim1 >::type result1a;
    typedef dimension<> expected1a;
@@ -37,7 +40,8 @@ void dimension_test1()
    typedef dimension<exp<base_length,-2>, exp<base_time,2> >  dim2;
    typedef merge_dim<dim1,pqs::times,dim2 >::type result2;
    typedef dimension<exp<base_length,-2>, exp<base_time,3> > expected2;
-   static_assert(std::is_same<result2,expected2>::value,"");
+ //  static_assert(std::is_same<result2,expected2>::value,"");
+   static_assert(pqs::binary_op<result2,pqs::equal_to,expected2>::value,"");
 
    typedef merge_dim<dim1,pqs::divides,dim2 >::type result2a;
    typedef dimension<exp<base_length,2>, exp<base_time,-1> > expected2a;

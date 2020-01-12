@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <pqs/meta/strip_cr.hpp>
+#include <ratio>
 
 namespace pqs{
 

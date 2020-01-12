@@ -35,6 +35,7 @@ namespace {
 
       typedef pqs::get_base_quantity<tl>::type base_type1;
       QUAN_CHECK((pqs::is_base_quantity<base_type1>::value))
+      QUAN_CHECK((std::is_same<base_type1,base_length>::value))
 
       typedef exp<base_length,3,2> tx;
       QUAN_CHECK((pqs::is_base_quantity_exp<tx>::value))

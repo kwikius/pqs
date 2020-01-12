@@ -10,7 +10,7 @@ namespace pqs{
 
    }
 
-    template <typename T>
+   template <typename T>
    struct is_conversion_factor : impl::is_conversion_factor_impl<T>{};
 
 }
