@@ -42,8 +42,14 @@ namespace pqs{
       template <typename T, typename Where = void>
       struct base_quantity_exp_is_zero_impl : pqs::undefined {};
 
+      // customise per UUID
       template <typename UUID,typename Ratio,typename Where = void>
       struct make_base_quantity_exp_impl : pqs::undefined{};
+
+      template <typename T, typename Where = void >
+      struct get_base_quantity_exp_exponent_impl : pqs::undefined{};
+
+      
    }
 
    template <typename T>
@@ -59,7 +65,10 @@ namespace pqs{
    struct base_quantity_exp_is_zero : pqs::impl::base_quantity_exp_is_zero_impl<T>{};
 
    template <typename UUID, typename Ratio>
-   struct make_base_quantity_exp : pqs::impl::make_base_quantity_exp_impl<N,D,UUID>{};
+   struct make_base_quantity_exp : pqs::impl::make_base_quantity_exp_impl<UUID, Ratio>{};
+
+   template <typename T>
+   struct get_base_quantity_exp_exponent : impl::get_base_quantity_exp_exponent_impl<T>{};
 
 }
 

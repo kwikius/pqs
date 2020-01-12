@@ -7,6 +7,7 @@
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/bits/where.hpp>
 #include <pqs/bits/binary_op.hpp>
+#include <pqs/bits/undefined.hpp>
 
 namespace pqs{
 
@@ -29,7 +30,12 @@ namespace pqs{
          T,typename pqs::where_<std::is_base_of<pqs::detail::base_quantity_base_class,T> >::type
       > : std::true_type{};
 
-     
+      template <typename ID>
+      struct get_base_quantity_id_impl< pqs::base_quantity_of<ID> > {
+          typedef ID type;
+      };
+
+      // TODO could be more generic and move to concept
       template <typename Lhs,typename Rhs>
       struct binary_op_impl<
          Lhs,pqs::less, Rhs,
@@ -41,6 +47,7 @@ namespace pqs{
          >::type 
       > : pqs::binary_op<typename Lhs::identifier, pqs::less, typename Rhs::identifier>{};
 
+      // TODO could be more generic and move to concept
       template <typename Lhs,typename Rhs>
       struct binary_op_impl<
          Lhs,pqs::equal_to, Rhs,
