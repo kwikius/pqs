@@ -28,16 +28,22 @@ namespace pqs_exposition{
       typedef typename std::ratio<N,D>::type ratio;
       typedef exp type;
    };
-
+#if 0
    template <typename BaseQuantity ,typename Ratio>
    struct make_base_quantity_exp : exp<typename BaseQuantity::type,Ratio::type::num, Ratio::type::den>{};
-
+#endif
 }
 
 namespace pqs{
 
    // make pqs_exposition exp model of pqs::base_quantity_exp
    namespace impl{
+
+//      template <typename UUID,typename Ratio>
+//      struct make_base_quantity_exp_impl<
+//         UUID,
+//         Ratio
+//      > : 
 
       template <  typename T>
       struct is_base_quantity_exp_impl<
