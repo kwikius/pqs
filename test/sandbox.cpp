@@ -15,8 +15,8 @@ namespace{
 
       QUAN_CHECK((not pqs::is_base_quantity_exp<int>::value))
 
-      typedef exp<base_length,2> tl;
-      typedef exp<base_length,3> tr;
+      typedef pqs::exp_length<2> tl;
+      typedef pqs::exp_length<3> tr;
 
       typedef pqs::get_base_quantity<tl>::type lhsb;
       typedef pqs::get_base_quantity<tr>::type rhsb;
@@ -28,17 +28,10 @@ namespace{
 
       typedef pqs::get_base_quantity_id<rhsb>::type rhsid;
 
-
       typedef pqs::make_base_quantity_exp<lhsid,pqs::get_exponent<tl>::type>::type b;
-
-
-      //   int x = lhsid{};
-    // int x = pqs::newtonian_universe::length_uuid{};
 
       typedef binary_op<tl,times,tr>::type result_type;
 
-   //   int x = result_type{};
-      
    }
 }
 

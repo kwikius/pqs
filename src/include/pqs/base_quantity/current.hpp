@@ -25,6 +25,7 @@ namespace pqs{
       typedef expr_current type; // identity
    };
 
+   // for shorter error messages, use an integer exp for the default case
    template <int N>
    struct exp_current : expr_current<N,1> {
       typedef exp_current type; // identity

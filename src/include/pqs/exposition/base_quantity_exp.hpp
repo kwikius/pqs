@@ -20,7 +20,9 @@
 #include <pqs/base_quantity/substance.hpp>
 
 /*
- base quantities are primitive members of a quantity universe
+  Example how to implement a base_quantity_exp for a system
+  Here, using exp<base,N,D>
+  instead of individual exp_length<N>, expr_length<N,D>
 */
 
 namespace pqs_exposition{
@@ -67,48 +69,6 @@ namespace pqs{
       > {
          typedef typename T::ratio type;
       };
-
-//      template <typename Ratio>
-//      struct make_base_quantity_exp_impl<pqs::newtonian_universe::time_uuid,Ratio>
-//      : pqs_exposition::exp<
-//          pqs::base_time,Ratio::type::num, Ratio::type::den
-//      >{};
-
-//      template <typename Ratio>
-//      struct make_base_quantity_exp_impl<pqs::newtonian_universe::length_uuid,Ratio>
-//      : pqs_exposition::exp<
-//          pqs::base_length,Ratio::type::num, Ratio::type::den
-//      >{};
-
-//      template <typename Ratio>
-//      struct make_base_quantity_exp_impl<pqs::newtonian_universe::mass_uuid,Ratio>
-//      : pqs_exposition::exp<
-//          pqs::base_mass,Ratio::type::num, Ratio::type::den
-//      >{};
-//
-//      template <typename Ratio>
-//      struct make_base_quantity_exp_impl<pqs::newtonian_universe::temperature_uuid,Ratio>
-//      : pqs_exposition::exp<
-//          pqs::base_temperature,Ratio::type::num, Ratio::type::den
-//      >{};
-
-//      template <typename Ratio>
-//      struct make_base_quantity_exp_impl<pqs::newtonian_universe::current_uuid,Ratio>
-//      : pqs_exposition::exp<
-//          pqs::base_current,Ratio::type::num, Ratio::type::den
-//      >{};
-
-//      template <typename Ratio>
-//      struct make_base_quantity_exp_impl<pqs::newtonian_universe::substance_uuid,Ratio>
-//      : pqs_exposition::exp<
-//          pqs::base_substance,Ratio::type::num, Ratio::type::den
-//      >{};
-
-//      template <typename Ratio>
-//      struct make_base_quantity_exp_impl<pqs::newtonian_universe::intensity_uuid,Ratio>
-//      : pqs_exposition::exp<
-//          pqs::base_intensity,Ratio::type::num, Ratio::type::den
-//      >{};
 
    } // impl
 

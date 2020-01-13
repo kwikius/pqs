@@ -7,35 +7,33 @@
 #include <pqs/exposition/length.hpp>
 
 using namespace pqs;
-using namespace pqs_exposition;
 
 namespace {
 
-   constexpr pqs_exposition::exp<base_mass,1> mass_dim;
-   constexpr pqs_exposition::exp<base_length,1> length_dim;
-   constexpr pqs_exposition::exp<base_time,1> time_dim;
+   constexpr pqs::exp_mass<1> Mass;
+   constexpr pqs::exp_length<1> Length;
+   constexpr pqs::exp_time<1> Time;
 
-   static_assert(pqs::is_base_quantity_exp<pqs_exposition::exp<base_length,1> >::value,"");
-   static_assert(pqs::is_base_quantity_exp<pqs_exposition::exp<base_time,1> >::value,"");
+   static_assert(pqs::is_base_quantity_exp<pqs::exp_length<1> >::value,"");
+   static_assert(pqs::is_base_quantity_exp<pqs::exp_time<1> >::value,"");
 
    // these will be wrapped into a dimension e.g dimension<base_length<1>,base_time<-1>
-   constexpr auto velocity_dim = length_dim / time_dim; 
-   constexpr auto acceleration_dim = velocity_dim / time_dim; 
-   constexpr auto force_dim = mass_dim * acceleration_dim;
+   constexpr auto Velocity = Length / Time; 
+   constexpr auto Acceleration = Velocity / Time; 
+   constexpr auto Force = Mass * Acceleration;
 }
 
 void make_quantity_test()
 {
-
    auto q2 = make_quantity<-3>(
-      mass_dim * length_dim / (time_dim * time_dim), 20.0
+      Mass * Length / (Time * Time), 20.0
    );
    
    // alternative form
    auto constexpr q3 = quantity<
      make_unit<  // the unit will have form unit<3, dims... >)
        -3,
-       decltype(mass_dim * length_dim / (time_dim * time_dim))
+       decltype(Mass * Length / (Time * Time))
      >::type,
      double
    >{20.0};
@@ -45,7 +43,7 @@ void make_quantity_test()
    auto q4 = quantity<
      unit<  // the unit will have form unit<3, dimension<dims...> >)
        -3,
-       decltype(mass_dim * length_dim / (time_dim * time_dim))
+       decltype(Mass * Length / (Time * Time))
      >,
      double
    >{20.0};
@@ -53,7 +51,7 @@ void make_quantity_test()
    //q2 = q4; // not structurally equal unit <I,D...> v unit<I,dimension<D...> >
    (void) q4;
 
-   auto q5 = quantity<make_unit<-3,decltype(force_dim)>::type,double>{20.0};
+   auto q5 = quantity<make_unit<-3,decltype(Force)>::type,double>{20.0};
 
   // q2 = q5; // check structural equality
 

@@ -7,24 +7,14 @@
 #include <pqs/bits/quantity.hpp>
 #include "../test/make_quantity.hpp"
 
-//using pqs_exposition::exp;
-using pqs::base_length;
-using pqs::base_time;
-using pqs::base_mass;
 using pqs::make_quantity;
 
-namespace pqs{
-   
-   
-   
-}
 
 namespace expo{
 
-   // base_quantity exponent aka base_dimension exponent
-   constexpr pqs_exposition::exp<base_length,1> length;
-   constexpr pqs_exposition::exp<base_time,1> time;
-   constexpr pqs_exposition::exp<base_mass,1> mass;
+   constexpr pqs::exp_length<1> length;
+   constexpr pqs::exp_time<1> time;
+   constexpr pqs::exp_mass<1> mass;
 
    constexpr auto velocity = length / time;
 
@@ -72,7 +62,7 @@ namespace {
    }
 }
 
-void run()
+int main()
 { 
    static_assert(is_base_quantity_exp(expo::length),"");
    static_assert(is_abstract_quantity(expo::length),"");
