@@ -10,13 +10,13 @@
 namespace pqs_exposition{ namespace length_unit{
 
    struct mm : pqs::base_unit< 
-      pqs_exposition::exp<pqs::base_length,1> ,
+      pqs::exp_length<1> ,
       -3
    >{};
 
    struct ft : pqs::unit_conversion< 
       pqs::base_unit< 
-         pqs_exposition::exp<pqs::base_length,1>, 
+         pqs::exp_length<1>, 
          -1
       >
       ,381,125
