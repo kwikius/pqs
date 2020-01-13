@@ -1,13 +1,11 @@
 
-#include "../test.hpp"
+#include "test.hpp"
 
-#include <pqs/exposition/base_quantity_exp.hpp>
+#include <pqs/bits/base_quantities.hpp>
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/base_quantity/time.hpp>
 #include <pqs/base_quantity/mass.hpp>
 
-//using namespace pqs_exposition;
-//using pqs_exposition::exp;
 using pqs::exp_length;
 using pqs::expr_length;
 using pqs::exp_time;
@@ -16,8 +14,7 @@ using pqs::exp_mass;
 using pqs::expr_mass;
 
 using pqs::binary_op;
-//using pqs::plus;
-//using pqs::minus;
+
 using pqs::times;
 using pqs::divides;
 using pqs::to_power;
@@ -57,7 +54,7 @@ namespace {
  
       typedef binary_op<tl,times,tr>::type result_type;
       typedef pqs::get_exponent<result_type>::type ratio;
-   //int x = ratio{};
+
       QUAN_CHECK(ratio::num == 5)
       QUAN_CHECK(ratio::den == 1)
       QUAN_CHECK( (std::is_same<result_type,exp_length<5> >::value) )
@@ -459,3 +456,4 @@ void base_quantity_exp_test()
    is_zero_test();
 
 }
+

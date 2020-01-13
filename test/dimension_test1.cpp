@@ -1,15 +1,13 @@
 
-
 #include <type_traits>
 #include <pqs/bits/dimension.hpp>
-#include <pqs/exposition/base_quantity_exp.hpp>
+#include <pqs/bits/base_quantities.hpp>
 
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/base_quantity/time.hpp>
 #include <pqs/base_quantity/mass.hpp>
 
 using pqs::dimension;
-//using pqs_exposition::exp;
 using pqs::exp_length;
 using pqs::exp_time;
 using pqs::exp_mass;
@@ -63,7 +61,6 @@ void dimension_test1()
    typedef merge_dim<dim3,pqs::divides,dim4 >::type result4a;
    typedef dimension<exp_length<-2> > expected4a;
    static_assert(std::is_same<result4a,expected4a>::value,"");
-
 
    typedef dimension<exp_length<-1>, exp_time<-1>, exp_mass<-2> >  dim5;
    typedef merge_dim<dim4,pqs::times,dim5 >::type result5;

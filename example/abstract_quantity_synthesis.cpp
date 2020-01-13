@@ -3,12 +3,10 @@
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/base_quantity/time.hpp>
 #include <pqs/base_quantity/mass.hpp>
-#include <pqs/exposition/base_quantity_exp.hpp>
 #include <pqs/bits/quantity.hpp>
 #include "../test/make_quantity.hpp"
 
 using pqs::make_quantity;
-
 
 namespace expo{
 

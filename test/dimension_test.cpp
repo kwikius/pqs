@@ -1,13 +1,13 @@
 
-#include "../test.hpp"
-#include <pqs/exposition/units/length_unit.hpp>
+#include "test.hpp"
+#include <pqs/units/length_unit.hpp>
 #include <pqs/bits/base_quantities.hpp>
 
 namespace {
 
    void length_dimension_test()
    {
-       typedef pqs_exposition::length_unit::mm::dimension dimension;
+       typedef pqs::length_unit::mm::dimension dimension;
 
        QUAN_CHECK((dimension::num_elements == 1))
 

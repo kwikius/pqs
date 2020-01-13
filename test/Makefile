@@ -4,11 +4,11 @@ PQS_ROOT ?= ../src/include
 CXXFLAGS = -fmax-errors=1
 
 OBJECTS = \
- 	exposition/base_quantity_exp_test.o \
-   exposition/dimension_test.o \
-   exposition/dimension_test1.o \
-   exposition/syntax_test1.o \
-   exposition/syntax_test2.o \
+ 	base_quantity_exp_test.o \
+   dimension_test.o \
+   dimension_test1.o \
+   syntax_test1.o \
+   syntax_test2.o \
 	eval_if_test.o \
 	main.o \
 	conversion_factor_test1.o \

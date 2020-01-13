@@ -13,6 +13,7 @@
 #include <pqs/meta/merge_dim.hpp>
 #include <pqs/meta/transform.hpp>
 #include <pqs/meta/fold.hpp>
+#include <pqs/bits/std_ratio.hpp>
 
 namespace pqs{
 

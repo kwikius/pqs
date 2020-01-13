@@ -5,7 +5,6 @@
 #include <pqs/meta/type_list.hpp>
 #include <pqs/meta/split_list.hpp>
 #include <pqs/meta/join_list.hpp>
-#include <pqs/exposition/base_quantity_exp.hpp>
 #include <pqs/meta/type_list_alias.hpp>
 
 namespace pqs{ namespace meta{

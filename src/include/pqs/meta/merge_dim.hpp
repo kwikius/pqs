@@ -4,7 +4,6 @@
 #include <type_traits>
 #include <pqs/concepts/meta/type_list.hpp>
 #include <pqs/bits/dimension_def.hpp>
-#include <pqs/exposition/base_quantity_exp.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/merge_sort.hpp>
 

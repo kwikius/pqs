@@ -1,6 +1,6 @@
 #include "test.hpp"
 
-#include <pqs/exposition/base_quantity_exp.hpp>
+#include <pqs/bits/base_quantities.hpp>
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/base_quantity/time.hpp>
 #include <pqs/base_quantity/mass.hpp>
@@ -8,8 +8,7 @@
 namespace{
    void fun()
    {
-      using pqs_exposition::exp;
-      using pqs::base_length;
+
       using pqs::times;
       using pqs::binary_op;
 

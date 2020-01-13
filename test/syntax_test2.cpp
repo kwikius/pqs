@@ -2,9 +2,7 @@
 #include <iostream>
 #include <pqs/bits/quantity.hpp>
 #include <pqs/bits/base_quantities.hpp>
-#include "../make_quantity.hpp"
-
-#include <pqs/exposition/length.hpp>
+#include "make_quantity.hpp"
 
 using namespace pqs;
 

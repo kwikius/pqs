@@ -1,13 +1,12 @@
-#ifndef PQS_EXPOSITION_UNITS_LENGTH_UNIT_HPP_INCLUDED
-#define PQS_EXPOSITION_UNITS_LENGTH_UNIT_HPP_INCLUDED
+#ifndef PQS_UNITS_LENGTH_UNIT_HPP_INCLUDED
+#define PQS_UNITS_LENGTH_UNIT_HPP_INCLUDED
 
-#include <pqs/exposition/base_quantity_exp.hpp>
 #include <pqs/bits/dimension.hpp>
 #include <pqs/bits/unit.hpp>
 #include <pqs/base_quantity/length.hpp>
 
 // length unit definition namespace 
-namespace pqs_exposition{ namespace length_unit{
+namespace pqs{ namespace length_unit{
 
    struct mm : pqs::base_unit< 
       pqs::exp_length<1> ,
@@ -24,4 +23,4 @@ namespace pqs_exposition{ namespace length_unit{
 
 }} // pqs::length_unit
 
-#endif //PQS_EXPOSITION_UNITS_LENGTH_UNIT_HPP_INCLUDED
+#endif //PQS_UNITS_LENGTH_UNIT_HPP_INCLUDED
