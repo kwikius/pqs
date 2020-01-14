@@ -228,8 +228,8 @@ namespace {
 
    void int_negate_test()
    {
-       typedef exp_length<-5> tl;
-       typedef pqs::unary_op<pqs::meta::reciprocal,tl>::type result_type;
+      typedef exp_length<-5> tl;
+      typedef pqs::unary_op<pqs::meta::reciprocal,tl>::type result_type;
       typedef pqs::get_exponent<result_type>::type ratio;
       // int x = ratio{};
        QUAN_CHECK(ratio::num == 5)
@@ -239,12 +239,12 @@ namespace {
 
    void r_negate_test()
    {
-       typedef expr_length<5,7> tl;
-       typedef pqs::unary_op<pqs::meta::reciprocal,tl>::type result_type;
-       typedef pqs::get_exponent<result_type>::type ratio;
-       QUAN_CHECK(ratio::num == -5)
-       QUAN_CHECK(ratio::den == 7)
-       QUAN_CHECK( (std::is_same<result_type,expr_length<-5,7> >::value) )
+      typedef expr_length<5,7> tl;
+      typedef pqs::unary_op<pqs::meta::reciprocal,tl>::type result_type;
+      typedef pqs::get_exponent<result_type>::type ratio;
+      QUAN_CHECK(ratio::num == -5)
+      QUAN_CHECK(ratio::den == 7)
+      QUAN_CHECK( (std::is_same<result_type,expr_length<-5,7> >::value) )
    }
 
    void negate_test()
@@ -419,20 +419,20 @@ namespace {
 
    void is_zero_test_int()
    {
-         typedef exp_mass<0> zero;
-         typedef exp_mass<1> one;
-         
-         QUAN_CHECK(pqs::base_quantity_exp_is_zero<zero>::value)
-         QUAN_CHECK(!pqs::base_quantity_exp_is_zero<one>::value)
+      typedef exp_mass<0> zero;
+      typedef exp_mass<1> one;
+      
+      QUAN_CHECK(pqs::base_quantity_exp_is_zero<zero>::value)
+      QUAN_CHECK(!pqs::base_quantity_exp_is_zero<one>::value)
    }
 
    void is_zero_test_r()
    {
-         typedef expr_mass<0,3> zero;
-         typedef expr_mass<1,1> one;
-         
-         QUAN_CHECK(pqs::base_quantity_exp_is_zero<zero>::value)
-         QUAN_CHECK(!pqs::base_quantity_exp_is_zero<one>::value)
+      typedef expr_mass<0,3> zero;
+      typedef expr_mass<1,1> one;
+      
+      QUAN_CHECK(pqs::base_quantity_exp_is_zero<zero>::value)
+      QUAN_CHECK(!pqs::base_quantity_exp_is_zero<one>::value)
    }
 
    void is_zero_test()

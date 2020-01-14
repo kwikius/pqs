@@ -7,7 +7,7 @@
 
 namespace pqs{ 
 
-   // Mulriplier and exponent are compile time rationals
+   // Multiplier and exponent are compile time rationals
    template < typename Multiplier, typename  Exponent>
    struct conversion_factor{
       typedef typename Multiplier::type multiplier;

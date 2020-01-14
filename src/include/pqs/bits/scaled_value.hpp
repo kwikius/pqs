@@ -52,8 +52,4 @@ namespace pqs{
 
 }
 
-
-
-
-
 #endif // PQS_BITS_SCALED_VALUE_HPP_INCLUDED
