@@ -7,8 +7,8 @@
 
 namespace pqs{
 
-  template <typename ValueType, typename ConversionFactor>
-  struct scaled_value{
+   template <typename ConversionFactor,typename ValueType>
+   struct scaled_value{
 
       static_assert(pqs::is_quantity_value_type<ValueType>::value, "invalid value_type for scaled_value");
       static_assert(pqs::is_conversion_factor<ConversionFactor>::value, "invalid conversion factor type for scaled_value");
@@ -18,7 +18,7 @@ namespace pqs{
 
       // F is a function to fix up the value_type
       // see the <pqs/bits/implicit_conversion_functions.hpp> header for some examples
-      template <typename ValueTypeR,typename ConversionFactorR, typename F>
+      template <typename ConversionFactorR, typename ValueTypeR,typename F>
       static constexpr 
       ValueType
       scale_from (ValueTypeR const & vR, F const & f)
@@ -33,16 +33,16 @@ namespace pqs{
       scaled_value(V const& v )
       :m_numeric_value{pqs::default_conversion::template apply<ValueType>(v)}{}
 
-      template <typename ValueTypeR,typename ConversionFactorR, typename F>
+      template <typename ConversionFactorR,typename ValueTypeR, typename F>
       constexpr 
       explicit
-      scaled_value(scaled_value<ValueTypeR,ConversionFactorR> const & in, F const & f)
-      :m_numeric_value{scale_from<ValueTypeR,ConversionFactorR>(in.numeric_value(),f)}{}
+      scaled_value(scaled_value<ConversionFactorR,ValueTypeR> const & in, F const & f)
+      :m_numeric_value{scale_from<ConversionFactorR>(in.numeric_value(),f)}{}
 
-      template <typename ValueTypeR,typename ConversionFactorR>
+      template <typename ConversionFactorR,typename ValueTypeR>
       constexpr 
-      scaled_value(scaled_value<ValueTypeR,ConversionFactorR> const & in)
-      :m_numeric_value{scale_from<ValueTypeR,ConversionFactorR>(in.numeric_value(),pqs::default_conversion{})}{}
+      scaled_value(scaled_value<ConversionFactorR,ValueTypeR> const & in)
+      :m_numeric_value{scale_from<ConversionFactorR,ValueTypeR>(in.numeric_value(),pqs::default_conversion{})}{}
 
       constexpr ValueType numeric_value()const { return m_numeric_value;}
       private:

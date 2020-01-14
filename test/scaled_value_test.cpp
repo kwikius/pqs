@@ -10,9 +10,9 @@ namespace {
       typedef pqs::conversion_factor<std::ratio<1>,std::ratio<0> > cf_from;  
       typedef pqs::conversion_factor<std::ratio<1,7>,std::ratio<0> > cf_to;
 
-      constexpr pqs::scaled_value<double,cf_from> sv{30.0};
+      constexpr pqs::scaled_value<cf_from,double> sv{30.0};
 
-      pqs::scaled_value<double,cf_to> sv1 = sv ;
+      pqs::scaled_value<cf_to,double> sv1 = sv ;
 
       // v = sv1.v * 1
       // v = sv2.v * 1./7 
@@ -28,9 +28,9 @@ namespace {
       typedef pqs::conversion_factor<std::ratio<1>,std::ratio<0> > cf_from;  
       typedef pqs::conversion_factor<std::ratio<1,7>,std::ratio<2> > cf_to;
 
-      constexpr pqs::scaled_value<double,cf_from> sv{30.0};
+      constexpr pqs::scaled_value<cf_from,double> sv{30.0};
 
-      pqs::scaled_value<double,cf_to> sv1 = sv ;
+      pqs::scaled_value<cf_to,double> sv1 = sv ;
 
       // v = sv1.v * 1
       // v = sv2.v * 1./7 * 10^2
@@ -47,9 +47,9 @@ namespace {
       typedef pqs::conversion_factor<std::ratio<1>,std::ratio<0> > cf_from;  
       typedef pqs::conversion_factor<std::ratio<1,7>,std::ratio<-2> > cf_to;
 
-      constexpr pqs::scaled_value<double,cf_from> sv{30.0};
+      constexpr pqs::scaled_value<cf_from,double> sv{30.0};
 
-      pqs::scaled_value<double,cf_to> sv1 = sv ;
+      pqs::scaled_value<cf_to,double> sv1 = sv ;
 
       // v = sv1.v * 1
       // v = sv2.v * 1./7 * 10^2
