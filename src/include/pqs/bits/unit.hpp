@@ -16,6 +16,19 @@
 
 namespace pqs{ 
 
+   //prob mod to
+   /*
+   template <
+      typename Dim, 
+      typename ConversionFactor = conversion_factor<std::ratio<0>,std::ratio<1> >
+   >
+   struct unit{
+      typedef Dim dimension;
+      typedef ConversionFactor conversion_factor
+   };
+
+   */
+
    // unit_ratio_concept comprises dimension and rational si conversion factor exponent
    // the conversion factor is rational which diferentiates this from unit
    // rational si conversion factor will be rare in practise but can occur for instance
