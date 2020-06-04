@@ -8,6 +8,9 @@
 namespace pqs{ 
 
    // Multiplier and exponent are compile time rationals
+   // should reverse order so exponent is first
+   // since multiplier is default ( as was in quan)
+   // so 
    template < typename Multiplier, typename  Exponent>
    struct conversion_factor{
       typedef typename Multiplier::type multiplier;
