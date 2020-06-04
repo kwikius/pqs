@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_DIMENSION_HPP_INCLUDED
 
 #include <type_traits>
+#include <pqs/concepts/base_quantity_exp.hpp>
 
 namespace pqs{
 

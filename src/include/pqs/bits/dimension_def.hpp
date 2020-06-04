@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <pqs/meta/not.hpp>
 #include <pqs/meta/and.hpp>
+#include <pqs/meta/or.hpp>
 #include <pqs/concepts/dimension.hpp>
 
 namespace pqs{
@@ -33,13 +34,20 @@ namespace pqs{
    template <typename ... D >
    struct is_base_quantity_exp_list<pqs::base_quantity_exp_list<D...> > : std::true_type{};
 
-   // refactor to is_named_dimension
-   template <typename D>
-   struct is_derived_dimension : 
+   template <typename T>
+   struct is_derived_from_base_quantity_exp_list : 
       pqs::meta::and_<
-         pqs::meta::not_<is_base_quantity_exp_list<D> >,
-         std::is_base_of<pqs::detail::base_quantity_exp_list_base,D>
-      >{};
+         std::is_base_of<pqs::detail::base_quantity_exp_list_base,T>,
+         pqs::meta::not_<is_base_quantity_exp_list<T> >
+      >
+   {};
+
+   // TODO also derived from base_quantity_exp
+   template <typename D>
+   struct is_derived_dimension : pqs::meta::or_<
+      is_derived_from_base_quantity_exp_list<D>,
+      is_derived_from_base_quantity_exp<D>
+   >{};
 
    template <typename T>
    struct is_dimension : pqs::meta::or_<

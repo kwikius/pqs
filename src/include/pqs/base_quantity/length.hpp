@@ -37,6 +37,12 @@ namespace pqs{
 
    namespace impl{
 
+      template <int N>
+      struct is_base_quantity_exp_impl< pqs::exp_length<N>  > : std::true_type{};
+
+      template <int N,int D>
+      struct is_base_quantity_exp_impl< pqs::expr_length<N,D>  > : std::true_type{};
+
       template <typename Ratio>
       struct make_base_quantity_exp_impl<pqs::newtonian_universe::length_uuid,Ratio>
       : pqs::meta::eval_if<

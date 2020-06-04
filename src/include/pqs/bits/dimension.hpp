@@ -8,7 +8,7 @@
 #include <pqs/bits/where.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
-#include <pqs/concepts/base_quantity_exp.hpp>
+#include <pqs/concepts/dimension.hpp>
 #include <pqs/bits/dimension_def.hpp>
 #include <pqs/meta/merge_dim.hpp>
 #include <pqs/meta/transform.hpp>
@@ -18,8 +18,6 @@
 namespace pqs{
 
    namespace impl{
-
-
 
 //multiply
       // base_exp * base_exp

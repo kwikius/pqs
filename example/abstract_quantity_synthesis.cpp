@@ -11,6 +11,9 @@ using pqs::make_quantity;
 namespace expo{
 
    constexpr pqs::exp_length<1> length;  // base_dimension_exp
+
+   struct named_length : decltype(length) {};  // named_dimension
+
    constexpr pqs::exp_time<1> time;      // base_dimension_exp
    constexpr pqs::exp_mass<1> mass;      // base_dimension_exp
 
@@ -28,14 +31,16 @@ namespace expo{
       // identity
       // name
    };
-   constexpr vertical_velocity_t  vertical_velocity ;
 
-   // TODO deal with operations on derived
+   struct : decltype(velocity) {  // named_dimension
+      // identity
+      // name
+   } vertical_velocity ;
 
-   // can do by if lhs is derived then ... if rhs id derived else
-   // get the base_type
    constexpr auto mux_test = vertical_velocity * time * length ;
    constexpr auto div_test = vertical_velocity / time ;
+
+   constexpr auto velocity1 = named_length{} / time;  // base_quantity_exp_list
 }
 
 namespace {
@@ -110,5 +115,5 @@ int main()
    static_assert ( not is_abstract_quantity(q4),"");
 
    // uncomment for error messages
-   int x = expo::mux_test;
+   int x = expo::velocity1;
 }

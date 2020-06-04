@@ -66,6 +66,9 @@ namespace pqs{
    template <typename T>
    struct get_exponent : impl::get_exponent_impl<T>{};
 
+   template <typename T>
+   struct is_derived_from_base_quantity_exp ;
+
    namespace impl{
 
       template <typename Lhs, typename Rhs>
