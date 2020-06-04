@@ -7,7 +7,6 @@
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/bits/where.hpp>
 #include <pqs/bits/binary_op.hpp>
-#include <pqs/bits/undefined.hpp>
 
 namespace pqs{
 

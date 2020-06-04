@@ -2,7 +2,7 @@
 #define PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/bits/undefined.hpp>
+#include <pqs/bits/undefined_arg.hpp>
 #include <pqs/concepts/ratio.hpp>
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/bits/binary_op.hpp>
@@ -37,14 +37,14 @@ namespace pqs{
 
       // derive default
       template <typename T, typename Where = void>
-      struct base_quantity_exp_is_zero_impl : pqs::undefined {};
+      struct base_quantity_exp_is_zero_impl : pqs::undefined_arg<T> {};
 
       // customise per UUID
       template <typename UUID,typename Ratio,typename Where = void>
-      struct make_base_quantity_exp_impl : pqs::undefined{};
+      struct make_base_quantity_exp_impl : pqs::undefined_arg<UUID>{};
 
       template <typename T, typename Where = void >
-      struct get_exponent_impl : pqs::undefined{};
+      struct get_exponent_impl : pqs::undefined_arg<T>{};
 
    } //impl
 

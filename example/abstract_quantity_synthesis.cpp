@@ -10,18 +10,24 @@ using pqs::make_quantity;
 
 namespace expo{
 
-   constexpr pqs::exp_length<1> length;
-   constexpr pqs::exp_time<1> time;
-   constexpr pqs::exp_mass<1> mass;
+   constexpr pqs::exp_length<1> length;  // base_dimension_exp
+   constexpr pqs::exp_time<1> time;      // base_dimension_exp
+   constexpr pqs::exp_mass<1> mass;      // base_dimension_exp
 
-   constexpr auto velocity = length / time;
+   constexpr auto velocity = length / time;  // dimension
 
-   constexpr auto acceleration = velocity / time;
-   struct force_t : decltype(mass * acceleration) {};
+   constexpr auto acceleration = velocity / time;     // dimension
+   struct force_t : decltype(mass * acceleration) {   // named_dimension
+      // identity
+      // name
+   };  // derived_diemnsion or named_dimension
    force_t force;
 
-   // derived_abstract_quantity ?
-   struct vertical_velocity_t : decltype(velocity) {};
+   // derived_abstract_quantity?
+   struct vertical_velocity_t : decltype(velocity) {  // named_dimension
+      // identity
+      // name
+   };
    constexpr vertical_velocity_t  vertical_velocity ;
 }
 
@@ -97,5 +103,5 @@ int main()
    static_assert ( not is_abstract_quantity(q4),"");
 
    // uncomment for error messages
-   q5 = q5;
+   int x = q1;
 }

@@ -27,9 +27,16 @@ namespace pqs{
 
    // Thse two should probably be sorted 
    // maybe is_basic_dimension so is_dimension is is_basic or derived?
+   // is_raw_dimension
+   // is_dimension becomes is_raw_dimension
+   // is_dimension is anything derived from dimension base_class
    template <typename ... D >
    struct is_dimension<pqs::dimension<D...> > : std::true_type{};
 
+
+   // derived dimension is a dimension surely
+   // maybe unnamed dimension for raw dimension
+   // or named_abstract_quantity
    template <typename D>
    struct is_derived_dimension : 
       pqs::meta::and_<

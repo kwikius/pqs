@@ -29,6 +29,7 @@ int  errors = 0;
 
 int main()
 {
+   std::cout << "pqs test\n";
    quantity_syntax_test1();
   // base_dimension_ratio_test();
    dimension_test();

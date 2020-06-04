@@ -1,0 +1,27 @@
+
+
+conversion_factor 
+
+represents the scaling of the quantity from the base quantity
+
+conversion factor can be
+   base_conversion_factor -> The exponent is 0 and multiplier is 1
+   coherent_conversion_factor   -> the exp is an integer and multiplier is 1
+   rational_coherent_conversion_factor -> the exp is a rational and multiplier is 1
+   incoherent_conversion_factor -> the multiplier is not 1, may be rational, or the multiplier is 1 but has an id to distinguish from cohernet_conversion_factor
+    
+
+operations
+   
+ratio get_exponent() ;  return the base 10 exponent of the scaling factor
+ratio get_multiplier() ; return the multiplier of the conversion factor
+multiplier will be one for coherent quantities.
+id option to mark the conversion_factor in a special way or be anonymous : maybe name or by derivation
+
+
+most simple type of conversion factor is base_conversion_factor
+
+get_exponent (basic_conversion_factor) { return std::ratio<0> ;}
+get_multiplier ( basic_conversion_factor) { return 1 ; }
+is_anonymous(basic_conversion_factor) { return true;}
+

@@ -1,0 +1,11 @@
+
+
+the dimension of a quantity is represented as :
+   base_quantity_exp  | dimension<base_quantity_exp...>
+
+
+
+
+
+ 
+

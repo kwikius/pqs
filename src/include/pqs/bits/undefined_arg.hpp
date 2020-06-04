@@ -23,10 +23,7 @@
 
 namespace pqs{ 
 
-   /*
-     TODO change to undefined_arg<T...>, will show args info then
-   */
-
+   
    template <typename ... Args>
    struct undefined_arg {
      
