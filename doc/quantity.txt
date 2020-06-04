@@ -1,6 +1,6 @@
 
 
-quantity signature
+quantity class template
 
 quantity <unit,value_type>
 

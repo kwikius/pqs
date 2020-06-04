@@ -4,31 +4,23 @@ conversion_factor is a member of a unit_system
 
 represents the scaling of the concrete-quantity value from the concrete-base-quantity value
 
-There must be a mechanism to optionally distinguish conversion factors which have same exponent and multiplier
-anonymous_conversion_factor
+distinguish conversion factors which have same exponent and multiplier using custom_conversion_factor
 
-maybe default rather than anonymous
+conversion factor sub concepts
 
-conversion factor can be
-   base_conversion_factor -> The exponent is 0 and multiplier is 1
-   coherent_conversion_factor   -> the exp is an integer and multiplier is 1
-   rational_coherent_conversion_factor -> the exp is a rational and multiplier is 1
-   incoherent_conversion_factor -> the multiplier is not 1, may be rational, or the multiplier is 1 but has an id to distinguish from cohernet_conversion_factor
-    
-
-Informal rule : favour coherent conversion factor in terms of length of error message
+   basic_conversion_factor      -> The exponent is 0 and multiplier is 1
+   integer_conversion_factor    -> the exp is an integer and multiplier is 1
+   rational_conversion_factor   -> the exp is a rational and multiplier is 1
+   custom_conversion_factor     -> has a name, rational exp and rational multiplier
+                                                     
+Informal rule : favour no custom conversion factor in terms of length of error message
 
 operations
    
-ratio get_exponent() ;  return the base 10 exponent of the scaling factor
-ratio get_multiplier() ; return the multiplier of the conversion factor
-multiplier will be one for coherent quantities.
-id option to mark the conversion_factor in a special way or be anonymous : maybe name or by derivation
+ratio get_exponent(conversion_factor) ;  return the base 10 exponent of the scaling factor
+ratio get_multiplier(conversion_factor) ; return the multiplier of the conversion factor
+bool is_custom(conversion_factor) ; true if it is a custom conversion factor
+unit_system get_unit_system(conversion_factor) : get the unit system this conversion factor belongs to
 
 
-most simple type of conversion factor is base_conversion_factor
-
-get_exponent (basic_conversion_factor) { return std::ratio<0> ;}
-get_multiplier ( basic_conversion_factor) { return 1 ; }
-is_anonymous(basic_conversion_factor) { return true;}
 

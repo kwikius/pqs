@@ -2,7 +2,7 @@
 
 dimension_concept
 
-   anonymous_dimension | named_dimension
+   basic_dimension | named_dimension
 
 dimension may be made of base_dimensions from different universe types, but not from different universes of same type
 

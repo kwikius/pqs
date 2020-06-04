@@ -4,7 +4,5 @@ parts may be implied
 
 unit models
 
-  dimension   the conversion_factor is implied as multiplier == 1 and exponent == 0
-            problem  no system identified
 
 

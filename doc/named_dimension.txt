@@ -1,5 +1,5 @@
 
-named dimension is a class containing anonymous_dimension and a name
+named dimension is a class containing basic_dimension and a name
 
 
 

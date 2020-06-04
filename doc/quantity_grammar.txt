@@ -1,0 +1,60 @@
+
+%{ 
+
+%}
+
+%token 
+  Number
+  Multiplier
+  Exponent
+  BaseQuantityID
+  Name
+
+%%
+
+quantity :
+    unit Number
+;
+
+unit:
+    dimension
+  | dimension conversion_factor
+;
+
+base_quantity_exp:
+   BaseQuantityID exponent
+;
+
+dimension:
+   basic_dimension
+   | Name basic_dimension
+;
+
+basic_dimension :
+   base_quantity_exp
+ | basic_dimension ',' base_quantity_exp
+;
+
+rational :
+    Number 
+   | Number '/' Number 
+
+multiplier :
+   Multiplier rational
+;
+
+exponent :
+  Exponent rational
+;
+
+conversion_factor :
+   basic_conversion_factor
+   | Name basic_conversion_factor
+;
+
+basic_conversion_factor :
+    exponent
+  | exponent multiplier 
+;
+
+%%
