@@ -21,7 +21,7 @@ namespace {
 
        typedef pqs::meta::pop_front<dimension>::type empty_dimension;
 
-       QUAN_CHECK((std::is_same<empty_dimension,pqs::dimension<> >::value))
+       QUAN_CHECK((std::is_same<empty_dimension,pqs::base_quantity_exp_list<> >::value))
        QUAN_CHECK((empty_dimension::num_elements == 0))
    }
 
@@ -38,33 +38,33 @@ namespace {
 
    void multiply_dimensions_test()
    {
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_length<1>, 
           pqs::exp_time<-1>, 
           pqs::exp_mass<2> 
       > lhs_dimension;
-      typedef pqs::dimension< 
+      typedef pqs::base_quantity_exp_list< 
          pqs::exp_mass<2>,
          pqs::exp_time<1>
       > rhs_dimension;
 
       typedef pqs::binary_op<lhs_dimension,pqs::times,rhs_dimension>::type result;
 
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_length<1>,  
          pqs::exp_mass<4> 
       > expected_result;
 
       QUAN_CHECK( (std::is_same<result,expected_result>::value ))
 
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_length<-1>,
          pqs::exp_time<1>, 
          pqs::exp_mass<-2> 
       > inv_dimension;
 
       typedef pqs::binary_op<lhs_dimension,pqs::times,inv_dimension>::type empty_result;
-      QUAN_CHECK((std::is_same<empty_result, pqs::dimension<> >::value))
+      QUAN_CHECK((std::is_same<empty_result, pqs::base_quantity_exp_list<> >::value))
 
       typedef pqs::binary_op<lhs_dimension,pqs::times,empty_result>::type result1;
 
@@ -77,14 +77,14 @@ namespace {
 
    void divide_dimensions_test()
    {
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_length<1>, 
          pqs::exp_time<-1>,
          pqs::exp_mass<2> ,
          pqs::exp_current<2> 
       > lhs_dimension;
 
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_mass<2>, 
          pqs::exp_time<1>,
          pqs::exp_length<3>, 
@@ -94,7 +94,7 @@ namespace {
       typedef pqs::binary_op<lhs_dimension,pqs::divides,rhs_dimension>::type result;
 
       typedef sort<
-         pqs::dimension<
+         pqs::base_quantity_exp_list<
             pqs::exp_length<-2>, 
             pqs::exp_time<-2>, 
             pqs::exp_current<1> 
@@ -105,12 +105,12 @@ namespace {
 
       typedef pqs::binary_op<lhs_dimension,pqs::divides,lhs_dimension>::type empty_result;
 
-      QUAN_CHECK( (std::is_same<empty_result,pqs::dimension<> >::value ))
+      QUAN_CHECK( (std::is_same<empty_result,pqs::base_quantity_exp_list<> >::value ))
 
-      typedef pqs::binary_op<pqs::dimension<>,pqs::divides,lhs_dimension>::type result2;
+      typedef pqs::binary_op<pqs::base_quantity_exp_list<>,pqs::divides,lhs_dimension>::type result2;
 
       typedef sort<
-         pqs::dimension<
+         pqs::base_quantity_exp_list<
             pqs::exp_length<-1>, 
             pqs::exp_time<1>,
             pqs::exp_mass<-2> ,
@@ -125,7 +125,7 @@ namespace {
 
    void to_power_dimension_test1()
    {
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_length<1>, 
          pqs::exp_time<-1>, 
          pqs::exp_mass<2>,
@@ -136,7 +136,7 @@ namespace {
       typedef pqs::binary_op<dimension,pqs::to_power,multiplier>::type result;
 
       typedef sort<
-         pqs::dimension<
+         pqs::base_quantity_exp_list<
             pqs::exp_length<2>, 
             pqs::exp_time<-2>, 
             pqs::exp_mass<4>,
@@ -149,12 +149,12 @@ namespace {
       // TODO fails since its is a list of zero values
       typedef pqs::binary_op<dimension,pqs::to_power,std::ratio<0> >::type empty_result;
     //  int x = empty_result{};
-      QUAN_CHECK( (std::is_same<empty_result,pqs::dimension<> >::value ))
+      QUAN_CHECK( (std::is_same<empty_result,pqs::base_quantity_exp_list<> >::value ))
   }
 
    void to_power_dimension_test2()
    {
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_length<2>, 
          pqs::exp_time<-2>, 
          pqs::exp_mass<4>,
@@ -168,7 +168,7 @@ namespace {
       >::type result1;
 
       typedef sort<
-         pqs::dimension<
+         pqs::base_quantity_exp_list<
             pqs::exp_length<1>, 
             pqs::exp_time<-1>,
             pqs::exp_mass<2>,
@@ -183,7 +183,7 @@ namespace {
       >::type result2;
 
       typedef sort <
-         pqs::dimension<
+         pqs::base_quantity_exp_list<
             pqs::expr_length<1,2>,
             pqs::expr_time<-1,2>, 
             pqs::exp_mass<1>,
@@ -197,7 +197,7 @@ namespace {
 
   void reciprocal_dimension_test()
   {
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_length<2>,
          pqs::exp_time<-2>, 
          pqs::exp_mass<4>,
@@ -207,7 +207,7 @@ namespace {
       typedef pqs::unary_op<pqs::meta::reciprocal,dimension>::type result1;
 
       typedef sort<
-         pqs::dimension<
+         pqs::base_quantity_exp_list<
             pqs::exp_length<-2>, 
             pqs::exp_time<2>, 
             pqs::exp_mass<-4>,
@@ -217,7 +217,7 @@ namespace {
   
      QUAN_CHECK( (std::is_same<result1,expected_result1>::value ))
 
-     typedef pqs::dimension<
+     typedef pqs::base_quantity_exp_list<
          pqs::expr_length<1,2>,
          pqs::expr_time<-5,2>, 
          pqs::exp_mass<1> ,
@@ -227,7 +227,7 @@ namespace {
      typedef pqs::unary_op<pqs::meta::reciprocal,dimension2>::type result2;
 
      typedef sort<
-         pqs::dimension<
+         pqs::base_quantity_exp_list<
             pqs::expr_length<-1,2>,
             pqs::expr_time<5,2>,
             pqs::exp_mass<-1>,
@@ -240,21 +240,21 @@ namespace {
 
   void compare_dimension_test()
   {
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::exp_time<-2>, 
          pqs::exp_mass<4>,
          pqs::exp_current<4>, 
          pqs::exp_length<2> 
       > dimension1;
 
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::expr_length<4,2>,
          pqs::exp_time<-2>, 
          pqs::exp_current<4>, 
          pqs::exp_mass<4>
       > dimension2;
 
-      typedef pqs::dimension<
+      typedef pqs::base_quantity_exp_list<
          pqs::expr_length<-1,2>, 
          pqs::expr_time<5,2>, 
          pqs::exp_current<-10>, 

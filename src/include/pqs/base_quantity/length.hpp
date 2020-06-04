@@ -17,8 +17,9 @@ namespace pqs{
    // base_quantity_exps are required to be models of meta::identity_function
    // derive from pqs::detail::base_quantity_exp_base_class
    // to make a model of base_quantity_exp
-   // and have member base_type modeliing base_quantity
+   // and have member base_type modelling base_quantity
    // member exponent modelling ratio and representing exponent of base quantity
+   // TODO add unnamed_type to get the type from a named_base_quantity
    template <int N, int D>
    struct expr_length : pqs::detail::base_quantity_exp_base_class {
       typedef base_length  base_type;
@@ -26,6 +27,7 @@ namespace pqs{
       typedef expr_length type; // identity
    };
 
+    // TODO add unnamed_type to get the type from a named_base_quantity
    template <int N>
    struct exp_length : expr_length<N,1> {
       typedef exp_length type; // identity

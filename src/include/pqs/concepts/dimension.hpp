@@ -6,7 +6,7 @@
 namespace pqs{
 
     // no customization
-    // intended for dimension<base_dim_exp...> only
+    // intended for base_quantity_exp_list<base_dim_exp...> only
 
 /*
        Where T,Lhs,Rhs,are models of dimension

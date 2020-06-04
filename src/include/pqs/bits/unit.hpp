@@ -38,13 +38,13 @@ namespace pqs{
    // essentially just a refinement of unit_ratio
    // most si units will be of this type
    template <int ExpN, typename ... BaseExp>
-   struct unit : unit_ratio<dimension<BaseExp... >, ExpN,1>{ typedef unit type;};
+   struct unit : unit_ratio<base_quantity_exp_list<BaseExp... >, ExpN,1>{ typedef unit type;};
 
    // unit for base quantity eg length mass time area etc
-   // BaseExp the dimension exponent of the quantity
+   // BaseExp the base_quantity_exp_list exponent of the quantity
    // ExpN the integer exponent of the conversion factor
    template <typename BaseExp, int ExpN>
-   struct base_unit : unit_ratio<dimension<BaseExp>,ExpN,1>{
+   struct base_unit : unit_ratio<base_quantity_exp_list<BaseExp>,ExpN,1>{
       typedef base_unit type;
    };
 

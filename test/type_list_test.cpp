@@ -47,22 +47,22 @@ namespace {
 
    void alias_test()
    {
-      typedef pqs::dimension< v<5>, v<10>, v<7>, v<2> > dim_type;
+      typedef pqs::base_quantity_exp_list< v<5>, v<10>, v<7>, v<2> > dim_type;
 
       typedef pqs::meta::type_list_alias<dim_type>::apply<pqs::meta::type_list>::type alias1;
 
       QUAN_CHECK((std::is_same<alias1,pqs::meta::type_list< v<5>, v<10>, v<7>, v<2> > >::value ))
 
-      typedef pqs::meta::type_list_alias<alias1>::apply<pqs::dimension>::type alias2;
+      typedef pqs::meta::type_list_alias<alias1>::apply<pqs::base_quantity_exp_list>::type alias2;
 
       QUAN_CHECK((std::is_same<alias2,dim_type>::value))
    }
 
    void sort_dim_test()
    {
-        typedef pqs::dimension< v<5>, v<10>, v<7>, v<2> > dim_type;
+        typedef pqs::base_quantity_exp_list< v<5>, v<10>, v<7>, v<2> > dim_type;
         typedef pqs::meta::merge_sort<dim_type,meta_less>::type result_type;
-        typedef pqs::dimension< v<2>,v<5>,v<7>,v<10> > expected_type;
+        typedef pqs::base_quantity_exp_list< v<2>,v<5>,v<7>,v<10> > expected_type;
         QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
 

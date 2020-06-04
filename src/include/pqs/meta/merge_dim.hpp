@@ -88,18 +88,18 @@ namespace pqs{ namespace meta{
       };
     
       template <typename DimL, typename Op, typename DimOut>
-      struct merge_dim<DimL,Op,pqs::dimension<>,DimOut> : merge_dim<
+      struct merge_dim<DimL,Op,pqs::base_quantity_exp_list<>,DimOut> : merge_dim<
          typename pop_front<DimL>::type ,
          Op,
-         pqs::dimension<>, 
+         pqs::base_quantity_exp_list<>, 
          typename append_if_not_zero<
             typename front<DimL>::type,DimOut
          >::type
       >{};
 
       template <typename DimR,typename Op, typename DimOut>
-      struct merge_dim<pqs::dimension<>,Op,DimR,DimOut> : merge_dim<
-         pqs::dimension<>,
+      struct merge_dim<pqs::base_quantity_exp_list<>,Op,DimR,DimOut> : merge_dim<
+         pqs::base_quantity_exp_list<>,
          Op,
          typename pop_front<DimR>::type ,
          typename append_if_not_zero<
@@ -113,7 +113,7 @@ namespace pqs{ namespace meta{
       >{};
 
       template <typename Op,typename DimOut>
-      struct merge_dim<pqs::dimension<>,Op, pqs::dimension<>,DimOut>{
+      struct merge_dim<pqs::base_quantity_exp_list<>,Op, pqs::base_quantity_exp_list<>,DimOut>{
          typedef DimOut type;
       };
 
@@ -139,7 +139,7 @@ namespace pqs{ namespace meta{
       typename pqs::meta::merge_sort<
          DimR,pqs::meta::detail::base_quantity_exp_sort_fun
       >::type, 
-      pqs::dimension<> 
+      pqs::base_quantity_exp_list<> 
    >{};
    
 }} // pqs::meta

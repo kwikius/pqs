@@ -34,7 +34,7 @@ void quantity_syntax_test1()
    // anonymous or r-value quantity
    auto qa = quantity<
       derived_unit<
-         dimension<
+         base_quantity_exp_list<
             pqs::exp_length<1>, 
             pqs::exp_time<-1>,
             pqs::exp_mass<2>, 

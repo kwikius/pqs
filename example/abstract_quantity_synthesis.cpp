@@ -14,9 +14,9 @@ namespace expo{
    constexpr pqs::exp_time<1> time;      // base_dimension_exp
    constexpr pqs::exp_mass<1> mass;      // base_dimension_exp
 
-   constexpr auto velocity = length / time;  // dimension
+   constexpr auto velocity = length / time;  // base_quantity_exp_list
 
-   constexpr auto acceleration = velocity / time;     // dimension
+   constexpr auto acceleration = velocity / time;     // base_quantity_exp_list
    struct force_t : decltype(mass * acceleration) {   // named_dimension
       // identity
       // name
@@ -29,6 +29,12 @@ namespace expo{
       // name
    };
    constexpr vertical_velocity_t  vertical_velocity ;
+
+   // TODO deal with operations on derived
+
+   // can do by if lhs is derived then ... if rhs id derived else
+   // get the base_type
+   constexpr auto test = vertical_velocity_t::type{} / mass ;
 }
 
 namespace {
@@ -94,7 +100,7 @@ int main()
    auto q5 = make_quantity<3>(double{},20.0);
   //##################################################
    // OK dimensionless quantity : should probably return a real
-   auto q6 = make_quantity<3>(pqs::dimension<>{},20.0);
+   auto q6 = make_quantity<3>(pqs::base_quantity_exp_list<>{},20.0);
   //##################################################
 
    static_assert ( not is_abstract_quantity(q1),"");
@@ -103,5 +109,5 @@ int main()
    static_assert ( not is_abstract_quantity(q4),"");
 
    // uncomment for error messages
-   int x = q1;
+   int x =  expo::test{};
 }
