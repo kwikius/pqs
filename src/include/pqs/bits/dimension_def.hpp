@@ -13,6 +13,8 @@ namespace pqs{
       struct dimension_base_class{};
    }
 
+   // initially rename to base_quantity_exp_list
+   // then convert to type_list<base_quantity_exp...>
    template <typename ...D>
    struct dimension : pqs::detail::dimension_base_class{
       typedef dimension type;
@@ -25,18 +27,11 @@ namespace pqs{
       static constexpr uint32_t num_elements = 0;
    };
 
-   // Thse two should probably be sorted 
-   // maybe is_basic_dimension so is_dimension is is_basic or derived?
-   // is_raw_dimension
-   // is_dimension becomes is_raw_dimension
-   // is_dimension is anything derived from dimension base_class
+   // rename to is_base_quantity_exp_list
    template <typename ... D >
    struct is_dimension<pqs::dimension<D...> > : std::true_type{};
 
-
-   // derived dimension is a dimension surely
-   // maybe unnamed dimension for raw dimension
-   // or named_abstract_quantity
+   // refactor to is_named_dimension
    template <typename D>
    struct is_derived_dimension : 
       pqs::meta::and_<
