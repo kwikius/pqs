@@ -2,6 +2,7 @@
 #include "test.hpp"
 #include <pqs/units/length_unit.hpp>
 #include <pqs/bits/base_quantities.hpp>
+#include <pqs/bits/binary_op.hpp>
 
 namespace {
 
@@ -125,6 +126,7 @@ namespace {
 
    void to_power_dimension_test1()
    {
+
       typedef pqs::base_quantity_exp_list<
          pqs::exp_length<1>, 
          pqs::exp_time<-1>, 
@@ -133,7 +135,7 @@ namespace {
       > dimension;
       typedef std::ratio<2> multiplier;
 
-      typedef pqs::binary_op<dimension,pqs::to_power,multiplier>::type result;
+      typedef pqs::binary_op<dimension,struct pqs::to_power,multiplier>::type result;
 
       typedef sort<
          pqs::base_quantity_exp_list<
@@ -147,9 +149,10 @@ namespace {
       QUAN_CHECK( (std::is_same<result,expected_result>::value ))
 
       // TODO fails since its is a list of zero values
-      typedef pqs::binary_op<dimension,pqs::to_power,std::ratio<0> >::type empty_result;
+      typedef pqs::binary_op<dimension,struct pqs::to_power,std::ratio<0> >::type empty_result;
     //  int x = empty_result{};
       QUAN_CHECK( (std::is_same<empty_result,pqs::base_quantity_exp_list<> >::value ))
+
   }
 
    void to_power_dimension_test2()
@@ -164,7 +167,7 @@ namespace {
       typedef std::ratio<2> divisor;
 
       typedef pqs::binary_op<
-         dimension,pqs::to_power,typename pqs::unary_op<pqs::meta::reciprocal,divisor>::type 
+         dimension,struct pqs::to_power,typename pqs::unary_op<pqs::meta::reciprocal,divisor>::type 
       >::type result1;
 
       typedef sort<
@@ -179,7 +182,7 @@ namespace {
       QUAN_CHECK( (std::is_same<result1,expected_result1>::value ))
 
       typedef pqs::binary_op<
-         result1,pqs::to_power,typename pqs::unary_op<pqs::meta::reciprocal,divisor>::type
+         result1,struct pqs::to_power,typename pqs::unary_op<pqs::meta::reciprocal,divisor>::type
       >::type result2;
 
       typedef sort <
