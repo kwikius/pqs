@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/dimension.hpp>
+#include <pqs/bits/conversion_factor.hpp>
 
 /*
    unit : abstract_quantity with a dimension and conversion factor
@@ -15,20 +16,18 @@
 */
 
 namespace pqs{ 
-
-   //prob mod to
-   /*
+/*
+   //TODO modify to this as basis
    template <
       typename Dim, 
-      typename ConversionFactor = conversion_factor<std::ratio<0>,std::ratio<1> >
+      typename ConversionFactor
    >
-   struct unit{
+   struct basic_unit{
       typedef Dim dimension;
-      typedef ConversionFactor conversion_factor
+      typedef ConversionFactor conversion_factor;
    };
-
-   */
-
+*/
+  
    // unit_ratio_concept comprises dimension and rational si conversion factor exponent
    // the conversion factor is rational which diferentiates this from unit
    // rational si conversion factor will be rare in practise but can occur for instance
