@@ -52,7 +52,7 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension<Lhs>,
+               pqs::is_base_quantity_exp_list<Lhs>,
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
@@ -64,7 +64,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>, 
-               pqs::is_dimension<Rhs>
+               pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
       > : pqs::binary_op<pqs::dimension<Lhs>,pqs::times,Rhs>{};
@@ -75,7 +75,7 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension<Lhs>,
+               pqs::is_base_quantity_exp_list<Lhs>,
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
@@ -87,7 +87,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>, 
-               pqs::is_dimension<Rhs>
+               pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
       > : pqs::binary_op<pqs::dimension<Lhs>,pqs::divides,Rhs>{};
@@ -97,8 +97,8 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension<Lhs>, 
-               pqs::is_dimension<Rhs>
+               pqs::is_base_quantity_exp_list<Lhs>, 
+               pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
       > : pqs::meta::merge_dim<Lhs,pqs::times,Rhs>{};
@@ -108,8 +108,8 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension<Lhs>, 
-               pqs::is_dimension<Rhs>
+               pqs::is_base_quantity_exp_list<Lhs>, 
+               pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
       > : pqs::meta::merge_dim<Lhs,divides,Rhs>{};
@@ -138,7 +138,7 @@ namespace pqs{
          Lhs,struct pqs::to_power,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension<Lhs>, 
+               pqs::is_base_quantity_exp_list<Lhs>, 
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
@@ -159,7 +159,7 @@ namespace pqs{
       struct unary_op_impl <
          pqs::meta::reciprocal,D,
          typename where_< 
-            pqs::is_dimension<D>
+            pqs::is_base_quantity_exp_list<D>
          >::type
       > : pqs::binary_op<D,struct pqs::to_power,std::ratio<-1> >{};
 
@@ -168,8 +168,8 @@ namespace pqs{
          Lhs,pqs::equal_to,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension<Lhs>, 
-               pqs::is_dimension<Rhs>
+               pqs::is_base_quantity_exp_list<Lhs>, 
+               pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
       > : std::is_same<
@@ -182,8 +182,8 @@ namespace pqs{
          Lhs,pqs::not_equal_to,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension<Lhs>, 
-               pqs::is_dimension<Rhs>
+               pqs::is_base_quantity_exp_list<Lhs>, 
+               pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
       > : pqs::meta::not_<pqs::binary_op<Lhs,pqs::equal_to,Rhs> > {};
@@ -201,16 +201,16 @@ namespace pqs{
             pqs::is_base_quantity_exp<Rhs> 
          >,
          pqs::meta::and_<
-            pqs::is_dimension<Lhs>,
+            pqs::is_base_quantity_exp_list<Lhs>,
             pqs::is_base_quantity_exp<Rhs>
          > ,
          pqs::meta::and_<
             pqs::is_base_quantity_exp<Lhs>, 
-            pqs::is_dimension<Rhs>
+            pqs::is_base_quantity_exp_list<Rhs>
          >, 
          pqs::meta::and_<
-            pqs::is_dimension<Lhs>, 
-            pqs::is_dimension<Rhs>
+            pqs::is_base_quantity_exp_list<Lhs>, 
+            pqs::is_base_quantity_exp_list<Rhs>
          > 
       >,  
       pqs::binary_op<Lhs,pqs::times,Rhs>
@@ -230,16 +230,16 @@ namespace pqs{
             pqs::is_base_quantity_exp<Rhs> 
          >,
          pqs::meta::and_<
-            pqs::is_dimension<Lhs>,
+            pqs::is_base_quantity_exp_list<Lhs>,
             pqs::is_base_quantity_exp<Rhs>
          > ,
          pqs::meta::and_<
             pqs::is_base_quantity_exp<Lhs>, 
-            pqs::is_dimension<Rhs>
+            pqs::is_base_quantity_exp_list<Rhs>
          >, 
          pqs::meta::and_<
-            pqs::is_dimension<Lhs>, 
-            pqs::is_dimension<Rhs>
+            pqs::is_base_quantity_exp_list<Lhs>, 
+            pqs::is_base_quantity_exp_list<Rhs>
          > 
       >,  
       pqs::binary_op<Lhs,pqs::divides,Rhs>

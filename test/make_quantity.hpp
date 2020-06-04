@@ -14,7 +14,7 @@ namespace pqs{
    struct make_unit : pqs::meta::eval_if<
       pqs::is_base_quantity_exp<D>,
          base_unit<D,Exp>,
-      pqs::is_dimension<D>,
+      pqs::is_base_quantity_exp_list<D>,
          pqs::derived_unit<D,Exp>,
       pqs::is_derived_dimension<D>,
          pqs::named_unit<D,Exp>,

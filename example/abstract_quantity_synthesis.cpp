@@ -37,7 +37,7 @@ namespace {
    struct is_abstract_quantity_t :
       pqs::meta::or_<
          pqs::is_base_quantity_exp<T>,
-         pqs::is_dimension<T>,
+         pqs::is_base_quantity_exp_list<T>,
          pqs::is_derived_dimension<T>
       >{};
 
@@ -54,9 +54,9 @@ namespace {
    }
 
    template <typename T> 
-   constexpr bool is_dimension(T t)
+   constexpr bool is_base_quantity_exp_list(T t)
    {
-      return pqs::is_dimension<T>::value;
+      return pqs::is_base_quantity_exp_list<T>::value;
    }
 
    template <typename T> 
@@ -77,7 +77,7 @@ int main()
    static_assert(is_base_quantity_exp(expo::time),"");
    static_assert(is_abstract_quantity(expo::time),"");
 
-   static_assert(is_dimension(expo::velocity),"");
+   static_assert(is_base_quantity_exp_list(expo::velocity),"");
    static_assert(is_abstract_quantity(expo::velocity),"");
    static_assert(not is_derived_dimension(expo::velocity),"");
 

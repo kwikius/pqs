@@ -22,7 +22,7 @@ namespace pqs{
        
 */
    template <typename D>
-   struct is_dimension : std::false_type{};
+   struct is_base_quantity_exp_list : std::false_type{};
 
    template <typename DL, typename DR> 
    struct are_equal_dimensions;

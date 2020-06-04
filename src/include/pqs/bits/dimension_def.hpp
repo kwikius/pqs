@@ -29,13 +29,13 @@ namespace pqs{
 
    // rename to is_base_quantity_exp_list
    template <typename ... D >
-   struct is_dimension<pqs::dimension<D...> > : std::true_type{};
+   struct is_base_quantity_exp_list<pqs::dimension<D...> > : std::true_type{};
 
    // refactor to is_named_dimension
    template <typename D>
    struct is_derived_dimension : 
       pqs::meta::and_<
-         pqs::meta::not_<is_dimension<D> >,
+         pqs::meta::not_<is_base_quantity_exp_list<D> >,
          std::is_base_of<pqs::detail::dimension_base_class,D>
       >{};
 
