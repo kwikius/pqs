@@ -34,7 +34,8 @@ namespace expo{
 
    // can do by if lhs is derived then ... if rhs id derived else
    // get the base_type
-   constexpr auto test = vertical_velocity * mass ;
+   constexpr auto mux_test = vertical_velocity * time * length ;
+   constexpr auto div_test = vertical_velocity / time ;
 }
 
 namespace {
@@ -109,5 +110,5 @@ int main()
    static_assert ( not is_abstract_quantity(q4),"");
 
    // uncomment for error messages
-   int x =  expo::test{};
+   int x = expo::mux_test;
 }

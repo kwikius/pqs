@@ -14,6 +14,8 @@ namespace pqs{
   
    namespace impl{
 
+      // TODO speciiaise per base_quantity_exp
+      // then can detect derived
       template <typename T>
       struct is_base_quantity_exp_impl <
           T,

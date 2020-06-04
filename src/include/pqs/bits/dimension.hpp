@@ -19,6 +19,8 @@ namespace pqs{
 
    namespace impl{
 
+
+
 //multiply
       // base_exp * base_exp
       template <typename Lhs, typename Rhs>
@@ -57,6 +59,20 @@ namespace pqs{
          >::type
       > : pqs::binary_op<pqs::base_quantity_exp_list<Lhs>,pqs::times,Rhs>{};
 
+      namespace detail{
+
+         template <typename List>
+         struct extract_single_element_list{
+            typedef List type;
+         };
+
+         template <typename Elem>
+         struct extract_single_element_list<pqs::base_quantity_exp_list<Elem> >{
+            typedef Elem type;
+         };
+
+      }
+
       //base_exp_list * base_exp_list
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -67,7 +83,12 @@ namespace pqs{
                pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
-      > : pqs::meta::merge_dim<Lhs,pqs::times,Rhs>{};
+      > {
+        // convert single element list to base_quantity_exp
+         typedef typename pqs::impl::detail::extract_single_element_list<
+            typename pqs::meta::merge_dim<Lhs,times,Rhs>::type
+         >::type type;
+      };
 
       // derived_dim * derived_dim
       template <typename Lhs, typename Rhs>
@@ -79,7 +100,11 @@ namespace pqs{
                pqs::is_derived_dimension<Rhs>
             > 
          >::type
-       > : pqs::binary_op<typename Lhs::base_exponent_type,pqs::times, typename Rhs::base_exponent_type>{};
+      > : pqs::binary_op<
+         typename Lhs::base_exponent_type,
+         pqs::times, 
+         typename Rhs::base_exponent_type
+      >{};
 
       // dim * derived_dim
       template <typename Lhs, typename Rhs>
@@ -92,7 +117,11 @@ namespace pqs{
                pqs::meta::not_<pqs::is_derived_dimension<Rhs> >
             > 
          >::type
-       > : pqs::binary_op<typename Lhs::base_exponent_type,pqs::times,Rhs>{};
+       > : pqs::binary_op<
+         typename Lhs::base_exponent_type,
+         pqs::times,
+         Rhs
+       >{};
 
       // derived_dim * dim
       template <typename Lhs, typename Rhs>
@@ -105,7 +134,11 @@ namespace pqs{
                pqs::meta::not_<pqs::is_derived_dimension<Lhs> >
             > 
          >::type
-       > : pqs::binary_op<Lhs,pqs::times,typename Rhs::base_exponent_type>{};
+       > : pqs::binary_op<
+         Lhs,
+         pqs::times,
+         typename Rhs::base_exponent_type
+      >{};
 
 //divide
       template <typename Lhs, typename Rhs>
@@ -145,8 +178,6 @@ namespace pqs{
          >::type
       > : pqs::binary_op<pqs::base_quantity_exp_list<Lhs>,pqs::divides,Rhs>{};
 
-
-
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs,
@@ -156,7 +187,62 @@ namespace pqs{
                pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
-      > : pqs::meta::merge_dim<Lhs,divides,Rhs>{};
+      >{
+         // convert single element list to base_quantity_exp
+         typedef typename pqs::impl::detail::extract_single_element_list<
+            typename pqs::meta::merge_dim<Lhs,divides,Rhs>::type
+         >::type type;
+      };
+
+      // derived_dim / derived_dim
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::divides,Rhs,
+         typename where_<  
+            meta::and_<
+               pqs::is_derived_dimension<Lhs>, 
+               pqs::is_derived_dimension<Rhs>
+            > 
+         >::type
+      > : pqs::binary_op<
+         typename Lhs::base_exponent_type,
+         pqs::divides, 
+         typename Rhs::base_exponent_type
+      >{};
+
+      // dim / derived_dim
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::divides,Rhs,
+         typename where_<  
+            meta::and_<
+               pqs::is_dimension<Rhs>,
+               pqs::is_derived_dimension<Lhs>, 
+               pqs::meta::not_<pqs::is_derived_dimension<Rhs> >
+            > 
+         >::type
+       > : pqs::binary_op<
+         typename Lhs::base_exponent_type,
+         pqs::divides,
+         Rhs
+       >{};
+
+      // derived_dim / dim
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::divides,Rhs,
+         typename where_<  
+            meta::and_<
+               pqs::is_dimension<Lhs>,
+               pqs::is_derived_dimension<Rhs>, 
+               pqs::meta::not_<pqs::is_derived_dimension<Lhs> >
+            > 
+         >::type
+       > : pqs::binary_op<
+         Lhs,
+         pqs::divides,
+         typename Rhs::base_exponent_type
+      >{};
 
       namespace detail{
 
@@ -254,24 +340,10 @@ namespace pqs{
    inline
    constexpr
    typename pqs::eval_where<
-      pqs::meta::or_<
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp<Lhs>,
-            pqs::is_base_quantity_exp<Rhs> 
-         >,
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp_list<Lhs>,
-            pqs::is_base_quantity_exp<Rhs>
-         > ,
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp<Lhs>, 
-            pqs::is_base_quantity_exp_list<Rhs>
-         >, 
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp_list<Lhs>, 
-            pqs::is_base_quantity_exp_list<Rhs>
-         > 
-      >,  
+      pqs::meta::and_<
+         pqs::is_dimension<Lhs>,
+         pqs::is_dimension<Rhs>
+      >, 
       pqs::binary_op<Lhs,pqs::divides,Rhs>
    >::type
    operator / ( Lhs , Rhs ) 
