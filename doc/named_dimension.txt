@@ -1,5 +1,6 @@
 
-named dimension is a class containing basic_dimension and a name
+
+custom dimension is a dimension derived from basic_dimension, for the user to use as they wish
 
 
 
