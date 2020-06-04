@@ -1,0 +1,8 @@
+The quantity should be as terse as possible for error messages
+
+terseness can be achived by derivation, by using different structures for types with defaults
+
+
+the sig of the quantity is quantity<unit,value_type>
+
+

@@ -1,0 +1,6 @@
+
+named dimension is a class containing anonymous_dimension and a name
+
+
+
+

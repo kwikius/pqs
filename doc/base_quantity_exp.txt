@@ -1,0 +1,2 @@
+
+base_quantity_exp is a base_quantity raised to a rational power

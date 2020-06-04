@@ -1,8 +1,13 @@
 
 
-conversion_factor 
+conversion_factor is a member of a unit_system
 
-represents the scaling of the quantity from the base quantity
+represents the scaling of the concrete-quantity value from the concrete-base-quantity value
+
+There must be a mechanism to optionally distinguish conversion factors which have same exponent and multiplier
+anonymous_conversion_factor
+
+maybe default rather than anonymous
 
 conversion factor can be
    base_conversion_factor -> The exponent is 0 and multiplier is 1
@@ -10,6 +15,8 @@ conversion factor can be
    rational_coherent_conversion_factor -> the exp is a rational and multiplier is 1
    incoherent_conversion_factor -> the multiplier is not 1, may be rational, or the multiplier is 1 but has an id to distinguish from cohernet_conversion_factor
     
+
+Informal rule : favour coherent conversion factor in terms of length of error message
 
 operations
    

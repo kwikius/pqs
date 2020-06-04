@@ -1,6 +1,0 @@
-an abstract_quantity is either an anonymous_abstract_quantity or an named_abstract_quantity
-
-an anonymous abstract_quantity is represented simply by its dimension
-a named abstract_quantity is represnted by being derived from its dimension and having a name given
-
-

@@ -1,0 +1,9 @@
+
+
+quantity signature
+
+quantity <unit,value_type>
+
+Informal rule : Favour coherent quantities over incoherent quantities
+
+
