@@ -34,7 +34,7 @@ namespace expo{
 
    // can do by if lhs is derived then ... if rhs id derived else
    // get the base_type
-   constexpr auto test = vertical_velocity_t::type{} / mass ;
+   constexpr auto test = vertical_velocity * mass ;
 }
 
 namespace {

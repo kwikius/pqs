@@ -23,11 +23,13 @@ namespace pqs{
       typedef base_time  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef expr_time type; // identity
+      typedef type base_exponent_type;
    };
 
    template <int N>
    struct exp_time : expr_time<N,1> {
       typedef exp_time type; // identity
+      typedef type base_exponent_type;
    };
 
    namespace impl{

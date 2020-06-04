@@ -18,12 +18,14 @@ namespace pqs{
    template <typename ...D>
    struct base_quantity_exp_list : pqs::detail::base_quantity_exp_list_base{
       typedef base_quantity_exp_list type;
+      typedef type base_exponent_type;
       static constexpr uint32_t num_elements = sizeof...(D);
    };
 
    // Probably not needed... 
    template <> struct base_quantity_exp_list<>{
       typedef base_quantity_exp_list type;
+      typedef type base_exponent_type;
       static constexpr uint32_t num_elements = 0;
    };
 
@@ -38,6 +40,13 @@ namespace pqs{
          pqs::meta::not_<is_base_quantity_exp_list<D> >,
          std::is_base_of<pqs::detail::base_quantity_exp_list_base,D>
       >{};
+
+   template <typename T>
+   struct is_dimension : pqs::meta::or_<
+      pqs::is_base_quantity_exp<T>,
+      pqs::is_base_quantity_exp_list<T>,
+      pqs::is_derived_dimension<T>
+   >{};
 
 }
 

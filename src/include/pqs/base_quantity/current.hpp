@@ -23,12 +23,14 @@ namespace pqs{
       typedef base_current  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef expr_current type; // identity
+      typedef type base_exponent_type;
    };
 
    // for shorter error messages, use an integer exp for the default case
    template <int N>
    struct exp_current : expr_current<N,1> {
       typedef exp_current type; // identity
+      typedef type base_exponent_type;
    };
 
    namespace impl{

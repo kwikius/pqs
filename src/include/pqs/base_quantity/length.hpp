@@ -25,12 +25,14 @@ namespace pqs{
       typedef base_length  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef expr_length type; // identity
+      typedef type base_exponent_type;
    };
 
     // TODO add unnamed_type to get the type from a named_base_quantity
    template <int N>
    struct exp_length : expr_length<N,1> {
       typedef exp_length type; // identity
+      typedef type base_exponent_type;
    };
 
    namespace impl{

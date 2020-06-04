@@ -23,11 +23,13 @@ namespace pqs{
       typedef base_substance  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef expr_substance type; // identity
+      typedef type base_exponent_type;
    };
 
    template <int N>
    struct exp_substance : expr_substance<N,1> {
       typedef exp_substance type; // identity
+      typedef type base_exponent_type;
    };
 
    namespace impl{

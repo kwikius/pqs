@@ -23,11 +23,13 @@ namespace pqs{
       typedef base_temperature  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef expr_temperature type; // identity
+      typedef type base_exponent_type;
    };
 
    template <int N>
    struct exp_temperature : expr_temperature<N,1> {
       typedef exp_temperature type; // identity
+      typedef type base_exponent_type;
    };
 
    namespace impl{

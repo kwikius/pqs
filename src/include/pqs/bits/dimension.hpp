@@ -19,7 +19,8 @@ namespace pqs{
 
    namespace impl{
 
-      // create a dimension of two base_dims
+//multiply
+      // base_exp * base_exp
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::times,Rhs,
@@ -32,21 +33,7 @@ namespace pqs{
          >::type
       > : base_quantity_exp_list<Lhs,Rhs>{};
 
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>, 
-               meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
-            > 
-         >::type
-      > : base_quantity_exp_list<
-            Lhs,
-            typename pqs::unary_op<pqs::meta::reciprocal,Rhs>::type
-         >{};
-
+      // base_exp list * base-exp
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::times,Rhs,
@@ -58,6 +45,7 @@ namespace pqs{
          >::type
       > : pqs::binary_op<Lhs,pqs::times,pqs::base_quantity_exp_list<Rhs> >{};
 
+      // base_exp * base_exp_list
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::times,Rhs,
@@ -69,6 +57,71 @@ namespace pqs{
          >::type
       > : pqs::binary_op<pqs::base_quantity_exp_list<Lhs>,pqs::times,Rhs>{};
 
+      //base_exp_list * base_exp_list
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::times,Rhs,
+         typename where_< 
+            meta::and_<
+               pqs::is_base_quantity_exp_list<Lhs>, 
+               pqs::is_base_quantity_exp_list<Rhs>
+            > 
+         >::type
+      > : pqs::meta::merge_dim<Lhs,pqs::times,Rhs>{};
+
+      // derived_dim * derived_dim
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::times,Rhs,
+         typename where_<  
+            meta::and_<
+               pqs::is_derived_dimension<Lhs>, 
+               pqs::is_derived_dimension<Rhs>
+            > 
+         >::type
+       > : pqs::binary_op<typename Lhs::base_exponent_type,pqs::times, typename Rhs::base_exponent_type>{};
+
+      // dim * derived_dim
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::times,Rhs,
+         typename where_<  
+            meta::and_<
+               pqs::is_dimension<Rhs>,
+               pqs::is_derived_dimension<Lhs>, 
+               pqs::meta::not_<pqs::is_derived_dimension<Rhs> >
+            > 
+         >::type
+       > : pqs::binary_op<typename Lhs::base_exponent_type,pqs::times,Rhs>{};
+
+      // derived_dim * dim
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::times,Rhs,
+         typename where_<  
+            meta::and_<
+               pqs::is_dimension<Lhs>,
+               pqs::is_derived_dimension<Rhs>, 
+               pqs::meta::not_<pqs::is_derived_dimension<Lhs> >
+            > 
+         >::type
+       > : pqs::binary_op<Lhs,pqs::times,typename Rhs::base_exponent_type>{};
+
+//divide
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,pqs::divides,Rhs,
+         typename where_< 
+            meta::and_<
+               pqs::is_base_quantity_exp<Lhs>,
+               pqs::is_base_quantity_exp<Rhs>, 
+               meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
+            > 
+         >::type
+      > : base_quantity_exp_list<
+          Lhs,
+          typename pqs::unary_op<pqs::meta::reciprocal,Rhs>::type
+      >{};
          // add to a base_quantity_exp_list
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -92,16 +145,7 @@ namespace pqs{
          >::type
       > : pqs::binary_op<pqs::base_quantity_exp_list<Lhs>,pqs::divides,Rhs>{};
 
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_base_quantity_exp_list<Lhs>, 
-               pqs::is_base_quantity_exp_list<Rhs>
-            > 
-         >::type
-      > : pqs::meta::merge_dim<Lhs,pqs::times,Rhs>{};
+
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -195,24 +239,10 @@ namespace pqs{
    inline
    constexpr
    typename pqs::eval_where<
-      pqs::meta::or_<
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp<Lhs>,
-            pqs::is_base_quantity_exp<Rhs> 
-         >,
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp_list<Lhs>,
-            pqs::is_base_quantity_exp<Rhs>
-         > ,
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp<Lhs>, 
-            pqs::is_base_quantity_exp_list<Rhs>
-         >, 
-         pqs::meta::and_<
-            pqs::is_base_quantity_exp_list<Lhs>, 
-            pqs::is_base_quantity_exp_list<Rhs>
-         > 
-      >,  
+      pqs::meta::and_<
+         pqs::is_dimension<Lhs>,
+         pqs::is_dimension<Rhs>
+      >,
       pqs::binary_op<Lhs,pqs::times,Rhs>
    >::type
    operator * ( Lhs , Rhs ) 
