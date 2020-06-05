@@ -1,0 +1,15 @@
+
+
+dimensional analysis : need representation of dimensionless nil void etc
+
+to_power : resolve name clashes.
+
+unit : refactor
+
+named_dimension : rename to custom_dimension
+
+conversion_factor : reverse order of mux and exp
+conversion_factor could be list of 0,1,2 elements for briefer error messages
+conversion_factor<> 
+conversion_factor<exp>
+conversion_factor<exp,mux>
