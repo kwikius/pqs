@@ -4,7 +4,16 @@ dimension_concept
 
    basic_dimension | named_dimension
 
-dimension may be made of base_dimensions from different universe types, but not from different universes of same type
+dimension may be made of base_quantity_exps from different quantity_universe_types, 
+ but not from different quantity_universes of same type
+  for example dimension cannot be comprised of a base_dimension_exp from newtonian(physical type) and relativistic(physical type)
+   but could be comprised of newtonian( physical type) and information(type information)
+     
+
+the quantity_system for each base_unit must be the same
+
+
+   
 
 
 

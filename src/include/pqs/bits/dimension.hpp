@@ -260,7 +260,9 @@ namespace pqs{
             >{};
          };
       }
-
+// Note : the version for base_quantity_exp is defined in concepts/base_quantity_exp
+// TODO refactor list versions to list enad base_quantity_exp to separate headers
+  // only combos here
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,struct pqs::to_power,Rhs,
@@ -271,18 +273,34 @@ namespace pqs{
             > 
          >::type
       > : pqs::meta::fold<
-            typename pqs::meta::transform<
-               typename pqs::meta::merge_sort<
-                  Lhs,
-                  pqs::meta::detail::base_quantity_exp_sort_fun
-               >::type,
-               pqs::base_quantity_exp_list<>, 
-               detail::to_power_impl<Rhs>
+         typename pqs::meta::transform<
+            typename pqs::meta::merge_sort<
+               Lhs,
+               pqs::meta::detail::base_quantity_exp_sort_fun
             >::type,
-            pqs::base_quantity_exp_list<>,
-            detail::push_back_not_zero
-         >{};
+            pqs::base_quantity_exp_list<>, 
+            detail::to_power_impl<Rhs>
+         >::type,
+         pqs::base_quantity_exp_list<>,
+         detail::push_back_not_zero
+      >{};
 
+      template <typename Lhs, typename Rhs>
+      struct binary_op_impl <
+         Lhs,
+         struct pqs::to_power,
+         Rhs,
+         typename where_< 
+            pqs::meta::and_<
+               pqs::is_derived_dimension<Lhs>, 
+               pqs::impl::detail::is_std_ratio<Rhs>
+            > 
+         >::type
+      > : pqs::binary_op<typename Lhs::base_exponent_type,
+            struct pqs::to_power,
+            Rhs
+      >{};
+      
       template <typename D>
       struct unary_op_impl <
          pqs::meta::reciprocal,D,
@@ -317,7 +335,7 @@ namespace pqs{
       > : pqs::meta::not_<pqs::binary_op<Lhs,pqs::equal_to,Rhs> > {};
       
    } // impl
-}// pqs
+
    
    template <typename Lhs, typename Rhs>
    inline
@@ -349,7 +367,20 @@ namespace pqs{
       return typename pqs::binary_op<Lhs,pqs::divides,Rhs>::type{};
    }
 
+   template <int N, int D, typename Dim>
+   inline
+   constexpr
+   typename pqs::eval_where<
+         pqs::is_dimension<Dim>,
+      pqs::binary_op<Dim,struct pqs::to_power,std::ratio<N,D> >
+    >::type
+    pow( Dim )
+    {
+        return typename pqs::binary_op<Dim,struct pqs::to_power,std::ratio<N,D>>::type{};
+    }
 //} //pqs
+
+}// pqs
 
 namespace pqs{ namespace meta{
 

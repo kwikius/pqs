@@ -7,6 +7,7 @@ OBJECTS = \
  	base_quantity_exp_test.o \
    dimension_test.o \
    dimension_test1.o \
+   dimension_test2.o \
    syntax_test1.o \
    syntax_test2.o \
 	eval_if_test.o \

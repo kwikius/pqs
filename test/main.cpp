@@ -8,6 +8,7 @@ void base_quantity_exp_test();
 void base_quantity_test();
 void dimension_test();
 void dimension_test1();
+void dimension_test2();
 void conversion_factor_test1();
 
 void type_list_test();
@@ -34,6 +35,7 @@ int main()
   // base_dimension_ratio_test();
    dimension_test();
    dimension_test1();
+   dimension_test2();
 
    base_quantity_exp_test();
    conversion_factor_test1();

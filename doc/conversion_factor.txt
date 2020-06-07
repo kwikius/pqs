@@ -1,6 +1,6 @@
 
 
-conversion_factor is a member of a unit_system
+conversion_factor
 
 represents the scaling of the concrete-quantity value from the concrete-base-quantity value
 

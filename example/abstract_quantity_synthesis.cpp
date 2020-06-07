@@ -108,5 +108,5 @@ int main()
    static_assert ( not is_dimension(q4),"");
 
    // uncomment for error messages
-   int x = expo::vertical_velocity_t{};
+  // int x = expo::vertical_velocity_t{};
 }

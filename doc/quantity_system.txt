@@ -1,0 +1,4 @@
+
+quantity_system assigns base_units to set of base_quantities representing phenomena
+
+quantity system can encompass different quantity_universe_types
