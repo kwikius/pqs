@@ -1,6 +1,6 @@
 
 #include "test.hpp"
-
+#include <pqs/meta/strip_cr.hpp>
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/base_quantity/time.hpp>
 #include <pqs/base_quantity/mass.hpp>
@@ -74,10 +74,10 @@ namespace {
    }
 
    template <typename T1, typename T2>
-   constexpr bool same_no_cr = std::is_same_v<
-      std::remove_cv_t<std::remove_reference_t<T1> >,
-      std::remove_cv_t<std::remove_reference_t<T2> >
-   >;
+   struct same_no_cr : std::is_same<
+      typename pqs::meta::strip_cr<T1>::type ,
+      typename pqs::meta::strip_cr<T2>::type 
+   >{};
 }
 
 #if defined PQS_STANDALONE
@@ -88,19 +88,20 @@ int main()
 void dimension_test2()
 #endif
 { 
-   static_assert(same_no_cr<decltype(length),pqs::exp_length<1> >,"");
+   static_assert(same_no_cr<decltype(length),pqs::exp_length<1> >::value,"");
    static_assert(is_base_quantity_exp(length),"");
    static_assert(is_dimension(length),"");
 
-   static_assert(same_no_cr<
-            decltype(velocity),
-            pqs:: base_quantity_exp_list<pqs::exp_length<1>,pqs::exp_time<-1> >
-   >,"");
+   static_assert(
+      same_no_cr<
+         decltype(velocity),
+         pqs:: base_quantity_exp_list<pqs::exp_length<1>,pqs::exp_time<-1> >
+      >::value,"");
    static_assert(is_base_quantity_exp_list(velocity),"");
    static_assert(is_dimension(velocity),"");
    static_assert(not is_derived_dimension(velocity),"");
 
-   static_assert(same_no_cr<decltype(mass),pqs::exp_mass<1> >,"");
+   static_assert(same_no_cr<decltype(mass),pqs::exp_mass<1> >::value,"");
    static_assert(is_base_quantity_exp(mass),"");
    static_assert(is_dimension(mass),"");
 
@@ -112,7 +113,7 @@ void dimension_test2()
    static_assert(same_no_cr<
             decltype(velocity),
             decltype(vertical_velocity)::base_exponent_type
-   >,"");
+   >::value,"");
 
    static_assert(is_base_quantity_exp_list(velocity2),"");
 
