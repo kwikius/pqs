@@ -187,8 +187,8 @@ namespace {
 
       typedef sort <
          pqs::base_quantity_exp_list<
-            pqs::expr_length<1,2>,
-            pqs::expr_time<-1,2>, 
+            pqs::exp_length<1,2>,
+            pqs::exp_time<-1,2>, 
             pqs::exp_mass<1>,
             pqs::exp_current<1> 
          >
@@ -221,8 +221,8 @@ namespace {
      QUAN_CHECK( (std::is_same<result1,expected_result1>::value ))
 
      typedef pqs::base_quantity_exp_list<
-         pqs::expr_length<1,2>,
-         pqs::expr_time<-5,2>, 
+         pqs::exp_length<1,2>,
+         pqs::exp_time<-5,2>, 
          pqs::exp_mass<1> ,
          pqs::exp_current<10> 
      > dimension2;
@@ -231,8 +231,8 @@ namespace {
 
      typedef sort<
          pqs::base_quantity_exp_list<
-            pqs::expr_length<-1,2>,
-            pqs::expr_time<5,2>,
+            pqs::exp_length<-1,2>,
+            pqs::exp_time<5,2>,
             pqs::exp_mass<-1>,
             pqs::exp_current<-10> 
          > 
@@ -251,15 +251,15 @@ namespace {
       > dimension1;
 
       typedef pqs::base_quantity_exp_list<
-         pqs::expr_length<4,2>,
+         pqs::exp_length<4,2>,
          pqs::exp_time<-2>, 
          pqs::exp_current<4>, 
          pqs::exp_mass<4>
       > dimension2;
 
       typedef pqs::base_quantity_exp_list<
-         pqs::expr_length<-1,2>, 
-         pqs::expr_time<5,2>, 
+         pqs::exp_length<-1,2>, 
+         pqs::exp_time<5,2>, 
          pqs::exp_current<-10>, 
          pqs::exp_mass<-1>
       > dimension3;
