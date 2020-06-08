@@ -1,0 +1,6 @@
+
+
+
+base_unit is a concrete entity which links a base_quantity to a measurement of a physical phenomena
+defined by a quantity_system
+

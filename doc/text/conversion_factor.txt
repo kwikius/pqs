@@ -2,7 +2,12 @@
 
 conversion_factor
 
-represents the scaling of the concrete-quantity value from the concrete-base-quantity value
+represents the scaling of the numeric_value of a quantity from the unscaled value.
+
+A conversion factor is useful firstly to enable efficient representaion of unscaled quantities 
+with large orders of magnitude differences in their numeric values.
+
+The conversion_factor consists of an exponent and a multiplier
 
 distinguish conversion factors which have same exponent and multiplier using custom_conversion_factor
 
@@ -21,6 +26,10 @@ ratio get_exponent(conversion_factor) ;  return the base 10 exponent of the scal
 ratio get_multiplier(conversion_factor) ; return the multiplier of the conversion factor
 bool is_custom(conversion_factor) ; true if it is a custom conversion factor
 unit_system get_unit_system(conversion_factor) : get the unit system this conversion factor belongs to
+
+normalisation
+
+
 
 
 

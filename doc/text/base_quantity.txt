@@ -1,0 +1,7 @@
+
+
+base_quantity is an abstraction representing a member of a quantity_universe without being a member of a particular quantity_system
+
+
+
+

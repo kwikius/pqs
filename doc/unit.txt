@@ -1,8 +1,0 @@
-unit consists of a dimension and a conversion_factor
-
-parts may be implied
-
-unit models
-
-
-

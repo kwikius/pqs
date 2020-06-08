@@ -1,7 +1,0 @@
-
-
-quantity_universe_type  some examples are
-
-physical
-information
-money
