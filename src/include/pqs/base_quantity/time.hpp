@@ -16,11 +16,6 @@ namespace pqs{
    template <int... N>
    struct exp_time;
 
-   // base_quantity_exps are required to be models of meta::identity_function
-   // derive from pqs::detail::base_quantity_exp_base_class
-   // to make a model of base_quantity_exp
-   // and have member base_type modeliing base_quantity
-   // member exponent modelling ratio and representing exponent of base quantity
    template <int N, int D>
    struct exp_time<N,D> : pqs::detail::base_quantity_exp_base_class {
       typedef base_time  base_type;
@@ -30,10 +25,15 @@ namespace pqs{
    };
 
    template <int N>
-   struct exp_time<N> : exp_time<N,1> {
+   struct exp_time<N> : pqs::detail::base_quantity_exp_base_class {
+      typedef base_time  base_type;
+      typedef typename std::ratio<N,1>::type exponent;
       typedef exp_time type; // identity
       typedef type base_exponent_type;
    };
+
+   template <int N>
+   struct exp_time<N,1> : exp_time<N>{};
 
    namespace impl{
 
@@ -45,11 +45,7 @@ namespace pqs{
 
       template <typename Ratio>
       struct make_base_quantity_exp_impl<pqs::newtonian_universe::time_uuid,Ratio>
-      : pqs::meta::eval_if<
-         std::integral_constant<bool,(Ratio::den == 1)>,
-            exp_time<Ratio::type::num>,
-         exp_time<Ratio::type::num, Ratio::type::den>
-        >{};
+      : exp_time<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
 
