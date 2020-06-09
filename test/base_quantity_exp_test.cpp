@@ -8,11 +8,8 @@
 
 using pqs::exp_length;
 using pqs::exp_time;
-
 using pqs::exp_mass;
-
 using pqs::binary_op;
-
 using pqs::times;
 using pqs::divides;
 using pqs::to_power;

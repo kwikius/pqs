@@ -6,16 +6,6 @@
 
 using namespace pqs;
 
-struct kilo : std::ratio<3>{};
-
-template <typename... T>
-struct unit_;
-
-// dummy for demo only
-template <typename ... Tags>
-struct find_quantity_value_type{
-   typedef float type;
-};
 
 void quantity_syntax_test1() 
 {
@@ -45,10 +35,14 @@ void quantity_syntax_test1()
 
    // named quantity
    auto qb = quantity<length_unit::mm, double>{};
+
+   
    // alternative syntax
    auto qc = length::mm<>{};
   // non si unit
    auto qd = length::ft<>{};
+
+  //int x = qc;
 
   // suppress set not used warnings
   (void) qx;

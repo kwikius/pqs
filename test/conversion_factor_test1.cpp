@@ -7,6 +7,12 @@ namespace {
 
    void is_conversion_factor_test()
    {
+
+      // typedef pqs::scale_factor<> one;
+      // typedef pqs::scale_factor<pqs::exp10<2> > one_hundred
+      // typedef pqs::scale_factor<pqs::exp10<1,2> > ten_pow_half
+      // typedef pqs::scale_factor<std::ratio<9,2> > nine_div_2
+      // typedef pqs::scale_factor<std::ratio<9,2> >,pqs::exp10<5> nine_div_2_pow_10_5
       typedef pqs::conversion_factor<
          std::ratio<1,2>,std::ratio<1>
       > conversion_factor;

@@ -7,25 +7,31 @@
 #include <pqs/bits/conversion_factor.hpp>
 
 /*
-   unit : abstract_quantity with a dimension and conversion factor
+   unit : encapsulates dimension and conversion factor
     but without the numeric value.
-   // do we want abstract_quantity? or dimension
-   // abstract_quantity may be named or anonymous
-   // so this would need the name for named
-   // dimension is just the anonymous dimsneion part of the abstract_quantity
+   TODO quantity_system
+
 */
 
 namespace pqs{ 
 /*
    //TODO modify to this as basis
    template <
+      typename QuantitySystem
       typename Dim, 
-      typename ConversionFactor
+      typename ConversionFactor,
    >
    struct basic_unit{
+      typedef Quantity_system quantity_system;
       typedef Dim dimension;
       typedef ConversionFactor conversion_factor;
    };
+
+   template <typename Dimension, typename Exp>
+   struct si_unit : basic_unit<si_system,Dimension, conversion_factor<Exp> >{};
+
+   template <typename Dimension, typename ConversionFactor>
+   struct si_unit_conversion : basic_unit<si_system, Dimension, ConversionFactor>{};
 */
   
    // unit_ratio_concept comprises dimension and rational si conversion factor exponent
