@@ -7,7 +7,8 @@
 //#include <cmath>
 #include <pqs/math/to_power_impl.hpp>
 
-#erro TODO
+#error TODO
+This is pretty unstable
 
 namespace pqs{ namespace impl{
 

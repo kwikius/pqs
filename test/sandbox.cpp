@@ -1,35 +1,34 @@
 #include "test.hpp"
+#include <cmath>
+#include <pqs/math/root.hpp>
+#include <iostream>
 
-#include <pqs/bits/base_quantities.hpp>
-#include <pqs/base_quantity/length.hpp>
-#include <pqs/base_quantity/time.hpp>
-#include <pqs/base_quantity/mass.hpp>
+
 
 namespace{
+
+
+   template <int N>
+   void show_root(double const & v)
+   {
+     auto v1 = pqs::root<N>(v);
+     std::cout << "pqs::root<" << N << ">( "<< v <<" ) = " << v1 <<'\n';
+     auto v2 = std::pow(v, 1./N);
+     std::cout << "std::pow(" << v << ", 1./" << N << " = " << v2 <<'\n';
+   }
+
    void fun()
    {
 
-      using pqs::times;
-      using pqs::binary_op;
+    show_root<2>(100.0);
 
-      QUAN_CHECK((not pqs::is_base_quantity_exp<int>::value))
+    show_root<2>(2.0);
 
-      typedef pqs::exp_length<2> tl;
-      typedef pqs::exp_length<3> tr;
+    show_root<3>(2.0);
 
-      typedef pqs::get_base_quantity<tl>::type lhsb;
-      typedef pqs::get_base_quantity<tr>::type rhsb;
+    show_root<2>(3.0);
 
-      static_assert(pqs::is_base_quantity<lhsb>::value,"");
-      static_assert(pqs::is_base_quantity<rhsb>::value,"");
-
-      typedef pqs::get_base_quantity_id<lhsb>::type lhsid;
-
-      typedef pqs::get_base_quantity_id<rhsb>::type rhsid;
-
-      typedef pqs::make_base_quantity_exp<lhsid,pqs::get_exponent<tl>::type>::type b;
-
-      typedef binary_op<tl,times,tr>::type result_type;
+    show_root<3>(3.0);
 
    }
 }

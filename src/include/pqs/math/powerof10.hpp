@@ -9,7 +9,7 @@
 #include <pqs/meta/not.hpp>
 #include <type_traits>
 #include <limits>
-#include <pqs/math/to_power.hpp>
+#include <pqs/math/fn_to_power.hpp>
 #include <pqs/meta/identity.hpp>
 
 namespace pqs{ namespace impl{
@@ -73,7 +73,7 @@ namespace pqs{ namespace impl{
       >::type
     >{
          typedef pqs::real_type type;
-         static constexpr type value = pqs::to_power<Exp::num,Exp::den>(static_cast<type>(10));
+         static constexpr type value = pqs::fn_to_power<Exp::num,Exp::den>(static_cast<type>(10));
     };
 
    } // impl
