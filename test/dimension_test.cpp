@@ -8,9 +8,13 @@ namespace {
 
    void length_dimension_test()
    {
+
+ // TODO us a derived unit for this test since a base_unit exp is not a list
+/*
        typedef pqs::length_unit::mm::dimension dimension;
 
-       QUAN_CHECK((dimension::num_elements == 1))
+     base_dimension_exp is not a list
+       QUAN_CHECK(pqs::meta::get_num_elements<dimension>::value == 1))
 
        typedef pqs::meta::front<dimension>::type base_dimension1;
 
@@ -24,6 +28,7 @@ namespace {
 
        QUAN_CHECK((std::is_same<empty_dimension,pqs::base_quantity_exp_list<> >::value))
        QUAN_CHECK((empty_dimension::num_elements == 0))
+*/
    }
 
 //   using pqs::exp_length;

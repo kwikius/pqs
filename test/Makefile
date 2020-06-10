@@ -8,8 +8,7 @@ OBJECTS = \
    dimension_test.o \
    dimension_test1.o \
    dimension_test2.o \
-   syntax_test1.o \
-   syntax_test2.o \
+   syntax_test.o \
 	eval_if_test.o \
 	main.o \
 	conversion_factor_test1.o \

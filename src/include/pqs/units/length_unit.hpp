@@ -8,18 +8,18 @@
 // length unit definition namespace 
 namespace pqs{ namespace length_unit{
 
-   struct mm : pqs::base_unit< 
-      pqs::exp_length<1> ,
-      -3
+   struct mm : pqs::si_unit< 
+      exp_length<1>,
+      unit_exp<-3>
    >{};
 
-   struct ft : pqs::unit_conversion< 
-      pqs::base_unit< 
-         pqs::exp_length<1>, 
-         -1
+   struct ft : pqs::si_unit_conversion< 
+      exp_length<1>, 
+      conversion_factor<
+        std::ratio<381,125>,
+        unit_exp<-1>
       >
-      ,381,125
-    >{};
+   >{};
 
 }} // pqs::length_unit
 

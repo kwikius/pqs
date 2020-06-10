@@ -2,6 +2,10 @@
 
 dimensional analysis : need representation of dimensionless nil void etc
 
+     maybe dimensionless is just empty dimension_list.
+
+change base_quantity_exp_list to just type_list ?
+
 to_power : resolve name clashes.
 
 unit : refactor

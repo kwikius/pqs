@@ -2,7 +2,7 @@
 
 #include "test.hpp"
 
-void quantity_syntax_test1();
+void quantity_syntax_test();
 void base_quantity_exp_test();
 
 void base_quantity_test();
@@ -31,7 +31,7 @@ int  errors = 0;
 int main()
 {
    std::cout << "pqs test\n";
-   quantity_syntax_test1();
+   quantity_syntax_test();
   // base_dimension_ratio_test();
    dimension_test();
    dimension_test1();

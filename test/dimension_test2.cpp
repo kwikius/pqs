@@ -1,11 +1,7 @@
 
 #include "test.hpp"
 #include <pqs/meta/strip_cr.hpp>
-#include <pqs/base_quantity/length.hpp>
-#include <pqs/base_quantity/time.hpp>
-#include <pqs/base_quantity/mass.hpp>
-#include <pqs/bits/quantity.hpp>
-#include <pqs/meta/type_list.hpp>
+#include <pqs/bits/base_quantities.hpp>
 #include <pqs/bits/quantity.hpp>
 #include <pqs/bits/dimension.hpp>
 
@@ -15,22 +11,22 @@ namespace {
 
    struct named_length_t : decltype(length) {};  // custom_dimension
 
-   constexpr pqs::exp_time<1> q_time;      // base_dimension_exp
+   constexpr pqs::exp_time<1> time_;      // base_dimension_exp time_ to avoid global c time() function in 
    constexpr pqs::exp_mass<1> mass;      // base_dimension_exp
 
-   constexpr auto velocity = length / q_time;  // base_quantity_exp_list
+   constexpr auto velocity = length / time_;  // base_quantity_exp_list
 
-   constexpr auto acceleration = velocity / q_time;     // base_quantity_exp_list
+   constexpr auto acceleration = velocity / time_;     // base_quantity_exp_list
    struct : decltype(mass * acceleration) {   // custom_dimension
    } force;
 
    struct : decltype(velocity) {  // anonymous class custom_dimension
    } vertical_velocity ;
 
-   constexpr auto mux_test = vertical_velocity * q_time * length ;
-   constexpr auto div_test = vertical_velocity / q_time ;
+   constexpr auto mux_test = vertical_velocity * time_ * length ;
+   constexpr auto div_test = vertical_velocity / time_ ;
 
-   constexpr auto velocity1 = named_length_t{} / q_time;  // base_quantity_exp_list
+   constexpr auto velocity1 = named_length_t{} / time_;  // base_quantity_exp_list
 
    constexpr auto area = pqs::pow<2,1>(length);  // base_quantity_exp,2,1
 
@@ -43,7 +39,7 @@ namespace {
    // also need dimensionless / d --> inverse(d)
    // dimensionless * d --> d
    constexpr auto dimless1 = acceleration / acceleration; // list<>
-   constexpr auto dimless2 = q_time/q_time;   // exp_time<0>
+   constexpr auto dimless2 = time_/time_;   // exp_time<0>
    constexpr auto dimless3 = named_length_t{} / named_length_t{}; // length<0>
    constexpr auto dimless4 = named_length_t{} / length; // length<0>
    constexpr auto dimless5 = vertical_velocity / vertical_velocity; // list<>
@@ -105,8 +101,8 @@ void dimension_test2()
    static_assert(is_base_quantity_exp(mass),"");
    static_assert(is_dimension(mass),"");
 
-   static_assert(is_base_quantity_exp(q_time),"");
-   static_assert(is_dimension(q_time),"");
+   static_assert(is_base_quantity_exp(time_),"");
+   static_assert(is_dimension(time_),"");
 
    static_assert(is_derived_dimension(vertical_velocity),"");
    static_assert(is_dimension(vertical_velocity ),"");

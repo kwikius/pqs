@@ -1,0 +1,10 @@
+#ifndef PQS_BITS_SI_QUANTITY_SYSTEM_HPP_INCLUDED
+#define PQS_BITS_SI_QUANTITY_SYSTEM_HPP_INCLUDED
+
+namespace pqs{
+
+ struct  si_quantity_system {};
+
+}
+
+#endif // PQS_BITS_SI_QUANTITY_SYSTEM_HPP_INCLUDED
