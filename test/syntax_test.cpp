@@ -49,7 +49,7 @@ void quantity_syntax_test()
       double
    >{};
 
-   // construct a conversion unit to si quantity from raw ingredients
+   // construct a si quantity conversion from raw ingredients
    auto qf = quantity<
       si_unit_conversion<
          base_quantity_exp_list<

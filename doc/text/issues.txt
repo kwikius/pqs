@@ -10,4 +10,24 @@ change base_quantity_exp_list to just type_list ?
 
 named_dimension : rename to custom_dimension
 
+generics. Move si system specific stuff to si namespace
+create alternative system to test. 
+Many historical to choose
+
+E.g https://en.wikipedia.org/wiki/System_of_measurement
+
+binary_op semantics
+   depend on quantity_system?
+
+
+    in si :
+         if one only is conversion then convert it to nearest si before calc.
+
+         if both non si  then do op on the conversion factor
+
+Unary_op : si
+
+          pow: for powers where den != 1 then quantity must be made coherent before calc and result is coherent.
+            2 ways to convert to coherent. coherent or log_coherent
+
 
