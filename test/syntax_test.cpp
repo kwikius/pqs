@@ -70,7 +70,7 @@ void quantity_syntax_test()
 
   // uncomment to test how quantity appears in error message
   // int x = qf;
-  // suppress set not used warnings
+  // suppress not used warnings
   (void) qa;
   (void) qb;
   (void) qc;

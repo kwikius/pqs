@@ -3,28 +3,27 @@
 
 #include <pqs/concepts/quantity.hpp>
 #include <pqs/bits/conversion_factor.hpp>
+#include <pqs/bits/scaled_value.hpp>
 
 namespace pqs{
 
-   /*
-      quantity is a model of concrete_quantity
-      if
-      U is a model of     concrete_quantity_unit
-      and V is a model of concrete_quantity_value_type
-
-      other concepts named_concrete_quantity
-                     anonymous_concrete_quantity
-   */
-   template <typename U, typename V = double>
+   template <typename Unit, typename ValueType = double>
    struct quantity{
-      
-      constexpr explicit quantity(V const & v) : m_numeric_value{v}{}
-      constexpr explicit quantity() : m_numeric_value{V{0}}{}
 
-      constexpr V numeric_value() const { return m_numeric_value; }
+      using unit = Unit;
+      using value_type = ValueType;
 
-      private:
-        V m_numeric_value;
+      constexpr explicit quantity(value_type const & v) : m_scaled_value{v}{}
+      constexpr quantity() : m_scaled_value{value_type{}}{}
+
+      constexpr value_type numeric_value() const { return m_scaled_value.numeric_value(); }
+
+    private:
+      typedef scaled_value<
+         typename unit::conversion_factor,
+         value_type
+      > scaled_value_type;
+      scaled_value_type m_scaled_value;
    };
 
 }

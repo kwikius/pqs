@@ -9,7 +9,7 @@
 #include <pqs/bits/unit_exp.hpp>
 
 /*
-   unit : encapsulates dimension and conversion factor
+   unit : encapsulates quantity sytem, dimension and conversion factor
     but without the numeric value.
 */
 
@@ -26,11 +26,20 @@ namespace pqs{
       typedef ConversionFactor conversion_factor;
    };
 
+// move to si namespace ?
    template <typename Dimension, typename UnitExp>
-   struct si_unit : basic_unit<si_quantity_system,Dimension, conversion_factor<std::ratio<1>,UnitExp> >{};
+   struct si_unit : basic_unit<
+      si_quantity_system,
+      Dimension, 
+      conversion_factor<std::ratio<1>,UnitExp> 
+   >{};
 
    template <typename Dimension, typename ConversionFactor>
-   struct si_unit_conversion : basic_unit<si_quantity_system, Dimension, ConversionFactor>{};
+   struct si_unit_conversion : basic_unit<
+      si_quantity_system, 
+      Dimension, 
+      ConversionFactor
+   >{};
 
 }// pqs
 

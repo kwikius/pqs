@@ -19,11 +19,11 @@ namespace pqs{
 
    namespace impl{
 
-      template <intmax_t MuxNum, intmax_t MuxDenom, intmax_t ExpNum, intmax_t ExpDenom>
+      template <intmax_t MuxNum, intmax_t MuxDenom, typename UnitExp>
       struct is_conversion_factor_impl<
          pqs::conversion_factor<
             std::ratio<MuxNum,MuxDenom>,
-            std::ratio<ExpNum,ExpDenom> 
+            UnitExp 
          >
       > : std::true_type{};
 
