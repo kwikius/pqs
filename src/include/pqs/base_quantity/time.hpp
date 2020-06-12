@@ -49,6 +49,13 @@ namespace pqs{
 
    }// impl
 
+#if defined  __cpp_inline_variables
+
+   template <int... N>
+   inline constexpr auto exp_time_v = exp_time<N...>{};
+
+#endif
+
 }
 
 #endif // PQS_BASE_QUANTITIES_TIME_HPP_INCLUDED

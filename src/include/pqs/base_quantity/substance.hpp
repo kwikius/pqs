@@ -48,6 +48,13 @@ namespace pqs{
       : exp_substance<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
+
+#if defined  __cpp_inline_variables
+
+   template <int... N>
+   inline constexpr auto exp_substance_v = exp_substance<N...>{};
+
+#endif
 }
 
 #endif //PQS_BASE_QUANTITIES_SUBSTANCE_HPP_INCLUDED

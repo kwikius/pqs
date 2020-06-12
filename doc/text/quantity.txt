@@ -5,6 +5,8 @@ quantity class template represents a concrete quantity, consists of a unit and a
 
 quantity <unit,value_type>
 
+see also measurable_quantity
+
 
 
 

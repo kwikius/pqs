@@ -48,6 +48,13 @@ namespace pqs{
       : exp_intensity<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
+
+#if defined  __cpp_inline_variables
+
+   template <int... N>
+   inline constexpr auto exp_intensity_v = exp_intensity<N...>{};
+
+#endif
 }
 
 #endif //PQS_BASE_QUANTITIES_INTENSITY_HPP_INCLUDED

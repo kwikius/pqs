@@ -3,14 +3,13 @@
 #include <pqs/math/root.hpp>
 #include <iostream>
 
-
-
 namespace{
 
 
    template <int N>
-   void show_root(double const & v)
+   constexpr void show_root(double const & v)
    {
+      auto constexpr v0 = pqs::root<N>(100.0);
      auto v1 = pqs::root<N>(v);
      std::cout << "pqs::root<" << N << ">( "<< v <<" ) = " << v1 <<'\n';
      auto v2 = std::pow(v, 1./N);

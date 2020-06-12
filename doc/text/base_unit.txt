@@ -1,6 +1,8 @@
 
+todo rename to fundamental_unit ?
 
+base_unit is a base_quantity with a measurable value defined by a quantity_system. 
+The value is usually defined by a physical phenomena.
 
-base_unit is a concrete entity which links a base_quantity to a measurement of a physical phenomena
-defined by a quantity_system
+see also fundamental_unit
 

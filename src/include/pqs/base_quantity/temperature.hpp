@@ -48,6 +48,13 @@ namespace pqs{
       : exp_temperature<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
+
+#if defined  __cpp_inline_variables
+
+   template <int... N>
+   inline constexpr auto exp_temperature_v = exp_temperature<N...>{};
+
+#endif
 }
 
 #endif //PQS_BASE_QUANTITIES_TEMPERATURE_HPP_INCLUDED

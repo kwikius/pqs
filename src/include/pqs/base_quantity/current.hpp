@@ -49,6 +49,13 @@ namespace pqs{
       : exp_current<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
+
+#if defined  __cpp_inline_variables
+
+   template <int... N>
+   inline constexpr auto exp_current_v = exp_current<N...>{};
+
+#endif
 }
 
 #endif //PQS_BASE_QUANTITIES_CURRENT_HPP_INCLUDED

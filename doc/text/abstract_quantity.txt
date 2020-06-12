@@ -1,0 +1,4 @@
+
+
+A quantity with dimension but without a measurable value. 
+A name describing a dimension.

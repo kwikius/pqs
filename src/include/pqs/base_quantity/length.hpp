@@ -49,6 +49,14 @@ namespace pqs{
       : exp_length<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
+
+#if defined  __cpp_inline_variables
+
+   template <int... N>
+   inline constexpr auto exp_length_v = exp_length<N...>{};
+
+#endif
+
 }
 
 #endif // PQS_BASE_QUANTITIES_LENGTH_HPP_INCLUDED

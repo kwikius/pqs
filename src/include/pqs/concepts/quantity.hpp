@@ -5,13 +5,6 @@
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/strip_cr.hpp>
 
-/*
-   pqs_concept::quantity
-   pqs::quantity_concept
-   pqs::quantity
-
-*/
-
 namespace pqs{
 
    namespace impl{

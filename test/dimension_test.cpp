@@ -1,6 +1,7 @@
 
 #include "test.hpp"
-#include <pqs/units/length_unit.hpp>
+//#include <pqs/units/length_unit.hpp>
+#include <pqs/bits/dimension.hpp>
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/bits/binary_op.hpp>
 

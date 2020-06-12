@@ -48,6 +48,13 @@ namespace pqs{
       : exp_mass<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
+
+#if defined  __cpp_inline_variables
+
+   template <int... N>
+   inline constexpr auto exp_mass_v = exp_mass<N...>{};
+
+#endif
 }
 
 #endif // PQS_BASE_QUANTITIES_MASS_HPP_INCLUDED

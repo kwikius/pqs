@@ -7,8 +7,9 @@
 
 namespace pqs{ 
 
-   // Multiplier and exponent are compile time rationals
-   template < typename Multiplier, typename  Exponent>
+   // Multiplier is a std::ratio
+   // exponent is a unit_exp 
+   template <typename Multiplier, typename  Exponent>
    struct conversion_factor{
       typedef typename Multiplier::type multiplier;
       typedef typename Exponent::type exponent;

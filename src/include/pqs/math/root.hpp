@@ -36,7 +36,7 @@ namespace pqs{ namespace impl{
          template <typename Float>
          static constexpr 
          typename std::enable_if< std::is_floating_point<Float>::value, Float>::type
-         apply (Float const & v,int const & iter,Float const& prev_approx )
+         apply (Float const & v,int const & iter,Float const& prev_approx ) noexcept
          {
             return (do_abs( approx(v,iter,prev_approx) - prev_approx ) <= std::numeric_limits<Float>::epsilon()) 
                ? approx(v,iter,prev_approx)
