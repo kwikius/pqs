@@ -1,11 +1,10 @@
 
 
 
-quantity class template represents a concrete quantity, consists of a unit and a numeric_value
+quantity class template represents a measurable quantity, consists of a unit and a numeric_value
 
 quantity <unit,value_type>
 
-see also measurable_quantity
 
 
 
