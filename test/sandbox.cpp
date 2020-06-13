@@ -1,34 +1,21 @@
 #include "test.hpp"
-#include <cmath>
-#include <pqs/math/root.hpp>
-#include <iostream>
+
+#include <pqs/bits/base_quantities.hpp>
+
+#include <pqs/si/length.hpp>
+#include <pqs/si/speed.hpp>
+
+using namespace pqs;
 
 namespace{
 
+  
+   template <auto D>
+   struct test_list { static constexpr auto value = D;};
 
-   template <int N>
-   constexpr void show_root(double const & v)
+   auto constexpr fun()
    {
-      auto constexpr v0 = pqs::root<N>(100.0);
-     auto v1 = pqs::root<N>(v);
-     std::cout << "pqs::root<" << N << ">( "<< v <<" ) = " << v1 <<'\n';
-     auto v2 = std::pow(v, 1./N);
-     std::cout << "std::pow(" << v << ", 1./" << N << " = " << v2 <<'\n';
-   }
-
-   void fun()
-   {
-
-    show_root<2>(100.0);
-
-    show_root<2>(2.0);
-
-    show_root<3>(2.0);
-
-    show_root<2>(3.0);
-
-    show_root<3>(3.0);
-
+      return test_list< exp_length_v<1> / ( exp_time_v<1> * exp_time_v<1> ) >::value;
    }
 }
 
@@ -40,7 +27,8 @@ void sandbox()
 #endif
 {
 
-fun();
+  // get type in erro message
+ int x =fun();
 #if defined PQS_STANDALONE
    EPILOGUE
 #endif
