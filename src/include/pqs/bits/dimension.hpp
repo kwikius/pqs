@@ -260,9 +260,7 @@ namespace pqs{
             >{};
          };
       }
-// Note : the version for base_quantity_exp is defined in concepts/base_quantity_exp
-// TODO refactor list versions to list enad base_quantity_exp to separate headers
-  // only combos here
+
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,struct pqs::to_power,Rhs,
@@ -336,7 +334,6 @@ namespace pqs{
       
    } // impl
 
-   
    template <typename Lhs, typename Rhs>
    inline
    constexpr
