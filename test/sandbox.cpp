@@ -9,7 +9,6 @@ using namespace pqs;
 
 namespace{
 
-  
    template <auto D>
    struct test_list { static constexpr auto value = D;};
 
