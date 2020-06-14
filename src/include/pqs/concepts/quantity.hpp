@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/strip_cr.hpp>
+#include <pqs/concepts/dimension.hpp>
 
 namespace pqs{
 

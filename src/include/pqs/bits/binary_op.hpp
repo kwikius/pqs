@@ -1,10 +1,6 @@
 #ifndef PQS_BINARY_OP_HPP_INCLUDED
 #define PQS_BINARY_OP_HPP_INCLUDED
 
-//#include <pqs/meta/binary_op_tags.hpp>
-//#include <pqs/bits/undefined.hpp>
-//#include <pqs/meta/strip_cr.hpp>
-
 #include <pqs/bits/impl/binary_op_impl.hpp>
 
 /*

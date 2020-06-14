@@ -1,7 +1,7 @@
 #ifndef PQS_SI_UNITS_SPEED_UNIT_HPP_INCLUDED
 #define PQS_SI_UNITS_SPEED_UNIT_HPP_INCLUDED
 
-#include <pqs/bits/dimension.hpp>
+#include <pqs/concepts/dimension.hpp>
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/base_quantity/time.hpp>
 

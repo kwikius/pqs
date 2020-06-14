@@ -2,7 +2,7 @@
 #define PQS_QUANTITY_HPP_INCLUDED
 
 #include <pqs/concepts/quantity.hpp>
-#include <pqs/bits/dimension.hpp>
+
 #include <pqs/bits/conversion_factor.hpp>
 #include <pqs/bits/scaled_value.hpp>
 
