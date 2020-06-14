@@ -3,9 +3,11 @@
 
 #include <type_traits>
 #include <pqs/concepts/base_quantity_exp.hpp>
+#if 0
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/not.hpp>
 #include <pqs/meta/and.hpp>
+
 
 namespace pqs{ 
 
@@ -43,5 +45,6 @@ namespace pqs{
    >{};
 
 }
+#endif
 
 #endif // PQS_BITS_DETAIL_BASE_QUANTITY_EXP_BASE_CLASS_HPP_INCLUDED

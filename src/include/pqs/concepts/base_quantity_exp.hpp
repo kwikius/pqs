@@ -2,6 +2,9 @@
 #define PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED
 
 #include <type_traits>
+#include <pqs/bits/where.hpp>
+#include <pqs/meta/not.hpp>
+#include <pqs/meta/and.hpp>
 #include <pqs/bits/undefined_arg.hpp>
 #include <pqs/concepts/ratio.hpp>
 #include <pqs/bits/unary_op.hpp>
@@ -208,7 +211,40 @@ namespace pqs{
          std::ratio<0> 
       >{};
    } //impl
-}
 
+   namespace detail{
+
+      struct base_quantity_exp_base_class{};
+   }
+  
+   namespace impl{
+
+      template <typename T>
+      struct get_base_quantity_impl<
+         T,
+         typename pqs::where_<
+            std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>
+         >::type
+      > : T::base_type {};
+
+      template <typename T>
+      struct get_exponent_impl<
+         T,
+         typename pqs::where_<
+            std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>
+         >::type
+      > {
+         typedef typename T::exponent type;
+      };
+
+   }//impl
+
+   template <typename T>
+   struct is_derived_from_base_quantity_exp : pqs::meta::and_<
+      std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>,
+      pqs::meta::not_<pqs::is_base_quantity_exp<T> >
+   >{};
+
+}
 
 #endif // PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED

@@ -10,6 +10,7 @@
 
 namespace pqs{
 
+#if 0
    namespace detail {
       struct base_quantity_exp_list_base{};
    }
@@ -39,7 +40,7 @@ namespace pqs{
       >
    {};
 
-   // TODO also derived from base_quantity_exp
+
    template <typename D>
    struct is_derived_dimension : pqs::meta::or_<
       is_derived_from_base_quantity_exp_list<D>,
@@ -52,6 +53,7 @@ namespace pqs{
       pqs::is_base_quantity_exp_list<T>,
       pqs::is_derived_dimension<T>
    >{};
+#endif
 
 }
 
