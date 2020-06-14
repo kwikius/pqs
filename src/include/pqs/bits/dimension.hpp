@@ -1,6 +1,7 @@
 #ifndef PQS_DIMENSION_HPP_INCLUDED
 #define PQS_DIMENSION_HPP_INCLUDED
 
+#if 0
 #include <type_traits>
 #include <pqs/meta/and.hpp>
 #include <pqs/meta/or.hpp>
@@ -377,5 +378,5 @@ namespace pqs{
 //} //pqs
 
 }// pqs
-
+#endif
 #endif // PQS_DIMENSION_HPP_INCLUDED

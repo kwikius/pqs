@@ -4,6 +4,7 @@
 #include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/concepts/base_quantity_exp_list.hpp>
 
+#if 0
 namespace pqs{
 
    template <typename D>
@@ -20,5 +21,7 @@ namespace pqs{
    >{};
 
 }
+
+#endif
 
 #endif // PQS_CONCEPTS_DIMENSION_HPP_INCLUDED

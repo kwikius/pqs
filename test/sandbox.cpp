@@ -1,7 +1,7 @@
 #include "test.hpp"
 
 #include <pqs/bits/base_quantities.hpp>
-
+#include <pqs/concepts/dimension.hpp>
 #include <pqs/si/length.hpp>
 #include <pqs/si/speed.hpp>
 

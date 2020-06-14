@@ -2,8 +2,8 @@
 #include "test.hpp"
 #include <pqs/meta/strip_cr.hpp>
 #include <pqs/bits/base_quantities.hpp>
+#include <pqs/concepts/dimension.hpp>
 #include <pqs/bits/quantity.hpp>
-#include <pqs/bits/dimension.hpp>
 
 namespace {
 

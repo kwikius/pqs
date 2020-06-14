@@ -18,7 +18,7 @@ Copyright (c) 2003-2019 Andy Little.
 #include "test.hpp"
 #include <pqs/meta/type_list.hpp>
 #include <pqs/meta/merge_sort.hpp>
-#include <pqs/bits/dimension.hpp>
+#include <pqs/concepts/dimension.hpp>
 
 namespace {
    // used in tests

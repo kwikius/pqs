@@ -1,11 +1,8 @@
 
 #include <type_traits>
-#include <pqs/bits/dimension.hpp>
-#include <pqs/bits/base_quantities.hpp>
 
-#include <pqs/base_quantity/length.hpp>
-#include <pqs/base_quantity/time.hpp>
-#include <pqs/base_quantity/mass.hpp>
+#include <pqs/bits/base_quantities.hpp>
+#include <pqs/concepts/dimension.hpp>
 
 using pqs::base_quantity_exp_list;
 using pqs::exp_length;

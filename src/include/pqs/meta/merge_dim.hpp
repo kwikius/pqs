@@ -3,9 +3,17 @@
 
 #include <type_traits>
 #include <pqs/concepts/meta/type_list.hpp>
-#include <pqs/bits/base_quantity_exp_list.hpp>
-#include <pqs/bits/binary_op.hpp>
+//#include <pqs/concepts/base_quantity_exp_list.hpp>
+//#include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/merge_sort.hpp>
+
+namespace pqs{
+
+   template <typename ...D>
+   struct base_quantity_exp_list ;
+
+
+}
 
 namespace pqs{ namespace meta{
 
