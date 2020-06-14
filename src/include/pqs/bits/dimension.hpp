@@ -9,7 +9,6 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/concepts/dimension.hpp>
-#include <pqs/bits/dimension_def.hpp>
 #include <pqs/meta/merge_dim.hpp>
 #include <pqs/meta/transform.hpp>
 #include <pqs/meta/fold.hpp>
@@ -378,83 +377,5 @@ namespace pqs{
 //} //pqs
 
 }// pqs
-
-namespace pqs{ namespace meta{
-
-   namespace impl{
-
-      template <typename ... D>
-      struct get_num_elements_impl<
-         pqs::base_quantity_exp_list<D...>
-      > : std::integral_constant<uint32_t, (sizeof...(D) )>{};
-
-      template <typename T>
-      struct push_back_impl<pqs::base_quantity_exp_list<>,T >{
-         typedef pqs::base_quantity_exp_list<T> type;
-      };
-
-      template <typename ... L, typename T>
-      struct push_back_impl<pqs::base_quantity_exp_list<L...>,T >{
-         typedef pqs::base_quantity_exp_list<L...,T> type;
-      };
-
-      template <typename Front, typename ... List>
-      struct pop_front_impl<pqs::base_quantity_exp_list<Front,List...> >
-      {
-         typedef pqs::base_quantity_exp_list<List...> type;
-      };
-
-      template <>
-      struct pop_front_impl<pqs::base_quantity_exp_list<> >
-      {
-         typedef pqs::undefined type;
-      };
-
-      template <typename...L, typename T>
-      struct push_front_impl<pqs::base_quantity_exp_list<L...> , T>
-      {
-          typedef pqs::base_quantity_exp_list<T,L...> type;
-      };
-
-      template < typename Front, typename... List> 
-      struct front_impl<pqs::base_quantity_exp_list<Front,List...> >
-      {
-         typedef Front type;
-      };
-
-      template < typename Front> 
-      struct front_impl<pqs::base_quantity_exp_list<Front> >
-      {
-         typedef Front type;
-      };
-
-      template <>
-      struct front_impl<pqs::base_quantity_exp_list<> >
-      {
-         // could just be empty_list?
-         typedef pqs::undefined type;
-      };
-
-      template < typename Front ,typename... List> 
-      struct back_impl< pqs::base_quantity_exp_list<Front,List...> >
-      {
-         typedef typename back_impl<pqs::base_quantity_exp_list<List...> >::type type;
-      };
-
-      template < typename Back> 
-      struct back_impl< pqs::base_quantity_exp_list<Back> >
-      {
-         typedef Back type;
-      };
-
-      template <>
-      struct back_impl<pqs::base_quantity_exp_list<> >
-      {
-         typedef pqs::undefined type;
-      };
-
-   }// impl
-
-}}//pqs::meta
 
 #endif // PQS_DIMENSION_HPP_INCLUDED

@@ -3,7 +3,7 @@
 
 #include <pqs/bits/base_quantity_of.hpp>
 #include <pqs/base_quantity/uuids.hpp>
-#include <pqs/bits/base_quantity_exp.hpp>
+#include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/meta/eval_if.hpp>
 
