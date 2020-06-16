@@ -22,7 +22,7 @@ OBJECTS = \
    binary_op_test.o \
    sandbox.o
 
-.PHONY : all test gcc7_cpp11 gcc9_cpp2a clean 
+.PHONY : all test gcc7_cpp11 gcc9_cpp17 gcc9_concepts_cpp2a clean 
 
 all : gcc7_cpp11
 
@@ -30,9 +30,9 @@ gcc7_cpp11 : CXX      = g++-7
 gcc7_cpp11 : CXXFLAGS += -std=c++11 -I${PQS_ROOT}
 gcc7_cpp11 : test.exe
 
-gcc9_cpp2a : CXX      = g++-9
-gcc9_cpp2a : CXXFLAGS += -std=c++2a -I${PQS_ROOT}
-gcc9_cpp2a : test.exe
+gcc9_cpp17 : CXX      = g++-9
+gcc9_cpp17 : CXXFLAGS += --std=c++17 -I${PQS_ROOT}
+gcc9_cpp17 : test.exe
 
 gcc9_concepts_cpp2a : CXX      = g++-9
 gcc9_concepts_cpp2a : CXXFLAGS += -std=c++2a -fconcepts -I${PQS_ROOT} 

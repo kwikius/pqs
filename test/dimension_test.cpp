@@ -5,6 +5,7 @@
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/strip_cr.hpp>
+#include <pqs/si/units/length_unit.hpp>
 
 namespace {
 
@@ -27,27 +28,12 @@ namespace {
 
    void length_dimension_test()
    {
+       typedef pqs::si::length_unit::mm::dimension dimension;
+       QUAN_CHECK(( std::is_same<dimension,pqs::exp_length<1> > ::value ))
+       QUAN_CHECK(( pqs::is_base_quantity_exp<dimension> ::value ))
+       QUAN_CHECK((pqs::is_base_quantity<pqs::get_base_quantity<dimension>::type>::value))
+       QUAN_CHECK((std::is_same<pqs::get_base_quantity<dimension>::type,pqs::base_length>::value))
 
- // TODO us a derived unit for this test since a base_unit exp is not a list
-/*
-       typedef pqs::length_unit::mm::dimension dimension;
-
-     base_dimension_exp is not a list
-       QUAN_CHECK(pqs::meta::get_num_elements<dimension>::value == 1))
-
-       typedef pqs::meta::front<dimension>::type base_dimension1;
-
-       QUAN_CHECK((std::is_same<base_dimension1,pqs::exp_length<1> >::value))
-       
-       typedef pqs::meta::back<dimension>::type base_dimension2;
-
-       QUAN_CHECK((std::is_same<base_dimension2,pqs::exp_length<1> >::value)) 
-
-       typedef pqs::meta::pop_front<dimension>::type empty_dimension;
-
-       QUAN_CHECK((std::is_same<empty_dimension,pqs::base_quantity_exp_list<> >::value))
-       QUAN_CHECK((empty_dimension::num_elements == 0))
-*/
    }
 
 //   using pqs::exp_length;
@@ -68,6 +54,11 @@ namespace {
           pqs::exp_time<-1>, 
           pqs::exp_mass<2> 
       > lhs_dimension;
+
+      QUAN_CHECK((pqs::meta::get_num_elements<lhs_dimension>::value == 3))
+      QUAN_CHECK((std::is_same<pqs::meta::front<lhs_dimension>::type,pqs::exp_length<1> >::value))
+      QUAN_CHECK((std::is_same<pqs::meta::back<lhs_dimension>::type,pqs::exp_mass<2> >::value))
+
       typedef pqs::base_quantity_exp_list< 
          pqs::exp_mass<2>,
          pqs::exp_time<1>
@@ -302,6 +293,7 @@ namespace {
 
 void dimension_test()
 {
+   dimensionless_test();
    length_dimension_test();
    multiply_dimensions_test();
    divide_dimensions_test();

@@ -6,8 +6,8 @@ make clean
 echo '***** Building with gcc7 c++11...'
 make gcc7_cpp11
 make clean
-echo '***** Building with gcc9 c++2a...'
-make gcc9_cpp2a
+echo '***** Building with gcc9 c++17...'
+make gcc9_cpp17
 make clean
 echo '***** Building with gcc9 c++2a concepts...'
 make gcc9_concepts_cpp2a

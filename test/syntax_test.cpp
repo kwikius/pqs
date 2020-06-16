@@ -21,7 +21,7 @@ namespace pqs{
 using namespace pqs;
 
 
-#if defined __cpp_nontype_template_args  // &&  (__cpp_nontype_template_args >= 201911)
+#if (defined(__cpp_nontype_template_args)) && (__cplusplus > 201703L)
 
 #define PQS_STATIC_NTTP
 
@@ -31,20 +31,14 @@ struct alt_quantity{};
 template< auto DL,typename VL, auto DR, typename VR>
 inline constexpr auto operator * ( alt_quantity<DL,VL> const & lhs, alt_quantity<DR,VR> const & rhs)
 {
-   // error message need l_value to get the succinct type 
-   //maybe a conversion?
-   auto constexpr D = DL * DR;
-   using V = std::common_type_t<VL,VR>;
-   return alt_quantity<D,V > {};
+   return alt_quantity<DL * DR,std::common_type_t<VL,VR> >{};
 }
 
 void nttp_test()
 {
-   // as above
-   constexpr auto d = exp_mass_v<1> * exp_length_v<1> ;
-   alt_quantity< d,double> v;
-   auto x = v * v ;
-   //std::cout << x << '\n';
+
+   alt_quantity< exp_mass_v<1> * exp_length_v<1> ,double> v;
+   auto constexpr x = v * v ;
 }
 
 #endif

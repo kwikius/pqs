@@ -9,7 +9,7 @@ using namespace pqs;
 
 namespace{
 
-#if defined __cpp_nontype_template_args
+#if (defined(__cpp_nontype_template_args)) && (__cplusplus > 201703L)
    template <auto D>
    struct test_list { static constexpr auto value = D;};
 #endif
@@ -17,10 +17,10 @@ namespace{
 #if defined __cpp_decltype_auto
    auto constexpr fun()
    {
-#if defined __cpp_nontype_template_args
+#if (defined(__cpp_nontype_template_args)) && (__cplusplus > 201703L)
       return test_list< exp_length_v<1> / ( exp_time_v<1> * exp_time_v<1> ) >::value;
 #else
-      return  exp_length_v<1> / ( exp_time_v<1> * exp_time_v<1>;
+      return  exp_length_v<1> / ( exp_time_v<1> * exp_time_v<1>);
 #endif
    }
 
