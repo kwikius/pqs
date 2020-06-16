@@ -80,7 +80,6 @@ namespace {
 int errors = 0;
 int main()
 #else
-
 void dimension_test2()
 #endif
 { 
@@ -112,6 +111,13 @@ void dimension_test2()
    >::value,"");
 
    static_assert(is_base_quantity_exp_list(velocity2),"");
+
+   static_assert(same_no_cr<decltype(dimless1),pqs::dimensionless>::value,"");
+   static_assert(same_no_cr<decltype(dimless2),pqs::dimensionless>::value,"");
+   static_assert(same_no_cr<decltype(dimless3),pqs::dimensionless>::value,"");
+   static_assert(same_no_cr<decltype(dimless4),pqs::dimensionless>::value,"");
+   static_assert(same_no_cr<decltype(dimless5),pqs::dimensionless>::value,"");
+
 
  #if defined PQS_STANDALONE
    EPILOGUE

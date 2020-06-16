@@ -8,7 +8,7 @@
 #include <pqs/bits/unit_exp.hpp>
 
 /*
-   basic_unit : encapsulates quantity sytem, dimension and conversion factor
+   basic_unit : encapsulates quantity system, dimension and conversion factor
    but without the numeric value.
 */
 

@@ -4,24 +4,47 @@
 #include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/concepts/base_quantity_exp_list.hpp>
 
-#if 0
-namespace pqs{
+namespace pqs{ 
 
-   template <typename D>
-   struct is_derived_dimension : pqs::meta::or_<
-      is_derived_from_base_quantity_exp_list<D>,
-      is_derived_from_base_quantity_exp<D>
-   >{};
+   namespace impl{
 
-   template <typename T>
-   struct is_dimension : pqs::meta::or_<
-      pqs::is_base_quantity_exp<T>,
-      pqs::is_base_quantity_exp_list<T>,
-      pqs::is_derived_dimension<T>
-   >{};
+      template <typename D>
+      struct binary_op_impl<
+         D, pqs::times, pqs::dimensionless,
+         typename pqs::where_<
+            pqs::is_dimension<D>
+         >::type
+      > : D{};
+
+      template <typename D>
+      struct binary_op_impl<
+         pqs::dimensionless, pqs::times,D,
+         typename pqs::where_<
+            pqs::is_dimension<D>
+         >::type
+      > : D{};
+
+
+      template <typename D>
+      struct binary_op_impl<
+         D, pqs::divides, pqs::dimensionless,
+         typename pqs::where_<
+            pqs::is_dimension<D>
+         >::type
+      > : D{};
+
+      template <typename D>
+      struct binary_op_impl<
+         pqs::dimensionless, pqs::divides,D,
+         typename pqs::where_<
+            pqs::is_dimension<D>
+         >::type
+      > : D{};
+   
+   }
+
+
 
 }
-
-#endif
 
 #endif // PQS_CONCEPTS_DIMENSION_HPP_INCLUDED

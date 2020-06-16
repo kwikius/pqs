@@ -174,7 +174,7 @@ namespace {
       typedef pqs::get_exponent<result_type>::type ratio;
       QUAN_CHECK(ratio::num == 0)
       QUAN_CHECK(ratio::den == 1)
-      QUAN_CHECK( (std::is_same<result_type,exp_length<0> >::value) )
+      QUAN_CHECK( (std::is_same<result_type,pqs::dimensionless>::value) )
    }
 
    void subtract_test_int_r_r()

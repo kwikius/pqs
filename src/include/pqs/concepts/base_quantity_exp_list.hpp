@@ -8,12 +8,12 @@
 #include <pqs/bits/where.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
-//#include <pqs/concepts/dimension.hpp>
 #include <pqs/meta/merge_dim.hpp>
 #include <pqs/meta/transform.hpp>
 #include <pqs/meta/fold.hpp>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
+#include <pqs/concepts/dimensionless.hpp>
 
 namespace pqs{
 
@@ -32,10 +32,6 @@ namespace pqs{
       >
    {};
 
-} //pqs
-
-namespace pqs{
-
    // eventually convert to type_list<base_quantity_exp...>
    template <typename ...D>
    struct base_quantity_exp_list : pqs::detail::base_quantity_exp_list_base{
@@ -53,21 +49,10 @@ namespace pqs{
    template <typename ... D >
    struct is_base_quantity_exp_list<pqs::base_quantity_exp_list<D...> > : std::true_type{};
 
-} // pqs
-
-namespace pqs{
-
    template <typename D>
    struct is_derived_dimension : pqs::meta::or_<
       is_derived_from_base_quantity_exp_list<D>,
       is_derived_from_base_quantity_exp<D>
-   >{};
-
-   template <typename T>
-   struct is_dimension : pqs::meta::or_<
-      pqs::is_base_quantity_exp<T>,
-      pqs::is_base_quantity_exp_list<T>,
-      pqs::is_derived_dimension<T>
    >{};
 
 }
@@ -148,9 +133,18 @@ namespace pqs{ namespace meta{
 
    }// impl
 
+
+
 }}//pqs::meta
 
 namespace pqs{
+
+   template <typename T>
+   struct is_dimension : pqs::meta::or_<
+      pqs::is_base_quantity_exp<T>,
+      pqs::is_base_quantity_exp_list<T>,
+      pqs::is_derived_dimension<T>
+   >{};
 
    namespace impl{
 
@@ -204,6 +198,11 @@ namespace pqs{
             typedef Elem type;
          };
 
+         template <>
+         struct extract_single_element_list<pqs::base_quantity_exp_list<> >{
+            typedef dimensionless type;
+         };
+
       }
 
       //base_exp_list * base_exp_list
@@ -222,6 +221,7 @@ namespace pqs{
             typename pqs::meta::merge_dim<Lhs,times,Rhs>::type
          >::type type;
       };
+
 
       // derived_dim * derived_dim
       template <typename Lhs, typename Rhs>
@@ -508,7 +508,7 @@ namespace pqs{
     >::type
     pow( Dim )
     {
-        return typename pqs::binary_op<Dim,struct pqs::to_power,std::ratio<N,D>>::type{};
+       return typename pqs::binary_op<Dim,struct pqs::to_power,std::ratio<N,D>>::type{};
     }
 
 }// pqs

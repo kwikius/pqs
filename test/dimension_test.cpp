@@ -1,12 +1,29 @@
 
 #include "test.hpp"
-//#include <pqs/units/length_unit.hpp>
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/meta/merge_dim.hpp>
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/bits/binary_op.hpp>
+#include <pqs/meta/strip_cr.hpp>
 
 namespace {
+
+   void dimensionless_test()
+   {
+      pqs::dimensionless d1;
+
+      pqs::dimensionless d2;
+
+
+      QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 * d2)>::type, pqs::dimensionless>::value))
+
+      QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 / d2)>::type, pqs::dimensionless>::value))
+
+      QUAN_CHECK((d1 == d2))
+
+      QUAN_CHECK(((d1 != d2) == false))
+ 
+   }
 
    void length_dimension_test()
    {
@@ -72,15 +89,15 @@ namespace {
       > inv_dimension;
 
       typedef pqs::binary_op<lhs_dimension,pqs::times,inv_dimension>::type empty_result;
-      QUAN_CHECK((std::is_same<empty_result, pqs::base_quantity_exp_list<> >::value))
+      QUAN_CHECK((std::is_same<empty_result, pqs::dimensionless >::value))
 
       typedef pqs::binary_op<lhs_dimension,pqs::times,empty_result>::type result1;
 
-      QUAN_CHECK((std::is_same<sort<lhs_dimension>::type,result1>::value))
+      QUAN_CHECK((std::is_same<lhs_dimension,result1>::value))
 
       typedef pqs::binary_op<empty_result, pqs::times,lhs_dimension>::type result2;
 
-      QUAN_CHECK((std::is_same<sort<lhs_dimension>::type,result2>::value))
+      QUAN_CHECK((std::is_same<lhs_dimension,result2>::value))
    }
 
    void divide_dimensions_test()
@@ -113,7 +130,7 @@ namespace {
 
       typedef pqs::binary_op<lhs_dimension,pqs::divides,lhs_dimension>::type empty_result;
 
-      QUAN_CHECK( (std::is_same<empty_result,pqs::base_quantity_exp_list<> >::value ))
+      QUAN_CHECK( (std::is_same<empty_result,pqs::dimensionless>::value ))
 
       typedef pqs::binary_op<pqs::base_quantity_exp_list<>,pqs::divides,lhs_dimension>::type result2;
 

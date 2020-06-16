@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <pqs/bits/where.hpp>
+#include <pqs/meta/eval_if.hpp>
 #include <pqs/meta/not.hpp>
 #include <pqs/meta/and.hpp>
 #include <pqs/bits/undefined_arg.hpp>
@@ -10,6 +11,7 @@
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/concepts/base_quantity.hpp>
+#include <pqs/concepts/dimensionless.hpp>
 
 namespace pqs{
 
@@ -42,6 +44,9 @@ namespace pqs{
       template <typename T, typename Where = void>
       struct base_quantity_exp_is_zero_impl : pqs::undefined_arg<T> {};
 
+      template <>
+      struct base_quantity_exp_is_zero_impl<pqs::dimensionless> : std::true_type{};
+
       // customise per UUID
       template <typename UUID,typename Ratio,typename Where = void>
       struct make_base_quantity_exp_impl : pqs::undefined_arg<UUID>{};
@@ -64,7 +69,11 @@ namespace pqs{
    struct base_quantity_exp_is_zero : pqs::impl::base_quantity_exp_is_zero_impl<T>{};
 
    template <typename UUID, typename Ratio>
-   struct make_base_quantity_exp : pqs::impl::make_base_quantity_exp_impl<typename UUID::type, typename Ratio::type>{};
+   struct make_base_quantity_exp : pqs::meta::eval_if<
+      std::integral_constant<bool,(Ratio::num == 0)>,
+      pqs::dimensionless,
+      pqs::impl::make_base_quantity_exp_impl<typename UUID::type, typename Ratio::type>
+   >{};
 
    template <typename T>
    struct get_exponent : impl::get_exponent_impl<T>{};
@@ -74,6 +83,9 @@ namespace pqs{
 
    namespace impl{
 
+/*
+   true if Lhs, Rhs are of same base_quantity
+*/
       template <typename Lhs, typename Rhs>
       struct of_same_base_quantity_impl<
          Lhs,Rhs,
@@ -89,6 +101,9 @@ namespace pqs{
           typename pqs::get_base_quantity<Rhs>::type
        >{};
 
+/*
+    Lhs * Rhs  where Lhs,Rhs are of same base quantity
+*/
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
          Lhs,pqs::times, Rhs,
@@ -110,6 +125,9 @@ namespace pqs{
             >::type
       >{};
 
+/*
+   Lhs / Rhs  where Lhs,Rhs are of same base quantity
+*/
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
          Lhs, pqs::divides, Rhs,
@@ -131,6 +149,9 @@ namespace pqs{
             >::type
       >{};
 
+/*
+      rational power
+*/
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
          Lhs, struct pqs::to_power, Rhs,
@@ -151,6 +172,9 @@ namespace pqs{
             >::type
       >{};
 
+/*
+      reciprocal
+*/
       template <typename T>
       struct unary_op_impl<
           pqs::meta::reciprocal,
@@ -168,6 +192,9 @@ namespace pqs{
              >::type
       >{};
 
+/* 
+      equality
+*/
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<
          Lhs, pqs::equal_to, Rhs,
@@ -184,6 +211,9 @@ namespace pqs{
             typename get_exponent<Rhs>::type
       >{};
 
+/*
+   inequality
+*/
      template <typename Lhs, typename Rhs>
       struct binary_op_impl<
          Lhs, pqs::not_equal_to, Rhs,
