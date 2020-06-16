@@ -16,7 +16,7 @@ script:
     - cd /home/travis/build/kwikius/pqs/test
     - make gcc7_cpp11
     - make clean
-    - make gcc9_cpp2a
+    - make gcc9_cpp17
     - make clean
     - make gcc9_concepts_cpp2a
     - make clean
