@@ -5,7 +5,7 @@
 #include <pqs/si/units/length_unit.hpp>
 
 // si quantities length definition namespace 
-namespace pqs{ namespace length{
+namespace pqs{ namespace si { namespace length{
 
    template <typename ValueType = double>
    using mm = pqs::quantity<pqs::si::length_unit::mm,ValueType>;
@@ -13,6 +13,6 @@ namespace pqs{ namespace length{
    template <typename ValueType = double>
    using ft = pqs::quantity<pqs::si::length_unit::ft,ValueType>;
 
-}} // pqs::length
+}}} // pqs::si::length
 
 #endif // PQS_SI_LENGTH_HPP_INCLUDED

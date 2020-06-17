@@ -23,22 +23,52 @@ using namespace pqs;
 
 #if (defined(__cpp_nontype_template_args)) && (__cplusplus > 201703L)
 
+/*
+   Ideally calculations on dimensions should be expressed directly in template parameters.
+   non-type template parameters allows this.
+   Issues that only runtime ops and functions can be used, but maybe that works ok
+*/
+
 #define PQS_STATIC_NTTP
 
-template <auto D, typename V = double>
-struct alt_quantity{};
+template <auto D, auto CF>
+struct alt_unit{};
 
-template< auto DL,typename VL, auto DR, typename VR>
-inline constexpr auto operator * ( alt_quantity<DL,VL> const & lhs, alt_quantity<DR,VR> const & rhs)
+template< auto DL,auto CFL, auto DR, auto CFR>
+inline constexpr auto operator * ( alt_unit<DL,CFL> const & lhs, alt_unit<DR,CFR> const & rhs)
 {
-   return alt_quantity<DL * DR,std::common_type_t<VL,VR> >{};
+   return alt_unit<DL * DR,CFL * CFR >{};
 }
 
-void nttp_test()
-{
+template <auto U, typename V = double>
+struct alt_quantity{};
 
-   alt_quantity< exp_mass_v<1> * exp_length_v<1> ,double> v;
+template< auto UL,typename VL, auto UR, typename VR>
+inline constexpr auto operator * ( alt_quantity<UL,VL> const & lhs, alt_quantity<UR,VR> const & rhs)
+{
+   return alt_quantity<UL * UR,decltype(VL{} * VR{}) >{};
+}
+
+void nttp_test1()
+{
+   alt_quantity< alt_unit<exp_mass_v<1> * exp_length_v<1> , 1>{} ,double> v;
    auto constexpr x = v * v ;
+
+  // int z = x;
+}
+struct  dim_velocity : decltype(exp_length_v<1> / exp_time_v<1>) {
+};
+void nttp_test2()
+{
+   alt_quantity< 
+      alt_unit<dim_velocity{},2>{} ,
+      double
+   > v1;
+   quantity< 
+      si::unit<dim_velocity,unit_exp<0> >, 
+      double
+   > v2;
+  // int constexpr x = v2  ;
 }
 
 #endif
@@ -46,14 +76,15 @@ void nttp_test()
 void quantity_syntax_test() 
 {
 #if defined PQS_STATIC_NTTP
-   nttp_test();
+   nttp_test1();
+   nttp_test2();
 #endif
    // short syntax
-   auto constexpr qa = length::mm<>{};
+   auto constexpr qa = si::length::mm<>{};  // si unit
 
-   auto constexpr qaa = speed::m_per_s<>{};
+   auto constexpr qaa = si::speed::m_per_s<>{};  // si unit
 
-   auto constexpr qb = length::ft<>{};
+   auto constexpr qb = si::length::ft<>{};  // si unit conversion
          
    // slightly more verbose syntax
    auto qc = quantity<si::length_unit::mm, double>{};
@@ -108,7 +139,7 @@ void quantity_syntax_test()
   //---------------------------------------------
 
   // uncomment to test how quantity appears in error message
-   //int x = qaa;
+  // int x = qd;
   // suppress not used warnings
   (void) qa;
   (void) qb;
