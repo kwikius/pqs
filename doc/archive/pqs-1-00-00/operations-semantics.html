@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title></title>
+<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+</head>
+<body>
+  <h2>Semantics of operations on physical_quantities</h2>
+        <hr>
+        <dl>
+            <dt><a href="index.html">Index</a></dt>
+                <dd>
+                    <dl>
+                        <dt><a href="#over">What should be the resulting type of an operation</a></dt>
+                            <dd>
+                                <dl>
+                                    
+                                    <dt><a href="#add-sub">Semantics of addition and subtraction</a></dt>
+                                    <dt><a href="#mul-div">Semantics of multiplication and division</a></dt>
+                                    
+                                </dl>
+                            </dd>
+                    </dl>
+                </dd>
+        </dl>
+<a name =over></a>
+<h3>Semantics of Operations on physical quantities</h3>
+
+<P>In an operation 
+on two physical quantities of the form A OP B, what should be
+the units of the type of the result<A href="#note1" ><sup></SMALL>1</SMALL></sup></A>?</P>
+<P>The physical_quantity type is unusual as a C++ type in that the type of the 
+result of an operation&nbsp;may not be of the same type as either of the 
+operands.<BR>In the case of multiplication and division this is particularly 
+obvious.<BR> The powers of dimension of the result are fixed according to the 
+laws of dimensional analysis, however the units of the result are not.<BR><br>
+At the simplest level in the physical_quantities class the 
+answer to the heading question&nbsp;is,&nbsp;the units&nbsp;dont matter, 
+because the result should always be cast to some physical_quantity type before 
+output. However every calculation on floating point numbers involves a potential 
+loss of precision, and when using integers, which are allowed as value_types, 
+the loss can be spectacularly large.<BR>
+<br>
+There are 
+various strategies that can be adopted and if I am honest I have not 
+definitively settled on any one. The article lays out the current strategy, as 
+it stands, though with more analysis this may be modified. The advice 
+for&nbsp;this version of the physical_quantities type family&nbsp;is to avoid 
+using integer value_types, to cast to a specific type for output and not to use 
+the type in cases where huge precision is required. That said&nbsp; using a 
+double value_type will provide ample precision for most general purpose use.
+Obviously the design of a program should be planned to minimise unit-conversions as far as possible.</P>
+<P>No doubt this will not be the last that shall be heard on this issue and I 
+hope to do more analysis to decide on the best strategy. One intriguing option 
+is to provide the programmer with a choice of strategies, or user defined 
+semantics for the physical-quantities type family.</P>
+<p>
+In attempting to 
+resolve the issue two major factors were taken into account.
+ </p>
+<ul>
+<li>Minimising loss of precision in scaling betwen units. 
+<li>What feels reasonably instinctive to the programmer.</li>
+</ul>
+<a name = prec></a>
+<h4>Minimising loss of precision</h4>
+<p>
+Minimising loss 
+of precision is best achieved by using the scale of the finer grained unit(s) of dimension. 
+So for example in an operation between metres and millimetres the result would be in millimetres.
+This works well for units of one dimension, however when physical-quantities of more than one dimension are involved,
+together with a scaling at the physical-quantity layer, things become more complex.
+When working with multidimensional physical-quantities
+there are two options for taking the most finest grained units.
+  </p>
+ <ul>
+ <li>Select the most fine grained unit from each pq on an 
+  individual basis, resulting in a composite with some units from one and some 
+  from the other. 
+ 
+ <li>Select one physical-quantity based on it having "on average" more finely grained units</li>
+</ul>
+<h4>What feels right for the programmer.</h4>
+ <p>
+ After trying the first which would give most accuracy , 
+it was decided that this is simply too surprising, so the second approach was 
+ taken, however when using integer value_types this will involve a loss in precision. As an embedded programmer I am not too
+ happy with this !
+</p>
+<P>[Example 7a</P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+q_length::mm 
+L1(1);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+q_length::m 
+L2(1);<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+L1 + 
+L2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+// millimetres is more "fine grained" than metres so arbitration gives the 
+result in millimetres</P>
+<pre></pre>
+<p>End Example]</p>
+<P>There is another problem when performing computations involving 
+incoherent-physical-quantities. What should be the dub-scaling of the resulting 
+type. The current solution to these problems is laid out separately for 
+addition/subtraction, multiplication/division (which includes powers)</P>
+<a name =add-sub></a>
+<h3>Addition and subtraction</h3>
+<p>Where possible the units of the original type are preserved.<br>
+This will only occur if both types have the same units at the dimension and physical quantity layer.
+Where any units are different the current version works out the scaling of each to the standard units,
+including any dub scaling and selects the one with smallest multiplier as the units of the result.<br>
+The dub-scaling will be one.</p>
+<a name =mul-div></a>
+<h3>Multiplication and division (including powers)</h3>
+<p>In case of multiplication/division by a scalar the original units are preserved.<br>
+In all other cases the units combination with smallest multiplier are selected  as the units of the result,
+with dub-scaling of one.</p>
+
+<P>&nbsp;</P>
+<h4>footnotes</h4>
+<a name = note1></a>
+<p><b>1.</b>
+Thanks to Jan langer for posing this question on the developers forum at <a href="http://www.boost.org">
+"http://www.boost.org"</a>.
+</p>
+</body>
+</html>

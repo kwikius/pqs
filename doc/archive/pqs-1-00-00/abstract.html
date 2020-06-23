@@ -1,0 +1,234 @@
+<html>
+<head>
+<title>A C++ physical-quantity type-family</title>
+
+</head>
+
+<body>
+
+<h2 align = center>
+A strongly-typed physical-quantity type-family.
+</h2>
+<h4 align = center> Andy Little , 03 Nov 2003 </h4>
+<hr>
+<dl>
+ <dt><a href= "index.html">Index</a>
+  <dd>
+   <dl>
+    <dt><a href = #abstract>Abstract</a></dt>
+    <dt><a href = #acknowledgements>Acknowledgments</a></dt>
+    <dt><a href = #advantages>Advantages of the Physical quantity type.</a>
+      <dd>
+	
+	<dl>
+	  <dt><a href= #firstadvantage>First advantage - clarification</a></dt>
+	  <dt><a href= #secondadvantage>Second advantage - less drudgery</a></dt>
+	  <dt><a href= #thirdadvantage>Third advantage - compile time error detection</a></dt>
+	  <dt><a href= #compatibility>Code Integration</a></dt>
+	</dl>
+	
+      </dd>
+    <dt><a href = #summary>Summary</a></dt>
+   </dl>
+  </dd>
+</dl>
+
+<a name = "abstract"></a>
+<h3>Abstract</h3>
+<div>
+    The physical-quantity type-family provides a strongly typed method for modeling concrete Physical Quantities in C++ programs. The advantages and extra functionality over inbuilt types used in the role include, compile time dimensional analysis checking, automatic conversion between units and an increase in code comprehensibility.
+ 
+<a name = "acknowledgements"></a>
+<h3> Acknowledgements</h3>
+<p>
+I would like to thank everyone at <a href = "http://www.boost.org">http://www.boost.org</a>
+ for their help, criticisms and advice and suggestions.
+</p>
+<hr>
+<a name = advantages></a>
+<h2> Advantages of the Physical quantity type over the inbuilt type used in that role.</h2>
+<a name = "firstadvantage"></a>
+<h3>First advantage of the physical-quantity type-family over the inbuilt-type  - clarification</h3>
+
+<p>Inbuilt-types representing physical quantities are in common use:</p>
+
+<p>[Example 1a</p>
+</div>
+<div class = code>
+<pre>
+struct Box{
+	double length;
+	double height;
+	double width;
+	Contents contents;
+	double weight()
+	{
+		double volume = length * width * height;
+		double mass = contents.material.density * volume;
+		return mass * gravity ;	
+	}
+};
+</pre>
+</div>
+<div>
+<p>end Example 1a]</p>
+<p>In struct Box in Example 1a almost every entity
+	represents a physical-quantity.
+	The units are unclear, requiring documentation.
+	Overtyping the inbuilt-type by a physical-quantity type
+	automatically provides basic documentation
+    in a standardised format:</p>
+	
+<p>[Example 1b</p>
+</div>
+<div class = code>
+<pre>
+struct PQ_Box{
+
+	q_length::m length;
+	q_length::m height;
+	q_length::m width;
+	PQ_Contents contents;
+
+	q_force::N weight()
+	{
+		q_volume::m3 volume = length * width * height;
+		q_mass::kg mass = contents.material.density * volume;
+		return mass * q_acceleration::g;  
+		
+	}
+};
+</pre>
+</div>
+
+<p>end Example 1b]</p>
+
+</p>
+
+<a name = "secondadvantage"></a>
+<h3>Second advantage  - less drudgery, more enjoyable programming, fewer errors</h3>
+
+<p>When using struct Box in example 1a
+	care must be taken over scaling between units.
+	The programmer must provide any scaling required:</p>
+<p>[Example 2a</p>
+<pre>
+	    Box box;
+	    double length ;
+	    cin >> length; 			// input arrives in millimetres
+	    box.length = length * 1000; 	// programmer error...!
+</pre>	
+<p>end Example 2a]</p>
+
+<p>	struct PQ_box understands the concept of units and automates scaling,
+	relieving the programmer of this chore:
+</p>
+<p>[Example 2b</p>
+<pre>
+	    PQ_Box pq_box;
+	    q_length::mm length;	 
+	    cin >> length;  
+	    pq_box.length = length; 		// scaling conversion is performed
+                                		// automatically by the type
+
+
+	    // The type can handle conversions of any complexity...
+
+	    q_velocity::m_div_s v1;	        // metres per second
+	    cin >> v1;  
+	    q_velocity::mi_div_hr v2 = v1; 	// miles_per_hour	
+                                		// again scaling conversion is automatic
+ </pre>  	
+ <p>end Example 2b]</p>
+<a name = thirdadvantage></a>
+<h3>Third advantage over the built in type
+    - compile time error detection</h3>
+<p>A physical-quantity must conform to 
+    the laws of dimensional analysis.
+	The inbuilt-type cannot enforce these laws:
+</p>	 
+<p>[Example 3a</p>
+<pre>
+	    // calculate an acceleration
+	    double initial_velocity = 1;
+	    double final_velocity = 2;
+	    double time = 0.5;
+	    double acceleration = final_velocity - initial_velocity/time; 
+	   				// programmer error... undetected by the compiler
+        				// and time consuming to find manually!
+</pre>		
+<p>end Example 3a]</p>
+
+<p>Replacing the inbuilt-types in Example 3a 
+    by a physical-quantity type
+	that enforces the laws of dimensional analysis
+    means that the C++ compiler catches the error at compile time:</p>	
+<p>[Example 3b</p>
+<pre>
+	    // calculate an acceleration
+	    q_velocity::m_div_s	initial_velocity(1);
+	    q_velocity::m_div_s	final_velocity(2);
+	    q_time::s		time(0.5);
+	    q_acceleration::m_div_s2 acceleration 
+		    = final_velocity - initial_velocity/time;  	// programmer error ..
+								// caught by the compiler!
+</pre>		
+<p>end Example 3b]</p>
+<a name = compatibility></a>
+<h3>Code integration of the physical_quantity type with other code</h3>
+
+<p>The physical-quantity type is lightweight enough
+	to be used without a special framework.
+	The framework is provided by the rules of physics.</p>
+
+<p>Inbuilt-types can be classified in the family of physical quantities,
+	They too conform to the laws of dimensional analysis:</p>
+<p>[Example 4</p>
+<pre>
+	    q_length::mm length1(1000);
+	    q_length::m length2(1);
+	    int ratio = length1/length2;	// 'ratio' is equivalent
+        					// to a dimensionless physical-quantity
+        					// the physical-quantity type-family accepts
+        					// this code as correct
+</pre>  	
+</p>end Example 4]</p>
+<a name = summary></a>
+<h3>Summary</h3>
+<p>
+<ul>The physical-quantity type has many similar features to an inbuilt-type:
+
+    <li> concrete type with simple,consistent semantics 
+        close to those of inbuilt-types.
+    <li>requires no special framework to use.
+</ul>
+<ul> but with added functionality:
+     <li>strong type checking enforces dimensional integrity,
+        catching calculation errors at compile time.
+     <li>automated unit conversion reduces drudgery,
+     <li>self documenting,helps code clarity and documentation.
+     <li>increases programmer satisfaction.
+     <li>enhances productivity.
+</ul> 
+</p>
+<dl>
+<dt><a href= "index.html">Index</a></dt>
+<hr>
+
+</body>
+</html>
+
+
+
+	
+	
+	
+	
+	
+	
+
+	
+
+	
+	
+

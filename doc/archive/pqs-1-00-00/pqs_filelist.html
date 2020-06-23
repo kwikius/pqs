@@ -1,0 +1,365 @@
+<html>
+<head>
+<title>pqs-1-00-00 file list at 28 Non 2003</title>
+</head>
+<body>
+<h3>physical_quantities pqs-1-00-00 File-list at 28 Nov 2003</h3>
+<hr>
+<dl>
+  <dt><A href="index.html" >Index</A> 
+  <dd>
+  <dl>
+    <dt><A href="#quickstart" >Quick start</A>
+    <dt><a href = "#file-details">Details of the files</a>
+    <dd>
+    <dl>
+      <dt><a href = "#all-types">All types header</a>
+      <dt><A href= "#pq-types" >Headers defining physical-quantities.</A> 
+      <dt><a href= "#def-switches">default(Switchable) settings</a>
+      <dt><a href ="#template">Template for defining new types</a>
+      <dt><a href = "#units-of-dimension">Units of dimension</a>
+      <dt><a href = "#units-of-quantity">Units of quantity</a></dt>
+        </dl>
+    <dt><A href="#class-template" >Physical quantity class template</A>
+       <dd>
+      <dl>
+	   <dt><a href= "#main-elements">Main elements of the class</a>
+       <dt><a href="#add-sub">Addition and subtraction</a>
+       <dt><a href="#mul-div">Multiplication and division</a>
+       <dt><a href="#power-root">Powers and roots</a>
+       <dt><a href="#comparisons">Comparisons</a>
+       <dt><a href="#concept-checking">Concept checking</a>
+       <dt><a href="#stream-out">Stream output</a>
+       <dt><a href= "#mpl-style">MPL style classes</a></dt>
+      </dl>
+      <dt><a href="#testing">Test functions (incomplete)</a></dt>
+     </dl>
+     </dd>
+    </dl>
+<DL></DL>
+<a name=quickstart></a>
+<h3>Quick start</h3>
+<p><a href= "pqs.hpp">pqs.hpp</a> provides access 
+to all the classes together with stream utility for output.<br>
+<a href = "examples">examples</a> provides access to some examples.
+</p>
+<p>
+<a href ="class_template/mpl_like/boost_lib_dependencies.hpp">
+class_template/mpl_like/boost_lib_dependencies.hpp</a><br>
+Provides a MACRO Switch to get you up and running without the
+<a href = "http://www.boost.org/more/download.html"> boost libs</a>.
+Download of the boost libs is preferred.
+</p>
+
+<a name = file-details></a>
+<h2> Details of the files</h2>
+<p>The following is a brief breakdown of the headers comprising the type family.<br>
+It is not a substitute for documentation. 
+I apologise for that, but I am working on providing further
+ comprehensive descriptions of the workings of the type , so I hope this provides some insights
+</p>
+<a name = pq-types></a>
+<h4>pq_types</h4>
+<p>The pq_types directory contains the headers required 
+to implement the class, in shape of the quantities you require
+for use in programs. <br>
+You only need to #include the header(s) for the type(s) you use.<br>
+Or you can #include the all-types header - <a href ="pq_types/pq_all_types.hpp">
+pq_types/pq_all_types.hpp</a><br>
+<i>Note:If you require readymade output you will also need to #include
+<a href = "util/utility_output.hpp">util/utility_output.hpp</a>, 
+which provides basic stream output of value and units of the quantity.
+This is quite useful for testing</i>
+</p> 
+<p>
+Where you cannot find the unit typedef you require,
+ you can <a href="#template"> define it.</a><br>
+Obviously there are also many more physical 
+quantities types than are listed here. I have only created the 
+main&nbsp;mechanics ones. I 
+aim to start on the electronics ones next.&nbsp;If you create a new one
+and wish it to be included I will be happy to add
+it, if its not already in( Please do check you are happy to implement the
+ boost copyright requirements first) .
+</p>
+
+<p>
+<a href ="pq_types/pq_acceleration.hpp">
+pq_types/pq_acceleration.hpp</a><br>
+<a href ="pq_types/pq_acceleration.cpp">
+pq_types/pq_acceleration.cpp</a><br>
+(shows definition of constants).<br>
+
+<a href ="pq_types/pq_area.hpp">
+pq_types/pq_area.hpp</a><br>
+<a href ="pq_types/pq_current.hpp">
+pq_types/pq_current.hpp</a><br>
+<a href ="pq_types/pq_density.hpp">
+pq_types/pq_density.hpp</a><br>
+<a href ="pq_types/pq_energy.hpp">
+pq_types/pq_energy.hpp</a><br>
+<a href ="pq_types/pq_force.hpp">
+pq_types/pq_force.hpp</a><br>
+<a href ="pq_types/pq_frequency.hpp">
+pq_types/pq_frequency.hpp</a><br>
+<a href ="pq_types/pq_intensity.hpp">
+pq_types/pq_intensity.hpp</a><br>
+<a href ="pq_types/pq_length.hpp">
+pq_types/pq_length.hpp</a><br>
+<a href ="pq_types/pq_mass.hpp">
+pq_types/pq_mass.hpp</a><br>
+<a href ="pq_types/pq_power.hpp">
+pq_types/pq_power.hpp</a><br>
+<a href ="pq_types/pq_pressure.hpp">
+pq_types/pq_pressure.hpp</a><br>
+<a href ="pq_types/pq_substance.hpp">
+pq_types/pq_substance.hpp</a><br>
+<a href ="pq_types/pq_temperature.hpp">
+pq_types/pq_temperature.hpp</a><BR>
+<a href ="pq_types/pq_time.hpp">
+pq_types/pq_time.hpp</a><br>
+<a href ="pq_types/pq_velocity.hpp">
+pq_types/pq_velocity.hpp</a><br>
+<a href ="pq_types/pq_volume.hpp">
+pq_types/pq_volume.hpp</a><br>
+</p>
+<a name = all-types></a>
+<h4>Include all types header</h4>
+<p>
+<a href ="pq_types/pq_all_types.hpp">
+pq_types/pq_all_types.hpp</a><br>
+Use 
+this to include all types defined above.
+</p>
+<a name=def-switches></a>
+<h4>Default switches for the class</h4>
+<p>
+<a href ="pq_types/defaults.hpp">
+pq_types/defaults.hpp</a><br>
+Included by the pq_types headers,#includes the higher 
+impl headers. Also defines,default value_type, various MACRO settings
+ to control the way conversions operate for experimenting. 
+ These are pretty rough and ready .Ideally they will be removed and one semantics decided.
+</p>
+
+<a name=template></a>
+<h4>Template for defining new pq types</h4>
+<p><a href ="pq_types/pq_template.hpp">
+pq_types/pq_template.hpp</a><br>
+template for defining new physical-quantity types and their units.<br>
+Includes comments on values . See the pq_types headers for example values.
+</p>
+<a name =units-of-dimension></a>
+<h3>Units of  dimension</h3>
+<p>Contains the definitions for units of dimension.<br>
+Adding units of dimension is slightly involved.<br>
+I will try to provide more&nbsp;explanations
+of the enum values, but basically they are the logbase10 values of the
+ &lt;enum&gt;number_of_std_units_in() specialisations,
+return values rounded and multiplied by 1,000,000.<br>
+ An excel2000 spreadsheet to calculate the values is included
+<a href= "docs/log_mx_calc.xls">docs/log_mx_calc.xls</a>.<br>
+Dont forget to proovide the relevant specialisations, which should be obvious from the header.
+As with everything else there are many more to be added.
+</p>
+<p>
+<a href ="dimension_units/units_of_current.hpp">
+dimension_units/units_of_current.hpp</a><br>
+<a href ="dimension_units/units_of_intensity.hpp">
+dimension_units/units_of_intensity.hpp</a><br>
+<a href ="dimension_units/units_of_length.hpp">
+dimension_units/units_of_length.hpp</a><br>
+<a href ="dimension_units/units_of_mass.hpp">
+dimension_units/units_of_mass.hpp</a><br>
+<a href ="dimension_units/units_of_substance.hpp">
+dimension_units/units_of_substance.hpp</a><br>
+<a href ="dimension_units/units_of_temperature.hpp">
+dimension_units/units_of_temperature.hpp</a><br>
+<a href ="dimension_units/units_of_time.hpp">
+dimension_units/units_of_time.hpp</a>
+</p>
+<p>
+<a href ="dimension_units/dimension_units.hpp">
+dimension_units/dimension_units.hpp</a><br>
+#includes the various units_of_ headers.</p>
+<p>
+<a href ="dimension_units/dimension_unit_classes.hpp">
+dimension_units/dimension_unit_classes.hpp</a><br>
+ defines the units_of classes base.</p>
+<a name=units-of-quantity></a>
+<h3>Units of quantity</h3>
+<p>
+<a href ="quantity_units/of_quantity.hpp">
+quantity_units/of_quantity.hpp</a><br>
+ The quantity layer multipliers 
+defined similarly to the dimension layer ones.
+</p>
+<p>
+<a href ="class_template/interface/multiplied_log_enum.hpp">
+class_template/interface/multiplied_log_enum.hpp</a><br>
+generic holder for dimension unit enums, based on boost::mpl::integer_c&lt;T,T t&gt;
+</p>
+
+<a name=class-template></a>
+<h3>The physical_quantities class template</h3>
+<a name= main-elements></a>
+<h4>The main elements.</h4>
+<P></P>
+<p>
+<a href ="class_template/interface/interface.hpp">
+class_template/interface/interface.hpp</a><br>
+Interface between the class and its dimension and quantity units
+</p>
+<p> 
+<a href ="class_template/abstract_pq.hpp">
+class_template/abstract_pq.hpp</a><br>
+abstract-physical-quantity layer,
+Holds the powers of dimension,
+used as a template parameter for a physical-quantity.
+</p>
+<p>
+<a href ="class_template/pq_unit_traits.hpp">
+class_template/pq_unit_traits.hpp</a><br>
+Holder for units of each dimension for a physical quantity.<br>
+template parameter for the class.
+</p>
+<p>
+<a href ="class_template/class_template.hpp">
+class_template/class_template.hpp</a><br>
+Ties together the class and its operations.
+</p>
+
+<p>
+<a href ="class_template/generic.hpp">
+class_template/generic.hpp</a><br>
+Definition of the physical_quantity class
+</p>
+<p>
+<a href ="class_template/dimless.hpp">
+class_template/dimless.hpp</a><br>
+Specialisation for a dimensionless quantity.
+</p>
+<a name=add-sub></a>
+<h4>Addition and subtraction</h4>
+<p>
+<a href ="class_template/operations/add_sub.hpp">
+class_template/operations/add_sub.hpp</a><br>
+addition and subtraction functions.
+</p>
+<p>
+<a href ="class_template/operations/add_semantics.hpp">
+class_template/operations/add_semantics.hpp</a><br>
+MPL style class to arbitrate the semantics of addition.
+</p>
+<a name=mul-div></a>
+<h4> Multiplication and division</h4>
+<p>
+<a href ="class_template/operations/mul.hpp">
+class_template/operations/mul.hpp</a><br>
+multiplication by pqs</p>
+<p>
+<a href ="class_template/operations/mul_scalar.hpp">
+class_template/operations/mul_scalar.hpp</a><br>
+multiplication by scalar.
+</p>
+<p>
+<a href ="class_template/operations/mul_semantics.hpp">
+class_template/operations/mul_semantics.hpp</a><br>
+MPL style class to arbitrate the semantics of multiplication.
+</p>
+<p>
+<a href ="class_template/operations/div.hpp">
+class_template/operations/div.hpp</a><br>
+division by pqs</p>
+<p>
+<a href ="class_template/operations/div_scalar.hpp">
+class_template/operations/div_scalar.hpp</a><br>
+scalar division</p>
+<p>
+<a href ="class_template/operations/div_semantics.hpp">
+class_template/operations/div_semantics.hpp</a><br>
+MPL style class to arbitrate the semantics of division.
+</p>
+<a name = power-root></a>
+<h4>Powers and roots</h4>
+<p>
+<a href ="class_template/operations/power_root.hpp">
+class_template/operations/power_root.hpp</a><br>
+powers and roots
+</p>
+<a name = comparisons></a>
+<h4>Comparisons</h4>
+<p>
+<a href ="class_template/operations/comp.hpp">
+class_template/operations/comp.hpp</a><br>
+comparison functions
+</p>
+<p>
+<a href ="class_template/operations/valu_comp.hpp">
+class_template/operations/valu_comp.hpp</a><br>
+test comparisons with tolerance. (requires separate inclusion)
+</p>
+<a name= concept-checking></a>
+<h4>Concept checking</h4>
+<p>
+<a href ="class_template/concept_checking.hpp">
+class_template/concept_checking.hpp</a><br>
+Provides the concept checking error messages 
+on dimensional analysis violation
+ and unit conversion warnings, if enabled.
+</p>
+<a name= stream-out></a>
+<h3> Stream output classes</h3>
+<p>
+<a href ="class_template/units_out.hpp">
+class_template/units_out.hpp</a><br>
+classes ejected by the main classes for stream output.
+</p>
+
+<p>
+<a href ="util/aux_units_out.hpp">
+util/aux_unit_out.hpp</a><br>
+ejects a class suitable to be captured by the &gt;&gt; operator,
+for stream output. Like similar class meber but meant for overloading.
+</p>
+<p>
+<a href ="util/units_ostream.hpp">
+util/units_ostream.hpp</a><br>
+outputs the units of a pq.
+</p>
+<a href ="util/utility_output.hpp">
+util/utility_output.hpp</a><br>
+outputs the value and units of a pq. Requires separate 
+inclusion in the source. Useful for debugging etc. 
+<P></P>
+<a name = mpl-style></a>
+<h4> MPL style functions</h4>
+<p>
+<a href ="class_template/mpl_like/math_promote.hpp">
+class_template/mpl_like/math_promote.hpp</a><br>
+MPL style metafunction returning the promoted arithmetic type.
+</p>
+<p>
+<a href ="class_template/mpl_like/arithmetic_promotion.hpp">
+class_template/mpl_like/arithmetic_promotion.hpp</a><br>
+Very basic MPL style class to provide a promotion hierarchy for arithmetic types
+</p>
+<p>
+<a href ="class_template/mpl_like/is_arithmetic.hpp">
+class_template/mpl_like/is_arithmetic.hpp</a><br>
+simulates boost::type_traits::is_arithmetic, if you dont have the boost libs.
+</p>
+<p>
+<a href ="class_template/mpl_like/if.hpp">
+class_template/mpl_like/if.hpp</a><br>
+simulates boost::mpl::if_c, if you dont have the boost libs.
+</p>
+
+<a name=testing></a>
+<h3>Tests</h3>
+<p>Testing is very incomplete!</p>
+<a href ="test/tests.hpp">
+test/tests.hpp</a><br>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+
+	<head>
+<title>A physical quantity as a C++ type
+</title>
+		<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</head>
+	<body>
+
+<h2>A Physical_quantity as a C++ entity</h2>
+<hr>
+<dl>
+ <dt><a href= "index.html">Index</a>
+
+  <dd>
+   <dl>
+    <dt><a href = "#pq-type">A physical quantity as a C++ type</a>
+    <dt><a href = "#how-rep">How should a physical-quantity be represented?</a>
+    <dt><a href = "#chosen-rep">The chosen representation.</a>
+    <dt><a href= "#operations">Working with the type</a>
+    <dt><a href= "#strong-type-check">Strong type checking</a>
+    <!--  <dd>
+	
+	<dl>
+	  <dt><a href= #firstadvantage>First advantage - clarification</a></dt>
+	  <dt><a href= #secondadvantage>Second advantage - less drudgery</a></dt>
+	  <dt><a href= #thirdadvantage>Third advantage - compile time error detection</a></dt>
+	  <dt><a href= #compatibility>Code Integration</a></dt>
+	</dl>
+	
+
+    <dt><a href = #summary>Summary</a></dt>
+      </dd> --></dt>
+   </dl>
+  </dd>
+</dl>
+<a name = pq-type>
+<h3>A physical quantity C++ type.</h3>
+<p>
+C++ provides powerful facilities to enable the creation of types as exemplified by the "class complex".
+The overall idea is as expressed in the <a href = "abstract.html">abstract</a>. As far as possible the pq type should look and feel like its precursor, the inbuilt type.
+</p>
+<a name = how-rep></a>
+<h3>How should a physical-quantity be represented?</h3>
+<p>
+Perhaps the the most obvious obvious way to represent a pq is in terms of its abstract dimensions.</p>
+<p>
+[Example 5a
+</p>
+<pre>
+	Length myLength;
+	Force myForce;
+</pre>
+<p>
+End Example]
+</p>
+<p>
+However a concrete physical quantity must have units for its value to have meaning. With this approach the units must be applied at runtime:</p>
+<p>
+[Example 5b
+</p>
+<pre>
+	Length myLength = 1 * inches;
+	Force myForce = 12 * kgf;
+</pre>
+<p>
+end Example]</p>
+
+<p> The physical-quantity type takes the view that if you always have to declare the units you may  as well declare them as part of the type.
+</p>
+<p>
+[Example 5c
+</p>
+<pre>
+	Length::in  myLength;          // length in inches
+	Force::kgf	myForce;       // force in kilograms-force
+</pre>
+<p>
+End Example]
+</p>
+<p>
+This method of representation also aids legibility as described in more detail in the <a href = "abstract.html">abstract</a>.
+</p>
+<a name = chosen-rep></a>
+<h3> The chosen representation</h3>
+<p> To prevent name collisions a prefix was applied and the ability to provide various underlyimg value-types, resulting in the following representation. The default template parameter may be taken to represent a generic arithmetic type ie , double int etcetera.
+</p>
+
+<p>
+[Example 5d
+</p>
+<pre>	pq_length&lt;float&gt;::in  	myLength;	// templated naming style
+	pq_force&lt;double&gt;::kgf	myForce;       
+
+	q_force::N  f1;			// shortened version with default (double) value_type
+</PRE>
+<p>
+End Example]
+</p>
+<P>Note: The template parameter was found to be a nuisance when typing hence the 
+shortened format with the 'q_' prefix above which will be used from now on in examples.</P>
+<P>&nbsp;</P>
+<a name = operations></a>
+<h3>Working with the type</h3>
+<p>
+Once this concept is established many things follow:
+</p>
+<p>
+[Example  5e
+</p>
+<pre>
+	q_length::in  myLength1(5);         //explicit value ctor
+	q_length::ft  myLength2;            //default ctor
+
+	myLength2 = myLength1;                           //assignment
+
+	q_length::m myLength3 = myLength1;   //initialisation
+</pre>
+<p>
+End Example]
+</p>
+<a name = strong-type-check>
+<h3>Strong type checking</h3>
+<p>
+The concept of assignment between types with different units may seem surprising, even careless,
+however look at it from the point of view of a user. Conversion from one unit to another is an everyday concept.
+The physical_quantity class is not weakly typed, because the type checking works at the level of dimensional analysis, ie the abstract physical quantity layer:
+</p>
+<p>
+Example  5f]
+</p>
+<pre>
+	q_length::inches  myLength;
+	q_length::m	 myLength1;
+	q_force::kgf	myForce;			
+
+	myForce = MyLength;               // Error cannot convert a force to a length
+	myLength1 = my_length;		// ok
+</pre>
+<p>
+End Example]
+</p>
+ <p>
+<a href= "index.html">Index</a>
+</p>
+</body>
+</html>

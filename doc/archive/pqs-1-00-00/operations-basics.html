@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <title>A physical quantity as a C++ type </title>
+        <meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+        <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+    </head>
+    <body>
+        <h2>Basics of operations on physical_quantities</h2>
+        <hr>
+        <dl>
+            <dt><a href="index.html">Index</a>
+                <dd>
+                    <dl>
+                        <dt><a href="#pq-type">Basics of Operations on physical quantities</a>
+                            <dd>
+                                <dl>
+                                    <dt><a href="#assign">Assignment</a>
+                                    <dt><a href="#init">Initialisation</a>
+                                    <dt><a href="#add-sub">Addition and subtraction</a>
+                                    <dt><a href="#mul-div">Multiplication and division</a>
+                                    <dt><a href="#cmp">Comparisons</a> <dt><a href="#powers">Powers and roots</a></dt>
+                                </dl>
+                            </dd>
+                    </dl>
+                </dd>
+        </dl>
+        <a name="operations"></a>
+        <h3>Basics of operations on physical_quantities</h3>
+        <p>
+            With the establishment of the <a href="PQcpp_type.html#strong-type-check">concept 
+                of assignment via operator =</a>, the other operators logically follow.<br>
+            The addition/subtraction group, the multiply/divide group, the comparisons 
+            group and raising to a power.<br>
+            The following is a list of the basic operations supported by the type-family.<br>
+            The information is a more informal version of the rules underlying the type 
+            available <a href="PhysicalQuantities1.html">here</a>.
+        </p>
+        <p>In practise complexities arise regarding the units of the resulting pq type 
+                of an operation.<br>
+                That topic is discussed in <a href="operations-semantics.html">operator-semantics.html</a>.
+        </p>
+        <a name="init"></a>
+        <h3>Initialisation</h3>
+        <p>
+         A pq may be initialised by an arithmetic type, by using the explicit initialisation syntax only.<br>
+         A pq may be initialised by a dimensionally-equivalent pq
+	 by using either the implicit or explicit syntax<sup><a href = #note1>1</a></sup>.<br>
+         Where the temporary pq resulting from an operation is dimensionless<sup><a href = #note2>2</a></sup>, the result 
+         may initialise an inbuilt type or an entity accepting an in-built type.<br>
+        </p>
+        <p>
+            [Example 6a
+        </p>
+        
+        <pre>
+    q_length::m        le0(1.0f);       //ok explicit initialisation syntax
+    q_length::m        le1 = 2.0L;      //Error- initialisation by a value requires explicit syntax
+    q_length::ft       le2 = le1;       //ok implicit conversion in initialiser
+    q_length::mi       le3(le1);                //ok implicit conversion in initialiser
+    q_length::km       le4 = q_length::km(le1); //ok explicit conversion in initialiser may help comprehensibility
+    q_length::km       le5 = static_cast&lt;q_length::km&gt;(le1); //as above
+
+    q_velocity::m_div_s v = le1;             //Error velocity not dimensionally equivalent to a length 
+
+    double d = le1/le2;                      //ok dimensionless is represented by inbuilt type.
+</pre>
+        <p>
+            end Example]<br>
+
+        </p>
+        <a name="assign"></a>
+        <h3>Assignment</h3>
+        <p>
+            A pq may be assigned from a dimensionally-equivalent pq.<br>
+            Where the temporary pq resulting from an operation is dimensionless<sup><a href = #note2>2</a></sup>,
+            the result may be assigned to an inbuilt type or an entity accepting an in-built type.
+        </p>
+        [Example 6b
+        <P></P>
+        <pre>
+    q_length::m          le1;
+    q_length::ft         le2(1); 
+    
+    le1 = le2;                          //ok
+    le1 = 10.0f				//Error - inbuilt types are dimensionless
+                                        // so not dimensionally equivalent to a length
+    
+    q_velocity::m_per_s  v(5);
+    
+    le1 = v;                            //D.A. error
+    
+    q_time::ns           t(10);
+    q_frequency::GHz     f(2.5);
+
+    double d = 0;
+    //...
+    d = t * f;                          //ok the temporary created by the multiplication is dimensionless
+
+    q_area::m2	         a1(1.0f);
+
+    le1 = a1/le2;			//ok the temporary created by the division is a length
+</pre>
+        <p>
+            end Example]
+        </p>
+        <a name="add-sub"></a>
+        <h3>Addition and subtraction</h3>
+        <p>Two dimensionally-equivalent pqs may be added or subtracted.<br>
+            The resulting pq will be dimensionally equivalent to the operands.
+        </p>
+        [Example 6c
+        <P></P>
+        <pre>
+    q_time::s        t1;
+    q_time::min  t2(1);
+
+    le1 + le2;                           //ok
+    le1 - le2;                           //ok
+
+    q_force::N    f1(5); 
+    q_force::kgf  f2(5);
+
+    f1 + f2;                             //ok
+    f1 - f2;                             //ok
+ 
+    t1 + f1;                             //D.A. error
+    f1 - t2;                             //D.A. error
+</pre>
+        <p>
+            end Example]
+        </p>
+        <a name="mul-div"></a>
+        <h3>Multiplication and division</h3>
+        <p>
+            Two pqs of arbitrary dimensions,dimensionless pqs/inbuilt types, may be 
+            multiplied or divided.<br>
+            The dimensions of the resulting pq will have dimension powers 
+            according to the rules for an <a href="PhysicalQuantities1.html#abstract-physical-quantity">
+                abstract-physical-quantity</a>.
+        </p>
+        <P>
+            [Example 6d
+        </P>
+        <pre>
+    q_mass::g            m1;
+    q_mass::kg           m2;
+    q_velocity::m_div_s  v(5);
+    int n = 20;
+
+    m1 * m2;                           //ok 
+    m1 / m2;                           //ok
+    m1 / v;                            //ok
+    m1 * v;                            //ok
+    v * n;                             //ok
+    v / n;                             //ok
+    n / m1;                            //ok
+    v * 20.0;                          //ok
+    1 / v;                             //ok
+</pre>
+        <p>
+            end Example]
+        </p>
+        <a name="powers"></a>
+        <h3>Powers and roots</h3>
+        <p></p>
+        Let N be an integer. A pq may be raised to power N using the power function, 
+        and raised to power 1/N using the root function. When using root, an error will 
+        be raised at compile time if the resulting powers of any dimension(s) in the 
+        physical-quantity cannot be represented as an integer.
+        <P>
+            [Example 6e
+        </P>
+        <pre> 
+        q_length::mm side(3.3);
+        q_area::m2 area = power&lt;2&gt;(side);         //ok 
+        side = root&lt;2&gt;(area);                     //ok
+        root&lt;3&gt;(area);                            //Error
+        power&lt;0&gt;(side);                           //ok
+</pre>
+        <p>
+            end Example]
+        </p>
+        <h3>Comparisons</h3>
+        <P>Two physical-quantities of equivalent dimensions may be compared. The comparison 
+            on two physical-quantities of different units will be performed by 
+            scaling&nbsp;both of the operands to the units of the other and performing the 
+            comparison at each scale. Where the results at either scale&nbsp;are deemed to 
+            have touched or crossed an equivalence comparison will return true.The result 
+            of the function will be of type bool.</P>
+        <P>
+            [Example 6f
+        </P>
+        <pre>
+  q_force::kgf  f1;
+  q_force::N  f2;
+  f1 == f2;         //ok
+  f1 != f2;         //ok
+  f1 &lt; f2;       //ok 
+  f1 &gt; f2;       //ok
+  f1 &lt;= f2;      //ok
+  f1 &gt;= f2;      //ok
+  
+  q_mass::g     m;
+  m == f1           //Error
+  f1 != m;          //Error
+  m &lt; f2;        //Error 
+  f1 &gt; m;        //Error
+  m &lt;= f2;       //Error
+  f1 &gt;=m;        //Error
+</pre>
+        <p>
+            end Example]
+        </p>
+<p></p><a href="index.html">Index</a>
+<hr>
+<h4>footnotes</h4>
+<a name = note1></a>
+<p>1. Some programmers are wary of the implicit conversions between units.
+I hope to be able to provide various switches to warn on/disable implicit conversions shortly.
+</p>
+<a name = note2></a>
+<p>2. A dimensionless pq is as far as possible not differentiable from its wrapped value_type.
+</p>
+    </body>
+</html>

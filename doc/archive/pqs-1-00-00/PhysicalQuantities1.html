@@ -1,0 +1,232 @@
+
+<html>
+<head>
+<title>Some Formal Rules for the physical Quantity classes.</title>
+</head>
+<body>
+
+<h2>Formal Rules for the physical Quantity classes.</h2>
+<hr>
+<p>
+<dl>
+ <dt><a href= "index.html">Index</a>
+  <dl>
+   <dt>
+     <dd>
+	<dt><a href = #dimension>dimension</a></dt>
+	<dt><a href = #set-of-dimensions>set_of-dimensions</a></dt>
+	<dt><a href = #dimension-unit>dimension-unit</a></dt>
+	<dt><a href = #set-of-dimension-units>set-of-dimension-units</a></dt>
+	<dt><a href = #dimension-power>dimension-power</a></dt>
+	<dt><a href = #dimension-info>dimension-info</a></dt>
+	<dt><a href = #set-of-dimension-infos>set-of-dimension-infos</a></dt>
+	<dt><a href = #abstract-physical-quantity>abstract-physical-quantity</a></dt>
+	<dt><a href = #concrete-physical-quantity-value>concrete-physical-quantity-value</a></dt>
+	<dt><a href = #concrete-physical-quantity>concrete-physical-quantity</a></dt>
+	<dt><a href = #dimension-unit-based-physical-quantity>dimension-unit-based-physical-quantity</a></dt>
+	<dt><a href = #scaled-physical-quantity>scaled-physical-quantity</a></dt>
+	<dt><a href = #dub-scaling>dub-scaling</a></dt>
+	<dt><a href = #concrete-physical-quantity-conversion-algorithm>
+			concrete-physical-quantity-conversion-algorithm</a></dt>
+	<dt><a href = #set-of-physical-quantities>set-of-physical-quantities</a></dt>
+	<dt><a href = #comp-of-two-pqs>computation involving two concrete-physical-quantities</a></dt>
+    </dd>
+   </dt>
+  </dl>
+ </dt>
+</dl>
+</p>
+<p>
+The following lays out the rules for the physical quantities classes using  some informal ideas from dbs and sets.
+</p>
+<p>
+These rules apply when describing a  set-of-concrete-physical-quantities by means of its dimensions in the context of the physical-quantity class template.<br>
+</p>
+<a name = dimension></a>
+<h3>dimension</h3>
+<p>
+A dimension will be a member of  a  set-of-dimensions.<br>
+If used in the context of a concrete-physical-quantity,a dimension will be identified via the dimension-units of the concrete-physical-quantity.<br>
+Derivation or conversion to a dimension( or its associated dimension-units) from a different dimension( or its associated dimension-units) is prohibited.<br>
+<i>note: The purpose is to emphasize the uniqueness of a particular dimension.</i>
+</p>
+
+<a name = set-of-dimensions></a>
+<h3>set-of-dimensions</h3>
+<p>The set-of-dimensions for a set-of-physical-quantities  will have as members, one of each of  the dimensions of which the set-of-physical-quantities is comprised.<br>
+<i>An example  set-of-dimensions:
+<ul>
+<li>Length
+<li>Mass
+<li>Time
+<li>Temperature
+<li>Current
+<li>Amount of substance
+<li>Luminous intensity
+</ul>
+</i>
+</p>
+<a name = dimension-unit></a>
+<h3>
+dimension-unit
+</h3>
+<p>
+In context of a concrete-physical-quantity, a dimension will be identified by  a dimension-unit.<br>
+<i>note: this is another way of saying that a concrete-physical-quantity cannot exist without each of its dimensions being represented by a dimension-unit.</i><br>
+A dimension-unit will be associated with one and only one dimension.<br>
+<i>note:Where a dimension-power of the dimension-info for a concrete-physical-quantity is 0, the dimension- units may be represented,but are irrelevant. See dimension-info</i>.</p>
+
+<a name = dimension-power></a>
+<h3>dimension-power</h3>
+<p>
+A dimension-power will be a member of a dimension-info. A dimension-power is a number ( which may be an integer, or may be a scalar in an extended physical-quantity class) with zero, positive or negative  value.<br>
+Maths on  two dimension-powers, is only permitted  where the dimension-infos of each operand have equivalent dimensions.
+See also dimension-info.
+</p>
+
+
+<a name = dimension-info></a>
+<h3>dimension-info</h3>
+<p>A dimension-info  will consist of one dimension and one dimension-power.<br>
+A dimension-info is equivalent to another dimension-info if its dimension and dimension-power are equivalent.<br>
+<i>note: a dimension-power of 0 in a dimension-info is really just a way of saying that dimension does not exist in this entity.</i>
+</p>
+
+
+<a name = set-of-dimension-infos></a>
+<h3>set-of-dimension-infos</h3>
+<p>The set-of-dimension-infos for an abstract-physical-quantity consists of  a set of dimension-infos,wherein each dimension-info in the abstract-physical-quantity is represented once and only once.<br>
+note: a dimension-power of 0 is a special case. Where a dimension-info has a dimension-power of 0 it can be read as not participating in this set.<br>
+The set-of-dimension-infos for a set-of-physical-quantities consists of  a set of dimension-infos,
+wherein each dimension-info of each physical-quantity in the set-of-physical-quantities is represented once and only once.<br>
+The lack of a dimension-info in a set-of-dimension-infos is exactly equivalent to a dimension-info in the set-of-dimension-infos, whose dimension-power is zero. In other words the two things are equivalent.<br>
+The set may be empty, or may consist of dimension-infos each having a power of 0, which is the same as being empty.
+</p>
+
+<a name = abstract-physical-quantity></a>
+<h3>abstract-physical-quantity</h3>
+<p>
+An abstract-physical-quantity is described completely by  a set-of-dimension-infos.<br>
+Two abstract-physical-quantities are dimensionally-equivalent if all of their dimension-infos  are equivalent .<br>
+An abstract-physical-quantity does not have a meaningful numerical value.<br>
+Two abstract-physical-quantities may be added or subtracted only if they are dimensionally equivalent. The resulting abstract-physical-quantity will be dimensionally-equivalent to the operands.<br>
+An abstract-physical-quantity may be multiplied by another abstract-physical-quantity having the same set-of-dimensions. The set-of-dimension-infos of the resulting abstract-physical-quantity  will consist of dimension-infos, wherein all dimensions of the operand abstract-physical-quantities are represented once and only once. The resulting abstract-physical-quantity will have dimension-infos each of whose dimension-power is computed by adding the dimension-power of the dimension-info with the same dimension in the left operand , to the dimension-power of the dimension-info with the same dimension in the right operand.<br>
+An abstract-physical-quantity may be divided by another abstract-physical-quantity having the same set-of-dimensions. The set-of-dimension-infos of the resulting abstract-physical-quantity  will consist of dimension-infos, wherein all dimensions of the operand abstract-physical-quantities are represented once and only once. The resulting abstract-physical-quantity will have dimension-infos each of whose dimension-power is computed by subtracting the dimension-power of the dimension-info with the same dimension in the right operand , from the dimension-power of the dimension-info with the same dimension in the left operand.
+</p>
+
+<a name = concrete-physical-quantity></a>
+<h3>concrete-physical-quantity</h3>
+<p>
+A concrete-physical-quantity is an abstract-physical-quantity with a concrete-physical-quantity-value.<br>
+The concrete-physical-quantity-value only has meaning in terms of the dimension-units of the concrete-physical-quantity,
+( and any scaling where the concrete-physical-quantity is a scaled-physical-quantity),  therefore, each dimension of a concrete-physical-quantity must be expressed in terms of one dimension-unit.<br>
+This also means that two concrete-physical-quantities may compare equal, if they have different concrete-physical-quantity-values and different units.<br>  
+Two concrete-physical-quantities may be compared in value only if they are dimensionally-equivalent.<br>
+Two dimensionally-equivalent concrete-physical-quantities may be compared in value whether or not they have the same dimension-units.<br>
+If they conform to the laws of the abstract-physical-quantity
+Two dimensionally-equivalent concrete-physical-quantities may be added or subtracted whether or not they have the same dimension-units.<br>
+If they conform to the laws of the abstract-physical-quantity
+Two dimensionally-equivalent concrete-physical-quantities may be multiplied or divided whether or not they have the same dimension-units.<br>
+A concrete-physical-quantity may be multiplied or divided by a scalar value. The resulting concrete-physical-quantity will be dimensionally-equivalent to the concrete-physical-quantity operand and have the same dimension units as the concrete-physical-quantity operand.
+</p>
+
+<a name = dimension-unit-based-physical-quantity></a>
+<h3>dimension-unit-based-physical-quantity</h3>
+<p>
+Many concrete-physical-quantities are expressible directly in terms of their dimension-units.
+Those that are are often but not always expressed in terms of their dimension-units and a dimension-power.<br>
+e.g metres per second per second, miles per hour.<br>
+ An example of a dimension-unit-based-concrete-physical-quantity
+that is not usually, but can be expressed directly in terms of its dimension-units is newtons, 
+which can also be expressed as kilograms per metre per second per second.<br>
+A dimension-unit-based-physical-quantity is a concrete-physical-quantity.
+<i>note: a dimension-unit-based-physical-quantity can be seen as a scaled-physical-quantity where the dub-scaling is equal to 1.0</i>
+</p>
+
+<a name = scaled-physical-quantity></a>
+<h3>scaled-physical-quantity</h3>
+<p>
+Some concrete-physical-quantities are not expressible directly in terms of their dimension-units and require a dub-scaling.
+An example is kilograms force. It is equal to kilograms * the gravitational constant (in metres per second per second).
+Because of the scaleing it is not expressible directly in terms of its dimension-units and so is referred to in the text as
+scaled-physical-quantity.<br>
+A scaled-physical-quantity is a concrete-physical-quantity.
+</p>
+
+<a name = dub-scaling></a>
+<h3>dub-scaling</h3>
+</h3>
+The dub-scaling for a scaled-physical-quantity is a scalar multiplier, which when applied to the concrete-physical-quantity-value of the scaled-physical-quantity results in the value of the dimension-unit-based-physical-quantity, represented by the dimension-units in which the scaled-physical-quantity is expressed.
+</h3>
+
+<a name = concrete-physical-quantity-value ></a>
+<h3>concrete-physical-quantity-value</h3>
+<p>A scalar quantity whose value  may vary during the lifetime of  the concrete-physical-quantity.See also concrete-physical-quantity.</p>
+<p><i>
+note: the value of a concrete-physical-quantity represents  a real-world anologue value. If one measures the length of a piece of string, one can only say that the piece of string is "about(say) 1 meter long".
+This has important consequences for comparisons, in nature and in computer-numeric representations of analogue values.
+</i></P>
+
+<a name = concrete-physical-quantity-conversion-algorithm ></a>
+<h3>concrete-physical-quantity-conversion-algorithm</h3>
+<p>The algorithm will remain consistent during the lifetime of the concrete-physical-quantity entity<br>
+
+<i>note: This is another way of saying that you cant change units or modify the concrete-physical-quantity-conversion-algorithm of an instance of a physical-quantity-type-family member at runtime.</i></p>
+
+<a name = comp-of-two-pqs></a>
+<h3>computation involving two concrete-physical-quantities.</h3>
+In any computation involving two concrete-physical-quantities, the dimension-units, ( and any scaling for
+computation involving two concrete-physical-quantities where one or more is a scaled-physical-quantity) of the resulting physical-quantity will be selected according to a consistent algorithm.
+</p>
+<p>
+<i>The current implementation uses a "more granular algorithm..For example :</i></p>
+<pre>
+pq_length&lt;&gt;::mm length_mm;
+pq_length&lt;&gt;::m length_m;
+</pre>
+<p><i>
+in this example millimetres is more "granular"( more fine grained) than metres, hence the result of any operation between length_mm and length_m would be in millimetres.<br>
+In more complex examples  there is a choice between selecting the units of one operand as being on average more granular, or of mixing the units of the operands in the result on a per unit basis.
+See <a href = "operations-semantics.html">operations-semantics.html</a> for more details<br>
+<br>
+</i>
+
+<pre>
+pq_velocity&lt;&gt;::mm_per_hour v1;    //  millimetres per hour
+pq_velocity&lt;&gt;::m_per_s v2;	//  metres per second
+</pre>
+
+
+<a name = set-of-physical-quantities></a>
+<h3>set-of-physical-quantities</h3>
+<p>A set whose members are all the physical-quantities in the system under consideration.</p>
+
+<a name =  set-of-dimension-units></a>
+<h3>set-of-dimension-units</h3>
+<p>The set-of-dimension-units for a set-of-physical-quantities consists of the dimension-units for the dimension of each member of its set-of-dimension-infos.</p>
+
+<p><a href= "index.html">Index</a></p>
+<hr>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+

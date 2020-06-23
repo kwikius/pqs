@@ -1,0 +1,264 @@
+<html><head>
+<title>A C++ Physical-Quantities user-defined type</title>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<meta content="" name=description>
+<meta 
+content="Dimensional, Analysis, Physical, Quantities, Unit, units,convert,math, velocity, mass, time ,speed,force,power,energy,work, volts,watts,current,amps,physics,conversion, Cpp,C++,type, template,library,package, source, code,convert,between, SI,S.I." 
+name=keywords>
+<meta content=andy@servocomm.freeserve.co.uk name=author></HEAD>
+<body>
+<h2>Concept of a physical Quantity .</H2>
+<hr>
+
+<dl>
+  <dt><A href="index.html" >Index</A></dt> 
+  <dd>
+  <dl>
+    <dt><A href="#types-of-pq" >Types of physical-quantity.</A> </dt>
+    <dd>
+    <dl>
+      <dt><A href="#abstract-pq" >Abstract-physical-quantity.</A></dt> 
+      <dd>
+      <dl>
+        <dt><A href="#abstract-rep" >Representation of 
+        abstract-physical-quantity</A> </dt>
+      </dl>
+      </dd>
+      <dt><A href="#concrete-pq" >Concrete-physical-quantity.</A> </dt>
+      <dt><A href="#more-units" >Relations between units,physical-quantities and 
+       dimensions.</A></dt>
+       <dd>
+      <dl>
+	<dt><a href= #cohincoh>Coherent and incoherent concrete-physical-quantities</a></dt>
+        <dt><A href="#scpq-rep" >Representation of 
+        scaled-coherent-physical-quantity</A> </dt>
+      </dl>
+      </dd>
+     </dl>
+     </dd>
+    </dl>
+    </dd>
+ </dl>
+   
+<a name=types-of-pq></A>
+<h3>Types of physical quantity</H3>
+<p>When discussing physical-quantities they divide into two major types, 
+abstract and concrete.<br>The documentation here is a more 
+informal way of expressing the rules that are expressed formally <A href="PhysicalQuantities1.html" >here.</A>&nbsp; </P><a name=abstract-pq></A>
+<h3>Abstract physical quantity</H3>
+<p>An abstract-physical-quantity has no meaningful value.<br>
+However maths can be performed with abstract-physical-quantities.<br>
+An abstract-physical-quantity is represented in total by 
+the powers of its dimensions.<br>This field is called 
+dimensional analysis, and is used to check that the resulting abstract-physical-quantity resulting from a 
+calculation on abstract-physical-quantity operands is dimensionally correct.</P>
+<p>
+<table border=1>
+  <tr>
+    <td colSpan=8>
+      <p align=center>Fig 1</P></TD></TR>
+  <tr>
+    <td>abstract pq </TD>
+    <td colSpan=7>Power of dimension</TD></TR>
+  <tr>
+    <td></TD>
+    <td>Length</TD>
+    <td>Time</TD>
+    <td>Mass</TD>
+    <td>Temperature</TD>
+    <td>Current</TD>
+    <td>Substance</TD>
+    <td>Luminous</TD></TR>
+  <tr>
+    <td>Length</TD>
+    <td>
+      <p align=center>1</P></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD></TR>
+  <tr>
+    <td>Velocity<br>=Length/Time</TD>
+    <td>
+      <p align=center>1</P></TD>
+    <td>
+      <p align=center>-1</P></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD></TR>
+  <TR>
+    <td>Acceleration<br 
+      >=Velocity/Time</TD>
+    <td>
+      <p align=center>1</P></TD>
+    <td>
+      <p align=center>-2</P></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD></TR>
+  <TR>
+    <td>Force<br>=Mass*<br 
+      >Acceleration</TD>
+    <td>
+      <p align=center>1</P></TD>
+    <td>
+      <p align=center>-2</P></TD>
+    <td>
+      <p align=center>1</P></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD>
+    <td></TD></TR></TABLE></P>
+<p>Maths works logarithmically.<br>Two abstract-physical-quantities 
+can only be added if they are dimensionally similar. The result is dimensionally-equivalent to the operands.
+<br>To multiply two abstract-physical-quantities, the powers of each of their 
+equivalent dimensions are added.<br>
+To divide one abstract-physical-quantity by another,the powers of each of the equivalent dimensions 
+of the divisor are subtracted from those of the dividend. </P><a 
+name=abstract-rep></A>
+<h3>Representation of an abstract-physical-quantity</H3>
+<p>
+<table border=1>
+  <tr>
+    <td>
+      <p align=center>Fig 2a</P></TD></TR>
+  <tr>
+    <td><IMG height=169 src="abstract_pq.gif" width=613 name="abstract physical quantity verbose" > </TD></TR>
+  <tr>
+    <td>
+      <p>In the diagram the abstract-physical-quantity may be 
+      represented<br>either as having 7 dimensions some of 
+      which are 0,<br>or N dimensions, where 0&lt;= N &lt; 
+      = 7.<br>Where all the powers are 0 the entity is 
+      technically a scalar value.<br>An example of this is 
+      the ratio between two lengths.<br>The entity can 
+      either be said to have no dimensions,<br>or to have 
+      N dimensions each of power 0. </P>
+      <p></P></TD>
+  <tr>
+    <td>
+      <p align=center>Fig 2b</P></TD></TR>
+  <tr>
+    <td><IMG src="dimlessIsrepped.gif" > </TD></TR>
+  <tr>
+    <td>
+      <p>Diagram 2b is a more concise representation, with 
+      dimensionless physical-quantities represented.</P>
+      <p></P></TD></TR>
+  <tr>
+    <td>
+      <p align=center>Fig 2c</P></TD></TR>
+  <tr>
+    <td><IMG src="dimlessNotrepped.gif" > </TD></TR>
+  <tr>
+    <td>
+      <p>Diagram 2c is a more concise representation, with 
+      dimensionless physical-quantities not represented.</P>
+      <p></P></TD></TR></TABLE>
+<p></P><a name=concrete-pq></A>
+<h3>Concrete-physical-quantity</H3>
+<p>A concrete-physical-quantity follows all the rules of an 
+abstract-physical-quantity but also has a numerical value. The value is only made meaningful by 
+the units in which the concrete-physical-quantity is expressed. To emphasise this; </P>
+<p>When (say) I am travelling fast in a car, and I ask the 
+driver "how fast are we going?", if the driver replies "We are travelling at 
+10", I still have no idea how fast. However if the driver says "We are 
+travelling at 10 metres per second", then the value of the speed is given 
+meaning. </P>
+<p>Therefore a concrete-physical-quantity must have units too. Ultimately 
+the units of all concrete-physical-quantities are derived from measurements of physical 
+phemomena. As an example the definition of one 'Second' of time<A href="#note1" ><sup></SMALL>1</SMALL></SUP></A>: </P>
+<p><i><b>The 
+second is the duration of 9,192,631,770 periods of the radiation corresponding 
+to the transition between the two hyperfine levels of the ground state of 
+cesium-133 atom.</B></I> </P>
+<p>Because of the vagaries involved in measurement, there 
+may be quite a high level of uncertainty involved, however a concrete time can 
+be compared, or have other mathematical operations performed with another 
+concrete time, whatever the units if the units of time each express a 
+relationship to a common definition. </P><a name=more-units></A>
+<h3>Relations between units,physical-quantities and 
+dimensions.</H3>
+<p>Because of the common definition, at the simplest level 
+two physical-quantity types of equivalent dimensions but different units can be 
+converted by scaling. Assume two units for the same physical-quantity unit1 and 
+unit2 having representing the same phenomenon. </P>
+<P>Let Kpqd1 be scaling of unit1 to some common definition 
+C.<BR>Let Kpqd2 be scaling of unit1 to&nbsp;the common 
+definition C.<BR>Let [D...] represent the set of equivalent 
+dimensions comprising the abstract-physical-quantity layer</P>
+<P>physical-quantity[D...].unit1.val&nbsp;&nbsp;&nbsp; 
+=&nbsp; Kpqd1 * C;<BR>physical-quantity[D...].unit2.val&nbsp;&nbsp;&nbsp; 
+=&nbsp;&nbsp; Kpqd2 * C;<BR>therefore:<BR>physical-quantity[D...].unit1.val = Kpqd1/Kpqd2 * 
+physical-quantity[D...].unit2.val.</P>
+<a name= cohincoh></a>
+<h3>Coherent and incoherent concrete physical-quantities</h3>
+<P>The problem with this is that there is no way to perform 
+computations&nbsp;involving different physical quantity types, because there is 
+no relationship between their units. However because all physical quantities are 
+based on the same seven dimensions, by using the 7 one dimensional quantities as 
+base units and expressing physical-quantities of more than dimension in terms of 
+these base units the computations can be achieved. These types are known as 
+coherent physical-quantities<A href="#note2" ><sup></SMALL>2</SMALL></SUP></A>.</P>
+<P>In a coherent-physiacl-quantity The above formula can now be applied at the level of the 
+base dimensions, by replacing the constant C with another arbitrary unit, which 
+is selected as the standard-unit for the dimension:</P>
+<P>Let Kd1 be scaling of unit1 to some common definition 
+S.<BR>Let Kd2 be scaling of unit1 to&nbsp;the common 
+definition S.<BR>dimension-unit[D].unit1.val&nbsp;&nbsp;&nbsp; =&nbsp; Kd1 * 
+S;<BR>dimension-unit[D].unit2.val&nbsp;&nbsp;&nbsp; 
+=&nbsp;&nbsp; Kd2 * S;<BR>.</P>
+<P>Not all units&nbsp;used in physical quantities&nbsp;are 
+directly expressible as coherent-physical-quantities.
+ For example:</P>
+<P>The newton.<br>The newton is a 
+short hand for the units of the force which are kg.m.s<sup><small>-2</SMALL></SUP>. This is an 
+example of a physical quantity expressible directly in terms of the units 
+of&nbsp;its dimensions. This is a coherent-physical-quantity. </P>
+<p>The kilogram-force.<br>1 kilogram 
+force represents a mass of 1 kg * the acceleration due to gravity (m.s<sup><small>-2</SMALL></SUP>). This is an 
+example of a physical quantity which is not&nbsp;expressible directly in terms 
+of the units of&nbsp;its dimensions.&nbsp; This I shall refer to as an 
+incoherent-physical-quantity. </P>
+
+A generic physical quantity needs the capability to 
+represent both types. By adding another 
+scaling at the physical-quantity layer which scales an 
+incoherent-physical-quantity to a coherent one, conformity can be achieved for 
+all unit systems. Therefore scalings can occur at two levels in 
+a concrete pq. Firstly at the level of the dimensions of which it is comprised, 
+and secondly at the level of the physical quantity itself.
+<p> I have called the unified type a 
+scaled-coherent-physical-quantity. The scaled-coherent-physical-quantity is used 
+as the basis of the C++ physical_quantity. By using the formulas for units of 
+dimension and units of quantity it is then possible to scale between most if not 
+all sets of units that will be encountered.</P>
+<a name = scpq-rep></a>
+<table id=Table1>
+  <tr>
+    <td>
+      <p>Diagram of a scaled-coherent-physical-quantity 
+      with standard unit scaling.</P></TD></TR>
+  <tr>
+    <td><IMG src="scaled-coherent-pq.gif" > 
+</TD></TR></TABLE>
+<P></P>
+<p>
+<a href= "index.html">Index</a> </P>
+<hr>
+<h4>footnotes</h4>
+<a name = note1></a>
+<p><b>1.</b>
+From the Guide for the Use of the International System of units (SI), Nist Special Publication 811, 1995 edition.
+</p>
+<a name = note2></a>
+<p><b>2.</b>
+The most obvious example being the S.I. units system.
+</p>
+</body></HTML>
