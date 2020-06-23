@@ -43,4 +43,25 @@ what is unique to si
 change quantity system to measurement_system
 
 
+neatest way is to have a 
+template <typename ...T>
+struct quantity;
+
+dimension can be customised for e,g energy v torque
+unit can be customised for e.g abfarad
+template <in_dimension D, in_si_unit siCF, in_dimensionless V>
+struct quantity<D,siCF,V>
+{
+    
+};
+
+quantity<
+
+template <typename U, typename V>
+struct quantity<U,V>
+{
+
+};
+
+
 

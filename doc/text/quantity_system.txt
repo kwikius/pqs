@@ -1,6 +1,0 @@
-
-quantity_system assigns base_units to set of base_quantities representing phenomena
-
-quantity system may encompass different quantity_universe_types or be restricted to one quantity_universe_type
-
-also see measurement_system

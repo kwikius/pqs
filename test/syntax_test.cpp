@@ -20,65 +20,31 @@ namespace pqs{
 
 using namespace pqs;
 
-
-#if (defined(__cpp_nontype_template_args)) && (__cplusplus > 201703L)
-
-/*
-   Ideally calculations on dimensions should be expressed directly in template parameters.
-   non-type template parameters allows this.
-   Issues that only runtime ops and functions can be used, but maybe that works ok
-*/
-
-#define PQS_STATIC_NTTP
-
-template <auto D, auto CF>
-struct alt_unit{};
-
-template< auto DL,auto CFL, auto DR, auto CFR>
-inline constexpr auto operator * ( alt_unit<DL,CFL> const & lhs, alt_unit<DR,CFR> const & rhs)
+void custom_test1()
 {
-   return alt_unit<DL * DR,CFL * CFR >{};
+
 }
+// derivation can be used to make a custom dimension
 
-template <auto U, typename V = double>
-struct alt_quantity{};
 
-template< auto UL,typename VL, auto UR, typename VR>
-inline constexpr auto operator * ( alt_quantity<UL,VL> const & lhs, alt_quantity<UR,VR> const & rhs)
+void custom_test2()
 {
-   return alt_quantity<UL * UR,decltype(VL{} * VR{}) >{};
-}
+   struct  dim_velocity 
+   : decltype(exp_length_v<1> / exp_time_v<1>) {};
 
-void nttp_test1()
-{
-   alt_quantity< alt_unit<exp_mass_v<1> * exp_length_v<1> , 1>{} ,double> v;
-   auto constexpr x = v * v ;
-
-  // int z = x;
-}
-struct  dim_velocity : decltype(exp_length_v<1> / exp_time_v<1>) {
-};
-void nttp_test2()
-{
-   alt_quantity< 
-      alt_unit<dim_velocity{},2>{} ,
-      double
-   > v1;
    quantity< 
       si::unit<dim_velocity,unit_exp<0> >, 
       double
    > v2;
-  // int constexpr x = v2  ;
+ // int constexpr x = v2  ;
 }
-
-#endif
 
 void quantity_syntax_test() 
 {
-#if defined PQS_STATIC_NTTP
-   nttp_test1();
-   nttp_test2();
-#endif
+
+   custom_test1();
+   custom_test2();
+
    // short syntax
    auto constexpr qa = si::length::mm<>{};  // si unit
 

@@ -1,0 +1,10 @@
+
+is an abstract_quantity
+has a dimension 
+has a name
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 
-unit consists of a dimension, a quantity_system, and a conversion_factor
+unit consists of a an abstract_quantity, a quantity_system, and a conversion_factor
 
 
 

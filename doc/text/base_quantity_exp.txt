@@ -1,2 +1,2 @@
 
-base_quantity_exp is a base_quantity raised to a rational power in dimensional analysis
+base_quantity_exp is a base_quantity raised to a rational power in dimensional calculus

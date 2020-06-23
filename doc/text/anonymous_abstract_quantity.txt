@@ -1,0 +1,6 @@
+
+anonymous_abstract_quantity concept
+
+an anonymous_abstract_quantity has only the property of dimension
+
+Since it has only the dimension property, a dimension is effectively equivalent to an anonymous_abstract_quantity

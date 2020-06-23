@@ -1,0 +1,45 @@
+
+Some interesting points 
+A note, I have worked in c++ for 30 years, physical quantity domain for 25 years.
+I have used SFINAE style concept in physical quantity domain for 15 years, but ...
+
+ this is not my library either ;-)
+
+Different domains require different thinking. Most programmers only know container domain
+
+In container domain :  op(T) -> T  // IOW type-codomain is trivially same as domain, T is irrelevant except how it is constructed,copied, destructed etc)
+
+---
+In math domain (ignoring promotion etc), T in { float, int} , op in { +,-,*,/} :   T op T -> T // IOW type-codomain is {float,int} , semantics built in
+---
+
+In physical quantity domain, Q1,Q2,T3 in quantity concept , op in { +,-,*,/} :  Q1 op Q2 -> T3  // IOW type-codomain Not same as domain, semantics not built in
+
+----
+
+Physical quantity domain :  op is a transformation of the inputs to a different type according to user defined semantic rules. 
+
+Also N.B : The input Q1, Q2s only need to model the concept, but the output T3 must resolve to a type. 
+(You can try to use a return type trait to provide customisation ... 
+
+      Q1,op,Q2 -> trait<Q1,op,Q2>::type .
+
+...but, in practise you need to provide that type, because in practise, that type will be an instantiation of one class template and that class template is going to be the one to rule them all ( Try input 3 different models of Q1,Q2 to see why)
+
+Now then, this looks now like the library should follow your originall argument and comprise ops on a class template but...
+
+ as shown from the std::duration example, it is useful to be able to integrate other types modelling physical quantities as models, and therefore to use functions on concept arguments to which other types can be mapped, rather than type templates.
+
+
+Anyway the great point:
+
+The library needs to specify itself in terms of concepts first and types later.
+
+There  are consequences though, for example specifying operations as friends etc
+
+  
+
+
+
+
+

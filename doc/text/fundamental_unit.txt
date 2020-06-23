@@ -1,3 +1,9 @@
 
 
-Fundamental unit is the relation between a unit of value 1 in a measurement system to the physical phenomena.
+fundamental_unit concept 
+has a base_quantity 
+has a measurable numeric value defined in context of a measurement_system by measuring a phenomena relating to the base_quantity
+
+thus associating a numeric value to a base_quantity in a measurement system.
+
+same as base_unit

@@ -1,6 +1,9 @@
 
 
-base_quantity is an abstraction representing a quantity
+
+base_quantity concept 
+
+a phenomema considered fundamental in some universe
 without being a member of a particular quantity_system
 
 

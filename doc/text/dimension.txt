@@ -1,8 +1,9 @@
 
+dimension concept is a property of a quantity that can be used for dimensional_analysis
 
-dimension_concept
+represented as either a base_quantity_exp or a list of base_quantity_exp
 
-   basic_dimension | named_dimension
+base_quantity_exp  | list<base_quantity_exp...>
 
 dimension may be made of base_quantity_exps from different quantity_universe_types, 
 but not including base_quantity_exps from different quantity_universes of same type.

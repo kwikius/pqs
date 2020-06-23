@@ -1,7 +1,0 @@
-
-
-custom dimension is a dimension derived from basic_dimension, for the user to use as they wish
-
-
-
-
