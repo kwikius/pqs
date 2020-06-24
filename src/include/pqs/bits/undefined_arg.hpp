@@ -21,9 +21,10 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
+#include <pqs/concepts/undefined.hpp>
+
 namespace pqs{ 
 
-   
    template <typename ... Args>
    struct undefined_arg {
      
@@ -38,6 +39,13 @@ namespace pqs{
          undefined_arg(undefined_arg const &&) = delete;
          undefined_arg(undefined_arg &&) = delete;
    };
+
+   namespace impl{
+ 
+      template <typename... Args>
+      struct is_undefined_impl<pqs::undefined_arg<Args...> > : std::true_type{};
+
+   }
 
 }
 

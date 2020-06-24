@@ -1,4 +1,5 @@
 
+#include "test.hpp"
 
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/concepts/dimension.hpp>
@@ -22,7 +23,7 @@ using namespace pqs;
 
 void custom_test1()
 {
-
+   
 }
 // derivation can be used to make a custom dimension
 void custom_test2()
@@ -38,6 +39,22 @@ void custom_test2()
       si::unit<dim_velocity,unit_exp<0> >, 
       double
    > v2;
+
+#if defined  __cpp_inline_variables
+   static_assert(pqs::is_quantity<decltype(v2)>,"");
+#else
+   static_assert(pqs::is_quantity_legacy<decltype(v2)>::value,"");
+#endif
+
+   using d = pqs::get_unit<decltype(v2)>;
+   static_assert(std::is_same_v<d, si::unit<dim_velocity,unit_exp<0> > >,"");
+   using v = pqs::get_numeric_type<decltype(v2)>;
+   static_assert(std::is_same_v<v,double>,"");
+
+   auto nv = get_numeric_value(v2);
+
+   QUAN_CHECK(nv == 0.)
+   
 }
 
 void quantity_syntax_test() 
@@ -80,7 +97,9 @@ void quantity_syntax_test()
          unit_exp<3>
       >,
       double
-   >{};
+   >{1234567.};
+
+   QUAN_CHECK(get_numeric_value(qe) == 1234567.)
 
    // construct a si quantity conversion from raw ingredients
    auto qf = basic_quantity<

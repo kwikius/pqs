@@ -5,7 +5,7 @@
 #endif
 
 /*
- Copyright (c) 2019 Andy Little 
+ Copyright (c) 2019-2020 Andy Little 
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -21,11 +21,9 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-namespace pqs{ 
+#include <pqs/concepts/undefined.hpp>
 
-   /*
-     TODO change to undefined<T...>, will show args info then
-   */
+namespace pqs{ 
 
    struct undefined {
      
@@ -40,6 +38,15 @@ namespace pqs{
          undefined(undefined const &&) = delete;
          undefined(undefined &&) = delete;
    };
+
+   namespace impl{
+ 
+      template  <>
+      struct is_undefined_impl<pqs::undefined> : std::true_type{};
+
+   }
+
+
 
 }
 
