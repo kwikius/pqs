@@ -29,8 +29,13 @@ void custom_test1()
 
 void custom_test2()
 {
+
    struct  dim_velocity 
+#if  defined  __cpp_inline_variables
    : decltype(exp_length_v<1> / exp_time_v<1>) {};
+#else
+   : decltype(length_v / time_v) {};
+#endif
 
    quantity< 
       si::unit<dim_velocity,unit_exp<0> >, 
