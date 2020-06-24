@@ -88,7 +88,7 @@ void quantity_syntax_test()
    // construct a si quantity from raw ingredients
    auto qe = basic_quantity<
       si::unit<
-         base_quantity_exp_list<
+         dlist<
             exp_length<1>,
             exp_time<-1>,
             exp_mass<2>,
@@ -104,7 +104,7 @@ void quantity_syntax_test()
    // construct a si quantity conversion from raw ingredients
    auto qf = basic_quantity<
       si::unit_conversion<
-         base_quantity_exp_list<
+         dlist<
             exp_length<1>,
             exp_time<-1>,
             exp_mass<2>,

@@ -3,14 +3,14 @@
 
 #include <type_traits>
 #include <pqs/concepts/meta/type_list.hpp>
-//#include <pqs/concepts/base_quantity_exp_list.hpp>
+//#include <pqs/concepts/dlist.hpp>
 //#include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/merge_sort.hpp>
 
 namespace pqs{
 
    template <typename ...D>
-   struct base_quantity_exp_list ;
+   struct dlist ;
 
 
 }
@@ -96,18 +96,18 @@ namespace pqs{ namespace meta{
       };
     
       template <typename DimL, typename Op, typename DimOut>
-      struct merge_dim<DimL,Op,pqs::base_quantity_exp_list<>,DimOut> : merge_dim<
+      struct merge_dim<DimL,Op,pqs::dlist<>,DimOut> : merge_dim<
          typename pop_front<DimL>::type ,
          Op,
-         pqs::base_quantity_exp_list<>, 
+         pqs::dlist<>, 
          typename append_if_not_zero<
             typename front<DimL>::type,DimOut
          >::type
       >{};
 
       template <typename DimR,typename Op, typename DimOut>
-      struct merge_dim<pqs::base_quantity_exp_list<>,Op,DimR,DimOut> : merge_dim<
-         pqs::base_quantity_exp_list<>,
+      struct merge_dim<pqs::dlist<>,Op,DimR,DimOut> : merge_dim<
+         pqs::dlist<>,
          Op,
          typename pop_front<DimR>::type ,
          typename append_if_not_zero<
@@ -121,7 +121,7 @@ namespace pqs{ namespace meta{
       >{};
 
       template <typename Op,typename DimOut>
-      struct merge_dim<pqs::base_quantity_exp_list<>,Op, pqs::base_quantity_exp_list<>,DimOut>{
+      struct merge_dim<pqs::dlist<>,Op, pqs::dlist<>,DimOut>{
          typedef DimOut type;
       };
 
@@ -147,7 +147,7 @@ namespace pqs{ namespace meta{
       typename pqs::meta::merge_sort<
          DimR,pqs::meta::detail::base_quantity_exp_sort_fun
       >::type, 
-      pqs::base_quantity_exp_list<> 
+      pqs::dlist<> 
    >{};
    
 }} // pqs::meta
