@@ -50,15 +50,15 @@ struct quantity;
 dimension can be customised for e,g energy v torque
 unit can be customised for e.g abfarad
 template <in_dimension D, in_si_unit siCF, in_dimensionless V>
-struct quantity<D,siCF,V>
+struct basic_quantity<D,siCF,V>
 {
     
 };
 
-quantity<
+basic_quantity<
 
 template <typename U, typename V>
-struct quantity<U,V>
+struct basic_quantity<U,V>
 {
 
 };

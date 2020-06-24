@@ -1,5 +1,5 @@
-#ifndef PQS_QUANTITY_HPP_INCLUDED
-#define PQS_QUANTITY_HPP_INCLUDED
+#ifndef PQS_BASIC_QUANTITY_HPP_INCLUDED
+#define PQS_BASIC_QUANTITY_HPP_INCLUDED
 
 #include <pqs/concepts/quantity.hpp>
 
@@ -9,13 +9,13 @@
 namespace pqs{
 
    template <typename Unit, typename ValueType = double>
-   struct quantity{
+   struct basic_quantity{
 
       using unit = Unit;
       using value_type = ValueType;
 
-      constexpr explicit quantity(value_type const & v) : m_scaled_value{v}{}
-      constexpr quantity() : m_scaled_value{value_type{}}{}
+      constexpr explicit basic_quantity(value_type const & v) : m_scaled_value{v}{}
+      constexpr basic_quantity() : m_scaled_value{value_type{}}{}
 
       constexpr value_type numeric_value() const { return m_scaled_value.numeric_value(); }
 
@@ -29,4 +29,4 @@ namespace pqs{
 
 }
 
-#endif // PQS_QUANTITY_FWD_HPP_INCLUDED
+#endif // PQS_BASIC_QUANTITY_HPP_INCLUDED
