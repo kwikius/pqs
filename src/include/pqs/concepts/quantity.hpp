@@ -49,6 +49,13 @@ namespace pqs{
    template <typename T>
    inline constexpr bool is_quantity = is_quantity_legacy<T>::value;
 
+   #if defined __cpp_concepts
+
+   template <typename T>
+   concept quantity = is_quantity<T>;
+
+   #endif
+
 #endif
 
 }// pqs

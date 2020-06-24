@@ -46,7 +46,7 @@ namespace {
    {
       typedef pqs::base_length base_length;
 
-      QUAN_CHECK(( pqs::is_base_quantity<base_length>::value))
+      QUAN_CHECK(( pqs::is_base_quantity_legacy<base_length>::value))
       QUAN_CHECK(( pqs::meta::is_identity_function<base_length>::value))
 
       QUAN_CHECK(( pqs::binary_op<base_length,pqs::equal_to, base_length>::value))

@@ -22,6 +22,7 @@ namespace{
 #else
       return  exp_length_v<1> / ( exp_time_v<1> * exp_time_v<1>);
 #endif
+
    }
 
 #endif
@@ -34,6 +35,7 @@ int main()
 void sandbox()
 #endif
 {
+
 #if defined __cpp_decltype_auto
   // get type in erro message
 auto x =fun();

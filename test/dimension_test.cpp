@@ -31,7 +31,7 @@ namespace {
        typedef pqs::si::length_unit::mm::dimension dimension;
        QUAN_CHECK(( std::is_same<dimension,pqs::exp_length<1> > ::value ))
        QUAN_CHECK(( pqs::is_base_quantity_exp<dimension> ::value ))
-       QUAN_CHECK((pqs::is_base_quantity<pqs::get_base_quantity<dimension>::type>::value))
+       QUAN_CHECK((pqs::is_base_quantity_legacy<pqs::get_base_quantity<dimension>::type>::value))
        QUAN_CHECK((std::is_same<pqs::get_base_quantity<dimension>::type,pqs::base_length>::value))
 
    }

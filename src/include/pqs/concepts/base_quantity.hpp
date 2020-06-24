@@ -2,7 +2,6 @@
 #define PQS_CONCEPTS_BASE_QUANTITY_HPP_INCLUDED
 
 #include <type_traits>
-
 #include <pqs/concepts/meta/totally_ordered.hpp>
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/and.hpp>
@@ -28,7 +27,21 @@ namespace pqs{
    } //impl
 
    template <typename T>
-   struct is_base_quantity : impl::is_base_quantity_impl<T>{};
+   struct is_base_quantity_legacy : impl::is_base_quantity_impl<T>{};
+
+#if defined  __cpp_inline_variables
+
+   template <typename T>
+   inline constexpr bool is_base_quantity = is_base_quantity_legacy<T>::value;
+
+   #if defined __cpp_concepts
+
+   template <typename T>
+   concept base_quantity = is_base_quantity<T>;
+
+   #endif
+
+#endif
 
    template <typename BaseQuantity>
    struct get_base_quantity_id : impl::get_base_quantity_id_impl<BaseQuantity>{};
@@ -40,8 +53,8 @@ namespace pqs{
          Lhs,pqs::less, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-              pqs::is_base_quantity<Lhs>,
-              pqs::is_base_quantity<Rhs>
+              pqs::is_base_quantity_legacy<Lhs>,
+              pqs::is_base_quantity_legacy<Rhs>
             >
          >::type 
       > : pqs::binary_op<
@@ -55,8 +68,8 @@ namespace pqs{
          Lhs,pqs::equal_to, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-              pqs::is_base_quantity<Lhs>,
-              pqs::is_base_quantity<Rhs>
+              pqs::is_base_quantity_legacy<Lhs>,
+              pqs::is_base_quantity_legacy<Rhs>
             >
          >::type 
       > : pqs::binary_op<
