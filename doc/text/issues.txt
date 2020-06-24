@@ -5,7 +5,7 @@ dimensional analysis : need representation of dimensionless nil void etc
 
      maybe dimensionless is just empty dimension_list.
 
-change dlist to just type_list ?
+change dimension_list to just type_list ?
    Problematic for custom dimensions so should be unique
 
 

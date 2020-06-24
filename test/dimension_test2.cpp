@@ -14,9 +14,9 @@ namespace {
    constexpr pqs::exp_time<1> time_;      // base_dimension_exp time_ to avoid global c time() function in 
    constexpr pqs::exp_mass<1> mass;      // base_dimension_exp
 
-   constexpr auto velocity = length / time_;  // dlist
+   constexpr auto velocity = length / time_;  // dimension_list
 
-   constexpr auto acceleration = velocity / time_;     // dlist
+   constexpr auto acceleration = velocity / time_;     // dimension_list
    struct : decltype(mass * acceleration) {   // custom_dimension
    } force;
 
@@ -26,7 +26,7 @@ namespace {
    constexpr auto mux_test = vertical_velocity * time_ * length ;
    constexpr auto div_test = vertical_velocity / time_ ;
 
-   constexpr auto velocity1 = named_length_t{} / time_;  // dlist
+   constexpr auto velocity1 = named_length_t{} / time_;  // dimension_list
 
    constexpr auto area = pqs::pow<2,1>(length);  // base_quantity_exp,2,1
 
@@ -90,7 +90,7 @@ void dimension_test2()
    static_assert(
       same_no_cr<
          decltype(velocity),
-         pqs:: dlist<pqs::exp_length<1>,pqs::exp_time<-1> >
+         pqs:: dimension_list<pqs::exp_length<1>,pqs::exp_time<-1> >
       >::value,"");
    static_assert(is_base_quantity_exp_list(velocity),"");
    static_assert(is_dimension(velocity),"");

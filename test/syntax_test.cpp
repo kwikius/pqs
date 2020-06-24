@@ -88,7 +88,7 @@ void quantity_syntax_test()
    // construct a si quantity from raw ingredients
    auto qe = basic_quantity<
       si::unit<
-         dlist<
+         dimension_list<
             exp_length<1>,
             exp_time<-1>,
             exp_mass<2>,
@@ -104,7 +104,7 @@ void quantity_syntax_test()
    // construct a si quantity conversion from raw ingredients
    auto qf = basic_quantity<
       si::unit_conversion<
-         dlist<
+         dimension_list<
             exp_length<1>,
             exp_time<-1>,
             exp_mass<2>,
@@ -121,7 +121,7 @@ void quantity_syntax_test()
   //---------------------------------------------
 
   // uncomment to test how quantity appears in error message
-  // int x = qd;
+  //int x = qd;
   // suppress not used warnings
   (void) qa;
   (void) qb;

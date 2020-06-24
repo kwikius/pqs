@@ -34,20 +34,20 @@ namespace pqs{
 
    // eventually convert to type_list<base_quantity_exp...>
    template <typename ...D>
-   struct dlist : pqs::detail::base_quantity_exp_list_base{
-      typedef dlist type;
+   struct dimension_list : pqs::detail::base_quantity_exp_list_base{
+      typedef dimension_list type;
       typedef type base_exponent_type;
       static constexpr uint32_t num_elements = sizeof...(D);
    };
 
-   template <> struct dlist<>{
-      typedef dlist type;
+   template <> struct dimension_list<>{
+      typedef dimension_list type;
       typedef type base_exponent_type;
       static constexpr uint32_t num_elements = 0;
    };
 
    template <typename ... D >
-   struct is_base_quantity_exp_list<pqs::dlist<D...> > : std::true_type{};
+   struct is_base_quantity_exp_list<pqs::dimension_list<D...> > : std::true_type{};
 
    template <typename D>
    struct is_derived_dimension : pqs::meta::or_<
@@ -63,70 +63,70 @@ namespace pqs{ namespace meta{
 
       template <typename ... D>
       struct get_num_elements_impl<
-         pqs::dlist<D...>
+         pqs::dimension_list<D...>
       > : std::integral_constant<uint32_t, (sizeof...(D) )>{};
 
       template <typename T>
-      struct push_back_impl<pqs::dlist<>,T >{
-         typedef pqs::dlist<T> type;
+      struct push_back_impl<pqs::dimension_list<>,T >{
+         typedef pqs::dimension_list<T> type;
       };
 
       template <typename ... L, typename T>
-      struct push_back_impl<pqs::dlist<L...>,T >{
-         typedef pqs::dlist<L...,T> type;
+      struct push_back_impl<pqs::dimension_list<L...>,T >{
+         typedef pqs::dimension_list<L...,T> type;
       };
 
       template <typename Front, typename ... List>
-      struct pop_front_impl<pqs::dlist<Front,List...> >
+      struct pop_front_impl<pqs::dimension_list<Front,List...> >
       {
-         typedef pqs::dlist<List...> type;
+         typedef pqs::dimension_list<List...> type;
       };
 
       template <>
-      struct pop_front_impl<pqs::dlist<> >
+      struct pop_front_impl<pqs::dimension_list<> >
       {
          typedef pqs::undefined type;
       };
 
       template <typename...L, typename T>
-      struct push_front_impl<pqs::dlist<L...> , T>
+      struct push_front_impl<pqs::dimension_list<L...> , T>
       {
-          typedef pqs::dlist<T,L...> type;
+          typedef pqs::dimension_list<T,L...> type;
       };
 
       template < typename Front, typename... List> 
-      struct front_impl<pqs::dlist<Front,List...> >
+      struct front_impl<pqs::dimension_list<Front,List...> >
       {
          typedef Front type;
       };
 
       template < typename Front> 
-      struct front_impl<pqs::dlist<Front> >
+      struct front_impl<pqs::dimension_list<Front> >
       {
          typedef Front type;
       };
 
       template <>
-      struct front_impl<pqs::dlist<> >
+      struct front_impl<pqs::dimension_list<> >
       {
          // could just be empty_list?
          typedef pqs::undefined type;
       };
 
       template < typename Front ,typename... List> 
-      struct back_impl< pqs::dlist<Front,List...> >
+      struct back_impl< pqs::dimension_list<Front,List...> >
       {
-         typedef typename back_impl<pqs::dlist<List...> >::type type;
+         typedef typename back_impl<pqs::dimension_list<List...> >::type type;
       };
 
       template < typename Back> 
-      struct back_impl< pqs::dlist<Back> >
+      struct back_impl< pqs::dimension_list<Back> >
       {
          typedef Back type;
       };
 
       template <>
-      struct back_impl<pqs::dlist<> >
+      struct back_impl<pqs::dimension_list<> >
       {
          typedef pqs::undefined type;
       };
@@ -160,7 +160,7 @@ namespace pqs{
                meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
             > 
          >::type
-      > : dlist<Lhs,Rhs>{};
+      > : dimension_list<Lhs,Rhs>{};
 
       // base_exp list * base-exp
       template <typename Lhs, typename Rhs>
@@ -172,7 +172,7 @@ namespace pqs{
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
-      > : pqs::binary_op<Lhs,pqs::times,pqs::dlist<Rhs> >{};
+      > : pqs::binary_op<Lhs,pqs::times,pqs::dimension_list<Rhs> >{};
 
       // base_exp * base_exp_list
       template <typename Lhs, typename Rhs>
@@ -184,7 +184,7 @@ namespace pqs{
                pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
-      > : pqs::binary_op<pqs::dlist<Lhs>,pqs::times,Rhs>{};
+      > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::times,Rhs>{};
 
       namespace detail{
 
@@ -194,12 +194,12 @@ namespace pqs{
          };
 
          template <typename Elem>
-         struct extract_single_element_list<pqs::dlist<Elem> >{
+         struct extract_single_element_list<pqs::dimension_list<Elem> >{
             typedef Elem type;
          };
 
          template <>
-         struct extract_single_element_list<pqs::dlist<> >{
+         struct extract_single_element_list<pqs::dimension_list<> >{
             typedef dimensionless type;
          };
 
@@ -284,11 +284,11 @@ namespace pqs{
                meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
             > 
          >::type
-      > : dlist<
+      > : dimension_list<
           Lhs,
           typename pqs::unary_op<pqs::meta::reciprocal,Rhs>::type
       >{};
-         // add to a dlist
+         // add to a dimension_list
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs,
@@ -298,7 +298,7 @@ namespace pqs{
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
-      > : pqs::binary_op<Lhs,pqs::divides,pqs::dlist<Rhs> >{};
+      > : pqs::binary_op<Lhs,pqs::divides,pqs::dimension_list<Rhs> >{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -309,7 +309,7 @@ namespace pqs{
                pqs::is_base_quantity_exp_list<Rhs>
             > 
          >::type
-      > : pqs::binary_op<pqs::dlist<Lhs>,pqs::divides,Rhs>{};
+      > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::divides,Rhs>{};
 
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
@@ -411,10 +411,10 @@ namespace pqs{
                Lhs,
                pqs::meta::detail::base_quantity_exp_sort_fun
             >::type,
-            pqs::dlist<>, 
+            pqs::dimension_list<>, 
             detail::to_power_impl<Rhs>
          >::type,
-         pqs::dlist<>,
+         pqs::dimension_list<>,
          detail::push_back_not_zero
       >{};
 
@@ -453,7 +453,7 @@ namespace pqs{
          >::type
       > : std::is_same<
             typename pqs::meta::merge_dim<Lhs,divides,Rhs>::type,
-            pqs::dlist<> 
+            pqs::dimension_list<> 
       > {};
 
       template <typename Lhs, typename Rhs>
