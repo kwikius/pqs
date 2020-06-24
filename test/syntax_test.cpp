@@ -47,9 +47,9 @@ void custom_test2()
 #endif
 
    using d = pqs::get_unit<decltype(v2)>;
-   static_assert(std::is_same_v<d, si::unit<dim_velocity,unit_exp<0> > >,"");
+   static_assert(std::is_same<d, si::unit<dim_velocity,unit_exp<0> > >::value,"");
    using v = pqs::get_numeric_type<decltype(v2)>;
-   static_assert(std::is_same_v<v,double>,"");
+   static_assert(std::is_same<v,double>::value,"");
 
    auto nv = get_numeric_value(v2);
 
