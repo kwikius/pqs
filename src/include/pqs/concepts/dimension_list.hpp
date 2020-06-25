@@ -13,7 +13,7 @@
 #include <pqs/meta/fold.hpp>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
-#include <pqs/concepts/dimensionless.hpp>
+#include <pqs/types/dimensionless.hpp>
 
 namespace pqs{
 

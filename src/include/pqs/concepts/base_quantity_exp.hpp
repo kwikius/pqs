@@ -11,7 +11,7 @@
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/concepts/base_quantity.hpp>
-#include <pqs/concepts/dimensionless.hpp>
+#include <pqs/types/dimensionless.hpp>
 
 namespace pqs{
 
