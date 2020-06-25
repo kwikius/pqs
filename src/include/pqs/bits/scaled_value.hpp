@@ -3,7 +3,7 @@
 
 #include <pqs/bits/config.hpp>
 #include <pqs/concepts/quantity.hpp>
-#include <pqs/bits/conversion_factor.hpp>
+#include <pqs/type_templates/conversion_factor.hpp>
 
 namespace pqs{
 
