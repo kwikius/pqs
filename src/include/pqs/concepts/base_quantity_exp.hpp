@@ -68,11 +68,13 @@ namespace pqs{
    template <typename T>
    struct base_quantity_exp_is_zero : pqs::impl::base_quantity_exp_is_zero_impl<T>{};
 
-   template <typename UUID, typename Ratio>
+   template <typename BaseQuantity, typename Ratio>
    struct make_base_quantity_exp : pqs::meta::eval_if<
       std::integral_constant<bool,(Ratio::num == 0)>,
-      pqs::dimensionless,
-      pqs::impl::make_base_quantity_exp_impl<typename UUID::type, typename Ratio::type>
+         pqs::dimensionless,
+      pqs::impl::make_base_quantity_exp_impl<
+         typename get_base_quantity_id<BaseQuantity>::type, typename Ratio::type
+      >
    >{};
 
    template <typename T>
@@ -115,9 +117,7 @@ namespace pqs{
             >
          >::type
       > : pqs::make_base_quantity_exp<
-            typename get_base_quantity_id<
-               typename pqs::get_base_quantity<Lhs>::type
-            >::type,
+            typename pqs::get_base_quantity<Lhs>::type,
             typename pqs::binary_op<
                typename get_exponent<Lhs>::type,
                pqs::plus,
@@ -139,9 +139,7 @@ namespace pqs{
             >
          >::type
       > : pqs::make_base_quantity_exp<
-            typename get_base_quantity_id<
-               typename pqs::get_base_quantity<Lhs>::type
-            >::type,
+            typename pqs::get_base_quantity<Lhs>::type,
             typename pqs::binary_op<
                typename get_exponent<Lhs>::type,
                pqs::minus,
@@ -162,9 +160,7 @@ namespace pqs{
             >
          >::type
       > : pqs::make_base_quantity_exp<
-            typename get_base_quantity_id<
-               typename pqs::get_base_quantity<Lhs>::type
-            >::type,
+            typename pqs::get_base_quantity<Lhs>::type ,
             typename pqs::binary_op<
                typename get_exponent<Lhs>::type,
                pqs::times,
@@ -183,9 +179,7 @@ namespace pqs{
             pqs::is_base_quantity_exp<T> 
           >::type
       > : pqs::make_base_quantity_exp<
-             typename get_base_quantity_id<
-               typename pqs::get_base_quantity<T>::type
-             >::type,
+             typename pqs::get_base_quantity<T>::type,
              typename pqs::unary_op<
                pqs::meta::negate,
                typename get_exponent<T>::type
