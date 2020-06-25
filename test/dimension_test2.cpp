@@ -34,15 +34,11 @@ namespace {
 
    constexpr auto length_pow_1_2 = pqs::pow<1,2>(named_length_t{});
 
-   //TODO need a consistent way to deal with dimensionless
-   // struct dimensionless ?
-   // also need dimensionless / d --> inverse(d)
-   // dimensionless * d --> d
-   constexpr auto dimless1 = acceleration / acceleration; // list<>
-   constexpr auto dimless2 = time_/time_;   // exp_time<0>
-   constexpr auto dimless3 = named_length_t{} / named_length_t{}; // length<0>
-   constexpr auto dimless4 = named_length_t{} / length; // length<0>
-   constexpr auto dimless5 = vertical_velocity / vertical_velocity; // list<>
+   constexpr auto dimless1 = acceleration / acceleration; //  dimensionless
+   constexpr auto dimless2 = time_/time_;   // dimensionless
+   constexpr auto dimless3 = named_length_t{} / named_length_t{}; // dimensionless
+   constexpr auto dimless4 = named_length_t{} / length; // dimensionless
+   constexpr auto dimless5 = vertical_velocity / vertical_velocity; // dimensionless
 
    //TODO comparison ops == and !=
    template <typename T>
