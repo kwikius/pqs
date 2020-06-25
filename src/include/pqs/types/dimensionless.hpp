@@ -1,19 +1,12 @@
-#ifndef PQS_CONCEPTS_DIMENSIONLESS_HPP_INCLUDED
-#define PQS_CONCEPTS_DIMENSIONLESS_HPP_INCLUDED
+#ifndef PQS_TYPES_DIMENSIONLESS_HPP_INCLUDED
+#define PQS_TYPES_DIMENSIONLESS_HPP_INCLUDED
 
 #include <type_traits>
 #include <ratio>
 #include <pqs/bits/binary_op.hpp>
 
-/*
-
-   A type representing dimensionlessness in dimensional analysis
-
-   Where Lhs, Rhs, T is of type dimensionless
-      binary_op<Lhs,*, Rhs> -> T
-      binary_op<Lhs,/, Rhs> -> T
-      binary_op<Lhs,==,Rhs> -> true_type
-      binary_op<Lhs,!=,Rhs> -> false
+/**
+*   An instantiable type for representing dimensionlessness in dimensional analysis expressions
 */
 
 namespace pqs{
@@ -30,6 +23,9 @@ namespace pqs{
    };
 
    template <int N, int D>
+   constexpr inline dimensionless pow(dimensionless) { return {};}
+
+   template <int N>
    constexpr inline dimensionless pow(dimensionless) { return {};}
 
    namespace impl{
