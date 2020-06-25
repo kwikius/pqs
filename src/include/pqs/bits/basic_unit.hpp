@@ -5,13 +5,11 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/type_templates/conversion_factor.hpp>
-//#include <pqs/type_templates/unit_exp.hpp>
 
-/*
-   basic_unit : encapsulates quantity system, dimension and conversion factor
-   but without the numeric value.
-*/
-
+/**
+ *  basic_unit : encapsulates quantity system, dimension and conversion factor
+ *  but without the numeric value.
+ */
 namespace pqs{ 
 
    template <
