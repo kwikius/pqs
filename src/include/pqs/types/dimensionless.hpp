@@ -26,7 +26,11 @@ namespace pqs{
       constexpr friend dimensionless operator / ( dimensionless,  dimensionless) {return {};}
       constexpr friend bool operator == ( dimensionless,  dimensionless) {return true;}
       constexpr friend bool operator != ( dimensionless,  dimensionless) {return false;}
+
    };
+
+   template <int N, int D>
+   constexpr inline dimensionless pow(dimensionless) { return {};}
 
    namespace impl{
 
