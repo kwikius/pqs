@@ -54,9 +54,9 @@ namespace {
    }
 
    template <typename T> 
-   constexpr bool is_base_quantity_exp_list(T t)
+   constexpr bool is_dimension_list(T t)
    {
-      return pqs::is_base_quantity_exp_list<T>::value;
+      return pqs::is_dimension_list<T>::value;
    }
 
    template <typename T> 
@@ -88,7 +88,7 @@ void dimension_test2()
          decltype(velocity),
          pqs:: dimension_list<pqs::exp_length<1>,pqs::exp_time<-1> >
       >::value,"");
-   static_assert(is_base_quantity_exp_list(velocity),"");
+   static_assert(is_dimension_list(velocity),"");
    static_assert(is_dimension(velocity),"");
    static_assert(not is_derived_dimension(velocity),"");
 
@@ -106,7 +106,7 @@ void dimension_test2()
             decltype(vertical_velocity)::base_exponent_type
    >::value,"");
 
-   static_assert(is_base_quantity_exp_list(velocity2),"");
+   static_assert(is_dimension_list(velocity2),"");
 
    static_assert(same_no_cr<decltype(dimless1),pqs::dimensionless>::value,"");
    static_assert(same_no_cr<decltype(dimless2),pqs::dimensionless>::value,"");
