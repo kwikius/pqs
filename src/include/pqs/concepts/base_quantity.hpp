@@ -11,17 +11,11 @@
 
 namespace pqs{
 
-/*
-   model of base quantity requires
-     meta::totally_ordered
-     meta::identity_function
-*/
    namespace impl{
 
       template <typename T, typename Where = void>
       struct is_base_quantity_impl : std::false_type{};
       
-      // get_uuid. 
       template <typename BaseQuantity, typename Where = void>
       struct get_base_quantity_id_impl : pqs::undefined_arg<BaseQuantity>{};
 

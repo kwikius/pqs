@@ -7,5 +7,6 @@
 #include <pqs/bits/detail/conversion_factor_add_values.hpp>
 #include <pqs/bits/conversion_factor_ops.hpp>
 #include <pqs/bits/detail/conversion_factor_eval.hpp>
+#include <pqs/type_templates/unit_exp.hpp>
 
 #endif // PQS_CONVERSION_FACTOR_HPP_INCLUDED
