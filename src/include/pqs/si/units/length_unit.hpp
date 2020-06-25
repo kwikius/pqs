@@ -7,11 +7,14 @@
 
 namespace pqs{ namespace si { namespace length_unit{
 
+ //  struct m : pqs::si::base_unit< exp_length<1> , "m" >{};
+
+   //struct mm : si::coherent_unit< m, unit_exp<-3> >{};
    struct mm : pqs::si::unit< 
-      exp_length<1>,
-      unit_exp<-3>
+      exp_length<1>, unit_exp<-3>
    >{};
 
+   // struct ft : si::unit_conversion< m, std::ratio<381,1250>,"ft" {};
    struct ft : pqs::si::unit_conversion< 
       exp_length<1>, 
       conversion_factor<
