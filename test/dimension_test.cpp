@@ -20,9 +20,15 @@ namespace {
 
       QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 / d2)>::type, pqs::dimensionless>::value))
 
+      QUAN_CHECK( (pqs::pow<1,2>(d1) == d1) );
+
       QUAN_CHECK((d1 == d2))
 
       QUAN_CHECK(((d1 != d2) == false))
+ 
+      pqs::dimensionless d3 = d1;  // copy ctor
+      pqs::dimensionless d4 = pqs::dimensionless{};
+      d2 = d1;                    // assignment
  
    }
 
