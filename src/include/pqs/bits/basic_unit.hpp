@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/dimension.hpp>
-#include <pqs/bits/conversion_factor.hpp>
+#include <pqs/type_templates/conversion_factor.hpp>
 #include <pqs/bits/unit_exp.hpp>
 
 /*

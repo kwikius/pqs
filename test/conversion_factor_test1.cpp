@@ -1,7 +1,7 @@
 
 #include "test.hpp"
 
-#include <pqs/bits/conversion_factor.hpp>
+#include <pqs/type_templates/conversion_factor.hpp>
 
 namespace {
 
