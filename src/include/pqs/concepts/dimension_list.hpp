@@ -25,14 +25,13 @@ namespace pqs{
    struct is_dimension_list : std::false_type{};
 
    template <typename T>
-   struct is_derived_from_base_quantity_exp_list : 
+   struct is_custom_dimension_list : 
       pqs::meta::and_<
          std::is_base_of<pqs::detail::dimension_list_base,T>,
          pqs::meta::not_<is_dimension_list<T> >
       >
    {};
 
-   // eventually convert to type_list<base_quantity_exp...>
    template <typename ...D>
    struct dimension_list : pqs::detail::dimension_list_base{
       typedef dimension_list type;
@@ -50,9 +49,9 @@ namespace pqs{
    struct is_dimension_list<pqs::dimension_list<D...> > : std::true_type{};
 
    template <typename D>
-   struct is_derived_dimension : pqs::meta::or_<
-      is_derived_from_base_quantity_exp_list<D>,
-      is_derived_from_base_quantity_exp<D>
+   struct is_custom_dimension : pqs::meta::or_<
+      is_custom_dimension_list<D>,
+      is_custom_base_quantity_exp<D>
    >{};
 
 }
@@ -143,7 +142,7 @@ namespace pqs{
    struct is_dimension : pqs::meta::or_<
       pqs::is_base_quantity_exp<T>,
       pqs::is_dimension_list<T>,
-      pqs::is_derived_dimension<T>
+      pqs::is_custom_dimension<T>
    >{};
 
    namespace impl{
@@ -229,8 +228,8 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_derived_dimension<Lhs>, 
-               pqs::is_derived_dimension<Rhs>
+               pqs::is_custom_dimension<Lhs>, 
+               pqs::is_custom_dimension<Rhs>
             > 
          >::type
       > : pqs::binary_op<
@@ -246,8 +245,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension<Rhs>,
-               pqs::is_derived_dimension<Lhs>, 
-               pqs::meta::not_<pqs::is_derived_dimension<Rhs> >
+               pqs::is_custom_dimension<Lhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension<Rhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -263,8 +262,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension<Lhs>,
-               pqs::is_derived_dimension<Rhs>, 
-               pqs::meta::not_<pqs::is_derived_dimension<Lhs> >
+               pqs::is_custom_dimension<Rhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension<Lhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -333,8 +332,8 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_derived_dimension<Lhs>, 
-               pqs::is_derived_dimension<Rhs>
+               pqs::is_custom_dimension<Lhs>, 
+               pqs::is_custom_dimension<Rhs>
             > 
          >::type
       > : pqs::binary_op<
@@ -350,8 +349,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension<Rhs>,
-               pqs::is_derived_dimension<Lhs>, 
-               pqs::meta::not_<pqs::is_derived_dimension<Rhs> >
+               pqs::is_custom_dimension<Lhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension<Rhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -367,8 +366,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension<Lhs>,
-               pqs::is_derived_dimension<Rhs>, 
-               pqs::meta::not_<pqs::is_derived_dimension<Lhs> >
+               pqs::is_custom_dimension<Rhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension<Lhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -425,7 +424,7 @@ namespace pqs{
          Rhs,
          typename where_< 
             pqs::meta::and_<
-               pqs::is_derived_dimension<Lhs>, 
+               pqs::is_custom_dimension<Lhs>, 
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type

@@ -81,7 +81,7 @@ namespace pqs{
    struct get_exponent : impl::get_exponent_impl<T>{};
 
    template <typename T>
-   struct is_derived_from_base_quantity_exp ;
+   struct is_custom_base_quantity_exp ;
 
    namespace impl{
 
@@ -264,7 +264,7 @@ namespace pqs{
    }//impl
 
    template <typename T>
-   struct is_derived_from_base_quantity_exp : pqs::meta::and_<
+   struct is_custom_base_quantity_exp : pqs::meta::and_<
       std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>,
       pqs::meta::not_<pqs::is_base_quantity_exp<T> >
    >{};

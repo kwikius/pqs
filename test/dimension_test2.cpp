@@ -60,9 +60,9 @@ namespace {
    }
 
    template <typename T> 
-   constexpr bool is_derived_dimension(T t)
+   constexpr bool is_custom_dimension(T t)
    {
-      return pqs::is_derived_dimension<T>::value;
+      return pqs::is_custom_dimension<T>::value;
    }
 
    template <typename T1, typename T2>
@@ -90,7 +90,7 @@ void dimension_test2()
       >::value,"");
    static_assert(is_dimension_list(velocity),"");
    static_assert(is_dimension(velocity),"");
-   static_assert(not is_derived_dimension(velocity),"");
+   static_assert(not is_custom_dimension(velocity),"");
 
    static_assert(same_no_cr<decltype(mass),pqs::exp_mass<1> >::value,"");
    static_assert(is_base_quantity_exp(mass),"");
@@ -99,7 +99,7 @@ void dimension_test2()
    static_assert(is_base_quantity_exp(time_),"");
    static_assert(is_dimension(time_),"");
 
-   static_assert(is_derived_dimension(vertical_velocity),"");
+   static_assert(is_custom_dimension(vertical_velocity),"");
    static_assert(is_dimension(vertical_velocity ),"");
    static_assert(same_no_cr<
             decltype(velocity),
