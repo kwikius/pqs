@@ -2,7 +2,7 @@
 #define PQS_CONCEPTS_DIMENSION_HPP_INCLUDED
 
 #include <pqs/concepts/base_quantity_exp.hpp>
-#include <pqs/concepts/dimension_list.hpp>
+#include <pqs/type_templates/dimension_list.hpp>
 
 namespace pqs{ 
 
@@ -24,7 +24,6 @@ namespace pqs{
          >::type
       > : D{};
 
-
       template <typename D>
       struct binary_op_impl<
          D, pqs::divides, pqs::dimensionless,
@@ -41,10 +40,8 @@ namespace pqs{
          >::type
       > : D{};
    
-   }
+   } // impl
 
-
-
-}
+} // pqs
 
 #endif // PQS_CONCEPTS_DIMENSION_HPP_INCLUDED

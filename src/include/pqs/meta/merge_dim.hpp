@@ -3,15 +3,12 @@
 
 #include <type_traits>
 #include <pqs/concepts/meta/type_list.hpp>
-//#include <pqs/concepts/dimension_list.hpp>
-//#include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/merge_sort.hpp>
 
 namespace pqs{
 
    template <typename ...D>
    struct dimension_list ;
-
 
 }
 

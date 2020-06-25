@@ -22,13 +22,13 @@ namespace pqs{
    }
 
    template <typename D>
-   struct is_dimension_list : std::false_type{};
+   struct is_simple_dimension_list : std::false_type{};
 
    template <typename T>
    struct is_custom_dimension_list : 
       pqs::meta::and_<
          std::is_base_of<pqs::detail::dimension_list_base,T>,
-         pqs::meta::not_<is_dimension_list<T> >
+         pqs::meta::not_<is_simple_dimension_list<T> >
       >
    {};
 
@@ -46,7 +46,7 @@ namespace pqs{
    };
 
    template <typename ... D >
-   struct is_dimension_list<pqs::dimension_list<D...> > : std::true_type{};
+   struct is_simple_dimension_list<pqs::dimension_list<D...> > : std::true_type{};
 
    template <typename D>
    struct is_custom_dimension : pqs::meta::or_<
@@ -54,7 +54,7 @@ namespace pqs{
       is_custom_base_quantity_exp<D>
    >{};
 
-}
+}// pqs
 
 namespace pqs{ namespace meta{
 
@@ -132,8 +132,6 @@ namespace pqs{ namespace meta{
 
    }// impl
 
-
-
 }}//pqs::meta
 
 namespace pqs{
@@ -141,7 +139,7 @@ namespace pqs{
    template <typename T>
    struct is_dimension : pqs::meta::or_<
       pqs::is_base_quantity_exp<T>,
-      pqs::is_dimension_list<T>,
+      pqs::is_simple_dimension_list<T>,
       pqs::is_custom_dimension<T>
    >{};
 
@@ -167,7 +165,7 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension_list<Lhs>,
+               pqs::is_simple_dimension_list<Lhs>,
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
@@ -180,7 +178,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>, 
-               pqs::is_dimension_list<Rhs>
+               pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
       > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::times,Rhs>{};
@@ -210,8 +208,8 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension_list<Lhs>, 
-               pqs::is_dimension_list<Rhs>
+               pqs::is_simple_dimension_list<Lhs>, 
+               pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
       > {
@@ -293,7 +291,7 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension_list<Lhs>,
+               pqs::is_simple_dimension_list<Lhs>,
                pqs::is_base_quantity_exp<Rhs>
             > 
          >::type
@@ -305,7 +303,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp<Lhs>, 
-               pqs::is_dimension_list<Rhs>
+               pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
       > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::divides,Rhs>{};
@@ -315,8 +313,8 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension_list<Lhs>, 
-               pqs::is_dimension_list<Rhs>
+               pqs::is_simple_dimension_list<Lhs>, 
+               pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
       >{
@@ -400,7 +398,7 @@ namespace pqs{
          Lhs,struct pqs::to_power,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension_list<Lhs>, 
+               pqs::is_simple_dimension_list<Lhs>, 
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
@@ -437,7 +435,7 @@ namespace pqs{
       struct unary_op_impl <
          pqs::meta::reciprocal,D,
          typename where_< 
-            pqs::is_dimension_list<D>
+            pqs::is_simple_dimension_list<D>
          >::type
       > : pqs::binary_op<D,struct pqs::to_power,std::ratio<-1> >{};
 
@@ -446,8 +444,8 @@ namespace pqs{
          Lhs,pqs::equal_to,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension_list<Lhs>, 
-               pqs::is_dimension_list<Rhs>
+               pqs::is_simple_dimension_list<Lhs>, 
+               pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
       > : std::is_same<
@@ -460,8 +458,8 @@ namespace pqs{
          Lhs,pqs::not_equal_to,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_dimension_list<Lhs>, 
-               pqs::is_dimension_list<Rhs>
+               pqs::is_simple_dimension_list<Lhs>, 
+               pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
       > : pqs::meta::not_<pqs::binary_op<Lhs,pqs::equal_to,Rhs> > {};
