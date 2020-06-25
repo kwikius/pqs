@@ -21,6 +21,7 @@ namespace {
       QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 / d2)>::type, pqs::dimensionless>::value))
 
       QUAN_CHECK( (pqs::pow<1,2>(d1) == d1) );
+      QUAN_CHECK( (pqs::pow<-10>(d1) == d1) );
 
       QUAN_CHECK((d1 == d2))
 
@@ -29,6 +30,7 @@ namespace {
       pqs::dimensionless d3 = d1;  // copy ctor
       pqs::dimensionless d4 = pqs::dimensionless{};
       d2 = d1;                    // assignment
+      QUAN_CHECK( (std::is_same<pqs::get_exponent<pqs::dimensionless>::type, std::ratio<0,1> >::value))
  
    }
 
@@ -41,14 +43,6 @@ namespace {
        QUAN_CHECK((std::is_same<pqs::get_base_quantity<dimension>::type,pqs::base_length>::value))
 
    }
-
-//   using pqs::exp_length;
-//   using pqs::exp_mass;
-//   using pqs::exp_time;
-//   using pqs::exp_temperature;
-//   using pqs::exp_current;
-//   using pqs::exp_substance;
-//   using pqs::exp_intensity;
 
    template <typename List>
    struct sort : pqs::meta::merge_sort<List,pqs::meta::detail::base_quantity_exp_sort_fun>{};
