@@ -123,7 +123,7 @@ void quantity_syntax_test()
 
 #endif
   // uncomment to test how quantity appears in error message
-   int xx = qx;
+  // int xx = qx;
 
    // construct a si quantity from raw ingredients
    auto qe = basic_quantity<

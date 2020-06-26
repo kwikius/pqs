@@ -36,10 +36,31 @@ namespace {
    {
       typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v1;  // 50
       typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v2;  // 5
+
       QUAN_CHECK(( pqs::detail::conversion_factor_compare<v1,v2>::value > 0 ))
 
       QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v1>::value < 0 ))
       QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v2>::value == 0 ))
+
+
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::less,v2>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v2,pqs::less,v1>::value == true) )
+
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::less_equal,v2>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v2,pqs::less_equal,v1>::value == true) )
+
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::equal_to,v2>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v2,pqs::equal_to,v1>::value == false) )
+
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::not_equal_to,v2>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v2,pqs::not_equal_to,v1>::value == true) )
+
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::greater_equal,v2>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v2,pqs::greater_equal,v1>::value == false) )
+
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::greater,v2>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v2,pqs::greater,v1>::value == false) )
+
    }
 
    void compare_test2()
