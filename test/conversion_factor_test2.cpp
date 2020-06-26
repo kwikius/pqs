@@ -20,10 +20,17 @@ namespace {
       return os << typename decltype(v)::multiplier{} << " ^ " << typename decltype(v)::exponent{} ;
    }
 
-   template <typename CFL, typename CFR>
-   bool same_cf()
+   template <typename CF>
+   inline constexpr typename pqs::conversion_factor_eval<CF>::type
+   eval_cf()
    {
-       return  pqs::conversion_factor_eval<CFL>{}() == pqs::conversion_factor_eval<CFR>{}() ;
+      return pqs::conversion_factor_eval<CF>{}();
+   }
+
+   template <typename CFL, typename CFR>
+   inline constexpr bool same_cf()
+   {
+      return eval_cf<CFL>() == eval_cf<CFR>() ;
    }
 
    template <typename CF>
@@ -38,10 +45,8 @@ namespace {
       typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v2;  // 5
 
       QUAN_CHECK(( pqs::detail::conversion_factor_compare<v1,v2>::value > 0 ))
-
       QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v1>::value < 0 ))
       QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v2>::value == 0 ))
-
 
       QUAN_CHECK( ( pqs::binary_op<v1,pqs::less,v2>::value == false) )
       QUAN_CHECK( ( pqs::binary_op<v2,pqs::less,v1>::value == true) )
@@ -51,9 +56,12 @@ namespace {
 
       QUAN_CHECK( ( pqs::binary_op<v1,pqs::equal_to,v2>::value == false) )
       QUAN_CHECK( ( pqs::binary_op<v2,pqs::equal_to,v1>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::equal_to,v1>::value ==true) )
+      QUAN_CHECK( ( pqs::binary_op<v2,pqs::equal_to,v2>::value ==true) )
 
       QUAN_CHECK( ( pqs::binary_op<v1,pqs::not_equal_to,v2>::value == true) )
       QUAN_CHECK( ( pqs::binary_op<v2,pqs::not_equal_to,v1>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v1,pqs::not_equal_to,v1>::value == false) )
 
       QUAN_CHECK( ( pqs::binary_op<v1,pqs::greater_equal,v2>::value == true) )
       QUAN_CHECK( ( pqs::binary_op<v2,pqs::greater_equal,v1>::value == false) )
@@ -158,12 +166,10 @@ namespace {
 
    void add_test()
    {
-      // TODO make this a ratio exp add metafun
+
       typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
 
       typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<3> > v2;
-
-      // (choose finest grained unit)
 
       using pqs::detail::conversion_factor_add_exp_n;
 
@@ -268,6 +274,68 @@ namespace {
       QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<9,2> >::value) )
    }
 
+   void multiply_test1()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<6>,
+         pqs::unit_exp<3>
+      >;
+
+      using cf2 = pqs::conversion_factor<
+         std::ratio<7>,
+         pqs::unit_exp<2>
+      >;
+
+      typedef pqs::binary_op<cf1, pqs::times,cf2>::type res;
+
+      QUAN_CHECK( (std::is_same<res::multiplier,std::ratio<21,5> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<6> >::value) )
+   
+   }
+
+   void multiply_test2()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<10>,
+         pqs::unit_exp<-1>
+      >;
+
+      using cf2 = pqs::conversion_factor<
+         std::ratio<100>,
+         pqs::unit_exp<-2>
+      >;
+
+      typedef pqs::binary_op<cf1, pqs::times,cf2>::type res;
+
+      QUAN_CHECK( (std::is_same<res::multiplier,std::ratio<1> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<0> >::value) )
+   
+   }
+
+  void multiply_test3()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<997>,
+         pqs::unit_exp<-3>
+      >;
+
+      using cf2 = pqs::conversion_factor<
+         std::ratio<56,97>,
+         pqs::unit_exp<-2>
+      >;
+
+      typedef pqs::binary_op<cf1,pqs::times,cf2>::type res;
+
+      QUAN_CHECK( (std::is_same<res::multiplier,std::ratio<13958,2425> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<-3> >::value) )
+
+      auto v1 = eval_cf<cf1>();
+      auto v2 = eval_cf<cf2>();
+      auto v3 = eval_cf<res>();
+
+      QUAN_CHECK ( (abs(v3 - v1 * v2) < 1.e-6) )
+   }
+
 }
 
 void conversion_factor_test2()
@@ -275,6 +343,7 @@ void conversion_factor_test2()
    compare_test1();
    compare_test2();
    compare_test3();
+
    add_test();
    add_test1();
    add_test2();
@@ -286,4 +355,8 @@ void conversion_factor_test2()
    normalise_test4();
    normalise_test5();
    normalise_test6();
+
+   multiply_test1();
+   multiply_test2();
+   multiply_test3();
 }
