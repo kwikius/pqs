@@ -23,8 +23,13 @@ namespace pqs{
       ValueType
       scale_from (ValueTypeR const & vR, F const & f)
       {
+#if 0
+         // use runtime conversion factor expressions
+         return F::template apply<value_type>( vR * (ConversionFactorR{} / conversion_factor{})();
+#else
          typedef typename pqs::binary_op<ConversionFactorR,pqs::divides,ConversionFactor>::type conv_factor;
          return F::template apply<ValueType>(vR * pqs::conversion_factor_eval<conv_factor>{}());
+#endif      
       }
 
       template <typename V>
