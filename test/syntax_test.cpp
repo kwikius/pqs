@@ -57,6 +57,22 @@ void custom_test2()
    
 }
 
+namespace pqs{
+
+   template <int N>
+   struct pow10{};
+
+   template <intmax_t N, intmax_t D, int E>
+   inline constexpr 
+   pqs::conversion_factor<
+      std::ratio<N,D>,
+      pqs::unit_exp<E> 
+   > operator * ( std::ratio<N,D>, pow10<E> )
+   {
+      return {};
+   }
+}
+
 void quantity_syntax_test() 
 {
 
@@ -85,6 +101,28 @@ void quantity_syntax_test()
       >
    >{20.0};
 
+#if defined __cpp_inline_variables
+
+   auto constexpr qx = basic_quantity<
+      si::unit<
+         decltype( exp_mass_v<1> * exp_length_v<1> / exp_time_v<2> ),
+         decltype( std::ratio<383,100>{} * pqs::pow10<-3>{} )
+      >
+   >{20.0};
+
+#else
+
+   auto constexpr qx = basic_quantity<
+      si::unit<
+         decltype( mass_v * length_v / pqs::pow<2,1>(time_v) ),
+         decltype( std::ratio<383,100>{} * pqs::pow10<-3>{} )
+      >
+   >{20.0};
+
+#endif
+  // uncomment to test how quantity appears in error message
+  // int xx = qe;
+
    // construct a si quantity from raw ingredients
    auto qe = basic_quantity<
       si::unit<
@@ -112,16 +150,16 @@ void quantity_syntax_test()
          >,
          conversion_factor<
             std::ratio<100,394>,
-            unit_exp<3>
+            unit_exp<-6>
          >
       >,
       double
    >{};
 
+
   //---------------------------------------------
 
-  // uncomment to test how quantity appears in error message
-  //int x = qd;
+
   // suppress not used warnings
   (void) qa;
   (void) qb;
