@@ -6,19 +6,23 @@
 
 namespace pqs{ namespace si{
 
-   template <typename Dimension, typename UnitExp>
-   struct unit : basic_unit<
+   template <typename Dimension, typename Exp = unit_exp<0> >
+   struct unit : pqs::basic_unit<
       si_quantity_system,
-      Dimension, 
-      conversion_factor<std::ratio<1>,UnitExp> 
-   >{};
+      Dimension,
+      conversion_factor<std::ratio<1>, Exp > 
+   >{
+      using type = unit;
+   };
 
    template <typename Dimension, typename ConversionFactor>
-   struct unit_conversion : basic_unit<
+   struct unit_conversion : pqs::basic_unit<
       si_quantity_system, 
       Dimension, 
       ConversionFactor
-   >{};
+   >{
+      using type = unit_conversion;
+   };
 
 }}// pqs::si
 
