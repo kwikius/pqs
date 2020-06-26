@@ -202,8 +202,6 @@ namespace {
       QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<-5> >::value) )
    }
 
-  
-
    void normalise_test2()
    {
       using cf1 = pqs::conversion_factor<
@@ -309,7 +307,6 @@ namespace {
 
       QUAN_CHECK( (std::is_same<res::multiplier,std::ratio<1> >::value) )
       QUAN_CHECK( (std::is_same<res::exponent,std::ratio<0> >::value) )
-   
    }
 
   void multiply_test3()
@@ -336,6 +333,29 @@ namespace {
       QUAN_CHECK ( (abs(v3 - v1 * v2) < 1.e-6) )
    }
 
+   void divide_test1()
+   {
+     using cf1 = pqs::conversion_factor<
+         std::ratio<997>,
+         pqs::unit_exp<-3>
+      >;
+
+      using cf2 = pqs::conversion_factor<
+         std::ratio<56,97>,
+         pqs::unit_exp<-2>
+      >;
+
+      typedef pqs::binary_op<cf1,pqs::divides,cf2>::type res;
+
+      QUAN_CHECK( (std::is_same<res::multiplier,std::ratio< 96709 , 56000> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<2> >::value) )
+    
+      auto v1 = eval_cf<cf1>();
+      auto v2 = eval_cf<cf2>();
+      auto v3 = eval_cf<res>();
+
+      QUAN_CHECK ( (abs(v3 - v1 / v2) < 1.e-6) )
+   }
 }
 
 void conversion_factor_test2()
@@ -359,4 +379,6 @@ void conversion_factor_test2()
    multiply_test1();
    multiply_test2();
    multiply_test3();
+
+   divide_test1();
 }
