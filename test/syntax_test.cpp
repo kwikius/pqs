@@ -60,17 +60,19 @@ void custom_test2()
 namespace pqs{
 
    template <int N>
-   struct pow10{};
+   struct pow10{
 
-   template <intmax_t N, intmax_t D, int E>
-   inline constexpr 
-   pqs::conversion_factor<
-      std::ratio<N,D>,
-      pqs::unit_exp<E> 
-   > operator * ( std::ratio<N,D>, pow10<E> )
-   {
-      return {};
-   }
+      template <intmax_t N1, intmax_t D1>
+      friend constexpr 
+      pqs::conversion_factor<
+         std::ratio<N1,D1>,
+         pqs::unit_exp<N> 
+      > operator * ( std::ratio<N1,D1>, pow10 )
+      {
+         return {};
+      }
+
+   };
 }
 
 void quantity_syntax_test() 
@@ -121,7 +123,7 @@ void quantity_syntax_test()
 
 #endif
   // uncomment to test how quantity appears in error message
-  // int xx = qe;
+   int xx = qx;
 
    // construct a si quantity from raw ingredients
    auto qe = basic_quantity<
