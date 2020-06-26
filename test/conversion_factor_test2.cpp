@@ -8,6 +8,30 @@
 
 namespace {
 
+   template <intmax_t N, intmax_t D>
+   std::ostream & operator << (std::ostream & os, std::ratio<N,D> v)
+   {
+      return os << "{ " << N << " / " << D << " }" ;
+   }
+
+   template <typename M, typename E>
+   std::ostream & operator << (std::ostream & os, pqs::conversion_factor<M,E> v)
+   {
+      return os << typename decltype(v)::multiplier{} << " ^ " << typename decltype(v)::exponent{} ;
+   }
+
+   template <typename CFL, typename CFR>
+   bool same_cf()
+   {
+       return  pqs::conversion_factor_eval<CFL>{}() == pqs::conversion_factor_eval<CFR>{}() ;
+   }
+
+   template <typename CF>
+   void show_cf()
+   {
+      std::cout << CF{} << " == " << pqs::conversion_factor_eval<CF>{}() ;
+   }
+   
    void compare_test1()
    {
       typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v1;  // 50
@@ -111,8 +135,6 @@ namespace {
      //QUAN_CHECK(false)
    }
 
-
-
    void add_test()
    {
       // TODO make this a ratio exp add metafun
@@ -134,8 +156,95 @@ namespace {
 
       QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<101,20>,std::ratio<2> > >::value ))
 
-       // make exps same
-       
+   }
+
+  /** 
+   *  normalised conversion factor has multiplier >= 1 and muliplier >10
+   */
+   void normalise_test1()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<1,100>,
+         pqs::unit_exp<-3>
+      >;
+
+      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+
+      QUAN_CHECK( (same_cf<cf1,cf2>()) )
+      QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<-5> >::value) )
+   }
+
+  
+
+   void normalise_test2()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<99,1>,
+         pqs::unit_exp<7>
+      >;
+
+      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+
+      QUAN_CHECK( (same_cf<cf1,cf2>()) )
+      QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<99,10> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<8> >::value) )
+   }
+
+   void normalise_test3()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<1>,
+         pqs::unit_exp<0>
+      >;
+
+      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+
+      QUAN_CHECK( (same_cf<cf1,cf2>()) )
+      QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<0> >::value) )
+   }
+
+   void normalise_test4()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<10000>,
+         pqs::unit_exp<0>
+      >;
+
+      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+
+      QUAN_CHECK( (same_cf<cf1,cf2>()) )
+      QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<4> >::value) )
+   }
+
+   void normalise_test5()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<12345>,
+         pqs::unit_exp<0>
+      >;
+
+      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+
+      QUAN_CHECK( (same_cf<cf1,cf2>()) )
+      QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<2469,2000> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<4> >::value) )
+   }
+
+   void normalise_test6()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<12345>,
+         pqs::unit_exp<1,2>
+      >;
+   
+      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+      
+      QUAN_CHECK( (same_cf<cf1,cf2>()) )
+      QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<2469,2000> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<9,2> >::value) )
    }
 
 }
@@ -149,4 +258,11 @@ void conversion_factor_test2()
    add_test1();
    add_test2();
    add_test3();
+
+   normalise_test1();
+   normalise_test2();
+   normalise_test3();
+   normalise_test4();
+   normalise_test5();
+   normalise_test6();
 }
