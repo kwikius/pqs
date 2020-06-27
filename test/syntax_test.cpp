@@ -35,10 +35,18 @@ void custom_test2()
    : decltype(length_v / time_v) {};
 #endif
 
+
+#if 0
    basic_quantity< 
+      si::unit<da_velocity,pqs::exponent10<0> >, 
+      double
+   > v2;
+#else
+     basic_quantity< 
       si::unit<da_velocity,unit_exp<0> >, 
       double
    > v2;
+#endif
 
 #if defined  __cpp_inline_variables
    static_assert(pqs::is_quantity<decltype(v2)>,"");
@@ -60,19 +68,23 @@ void custom_test2()
 namespace pqs{
 
    template <int N>
-   struct pow10{
+   struct pow10_t{
 
       template <intmax_t N1, intmax_t D1>
       friend constexpr 
       pqs::conversion_factor<
          std::ratio<N1,D1>,
          pqs::unit_exp<N> 
-      > operator * ( std::ratio<N1,D1>, pow10 )
+      > operator * ( std::ratio<N1,D1>, pow10_t )
       {
          return {};
       }
 
    };
+#if defined  __cpp_inline_variables
+   template <int N>
+   inline constexpr auto pow_10 = pow10_t<N>{};
+#endif
 }
 
 void quantity_syntax_test() 
@@ -108,7 +120,7 @@ void quantity_syntax_test()
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
          decltype( da_mass<> * da_length<> / da_time<2> ),
-         decltype( std::ratio<383,100>{} * pqs::pow10<-3>{} )
+         decltype( std::ratio<383,100>{} * pqs::pow_10<-3> )
       >
    >{20.0};
 
@@ -117,7 +129,7 @@ void quantity_syntax_test()
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
          decltype( mass_v * length_v / pqs::pow<2,1>(time_v) ),
-         decltype( std::ratio<383,100>{} * pqs::pow10<-3>{} )
+         decltype( std::ratio<383,100>{} * pqs::pow10_t<-3>{} )
       >
    >{20.0};
 
@@ -158,10 +170,7 @@ void quantity_syntax_test()
       double
    >{};
 
-
   //---------------------------------------------
-
-
   // suppress not used warnings
   (void) qa;
   (void) qb;
