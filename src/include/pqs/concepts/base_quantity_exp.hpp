@@ -73,7 +73,7 @@ namespace pqs{
       std::integral_constant<bool,(Ratio::num == 0)>,
          pqs::dimensionless,
       pqs::impl::make_base_quantity_exp_impl<
-         typename get_base_quantity_id<BaseQuantity>::type, typename Ratio::type
+         get_base_quantity_id<BaseQuantity>, typename Ratio::type
       >
    >{};
 

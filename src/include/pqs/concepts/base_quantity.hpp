@@ -38,7 +38,10 @@ namespace pqs{
 #endif
 
    template <typename BaseQuantity>
-   struct get_base_quantity_id : impl::get_base_quantity_id_impl<BaseQuantity>{};
+   struct get_base_quantity_id_legacy : impl::get_base_quantity_id_impl<BaseQuantity>{};
+
+   template <typename BaseQuantity>
+   using get_base_quantity_id = typename get_base_quantity_id_legacy<BaseQuantity>::type;
    
    namespace impl{
 
@@ -52,9 +55,9 @@ namespace pqs{
             >
          >::type 
       > : pqs::binary_op<
-           typename get_base_quantity_id<Lhs>::type,
+           get_base_quantity_id<Lhs>,
            pqs::less, 
-           typename get_base_quantity_id<Rhs>::type
+           get_base_quantity_id<Rhs>
       >{};
 
       template <typename Lhs,typename Rhs>
@@ -67,9 +70,9 @@ namespace pqs{
             >
          >::type 
       > : pqs::binary_op<
-         typename get_base_quantity_id<Lhs>::type,
+         get_base_quantity_id<Lhs>,
          pqs::equal_to, 
-         typename get_base_quantity_id<Rhs>::type
+         get_base_quantity_id<Rhs>
       >{};
       
    } //impl
