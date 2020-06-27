@@ -137,7 +137,7 @@ namespace pqs{ namespace meta{
 namespace pqs{
 
    template <typename T>
-   struct is_dimension : pqs::meta::or_<
+   struct is_dimension_legacy : pqs::meta::or_<
       pqs::is_base_quantity_exp<T>,
       pqs::is_simple_dimension_list<T>,
       pqs::is_custom_dimension<T>
@@ -242,7 +242,7 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_dimension<Rhs>,
+               pqs::is_dimension_legacy<Rhs>,
                pqs::is_custom_dimension<Lhs>, 
                pqs::meta::not_<pqs::is_custom_dimension<Rhs> >
             > 
@@ -259,7 +259,7 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_dimension<Lhs>,
+               pqs::is_dimension_legacy<Lhs>,
                pqs::is_custom_dimension<Rhs>, 
                pqs::meta::not_<pqs::is_custom_dimension<Lhs> >
             > 
@@ -346,7 +346,7 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_dimension<Rhs>,
+               pqs::is_dimension_legacy<Rhs>,
                pqs::is_custom_dimension<Lhs>, 
                pqs::meta::not_<pqs::is_custom_dimension<Rhs> >
             > 
@@ -363,7 +363,7 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_dimension<Lhs>,
+               pqs::is_dimension_legacy<Lhs>,
                pqs::is_custom_dimension<Rhs>, 
                pqs::meta::not_<pqs::is_custom_dimension<Lhs> >
             > 
@@ -471,8 +471,8 @@ namespace pqs{
    constexpr
    typename pqs::eval_where<
       pqs::meta::and_<
-         pqs::is_dimension<Lhs>,
-         pqs::is_dimension<Rhs>
+         pqs::is_dimension_legacy<Lhs>,
+         pqs::is_dimension_legacy<Rhs>
       >,
       pqs::binary_op<Lhs,pqs::times,Rhs>
    >::type
@@ -486,8 +486,8 @@ namespace pqs{
    constexpr
    typename pqs::eval_where<
       pqs::meta::and_<
-         pqs::is_dimension<Lhs>,
-         pqs::is_dimension<Rhs>
+         pqs::is_dimension_legacy<Lhs>,
+         pqs::is_dimension_legacy<Rhs>
       >, 
       pqs::binary_op<Lhs,pqs::divides,Rhs>
    >::type
@@ -500,7 +500,7 @@ namespace pqs{
    inline
    constexpr
    typename pqs::eval_where<
-         pqs::is_dimension<Dim>,
+         pqs::is_dimension_legacy<Dim>,
       pqs::binary_op<Dim,struct pqs::to_power,std::ratio<N,D> >
     >::type
     pow( Dim )

@@ -44,7 +44,7 @@ namespace {
    template <typename T>
    constexpr bool is_dimension(T t)
    {
-      return pqs::is_dimension<T>::value;
+      return pqs::is_dimension_legacy<T>::value;
    }
 
    template <typename T> 

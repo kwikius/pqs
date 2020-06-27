@@ -11,7 +11,7 @@ namespace pqs{
       struct binary_op_impl<
          D, pqs::times, pqs::dimensionless,
          typename pqs::where_<
-            pqs::is_dimension<D>
+            pqs::is_dimension_legacy<D>
          >::type
       > : D{};
 
@@ -19,7 +19,7 @@ namespace pqs{
       struct binary_op_impl<
          pqs::dimensionless, pqs::times,D,
          typename pqs::where_<
-            pqs::is_dimension<D>
+            pqs::is_dimension_legacy<D>
          >::type
       > : D{};
 
@@ -27,7 +27,7 @@ namespace pqs{
       struct binary_op_impl<
          D, pqs::divides, pqs::dimensionless,
          typename pqs::where_<
-            pqs::is_dimension<D>
+            pqs::is_dimension_legacy<D>
          >::type
       > : D{};
 
@@ -35,7 +35,7 @@ namespace pqs{
       struct binary_op_impl<
          pqs::dimensionless, pqs::divides,D,
          typename pqs::where_<
-            pqs::is_dimension<D>
+            pqs::is_dimension_legacy<D>
          >::type
       > : D{};
    
