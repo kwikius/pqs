@@ -19,7 +19,7 @@ namespace pqs{ namespace meta{
 
       template <typename T, typename DimOut>
       struct append_if_not_zero : eval_if<
-         base_quantity_exp_is_zero<T>,
+         base_quantity_exp_is_zero_legacy<T>,
          DimOut,
          push_back<DimOut,T>
       >{};
@@ -82,8 +82,8 @@ namespace pqs{ namespace meta{
       struct merge_dim{
          typedef typename front<DimL>::type lhs_front;
          typedef typename front<DimR>::type rhs_front;
-         typedef typename pqs::get_base_quantity<lhs_front>::type lhs_base;
-         typedef typename pqs::get_base_quantity<rhs_front>::type rhs_base;
+         typedef typename pqs::get_base_quantity_legacy<lhs_front>::type lhs_base;
+         typedef typename pqs::get_base_quantity_legacy<rhs_front>::type rhs_base;
          typedef typename eval_if<
             pqs::binary_op<lhs_base,pqs::less,rhs_base>,
                merge_dim_left<DimL,Op,DimR,DimOut>,
@@ -127,9 +127,9 @@ namespace pqs{ namespace meta{
     
          template <typename LhsExp, typename RhsExp>
          struct apply : pqs::binary_op<
-            typename pqs::get_base_quantity<LhsExp>::type,
+            typename pqs::get_base_quantity_legacy<LhsExp>::type,
             pqs::less,
-            typename pqs::get_base_quantity<RhsExp>::type
+            typename pqs::get_base_quantity_legacy<RhsExp>::type
          >{};
       };
 

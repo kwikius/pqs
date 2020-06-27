@@ -29,7 +29,7 @@ namespace {
       pqs::dimensionless d3 = d1;  // copy ctor
       pqs::dimensionless d4 = pqs::dimensionless{};
       d2 = d1;                    // assignment
-      QUAN_CHECK( (std::is_same<pqs::get_exponent<pqs::dimensionless>::type, std::ratio<0,1> >::value))
+      QUAN_CHECK( (std::is_same<pqs::get_exponent_legacy<pqs::dimensionless>::type, std::ratio<0,1> >::value))
  
    }
 
@@ -38,8 +38,8 @@ namespace {
        typedef pqs::si::length_unit::mm::dimension dimension;
        QUAN_CHECK(( std::is_same<dimension,pqs::exp_length<1> > ::value ))
        QUAN_CHECK(( pqs::is_base_quantity_exp_legacy<dimension> ::value ))
-       QUAN_CHECK((pqs::is_base_quantity_legacy<pqs::get_base_quantity<dimension>::type>::value))
-       QUAN_CHECK((std::is_same<pqs::get_base_quantity<dimension>::type,pqs::base_length>::value))
+       QUAN_CHECK((pqs::is_base_quantity_legacy<pqs::get_base_quantity_legacy<dimension>::type>::value))
+       QUAN_CHECK((std::is_same<pqs::get_base_quantity_legacy<dimension>::type,pqs::base_length>::value))
 
    }
 

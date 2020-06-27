@@ -51,7 +51,7 @@ namespace pqs{
    template <typename D>
    struct is_custom_dimension : pqs::meta::or_<
       is_custom_dimension_list<D>,
-      is_custom_base_quantity_exp<D>
+      is_custom_base_quantity_exp_legacy<D>
    >{};
 
 }// pqs
@@ -154,7 +154,7 @@ namespace pqs{
             meta::and_<
                pqs::is_base_quantity_exp_legacy<Lhs>,
                pqs::is_base_quantity_exp_legacy<Rhs>, 
-               meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
+               meta::not_<pqs::of_same_base_quantity_legacy<Lhs,Rhs> >
             > 
          >::type
       > : dimension_list<Lhs,Rhs>{};
@@ -278,7 +278,7 @@ namespace pqs{
             meta::and_<
                pqs::is_base_quantity_exp_legacy<Lhs>,
                pqs::is_base_quantity_exp_legacy<Rhs>, 
-               meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
+               meta::not_<pqs::of_same_base_quantity_legacy<Lhs,Rhs> >
             > 
          >::type
       > : dimension_list<
@@ -386,7 +386,7 @@ namespace pqs{
             
             template <typename List, typename Elem>
             struct apply : pqs::meta::eval_if<
-               pqs::base_quantity_exp_is_zero<Elem>,
+               pqs::base_quantity_exp_is_zero_legacy<Elem>,
                   List,
                pqs::meta::push_back<List,Elem>
             >{};
