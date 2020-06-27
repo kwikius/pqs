@@ -28,15 +28,15 @@ void custom_test1()
 // derivation can be used to make a custom dimension
 void custom_test2()
 {
-   struct  dim_velocity 
+   struct  da_velocity 
 #if defined  __cpp_inline_variables
-   : decltype(da_length<1> / da_time<1>) {};
+   : decltype(da_length<> / da_time<>) {};
 #else
    : decltype(length_v / time_v) {};
 #endif
 
    basic_quantity< 
-      si::unit<dim_velocity,unit_exp<0> >, 
+      si::unit<da_velocity,unit_exp<0> >, 
       double
    > v2;
 
@@ -47,7 +47,7 @@ void custom_test2()
 #endif
 
    using d = pqs::get_unit<decltype(v2)>;
-   static_assert(std::is_same<d, si::unit<dim_velocity,unit_exp<0> > >::value,"");
+   static_assert(std::is_same<d, si::unit<da_velocity,unit_exp<0> > >::value,"");
    using v = pqs::get_numeric_type<decltype(v2)>;
    static_assert(std::is_same<v,double>::value,"");
 
@@ -106,7 +106,7 @@ void quantity_syntax_test()
 #if defined __cpp_inline_variables
 
    auto constexpr qx = basic_quantity<
-      si::unit<
+      si::unit_conversion<
          decltype( da_mass<> * da_length<> / da_time<2> ),
          decltype( std::ratio<383,100>{} * pqs::pow10<-3>{} )
       >
@@ -115,7 +115,7 @@ void quantity_syntax_test()
 #else
 
    auto constexpr qx = basic_quantity<
-      si::unit<
+      si::unit_conversion<
          decltype( mass_v * length_v / pqs::pow<2,1>(time_v) ),
          decltype( std::ratio<383,100>{} * pqs::pow10<-3>{} )
       >

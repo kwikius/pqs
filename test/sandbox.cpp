@@ -18,9 +18,9 @@ namespace{
    auto constexpr fun()
    {
 #if (defined(__cpp_nontype_template_args)) && (__cplusplus > 201703L)
-      return test_list< da_length<1> / ( da_time<1> * da_time<1> ) >::value;
+      return test_list< da_length<> / ( da_time<> * da_time<> ) >::value;
 #else
-      return  da_length<1> / ( da_time<1> * da_time<1>);
+      return  da_length<> / ( da_time<> * da_time<>);
 #endif
 
    }
