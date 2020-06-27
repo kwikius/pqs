@@ -1,7 +1,6 @@
 #ifndef PQS_CONCEPTS_DIMENSION_HPP_INCLUDED
 #define PQS_CONCEPTS_DIMENSION_HPP_INCLUDED
 
-#include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/type_templates/dimension_list.hpp>
 
 namespace pqs{ 

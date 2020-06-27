@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <pqs/concepts/meta/type_list.hpp>
+#include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/meta/merge_sort.hpp>
 
 namespace pqs{

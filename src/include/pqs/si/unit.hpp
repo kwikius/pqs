@@ -1,5 +1,5 @@
-#ifndef UNIT_HPP_INCLUDED
-#define UNIT_HPP_INCLUDED
+#ifndef PQS_SI_UNIT_HPP_INCLUDED
+#define PQS_SI_UNIT_HPP_INCLUDED
 
 #include <pqs/bits/basic_unit.hpp>
 #include <pqs/bits/si_quantity_system.hpp>
@@ -27,4 +27,4 @@ namespace pqs{ namespace si{
 }}// pqs::si
 
 
-#endif // UNIT_HPP_INCLUDED
+#endif // PQS_SI_UNIT_HPP_INCLUDED
