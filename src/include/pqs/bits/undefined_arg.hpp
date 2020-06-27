@@ -21,7 +21,7 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-#include <pqs/concepts/undefined.hpp>
+#include <pqs/bits/is_undefined.hpp>
 
 namespace pqs{ 
 

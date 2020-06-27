@@ -21,7 +21,7 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-#include <pqs/concepts/undefined.hpp>
+#include <pqs/bits/is_undefined.hpp>
 
 namespace pqs{ 
 
@@ -45,9 +45,6 @@ namespace pqs{
       struct is_undefined_impl<pqs::undefined> : std::true_type{};
 
    }
-
-
-
 }
 
 #endif //PQS_UNDEFINED_HPP_INCLUDED

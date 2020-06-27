@@ -1,5 +1,5 @@
-#ifndef PQS_CONCEPTS_UNDEFINED_HPP_INCLUDED
-#define PQS_CONCEPTS_UNDEFINED_HPP_INCLUDED
+#ifndef PQS_BITS_IS_UNDEFINED_HPP_INCLUDED
+#define PQS_BITS_IS_UNDEFINED_HPP_INCLUDED
 
 #include <type_traits>
 #include <pqs/meta/strip_cr.hpp>
@@ -33,4 +33,4 @@ namespace pqs{
 #endif
 }
 
-#endif // PQS_CONCEPTS_UNDEFINED_HPP_INCLUDED
+#endif // PQS_BITS_IS_UNDEFINED_HPP_INCLUDED
