@@ -50,6 +50,10 @@ void custom_test2()
 
 #if defined  __cpp_inline_variables
    static_assert(pqs::is_quantity<decltype(v2)>,"");
+
+ #if defined _cpp_concepts
+   static_assert(pqs::quantity<decltype(v2)>),"");
+  #endif
 #else
    static_assert(pqs::is_quantity_legacy<decltype(v2)>::value,"");
 #endif
