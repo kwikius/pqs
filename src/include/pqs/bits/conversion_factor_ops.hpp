@@ -90,8 +90,8 @@ namespace pqs{
       struct binary_op_impl<Lhs, pqs::divides,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
       >{
@@ -114,8 +114,8 @@ namespace pqs{
       struct binary_op_impl<Lhs, pqs::times,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
       >{
@@ -139,8 +139,8 @@ namespace pqs{
          Lhs, pqs::plus,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
         > : pqs::detail::conversion_factor_add<Lhs,Rhs>{};
@@ -152,8 +152,8 @@ namespace pqs{
          Lhs, pqs::less,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value < 0)>{};
@@ -163,8 +163,8 @@ namespace pqs{
          Lhs, pqs::less_equal,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value <= 0)>{};
@@ -174,8 +174,8 @@ namespace pqs{
          Lhs, pqs::equal_to,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value == 0)>{};
@@ -185,8 +185,8 @@ namespace pqs{
          Lhs, pqs::not_equal_to,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
         > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value != 0)>{};
@@ -196,8 +196,8 @@ namespace pqs{
          Lhs, pqs::greater_equal,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
       > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value >= 0)>{};
@@ -207,8 +207,8 @@ namespace pqs{
          Lhs, pqs::greater,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_conversion_factor<Lhs>,
-               pqs::is_conversion_factor<Rhs>
+               pqs::is_conversion_factor_legacy<Lhs>,
+               pqs::is_conversion_factor_legacy<Rhs>
             >
          >::type
        > : std::integral_constant<bool, (pqs::detail::conversion_factor_compare<Lhs,Rhs>::value > 0)>{};

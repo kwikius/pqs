@@ -34,7 +34,7 @@ namespace pqs{
    } //impl
 
    template <typename T>
-   struct is_conversion_factor : impl::is_conversion_factor_impl<T>{};
+   struct is_conversion_factor_legacy : impl::is_conversion_factor_impl<T>{};
 
 }  // pqs
 
