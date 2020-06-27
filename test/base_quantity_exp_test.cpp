@@ -18,6 +18,7 @@ namespace {
 
    void same_id_test()
    {
+
       QUAN_CHECK((not pqs::is_base_quantity_exp_legacy<int>::value))
 
       typedef exp_length<2> tl;
@@ -38,6 +39,29 @@ namespace {
 
       typedef exp_time<2> ty;
       QUAN_CHECK(( not pqs::of_same_base_quantity_legacy<tl,ty>::value)) 
+
+#if defined  __cpp_inline_variables
+   
+      QUAN_CHECK((not pqs::is_base_quantity_exp<int>))
+
+      QUAN_CHECK((pqs::is_base_quantity_exp<tl>))
+      QUAN_CHECK((pqs::is_base_quantity_exp<tr>))
+      QUAN_CHECK((pqs::of_same_base_quantity<tl,tr>))
+      QUAN_CHECK((pqs::of_same_base_quantity<tr,tl>))
+
+      typedef pqs::get_base_quantity<tl> base_type1a;
+      QUAN_CHECK((pqs::is_base_quantity<base_type1a>))
+      QUAN_CHECK((std::is_same<base_type1,pqs::base_length>::value))
+
+      typedef exp_length<3,2> tx;
+      QUAN_CHECK((pqs::is_base_quantity_exp<tx>))
+      QUAN_CHECK((pqs::of_same_base_quantity<tl,tx>))
+
+      typedef exp_time<2> ty;
+      QUAN_CHECK(( not pqs::of_same_base_quantity<tl,ty>)) 
+
+#endif
+
    }
 
    void add_test_int_int_int()

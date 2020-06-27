@@ -81,7 +81,6 @@ namespace pqs{
    template <typename T>
    inline constexpr bool is_custom_base_quantity_exp = is_custom_base_quantity_exp_legacy<T>::value;
 
-
 #endif
 
    template <typename BaseQuantity, typename Ratio>
@@ -99,11 +98,7 @@ namespace pqs{
    template <typename T>
    using get_exponent = typename get_exponent_legacy<T>::type;
 
-
-
-
    namespace impl{
-
 
       template <typename Lhs, typename Rhs>
       struct of_same_base_quantity_impl<
@@ -136,9 +131,9 @@ namespace pqs{
       > : pqs::make_base_quantity_exp<
             get_base_quantity<Lhs>,
             typename pqs::binary_op<
-               typename get_exponent_legacy<Lhs>::type,
+               get_exponent<Lhs>,
                pqs::plus,
-               typename get_exponent_legacy<Rhs>::type
+               get_exponent<Rhs>
             >::type
       >{};
 
@@ -156,11 +151,11 @@ namespace pqs{
             >
          >::type
       > : pqs::make_base_quantity_exp<
-            typename pqs::get_base_quantity_legacy<Lhs>::type,
+            get_base_quantity<Lhs>,
             typename pqs::binary_op<
-               typename get_exponent_legacy<Lhs>::type,
+               get_exponent<Lhs>,
                pqs::minus,
-               typename get_exponent_legacy<Rhs>::type
+               get_exponent<Rhs>
             >::type
       >{};
 
@@ -177,9 +172,9 @@ namespace pqs{
             >
          >::type
       > : pqs::make_base_quantity_exp<
-            typename pqs::get_base_quantity_legacy<Lhs>::type ,
+            get_base_quantity<Lhs> ,
             typename pqs::binary_op<
-               typename get_exponent_legacy<Lhs>::type,
+               get_exponent<Lhs>,
                pqs::times,
                typename Rhs::type
             >::type
@@ -196,10 +191,10 @@ namespace pqs{
             pqs::is_base_quantity_exp_legacy<T> 
           >::type
       > : pqs::make_base_quantity_exp<
-             typename pqs::get_base_quantity_legacy<T>::type,
+             get_base_quantity<T>,
              typename pqs::unary_op<
                pqs::meta::negate,
-               typename get_exponent_legacy<T>::type
+               get_exponent<T>
              >::type
       >{};
 
@@ -217,9 +212,9 @@ namespace pqs{
             >
          >::type
       > : pqs::binary_op<
-            typename get_exponent_legacy<Lhs>::type,
+            get_exponent<Lhs>,
             pqs::equal_to,
-            typename get_exponent_legacy<Rhs>::type
+            get_exponent<Rhs>
       >{};
 
 /*
@@ -236,9 +231,9 @@ namespace pqs{
             >
          >::type
       > : pqs::binary_op<
-            typename get_exponent_legacy<Lhs>::type,
+            get_exponent<Lhs>,
             pqs::not_equal_to,
-            typename get_exponent_legacy<Rhs>::type
+            get_exponent<Rhs>
       >{};
  
       template <typename T>
@@ -248,7 +243,7 @@ namespace pqs{
              pqs::is_base_quantity_exp_legacy<T>
          >::type
       > : std::ratio_equal<
-         typename get_exponent_legacy<T>::type,
+         get_exponent<T>,
          std::ratio<0> 
       >{};
    } //impl
