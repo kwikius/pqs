@@ -65,6 +65,13 @@ void custom_test2()
 
    using u = pqs::get_unit<decltype(v2)>;
    static_assert(std::is_same<u, si::unit<da_velocity,unit_exp<0> > >::value,"");
+   using s = pqs::get_measurement_system_legacy<u>::type;
+   static_assert( std::is_same<s,pqs::si_quantity_system>::value,"");
+   using cf = pqs::get_conversion_factor_legacy<u>::type;
+   static_assert(std::is_same< cf, pqs::conversion_factor<std::ratio<1>,pqs::unit_exp<0> > >::value,"");
+   using d = pqs::get_dimension_legacy<u>::type;
+   static_assert(std::is_same<d,da_velocity>::value,"");
+   
    using v = pqs::get_numeric_type<decltype(v2)>;
    static_assert(std::is_same<v,double>::value,"");
 
