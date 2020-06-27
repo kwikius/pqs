@@ -57,7 +57,22 @@ namespace pqs{
    } //impl
 
    template <typename T>
-   struct is_base_quantity_exp : pqs::impl::is_base_quantity_exp_impl<T>{};
+   struct is_base_quantity_exp_legacy : pqs::impl::is_base_quantity_exp_impl<T>{};
+
+#if defined  __cpp_inline_variables
+
+   template <typename T>
+   inline constexpr bool is_base_quantity_exp = is_base_quantity_exp_legacy<T>::value;
+
+   #if defined __cpp_concepts
+
+   template <typename T>
+   concept base_quantity_exponent = is_base_quantity_exp<T>;
+
+   #endif
+
+#endif
+
 
    template <typename T>
    struct get_base_quantity : pqs::impl::get_base_quantity_impl<T>{};
@@ -93,8 +108,8 @@ namespace pqs{
          Lhs,Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>
+               pqs::is_base_quantity_exp_legacy<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Rhs>
             >
          >::type
        > : pqs::binary_op<
@@ -111,8 +126,8 @@ namespace pqs{
          Lhs,pqs::times, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
+               pqs::is_base_quantity_exp_legacy<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Rhs>,
                pqs::of_same_base_quantity<Lhs,Rhs>
             >
          >::type
@@ -133,8 +148,8 @@ namespace pqs{
          Lhs, pqs::divides, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
+               pqs::is_base_quantity_exp_legacy<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Rhs>,
                pqs::of_same_base_quantity<Lhs,Rhs>
             >
          >::type
@@ -155,7 +170,7 @@ namespace pqs{
          Lhs, struct pqs::to_power, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Lhs>,
                pqs::is_ratio<Rhs>
             >
          >::type
@@ -176,7 +191,7 @@ namespace pqs{
           pqs::meta::reciprocal,
           T,
           typename pqs::where_<
-            pqs::is_base_quantity_exp<T> 
+            pqs::is_base_quantity_exp_legacy<T> 
           >::type
       > : pqs::make_base_quantity_exp<
              typename pqs::get_base_quantity<T>::type,
@@ -194,8 +209,8 @@ namespace pqs{
          Lhs, pqs::equal_to, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
+               pqs::is_base_quantity_exp_legacy<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Rhs>,
                pqs::of_same_base_quantity<Lhs,Rhs>
             >
          >::type
@@ -213,8 +228,8 @@ namespace pqs{
          Lhs, pqs::not_equal_to, Rhs,
          typename pqs::where_<
             pqs::meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>,
+               pqs::is_base_quantity_exp_legacy<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Rhs>,
                pqs::of_same_base_quantity<Lhs,Rhs>
             >
          >::type
@@ -228,7 +243,7 @@ namespace pqs{
       struct base_quantity_exp_is_zero_impl<
          T,
          typename pqs::where_<
-             pqs::is_base_quantity_exp<T>
+             pqs::is_base_quantity_exp_legacy<T>
          >::type
       > : std::ratio_equal<
          typename get_exponent<T>::type,
@@ -266,7 +281,7 @@ namespace pqs{
    template <typename T>
    struct is_custom_base_quantity_exp : pqs::meta::and_<
       std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>,
-      pqs::meta::not_<pqs::is_base_quantity_exp<T> >
+      pqs::meta::not_<pqs::is_base_quantity_exp_legacy<T> >
    >{};
 
 }

@@ -50,7 +50,7 @@ namespace {
    template <typename T> 
    constexpr bool is_base_quantity_exp(T t)
    {
-      return pqs::is_base_quantity_exp<T>::value;
+      return pqs::is_base_quantity_exp_legacy<T>::value;
    }
 
    template <typename T> 

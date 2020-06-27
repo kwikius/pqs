@@ -18,13 +18,13 @@ namespace {
 
    void same_id_test()
    {
-      QUAN_CHECK((not pqs::is_base_quantity_exp<int>::value))
+      QUAN_CHECK((not pqs::is_base_quantity_exp_legacy<int>::value))
 
       typedef exp_length<2> tl;
       typedef exp_length<3> tr;
 
-      QUAN_CHECK((pqs::is_base_quantity_exp<tl>::value))
-      QUAN_CHECK((pqs::is_base_quantity_exp<tr>::value))
+      QUAN_CHECK((pqs::is_base_quantity_exp_legacy<tl>::value))
+      QUAN_CHECK((pqs::is_base_quantity_exp_legacy<tr>::value))
       QUAN_CHECK((pqs::of_same_base_quantity<tl,tr>::value))
       QUAN_CHECK((pqs::of_same_base_quantity<tr,tl>::value))
 
@@ -33,7 +33,7 @@ namespace {
       QUAN_CHECK((std::is_same<base_type1,pqs::base_length>::value))
 
       typedef exp_length<3,2> tx;
-      QUAN_CHECK((pqs::is_base_quantity_exp<tx>::value))
+      QUAN_CHECK((pqs::is_base_quantity_exp_legacy<tx>::value))
       QUAN_CHECK((pqs::of_same_base_quantity<tl,tx>::value))
 
       typedef exp_time<2> ty;

@@ -138,7 +138,7 @@ namespace pqs{
 
    template <typename T>
    struct is_dimension_legacy : pqs::meta::or_<
-      pqs::is_base_quantity_exp<T>,
+      pqs::is_base_quantity_exp_legacy<T>,
       pqs::is_simple_dimension_list<T>,
       pqs::is_custom_dimension<T>
    >{};
@@ -152,8 +152,8 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>, 
+               pqs::is_base_quantity_exp_legacy<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Rhs>, 
                meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
             > 
          >::type
@@ -166,7 +166,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_simple_dimension_list<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>
+               pqs::is_base_quantity_exp_legacy<Rhs>
             > 
          >::type
       > : pqs::binary_op<Lhs,pqs::times,pqs::dimension_list<Rhs> >{};
@@ -177,7 +177,7 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_base_quantity_exp<Lhs>, 
+               pqs::is_base_quantity_exp_legacy<Lhs>, 
                pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
@@ -276,8 +276,8 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_base_quantity_exp<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>, 
+               pqs::is_base_quantity_exp_legacy<Lhs>,
+               pqs::is_base_quantity_exp_legacy<Rhs>, 
                meta::not_<pqs::of_same_base_quantity<Lhs,Rhs> >
             > 
          >::type
@@ -292,7 +292,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_simple_dimension_list<Lhs>,
-               pqs::is_base_quantity_exp<Rhs>
+               pqs::is_base_quantity_exp_legacy<Rhs>
             > 
          >::type
       > : pqs::binary_op<Lhs,pqs::divides,pqs::dimension_list<Rhs> >{};
@@ -302,7 +302,7 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_base_quantity_exp<Lhs>, 
+               pqs::is_base_quantity_exp_legacy<Lhs>, 
                pqs::is_simple_dimension_list<Rhs>
             > 
          >::type
