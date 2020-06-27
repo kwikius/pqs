@@ -35,8 +35,8 @@ void custom_test2()
    : decltype(length_v / time_v) {};
 #endif
 
-
 #if 0
+   // TODO change to exponent10
    basic_quantity< 
       si::unit<da_velocity,pqs::exponent10<0> >, 
       double
@@ -49,17 +49,22 @@ void custom_test2()
 #endif
 
 #if defined  __cpp_inline_variables
+
+   static_assert(pqs::is_dimension<da_velocity>,"");
    static_assert(pqs::is_quantity<decltype(v2)>,"");
 
  #if defined _cpp_concepts
+   static_assert(pqs::dimension<da_velocity>,"");
    static_assert(pqs::quantity<decltype(v2)>),"");
+   
   #endif
 #else
+   static_assert(pqs::is_dimension_legacy<da_velocity>::value,"");
    static_assert(pqs::is_quantity_legacy<decltype(v2)>::value,"");
 #endif
 
-   using d = pqs::get_unit<decltype(v2)>;
-   static_assert(std::is_same<d, si::unit<da_velocity,unit_exp<0> > >::value,"");
+   using u = pqs::get_unit<decltype(v2)>;
+   static_assert(std::is_same<u, si::unit<da_velocity,unit_exp<0> > >::value,"");
    using v = pqs::get_numeric_type<decltype(v2)>;
    static_assert(std::is_same<v,double>::value,"");
 
