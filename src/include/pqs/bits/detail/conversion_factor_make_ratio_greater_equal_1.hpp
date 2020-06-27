@@ -1,7 +1,6 @@
 #ifndef QUAN_DETAIL_CONVERSION_FACTOR_MAKE_GREATER_EQUAL_1_HPP_INCLUDED
 #define QUAN_DETAIL_CONVERSION_FACTOR_MAKE_GREATER_EQUAL_1_HPP_INCLUDED
 
-
 #include <pqs/bits/conversion_factor_def.hpp>
 #include <pqs/meta/eval_if.hpp>
 

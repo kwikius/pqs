@@ -1,7 +1,7 @@
 #ifndef PQS_BITS_CONVERSION_FACTOR_OPS_HPP_INCLUDED
 #define PQS_BITS_CONVERSION_FACTOR_OPS_HPP_INCLUDED
 
-#include <pqs/concepts/conversion_factor.hpp>
+#include <pqs/bits/conversion_factor_def.hpp>
 #include <pqs/bits/detail/conversion_factor_normalise.hpp>
 #include <pqs/bits/binary_op.hpp>
 

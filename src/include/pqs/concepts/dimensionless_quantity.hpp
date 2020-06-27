@@ -18,10 +18,18 @@ namespace pqs{
    }
 
    template <typename T>
-   struct is_dimensionless_quantity
+   struct is_dimensionless_quantity_legacy
    : impl::is_dimensionless_quantity_impl<
       typename pqs::meta::strip_cr<T>::type
    >{};
+
+#if defined  __cpp_inline_variables
+
+   template <typename T>
+   constexpr inline bool is_dimensionless_quantity = is_dimensionless_quantity_legacy<T>::value;
+
+#endif
+
 
 } //pqs
 

@@ -3,7 +3,6 @@
 
 #include <pqs/bits/std_ratio.hpp>
 #include <type_traits>
-#include <pqs/concepts/conversion_factor.hpp>
 
 namespace pqs{ 
 
@@ -18,7 +17,11 @@ namespace pqs{
       typedef conversion_factor<multiplier,exponent> type;
    };
 
+
    namespace impl{
+
+      template <typename T, typename Where = void> 
+      struct is_conversion_factor_impl : std::false_type{};
 
       template <intmax_t MuxNum, intmax_t MuxDenom, typename UnitExp>
       struct is_conversion_factor_impl<
@@ -29,6 +32,9 @@ namespace pqs{
       > : std::true_type{};
 
    } //impl
+
+   template <typename T>
+   struct is_conversion_factor : impl::is_conversion_factor_impl<T>{};
 
 }  // pqs
 

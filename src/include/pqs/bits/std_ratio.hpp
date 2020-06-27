@@ -1,12 +1,26 @@
 #ifndef PQS_BITS_STD_RATIO_HPP_INCLUDED1
 #define PQS_BITS_STD_RATIO_HPP_INCLUDED1
 
-#include <pqs/concepts/ratio.hpp>
+//#include <pqs/concepts/ratio.hpp>
 #include <ratio>
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/and.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
+
+namespace pqs{
+
+   namespace impl{
+
+      template <typename T, typename Where = void>
+      struct is_ratio_impl : std::false_type{};
+
+   } // impl
+
+   template <typename T>
+   struct is_ratio : pqs::impl::is_ratio_impl<typename pqs::meta::strip_cr<T>::type>{};
+
+} // pqs
 
 namespace pqs{namespace detail{
 

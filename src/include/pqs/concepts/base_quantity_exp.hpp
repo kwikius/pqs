@@ -7,7 +7,7 @@
 #include <pqs/meta/not.hpp>
 #include <pqs/meta/and.hpp>
 #include <pqs/bits/undefined_arg.hpp>
-#include <pqs/concepts/ratio.hpp>
+#include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/unary_op.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/concepts/base_quantity.hpp>
