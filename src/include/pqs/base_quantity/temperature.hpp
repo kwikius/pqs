@@ -51,8 +51,8 @@ namespace pqs{
 
 #if defined  __cpp_inline_variables
 
-   template <int... N>
-   inline constexpr auto exp_temperature_v = exp_temperature<N...>{};
+   template <int N = 1, int D = 1>
+   inline constexpr auto da_temperature = exp_temperature<N,D>{};
 
 #endif
 }

@@ -15,7 +15,6 @@ namespace {
 
       pqs::dimensionless d2;
 
-
       QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 * d2)>::type, pqs::dimensionless>::value))
 
       QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 / d2)>::type, pqs::dimensionless>::value))
@@ -51,8 +50,8 @@ namespace {
    {
       typedef pqs::dimension_list<
          pqs::exp_length<1>, 
-          pqs::exp_time<-1>, 
-          pqs::exp_mass<2> 
+         pqs::exp_time<-1>, 
+         pqs::exp_mass<2> 
       > lhs_dimension;
 
       QUAN_CHECK((pqs::meta::get_num_elements<lhs_dimension>::value == 3))

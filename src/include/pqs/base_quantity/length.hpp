@@ -52,8 +52,8 @@ namespace pqs{
 
 #if defined  __cpp_inline_variables
 
-   template <int... N>
-   inline constexpr auto exp_length_v = exp_length<N...>{};
+   template <int N = 1 , int D = 1>
+   inline constexpr auto da_length = exp_length<N,D>{};
 
 #endif
 

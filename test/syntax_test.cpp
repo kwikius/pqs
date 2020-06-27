@@ -23,14 +23,14 @@ using namespace pqs;
 
 void custom_test1()
 {
-   
+  // pqs::da_length<1> * 
 }
 // derivation can be used to make a custom dimension
 void custom_test2()
 {
    struct  dim_velocity 
 #if defined  __cpp_inline_variables
-   : decltype(exp_length_v<1> / exp_time_v<1>) {};
+   : decltype(da_length<1> / da_time<1>) {};
 #else
    : decltype(length_v / time_v) {};
 #endif
@@ -95,7 +95,7 @@ void quantity_syntax_test()
    auto qd = basic_quantity<
       si::unit<
 #if defined  __cpp_inline_variables
-         decltype( exp_mass_v<1> * exp_length_v<1> / exp_time_v<2> ),
+         decltype( da_mass<> * da_length<> / da_time<2> ),
 #else
          decltype( mass_v * length_v / pqs::pow<2,1>(time_v) ),
 #endif
@@ -107,7 +107,7 @@ void quantity_syntax_test()
 
    auto constexpr qx = basic_quantity<
       si::unit<
-         decltype( exp_mass_v<1> * exp_length_v<1> / exp_time_v<2> ),
+         decltype( da_mass<> * da_length<> / da_time<2> ),
          decltype( std::ratio<383,100>{} * pqs::pow10<-3>{} )
       >
    >{20.0};
