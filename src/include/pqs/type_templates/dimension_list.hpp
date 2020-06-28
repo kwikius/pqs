@@ -21,10 +21,27 @@ namespace pqs{
       struct dimension_list_base{};
    }
 
+   template <typename ...D>
+   struct dimension_list : pqs::detail::dimension_list_base{
+      typedef dimension_list type;
+      typedef type base_exponent_type;
+      static constexpr uint32_t num_elements = sizeof...(D);
+   };
+
+   template <> struct dimension_list<>{
+      typedef dimension_list type;
+      typedef type base_exponent_type;
+      static constexpr uint32_t num_elements = 0;
+   };
+
+//-------
    namespace impl {
 
       template <typename D>
       struct is_simple_dimension_list_impl : std::false_type{};
+
+      template <typename ... D >
+      struct is_simple_dimension_list_impl<pqs::dimension_list<D...> > : std::true_type{};
 
    }
 
@@ -38,6 +55,7 @@ namespace pqs{
    inline constexpr bool is_simple_dimension_list = is_simple_dimension_list_legacy<D>::value;
 #endif
 
+//-------
    namespace impl{
 
       template <typename T>
@@ -61,23 +79,7 @@ namespace pqs{
 
 #endif
 
-   template <typename ...D>
-   struct dimension_list : pqs::detail::dimension_list_base{
-      typedef dimension_list type;
-      typedef type base_exponent_type;
-      static constexpr uint32_t num_elements = sizeof...(D);
-   };
-
-   template <> struct dimension_list<>{
-      typedef dimension_list type;
-      typedef type base_exponent_type;
-      static constexpr uint32_t num_elements = 0;
-   };
-   
    namespace impl {
-
-      template <typename ... D >
-      struct is_simple_dimension_list_impl<pqs::dimension_list<D...> > : std::true_type{};
 
       template <typename D>
       struct is_custom_dimension_impl : pqs::meta::or_<
