@@ -27,7 +27,8 @@ constexpr my_cf operator*( my_rat m, my_exp10 e)
 
 #include <iostream>
 
-#if defined __cpp_nontype_template_args
+
+#if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201911)
 template<my_cf cf>
 void print()
 {
@@ -59,7 +60,7 @@ int main()
 void sandbox()
 #endif
 {
-#if defined __cpp_nontype_template_args
+#if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201911 )
 
    print<my_cf(my_rat(1,2),my_exp10(2,3))>();
    print<my_rat(1,3) * my_exp10(3,4)>();

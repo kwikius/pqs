@@ -99,7 +99,9 @@ namespace pqs{
    >{};
 
    template <typename T>
-   struct get_exponent_legacy : impl::get_exponent_impl<T>{};
+   struct get_exponent_legacy : impl::get_exponent_impl<
+      typename pqs::meta::strip_cr<T>::type
+   >{};
 
    template <typename T>
    using get_exponent = typename get_exponent_legacy<T>::type;
@@ -279,13 +281,26 @@ namespace pqs{
          typedef typename T::exponent type;
       };
 
+      template <typename T>
+      struct is_custom_base_quantity_exp_impl : pqs::meta::and_<
+         std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>,
+         pqs::meta::not_<pqs::is_base_quantity_exp_legacy<T> >
+      >{};
+
    }//impl
 
    template <typename T>
-   struct is_custom_base_quantity_exp_legacy : pqs::meta::and_<
-      std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>,
-      pqs::meta::not_<pqs::is_base_quantity_exp_legacy<T> >
+   struct is_custom_base_quantity_exp_legacy 
+   : impl::is_custom_base_quantity_exp_impl<
+      typename pqs::meta::strip_cr<T>::type 
    >{};
+
+   #if defined  __cpp_inline_variables
+   template <typename T>
+   inline constexpr bool is_custom_base_quantity_exp 
+      = is_custom_base_quantity_exp_legacy<T>::value;
+   
+   #endif
 
 }
 

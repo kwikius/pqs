@@ -21,16 +21,45 @@ namespace pqs{
       struct dimension_list_base{};
    }
 
+   namespace impl {
+
+      template <typename D>
+      struct is_simple_dimension_list_impl : std::false_type{};
+
+   }
+
    template <typename D>
-   struct is_simple_dimension_list : std::false_type{};
+   struct is_simple_dimension_list_legacy : impl::is_simple_dimension_list_impl<
+      typename pqs::meta::strip_cr<D>::type
+   >{};
+
+#if defined  __cpp_inline_variables
+   template <typename D>
+   inline constexpr bool is_simple_dimension_list = is_simple_dimension_list_legacy<D>::value;
+#endif
+
+   namespace impl{
+
+      template <typename T>
+      struct is_custom_dimension_list_impl : 
+         pqs::meta::and_<
+            std::is_base_of<pqs::detail::dimension_list_base,T>,
+            pqs::meta::not_<is_simple_dimension_list_legacy<T> >
+         >
+      {};
+   }
 
    template <typename T>
-   struct is_custom_dimension_list : 
-      pqs::meta::and_<
-         std::is_base_of<pqs::detail::dimension_list_base,T>,
-         pqs::meta::not_<is_simple_dimension_list<T> >
-      >
-   {};
+   struct is_custom_dimension_list_legacy : impl::is_custom_dimension_list_impl<
+      typename pqs::meta::strip_cr<T>::type
+   >{};
+
+#if defined  __cpp_inline_variables
+
+   template<typename T>
+   inline constexpr bool is_custom_dimension_list = is_custom_dimension_list_legacy<T>::value;
+
+#endif
 
    template <typename ...D>
    struct dimension_list : pqs::detail::dimension_list_base{
@@ -44,15 +73,30 @@ namespace pqs{
       typedef type base_exponent_type;
       static constexpr uint32_t num_elements = 0;
    };
+   
+   namespace impl {
 
-   template <typename ... D >
-   struct is_simple_dimension_list<pqs::dimension_list<D...> > : std::true_type{};
+      template <typename ... D >
+      struct is_simple_dimension_list_impl<pqs::dimension_list<D...> > : std::true_type{};
+
+      template <typename D>
+      struct is_custom_dimension_impl : pqs::meta::or_<
+         is_custom_dimension_list_legacy<D>,
+         is_custom_base_quantity_exp_legacy<D>
+      >{};
+   }
 
    template <typename D>
-   struct is_custom_dimension : pqs::meta::or_<
-      is_custom_dimension_list<D>,
-      is_custom_base_quantity_exp_legacy<D>
+   struct is_custom_dimension_legacy : impl::is_custom_dimension_impl<
+      typename pqs::meta::strip_cr<D>::type
    >{};
+
+#if defined  __cpp_inline_variables
+
+   template <typename D>
+   inline constexpr bool is_custom_dimension = is_custom_dimension_legacy<D>::value;
+
+#endif
 
 }// pqs
 
@@ -139,8 +183,8 @@ namespace pqs{
    template <typename T>
    struct is_dimension_legacy : pqs::meta::or_<
       pqs::is_base_quantity_exp_legacy<T>,
-      pqs::is_simple_dimension_list<T>,
-      pqs::is_custom_dimension<T>
+      pqs::is_simple_dimension_list_legacy<T>,
+      pqs::is_custom_dimension_legacy<T>
    >{};
 
    namespace impl{
@@ -165,7 +209,7 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_simple_dimension_list<Lhs>,
+               pqs::is_simple_dimension_list_legacy<Lhs>,
                pqs::is_base_quantity_exp_legacy<Rhs>
             > 
          >::type
@@ -178,7 +222,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp_legacy<Lhs>, 
-               pqs::is_simple_dimension_list<Rhs>
+               pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
       > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::times,Rhs>{};
@@ -208,8 +252,8 @@ namespace pqs{
          Lhs,pqs::times,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_simple_dimension_list<Lhs>, 
-               pqs::is_simple_dimension_list<Rhs>
+               pqs::is_simple_dimension_list_legacy<Lhs>, 
+               pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
       > {
@@ -219,15 +263,14 @@ namespace pqs{
          >::type type;
       };
 
-
       // derived_dim * derived_dim
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::times,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_custom_dimension<Lhs>, 
-               pqs::is_custom_dimension<Rhs>
+               pqs::is_custom_dimension_legacy<Lhs>, 
+               pqs::is_custom_dimension_legacy<Rhs>
             > 
          >::type
       > : pqs::binary_op<
@@ -243,8 +286,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension_legacy<Rhs>,
-               pqs::is_custom_dimension<Lhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension<Rhs> >
+               pqs::is_custom_dimension_legacy<Lhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension_legacy<Rhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -260,8 +303,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension_legacy<Lhs>,
-               pqs::is_custom_dimension<Rhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension<Lhs> >
+               pqs::is_custom_dimension_legacy<Rhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension_legacy<Lhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -291,7 +334,7 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_simple_dimension_list<Lhs>,
+               pqs::is_simple_dimension_list_legacy<Lhs>,
                pqs::is_base_quantity_exp_legacy<Rhs>
             > 
          >::type
@@ -303,7 +346,7 @@ namespace pqs{
          typename where_< 
             meta::and_<
                pqs::is_base_quantity_exp_legacy<Lhs>, 
-               pqs::is_simple_dimension_list<Rhs>
+               pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
       > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::divides,Rhs>{};
@@ -313,8 +356,8 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_simple_dimension_list<Lhs>, 
-               pqs::is_simple_dimension_list<Rhs>
+               pqs::is_simple_dimension_list_legacy<Lhs>, 
+               pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
       >{
@@ -330,8 +373,8 @@ namespace pqs{
          Lhs,pqs::divides,Rhs,
          typename where_<  
             meta::and_<
-               pqs::is_custom_dimension<Lhs>, 
-               pqs::is_custom_dimension<Rhs>
+               pqs::is_custom_dimension_legacy<Lhs>, 
+               pqs::is_custom_dimension_legacy<Rhs>
             > 
          >::type
       > : pqs::binary_op<
@@ -347,8 +390,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension_legacy<Rhs>,
-               pqs::is_custom_dimension<Lhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension<Rhs> >
+               pqs::is_custom_dimension_legacy<Lhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension_legacy<Rhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -364,8 +407,8 @@ namespace pqs{
          typename where_<  
             meta::and_<
                pqs::is_dimension_legacy<Lhs>,
-               pqs::is_custom_dimension<Rhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension<Lhs> >
+               pqs::is_custom_dimension_legacy<Rhs>, 
+               pqs::meta::not_<pqs::is_custom_dimension_legacy<Lhs> >
             > 
          >::type
        > : pqs::binary_op<
@@ -398,7 +441,7 @@ namespace pqs{
          Lhs,struct pqs::to_power,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_simple_dimension_list<Lhs>, 
+               pqs::is_simple_dimension_list_legacy<Lhs>, 
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
@@ -422,7 +465,7 @@ namespace pqs{
          Rhs,
          typename where_< 
             pqs::meta::and_<
-               pqs::is_custom_dimension<Lhs>, 
+               pqs::is_custom_dimension_legacy<Lhs>, 
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
@@ -435,7 +478,7 @@ namespace pqs{
       struct unary_op_impl <
          pqs::meta::reciprocal,D,
          typename where_< 
-            pqs::is_simple_dimension_list<D>
+            pqs::is_simple_dimension_list_legacy<D>
          >::type
       > : pqs::binary_op<D,struct pqs::to_power,std::ratio<-1> >{};
 
@@ -444,8 +487,8 @@ namespace pqs{
          Lhs,pqs::equal_to,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_simple_dimension_list<Lhs>, 
-               pqs::is_simple_dimension_list<Rhs>
+               pqs::is_simple_dimension_list_legacy<Lhs>, 
+               pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
       > : std::is_same<
@@ -458,8 +501,8 @@ namespace pqs{
          Lhs,pqs::not_equal_to,Rhs,
          typename where_< 
             meta::and_<
-               pqs::is_simple_dimension_list<Lhs>, 
-               pqs::is_simple_dimension_list<Rhs>
+               pqs::is_simple_dimension_list_legacy<Lhs>, 
+               pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
       > : pqs::meta::not_<pqs::binary_op<Lhs,pqs::equal_to,Rhs> > {};

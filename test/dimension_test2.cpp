@@ -56,13 +56,13 @@ namespace {
    template <typename T> 
    constexpr bool is_simple_dimension_list(T t)
    {
-      return pqs::is_simple_dimension_list<T>::value;
+      return pqs::is_simple_dimension_list_legacy<T>::value;
    }
 
    template <typename T> 
    constexpr bool is_custom_dimension(T t)
    {
-      return pqs::is_custom_dimension<T>::value;
+      return pqs::is_custom_dimension_legacy<T>::value;
    }
 
    template <typename T1, typename T2>
