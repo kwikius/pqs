@@ -12,7 +12,7 @@ namespace pqs{
 
       template <typename T>
       struct is_dimensionless_quantity_impl< 
-      T, typename pqs::where_<std::is_arithmetic<T> >::type
+         T, typename pqs::where_<std::is_arithmetic<T> >::type
       > : std::true_type{};
 
    }
@@ -27,6 +27,13 @@ namespace pqs{
 
    template <typename T>
    constexpr inline bool is_dimensionless_quantity = is_dimensionless_quantity_legacy<T>::value;
+
+   #if defined __cpp_concepts 
+
+   template <typename T>
+   concept dimensionless_quantity = is_dimensionless_quantity<T>;
+
+   #endif
 
 #endif
 

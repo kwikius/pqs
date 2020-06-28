@@ -103,6 +103,11 @@ namespace pqs{
 #endif
 }
 
+void nttp_test()
+{
+
+}
+
 void quantity_syntax_test() 
 {
 
@@ -139,6 +144,15 @@ void quantity_syntax_test()
          decltype( std::ratio<383,100>{} * pqs::pow_10<-3> )
       >
    >{20.0};
+#if 0
+    auto constexpr qx = basic_quantity<
+      si::unit_conversion(
+         da_mass * da_length / da_time(2) ,
+         std::ratio(383,100) * pqs::exponent10(3) 
+      )
+   >{20.0};
+
+#endif
 
 #else
 

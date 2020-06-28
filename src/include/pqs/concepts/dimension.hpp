@@ -55,8 +55,6 @@ namespace pqs{
 
 #endif
 
-   
-
 } // pqs
 
 #endif // PQS_CONCEPTS_DIMENSION_HPP_INCLUDED

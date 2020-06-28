@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED
 
 #include <type_traits>
+#include <pqs/meta/strip_cr.hpp>
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/eval_if.hpp>
 #include <pqs/meta/not.hpp>
@@ -43,19 +44,24 @@ namespace pqs{
    } //impl
 
    template <typename T>
-   struct is_base_quantity_exp_legacy : pqs::impl::is_base_quantity_exp_impl<T>{};
+   struct is_base_quantity_exp_legacy : pqs::impl::is_base_quantity_exp_impl<typename pqs::meta::strip_cr<T>::type>{};
 
    template <typename T>
-   struct get_base_quantity_legacy : pqs::impl::get_base_quantity_impl<T>{};
+   struct get_base_quantity_legacy : pqs::impl::get_base_quantity_impl<typename pqs::meta::strip_cr<T>::type>{};
 
    template <typename T>
-   using get_base_quantity = typename get_base_quantity_legacy <T>::type;
+   using get_base_quantity = typename get_base_quantity_legacy<T>::type;
 
    template <typename Lhs, typename Rhs>
-   struct of_same_base_quantity_legacy : pqs::impl::of_same_base_quantity_impl<Lhs,Rhs>{};
+   struct of_same_base_quantity_legacy : pqs::impl::of_same_base_quantity_impl<
+      typename pqs::meta::strip_cr<Lhs>::type,
+      typename pqs::meta::strip_cr<Rhs>::type
+   >{};
 
    template <typename T>
-   struct base_quantity_exp_is_zero_legacy : pqs::impl::base_quantity_exp_is_zero_impl<T>{};
+   struct base_quantity_exp_is_zero_legacy : pqs::impl::base_quantity_exp_is_zero_impl<
+      typename pqs::meta::strip_cr<T>::type
+   >{};
 
    template <typename T>
    struct is_custom_base_quantity_exp_legacy ;
