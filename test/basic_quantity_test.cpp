@@ -34,7 +34,7 @@ void basic_quantity_test()
    pqs::basic_quantity<
       pqs::basic_unit<
          dummy_system,
-         decltype(pqs::da_length<> / pqs::da_time<> ),
+         decltype(pqs::abstract_length<> / pqs::abstract_time<> ),
          decltype( std::ratio<3,2>{} * pqs::exponent10<3>)
       >, double
    > x{20.0};

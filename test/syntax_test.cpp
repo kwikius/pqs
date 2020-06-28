@@ -7,70 +7,42 @@
 #include <pqs/si/speed.hpp>
 #include <iostream>
 
-#if ! defined  __cpp_inline_variables
-namespace pqs{
-
-   constexpr pqs::exp_mass<1> mass_v;
-
-   constexpr pqs::exp_length<1> length_v;
-
-   constexpr pqs::exp_time<1> time_v;  
-
-}
-#endif
-
 using namespace pqs;
 
 void custom_test1()
 {
-  // pqs::da_length<1> * 
+  // pqs::abstract_length<1> * 
 }
-// derivation can be used to make a custom dimension
+
 void custom_test2()
 {
-   struct  da_velocity 
-#if defined  __cpp_inline_variables
-   : decltype(da_length<> / da_time<>) {};
-#else
-   : decltype(length_v / time_v) {};
-#endif
+   // derivation can be used to make a custom dimension
+   struct  abstract_velocity : decltype( 
+      abstract_length<> / abstract_time<>
+   ){};
 
-#if 0
-   // TODO change to exponent10
    basic_quantity< 
-      si::unit<da_velocity,pqs::exponent10<0> >, 
+      si::unit<abstract_velocity,unit_exp<0> >, 
       double
    > v2;
-#else
-     basic_quantity< 
-      si::unit<da_velocity,unit_exp<0> >, 
-      double
-   > v2;
-#endif
 
-#if defined  __cpp_inline_variables
-
-   static_assert(pqs::is_dimension<da_velocity>,"");
+   static_assert(pqs::is_dimension<abstract_velocity>,"");
    static_assert(pqs::is_quantity<decltype(v2)>,"");
 
- #if defined _cpp_concepts
-   static_assert(pqs::dimension<da_velocity>,"");
-   static_assert(pqs::quantity<decltype(v2)>),"");
-   
-  #endif
-#else
-   static_assert(pqs::is_dimension_legacy<da_velocity>::value,"");
+   static_assert(pqs::dimension<abstract_velocity>,"");
+   static_assert(pqs::quantity<decltype(v2)>,"");
+
+   static_assert(pqs::is_dimension_legacy<abstract_velocity>::value,"");
    static_assert(pqs::is_quantity_legacy<decltype(v2)>::value,"");
-#endif
 
    using u = pqs::get_unit<decltype(v2)>;
-   static_assert(std::is_same<u, si::unit<da_velocity,unit_exp<0> > >::value,"");
+   static_assert(std::is_same<u, si::unit<abstract_velocity,unit_exp<0> > >::value,"");
    using s = pqs::get_measurement_system_legacy<u>::type;
    static_assert( std::is_same<s,pqs::si_quantity_system>::value,"");
    using cf = pqs::get_conversion_factor_legacy<u>::type;
    static_assert(std::is_same< cf, pqs::conversion_factor<std::ratio<1>,pqs::unit_exp<0> > >::value,"");
    using d = pqs::get_dimension_legacy<u>::type;
-   static_assert(std::is_same<d,da_velocity>::value,"");
+   static_assert(std::is_same<d,abstract_velocity>::value,"");
    
    using v = pqs::get_numeric_type<decltype(v2)>;
    static_assert(std::is_same<v,double>::value,"");
@@ -97,14 +69,9 @@ namespace pqs{
       }
 
    };
-#if defined  __cpp_inline_variables
+
    template <int N>
    inline constexpr auto pow_10 = pow10_t<N>{};
-#endif
-}
-
-void nttp_test()
-{
 
 }
 
@@ -127,45 +94,17 @@ void quantity_syntax_test()
    // construct a quantity by composing dimension
    auto qd = basic_quantity<
       si::unit<
-#if defined  __cpp_inline_variables
-         decltype( da_mass<> * da_length<> / da_time<2> ),
-#else
-         decltype( mass_v * length_v / pqs::pow<2,1>(time_v) ),
-#endif
+         decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
          unit_exp<-3>
       >
    >{20.0};
 
-#if defined __cpp_inline_variables
-
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
-         decltype( da_mass<> * da_length<> / da_time<2> ),
+         decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
          decltype( std::ratio<383,100>{} * pqs::pow_10<-3> )
       >
    >{20.0};
-#if 0
-    auto constexpr qx = basic_quantity<
-      si::unit_conversion(
-         da_mass * da_length / da_time(2) ,
-         std::ratio(383,100) * pqs::exponent10(3) 
-      )
-   >{20.0};
-
-#endif
-
-#else
-
-   auto constexpr qx = basic_quantity<
-      si::unit_conversion<
-         decltype( mass_v * length_v / pqs::pow<2,1>(time_v) ),
-         decltype( std::ratio<383,100>{} * pqs::pow10_t<-3>{} )
-      >
-   >{20.0};
-
-#endif
-  // uncomment to test how quantity appears in error message
-  // int xx = qx;
 
    // construct a si quantity from raw ingredients
    auto qe = basic_quantity<

@@ -27,30 +27,40 @@ constexpr my_cf operator*( my_rat m, my_exp10 e)
 
 #include <iostream>
 
-
-#if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201911)
 template<my_cf cf>
 void print()
 {
-   std::cout << "[" << cf.mux.num << "/" << cf.mux.den << "] * 10^(" << cf.exp.num << "/" << cf.exp.den << ")";
+   std::cout << "[" << cf.mux.num << "/" << cf.mux.den << "] * 10^(" << cf.exp.num << "/" << cf.exp.den << ")" <<'\n';
 }
 
-template < auto D>
+template <auto D>
+  requires pqs::dimension<decltype(D)>
 inline constexpr void testd()
 {
-   std::cout << "huh!\n";
-   if constexpr ( pqs::dimension<decltype(D)> ){
-      std::cout << "dimension\n";
+   using d = decltype(D);
+   if constexpr ( pqs::is_simple_dimension_list<d> ){
+      std::cout << "dimension list\n";
+   }else {
+      if constexpr ( pqs::base_quantity_exponent<d> ){
+         std::cout << "base_quantity_exp\n";
+      }else{
+         if constexpr (pqs::is_custom_base_quantity_exp<d> ){
+            std::cout << "custom base_quantity_exp\n";
+         } else{
+            if constexpr (pqs::is_custom_dimension_list<d> ){
+               std::cout << "custom dimension_list\n";
+            }
+         }
+      }
    }
-
-   if constexpr ( pqs::base_quantity_exponent<decltype(D)> ){
-      std::cout << "exp\n";
-   }
-
 }
 
-#endif
+namespace {
 
+   struct my_abstract_acceleration : decltype( pqs::abstract_length<> / pqs::abstract_time<> ) {} ;
+
+   struct my_abstract_time : decltype( pqs::abstract_time<> ) {};
+}
 
 #if defined PQS_STANDALONE
 
@@ -60,17 +70,13 @@ int main()
 void sandbox()
 #endif
 {
-#if defined(__cpp_nontype_template_args) && (__cpp_nontype_template_args >= 201911 )
-
    print<my_cf(my_rat(1,2),my_exp10(2,3))>();
    print<my_rat(1,3) * my_exp10(3,4)>();
 
-   std::cout <<'\n';
-   testd<pqs::da_length<> / pqs::da_time<> * pqs::da_mass<> >();
-   std::cout << '\n';
+   testd<pqs::abstract_length<> >();                                    // base quantity exp
+   testd<pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<> >();  // dimension_list
 
-   testd<pqs::da_length<> >();
-   std::cout << '\n';
-      
-#endif
+   testd<my_abstract_acceleration{}>();                                           // custom dimension_list     
+   testd<my_abstract_time{}>();                                          // custom base_quantity exp
+
 }

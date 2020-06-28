@@ -9,7 +9,7 @@ namespace pqs{ namespace si { namespace speed_unit{
 
    struct m_per_s : pqs::si::unit<
 #if defined  __cpp_inline_variables
-     decltype( da_length<1> / da_time<1>),
+     decltype( abstract_length<1> / abstract_time<1>),
 #else
       decltype( exp_length<1>{} / exp_time<1>{}),
 #endif
