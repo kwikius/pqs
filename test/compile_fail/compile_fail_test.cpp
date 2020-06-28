@@ -36,9 +36,13 @@ bool compile_fail_test(std::string const & filename, compile_info_t const & comp
 int main()
 {
    compile_info_t compile_info;
-
+#if 0
    compile_info.compiler   = "g++-7";
    compile_info.flags      = "-std=c++11 -fmax-errors=1";
+#else
+    compile_info.compiler   = "g++-9";
+    compile_info.flags      = "-std=c++2a -fconcepts -fmax-errors=1";
+#endif
    compile_info.includes   = "-I../../src/include";
    compile_info.log_file   = "compile_fail_log.txt";
    

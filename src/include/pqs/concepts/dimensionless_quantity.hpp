@@ -2,6 +2,8 @@
 #define PQS_CONCEPTS_DIMENSIONLESS_QUANTITY_HPP_INCLUDED
 
 #include <type_traits>
+#include <pqs/bits/where.hpp>
+#include <pqs/meta/strip_cr.hpp>
 
 namespace pqs{
 

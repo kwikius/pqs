@@ -3,7 +3,7 @@
 #include <pqs/meta/strip_cr.hpp>
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/concepts/dimension.hpp>
-#include <pqs/bits/basic_quantity.hpp>
+#include <pqs/instance/basic_quantity.hpp>
 
 namespace {
 

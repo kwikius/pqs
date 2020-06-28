@@ -1,5 +1,5 @@
-#ifndef PQS_BASIC_QUANTITY_HPP_INCLUDED
-#define PQS_BASIC_QUANTITY_HPP_INCLUDED
+#ifndef PQS_INSTANCE_BASIC_QUANTITY_HPP_INCLUDED
+#define PQS_INSTANCE_BASIC_QUANTITY_HPP_INCLUDED
 
 #include <pqs/concepts/quantity.hpp>
 #include <pqs/type_templates/conversion_factor.hpp>
@@ -55,4 +55,4 @@ namespace pqs{
 
 }
 
-#endif // PQS_BASIC_QUANTITY_HPP_INCLUDED
+#endif // PQS_INSTANCE_BASIC_QUANTITY_HPP_INCLUDED

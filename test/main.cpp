@@ -25,12 +25,17 @@ void scaled_value_test();
 void binary_op_test();
 void sandbox();
 
+void basic_quantity_test();
+
 
 int  errors = 0;
 
 int main()
 {
    std::cout << "pqs test\n";
+
+   sandbox();
+   basic_quantity_test();
    quantity_syntax_test();
   // base_dimension_ratio_test();
    dimension_test();
@@ -49,8 +54,6 @@ int main()
    experimental_test();
    scaled_value_test();
    binary_op_test();
-
-   sandbox();
 
    EPILOGUE
 }

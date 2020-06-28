@@ -1,7 +1,7 @@
 #ifndef PQS_SI_SPEED_HPP_INCLUDED
 #define PQS_SI_SPEED_HPP_INCLUDED
 
-#include <pqs/bits/basic_quantity.hpp>
+#include <pqs/instance/basic_quantity.hpp>
 #include <pqs/si/units/speed_unit.hpp>
 
 // si quantities speed definition namespace 
