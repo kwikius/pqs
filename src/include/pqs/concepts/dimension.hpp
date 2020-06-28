@@ -41,19 +41,11 @@ namespace pqs{
    
    } // impl
 
-#if defined  __cpp_inline_variables
-
    template <typename T>
    constexpr bool is_dimension = is_dimension_legacy<T>::value;
 
-   #if defined __cpp_concepts
-
    template <typename T>
    concept dimension = is_dimension<T>;
-
-   #endif
-
-#endif
 
 } // pqs
 

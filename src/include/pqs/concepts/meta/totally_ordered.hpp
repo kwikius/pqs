@@ -28,12 +28,8 @@ namespace pqs{ namespace meta{
    template <typename TL, typename TR>
    struct are_totally_ordered : impl::are_totally_ordered_impl<TL,TR>{};
 
-  #if defined __cpp_concepts
-
    template <typename TL,typename TR>
    concept totally_ordered = are_totally_ordered<TL,TR>::value;
-
-  #endif
 
 }}
 

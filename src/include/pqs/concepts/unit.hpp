@@ -22,19 +22,11 @@ namespace pqs{
    template < typename  T>
    struct is_unit_legacy : impl::is_unit_impl<typename pqs::meta::strip_cr<T>::type>{};
 
-#if defined  __cpp_inline_variables
-
    template <typename T>
    inline constexpr bool is_unit = is_unit_legacy<T>::value;
 
-   #if defined __cpp_concepts
-
    template <typename T>
    concept unit = is_unit<T>;
-
-   #endif
-
-#endif
 
 };
 

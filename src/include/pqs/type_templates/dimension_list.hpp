@@ -51,11 +51,9 @@ namespace pqs{
       typename pqs::meta::strip_cr<D>::type
    >{};
 
-#if defined  __cpp_inline_variables
    template <typename D>
    inline constexpr bool is_simple_dimension_list 
       = is_simple_dimension_list_legacy<D>::value;
-#endif
 
    namespace impl{
 
@@ -73,12 +71,8 @@ namespace pqs{
       typename pqs::meta::strip_cr<T>::type
    >{};
 
-#if defined  __cpp_inline_variables
-
    template<typename T>
    inline constexpr bool is_custom_dimension_list = is_custom_dimension_list_legacy<T>::value;
-
-#endif
 
    namespace impl {
 
@@ -94,12 +88,8 @@ namespace pqs{
       typename pqs::meta::strip_cr<D>::type
    >{};
 
-#if defined  __cpp_inline_variables
-
    template <typename D>
    inline constexpr bool is_custom_dimension = is_custom_dimension_legacy<D>::value;
-
-#endif
 
 }// pqs
 

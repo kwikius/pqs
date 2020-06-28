@@ -49,12 +49,8 @@ namespace pqs{
 
    }// impl
 
-#if defined  __cpp_inline_variables
-
    template <int N = 1, int D = 1>
    inline constexpr auto abstract_time = exp_time<N,D>{};
-
-#endif
 
 }
 

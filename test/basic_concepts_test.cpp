@@ -28,8 +28,6 @@ namespace {
 
       QUAN_CHECK(( not pqs::meta::is_bool_constant<pqs::undefined >::value))
 
-    #if defined __cpp_concepts
-
       QUAN_CHECK((pqs::meta::bool_constant<yes_type<true> >))
       QUAN_CHECK((pqs::meta::bool_constant<yes_type<false> >))
       QUAN_CHECK((not pqs::meta::bool_constant<no_type<true> >))
@@ -40,7 +38,6 @@ namespace {
       QUAN_CHECK((pqs::meta::bool_constant<std::integral_constant<bool,true> >))
       QUAN_CHECK((pqs::meta::bool_constant<std::integral_constant<bool,false> >))
 
-    #endif
    }
 
    struct type_function_no {};
@@ -91,13 +88,9 @@ namespace{
       QUAN_CHECK((pqs::meta::are_equality_comparable<my::type<1>, my::type<2> >::value == true))
       QUAN_CHECK((pqs::meta::are_equality_comparable<my::type<-1>, my::type<-1> >::value == true))
 
-     #if defined __cpp_concepts
-
       QUAN_CHECK((pqs::meta::equality_comparable<int,int> == false))
       QUAN_CHECK((pqs::meta::equality_comparable<my::type<1>, my::type<2> > == true))
       QUAN_CHECK((pqs::meta::equality_comparable<my::type<-1>, my::type<-1> > == true))
-
-     #endif
 
    }
 
@@ -107,13 +100,9 @@ namespace{
       QUAN_CHECK((pqs::meta::are_less_than_comparable<my::type<1>, my::type<2>>::value == true))
       QUAN_CHECK((pqs::meta::are_less_than_comparable<my::type<-1>, my::type<-1>>::value == true))
 
-     #if defined __cpp_concepts
-
       QUAN_CHECK((pqs::meta::less_than_comparable<int,int> == false))
       QUAN_CHECK((pqs::meta::less_than_comparable<my::type<1>, my::type<2> > == true))
       QUAN_CHECK((pqs::meta::less_than_comparable<my::type<-1>, my::type<-1> > == true))
-
-     #endif
    }
 
    void test_meta_totally_ordered()
@@ -122,13 +111,10 @@ namespace{
       QUAN_CHECK((pqs::meta::are_totally_ordered<my::type<1>, my::type<2>>::value == true))
       QUAN_CHECK((pqs::meta::are_totally_ordered<my::type<-1>, my::type<-1>>::value == true))
 
-     #if defined __cpp_concepts
-
       QUAN_CHECK((pqs::meta::totally_ordered<int,int> == false))
       QUAN_CHECK((pqs::meta::totally_ordered<my::type<1>, my::type<2> > == true))
       QUAN_CHECK((pqs::meta::totally_ordered<my::type<-1>, my::type<-1> > == true))
 
-     #endif
    }
 
 }//namespace

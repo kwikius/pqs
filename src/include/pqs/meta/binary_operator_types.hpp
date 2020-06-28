@@ -1,10 +1,8 @@
 #ifndef PQS_META_BINARY_OPERATOR_TRAITS_HPP_INCLUDED
 #define PQS_META_BINARY_OPERATOR_TRAITS_HPP_INCLUDED
-#if (defined _MSC_VER) && (_MSC_VER >= 1200)
-#  pragma once
-#endif
+
 /*
- Copyright (c) 2005-2019 Andy Little 
+ Copyright (c) 2005-2020 Andy Little 
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

@@ -36,12 +36,8 @@ namespace pqs{
    template <typename T> 
    struct is_basic_unit_legacy : pqs::impl::is_basic_unit_impl<typename pqs::meta::strip_cr<T>::type>{};
 
-#if defined  __cpp_inline_variables
-
    template <typename T>
    inline constexpr bool is_basic_unit = is_basic_unit_legacy<T>::value;
-
-#endif
 
    // implement unit concept requirements for basic unit
    

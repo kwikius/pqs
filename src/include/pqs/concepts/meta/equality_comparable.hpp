@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <pqs/bits/binary_op.hpp>
+#include <pqs/meta/strip_cr.hpp>
 #include <pqs/concepts/meta/bool_constant.hpp>
 /*
    are 2 meta types equality comparable at compile time?
@@ -25,14 +26,13 @@ namespace pqs{ namespace meta{
    }
 
    template <typename TL, typename TR>
-   struct are_equality_comparable : impl::are_equality_comparable_impl<TL,TR>{};
-
-  #if defined __cpp_concepts
+   struct are_equality_comparable : impl::are_equality_comparable_impl<
+      typename pqs::meta::strip_cr<TL>::type,
+      typename pqs::meta::strip_cr<TR>::type
+   >{};
 
    template <typename TL,typename TR>
    concept equality_comparable = are_equality_comparable<TL,TR>::value;
-
-  #endif
 
 }}
 

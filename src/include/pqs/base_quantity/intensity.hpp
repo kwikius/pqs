@@ -49,12 +49,9 @@ namespace pqs{
 
    }// impl
 
-#if defined  __cpp_inline_variables
-
    template <int N = 1, int D = 1>
    inline constexpr auto abstract_intensity = exp_intensity<N,D>{};
 
-#endif
 }
 
 #endif //PQS_BASE_QUANTITIES_INTENSITY_HPP_INCLUDED

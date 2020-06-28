@@ -25,20 +25,11 @@ namespace pqs{
       typename pqs::meta::strip_cr<T>::type
    >{};
 
-#if defined  __cpp_inline_variables
-
    template <typename T>
    constexpr inline bool is_dimensionless_quantity = is_dimensionless_quantity_legacy<T>::value;
 
-   #if defined __cpp_concepts 
-
    template <typename T>
    concept dimensionless_quantity = is_dimensionless_quantity<T>;
-
-   #endif
-
-#endif
-
 
 } //pqs
 

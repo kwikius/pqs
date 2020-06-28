@@ -40,8 +40,6 @@ namespace {
       typedef exp_time<2> ty;
       QUAN_CHECK(( not pqs::of_same_base_quantity_legacy<tl,ty>::value)) 
 
-#if defined  __cpp_inline_variables
-   
       QUAN_CHECK((not pqs::is_base_quantity_exp<int>))
 
       QUAN_CHECK((pqs::is_base_quantity_exp<tl>))
@@ -59,8 +57,6 @@ namespace {
 
       typedef exp_time<2> ty;
       QUAN_CHECK(( not pqs::of_same_base_quantity<tl,ty>)) 
-
-#endif
 
    }
 

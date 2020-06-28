@@ -49,12 +49,9 @@ namespace pqs{
 
    }// impl
 
-#if defined  __cpp_inline_variables
-
    template <int N = 1, int D = 1>
    inline constexpr auto abstract_mass = exp_mass<N,D>{};
 
-#endif
 }
 
 #endif // PQS_BASE_QUANTITIES_MASS_HPP_INCLUDED

@@ -26,14 +26,14 @@ namespace pqs{ namespace meta{
    }
 
    template <typename TL, typename TR>
-   struct are_less_than_comparable : impl::are_less_than_comparable_impl<TL,TR>{};
-
-  #if defined __cpp_concepts
+   struct are_less_than_comparable : impl::are_less_than_comparable_impl<
+      typename pqs::meta::strip_cr<TL>::type,
+      typename pqs::meta::strip_cr<TR>::type
+   >{};
 
    template <typename TL,typename TR>
    concept less_than_comparable = are_less_than_comparable<TL,TR>::value;
 
-  #endif
 
 }}
 

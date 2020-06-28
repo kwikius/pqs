@@ -23,19 +23,11 @@ namespace pqs{
    template <typename T>
    struct is_base_quantity_legacy : impl::is_base_quantity_impl<typename pqs::meta::strip_cr<T>::type>{};
 
-#if defined  __cpp_inline_variables
-
    template <typename T>
    inline constexpr bool is_base_quantity = is_base_quantity_legacy<T>::value;
 
-   #if defined __cpp_concepts
-
    template <typename T>
    concept base_quantity = is_base_quantity<T>;
-
-   #endif
-
-#endif
 
    template <typename BaseQuantity>
    struct get_base_quantity_id_legacy : impl::get_base_quantity_id_impl<BaseQuantity>{};

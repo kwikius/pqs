@@ -66,17 +66,11 @@ namespace pqs{
    template <typename T>
    struct is_custom_base_quantity_exp_legacy ;
 
-#if defined  __cpp_inline_variables
-
    template <typename T>
    inline constexpr bool is_base_quantity_exp = is_base_quantity_exp_legacy<T>::value;
 
-   #if defined __cpp_concepts
-
    template <typename T>
    concept base_quantity_exponent = is_base_quantity_exp<T>;
-
-   #endif
 
    template <typename Lhs, typename Rhs>
    inline constexpr bool of_same_base_quantity = of_same_base_quantity_legacy<Lhs,Rhs>::value;
@@ -86,8 +80,6 @@ namespace pqs{
 
    template <typename T>
    inline constexpr bool is_custom_base_quantity_exp = is_custom_base_quantity_exp_legacy<T>::value;
-
-#endif
 
    template <typename BaseQuantity, typename Ratio>
    struct make_base_quantity_exp : pqs::meta::eval_if<
@@ -295,13 +287,9 @@ namespace pqs{
       typename pqs::meta::strip_cr<T>::type 
    >{};
 
-   #if defined  __cpp_inline_variables
    template <typename T>
    inline constexpr bool is_custom_base_quantity_exp 
       = is_custom_base_quantity_exp_legacy<T>::value;
-   
-   #endif
-
 }
 
 #endif // PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED

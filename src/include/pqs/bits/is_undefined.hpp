@@ -22,15 +22,12 @@ namespace pqs{
        impl::is_undefined_impl<typename pqs::meta::strip_cr<T>::type> 
     >{};
 
-#if defined  __cpp_inline_variables
-
    template <typename T>
    inline constexpr bool is_undefined = is_undefined_legacy<T>::value;
 
    template <typename T>
    inline constexpr bool is_defined = is_defined_legacy<T>::value;
 
-#endif
 }
 
 #endif // PQS_BITS_IS_UNDEFINED_HPP_INCLUDED

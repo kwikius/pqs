@@ -27,12 +27,8 @@ namespace pqs{ namespace meta{
    template <typename T>
    struct is_bool_constant : impl::is_bool_constant_impl<T>{};
 
-   #if defined __cpp_concepts
-
    template <typename T>
    concept bool_constant = is_bool_constant<T>::value;
-
-   #endif
 
 }}//pqs::meta
 

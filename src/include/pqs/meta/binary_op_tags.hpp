@@ -1,8 +1,5 @@
 #ifndef PQS_META_BINARY_OP_TAGS_HPP
 #define PQS_META_BINARY_OP_TAGS_HPP
-#if (defined _MSC_VER) && (_MSC_VER >= 1200)
-#  pragma once
-#endif
 
  /*
  Copyright (c) 2005-2019 Andy Little 

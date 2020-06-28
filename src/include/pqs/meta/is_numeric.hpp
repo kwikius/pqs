@@ -1,8 +1,5 @@
 #ifndef PQS_META_IS_NUMERIC_HPP_INCLUDED
 #define PQS_META_IS_NUMERIC_HPP_INCLUDED
-#if (defined _MSC_VER) && (_MSC_VER >= 1200)
-#  pragma once
-#endif
 
 /*
  Copyright (c) 2005-2013 Andy Little 

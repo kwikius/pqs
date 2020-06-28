@@ -1,8 +1,5 @@
 #ifndef PQS_UNDEFINED_HPP_INCLUDED
 #define PQS_UNDEFINED_HPP_INCLUDED
-#if (defined _MSC_VER) && (_MSC_VER >= 1200)
-#  pragma once
-#endif
 
 /*
  Copyright (c) 2019-2020 Andy Little 

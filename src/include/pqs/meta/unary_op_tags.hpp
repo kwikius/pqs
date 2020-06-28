@@ -1,8 +1,6 @@
 #ifndef PQS_META_UNARY_OP_TAGS_HPP_INCLUDED
 #define PQS_META_UNARY_OP_TAGS_HPP_INCLUDED
-#if (defined _MSC_VER) && (_MSC_VER >= 1200)
-#  pragma once
-#endif
+
 /*
  Copyright (c) 2003-2019 Andy Little.
 
