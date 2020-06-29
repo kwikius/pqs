@@ -2,4 +2,10 @@
 
 a measurement_universe has a quantity_universe_type and has member base_quantities
 
+http://www.faculty.luther.edu/~macdonal/Interval.pdf
+
+http://www.faithfulscience.com/relativity/spacetime-intervals.html
+
+
+
 

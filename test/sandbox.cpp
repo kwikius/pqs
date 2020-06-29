@@ -101,7 +101,7 @@ void sandbox()
    using nttpU = unit1< 
          si_sys, 
          pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<>,
-         pqs::conversion_factor<std::ratio<1>,pqs::unit_exp<3> >{}
+         pqs::conversion_factor<std::ratio<1>,pqs::exponent10<3> >{}
    >;
 
   // static_assert( pqs::is_conversion_factor<nttpU> , "");

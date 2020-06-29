@@ -8,7 +8,7 @@
 
 namespace pqs{ namespace si { namespace length_unit{
 
-   template <typename exp = unit_exp<0> >
+   template <typename exp = exponent10<0> >
    using coherent_length_unit = 
    pqs::si::unit<
       decltype(abstract_length<1>),
@@ -24,13 +24,13 @@ namespace pqs{ namespace si { namespace length_unit{
 
    struct m : coherent_length_unit<>{};
 
-   struct mm : coherent_length_unit< unit_exp<-3> >{};
+   struct mm : coherent_length_unit< exponent10<-3> >{};
 
    struct ft : named<"ft"> ,
    length_unit_conversion< 
       conversion_factor<
          std::ratio<381,125>,
-         unit_exp<-1>
+         exponent10<-1>
       >
    >{};
 

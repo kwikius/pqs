@@ -25,7 +25,7 @@ void custom_test2()
    {} ;
 
    basic_quantity< 
-      si::unit<abstract_velocity,unit_exp<0> >, 
+      si::unit<abstract_velocity,exponent10<0> >, 
       double
    > v2;
 
@@ -40,11 +40,11 @@ void custom_test2()
    static_assert(pqs::is_quantity_legacy<decltype(v2)>::value,"");
 
    using u = pqs::get_unit<decltype(v2)>;
-   static_assert(std::is_same<u, si::unit<abstract_velocity,unit_exp<0> > >::value,"");
+   static_assert(std::is_same<u, si::unit<abstract_velocity,exponent10<0> > >::value,"");
    using s = pqs::get_measurement_system_legacy<u>::type;
    static_assert( std::is_same<s,pqs::si_measurement_system>::value,"");
    using cf = pqs::get_conversion_factor_legacy<u>::type;
-   static_assert(std::is_same< cf, pqs::conversion_factor<std::ratio<1>,pqs::unit_exp<0> > >::value,"");
+   static_assert(std::is_same< cf, pqs::conversion_factor<std::ratio<1>,pqs::exponent10<0> > >::value,"");
    using d = pqs::get_dimension_legacy<u>::type;
    static_assert(std::is_same<d,abstract_velocity>::value,"");
    
@@ -66,7 +66,7 @@ namespace pqs{
       friend constexpr 
       pqs::conversion_factor<
          std::ratio<N1,D1>,
-         pqs::unit_exp<N> 
+         pqs::exponent10<N> 
       > operator * ( std::ratio<N1,D1>, pow10_t )
       {
          return {};
@@ -105,7 +105,7 @@ void quantity_syntax_test()
    auto qd = basic_quantity<
       si::unit<
          decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
-         unit_exp<-3>
+         exponent10<-3>
       >
    >{20.0};
 
@@ -125,7 +125,7 @@ void quantity_syntax_test()
             exp_mass<2>,
             exp_temperature<3>
          >,
-         unit_exp<3>
+         exponent10<3>
       >,
       double
    >{1234567.};
@@ -143,7 +143,7 @@ void quantity_syntax_test()
          >,
          conversion_factor<
             std::ratio<100,394>,
-            unit_exp<-6>
+            exponent10<-6>
          >
       >,
       double

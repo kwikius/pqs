@@ -1,0 +1,11 @@
+#ifndef PQS_TYPE_TEMPLATES_EXPONENT10_FWD_HPP_INCLUDED
+#define PQS_TYPE_TEMPLATES_EXPONENT10_FWD_HPP_INCLUDED
+
+namespace pqs{
+
+   template <int N, int D = 1> 
+   struct exponent10;
+
+}
+
+#endif // PQS_TYPE_TEMPLATES_EXPONENT10_FWD_HPP_INCLUDED

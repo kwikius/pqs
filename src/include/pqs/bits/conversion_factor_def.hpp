@@ -2,12 +2,11 @@
 #define PQS_CONVERSION_FACTOR_DEF_HPP_INCLUDED
 
 #include <pqs/bits/std_ratio.hpp>
+#include <pqs/type_templates/exponent10_fwd.hpp>
 #include <type_traits>
 
 namespace pqs{ 
 
-   // Multiplier is a std::ratio
-   // exponent is a unit_exp 
    template <typename Multiplier, typename  Exponent>
    struct conversion_factor{
       typedef typename Multiplier::type multiplier;

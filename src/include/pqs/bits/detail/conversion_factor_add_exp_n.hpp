@@ -3,18 +3,17 @@
 
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
-#include <pqs/bits/conversion_factor_def.hpp>
+#include <pqs/bits/detail/ll_conversion_factor.hpp>
 #include <pqs/meta/eval_if.hpp>
 #include <pqs/meta/to_power.hpp>
 
 namespace pqs{ namespace detail{
 
    template <typename RatioExp, intmax_t N>
-   struct add_conversion_factor1 {
+   struct ll_add_conversion_factor1 {
       static_assert(N >= 0);
       typedef pqs::meta::to_power<10,N> mux;
-
-      typedef conversion_factor<
+      typedef pqs::detail::ll_conversion_factor<
          typename std::ratio_multiply<
             typename RatioExp::multiplier,std::ratio<1,mux::value> 
          >::type,
@@ -25,10 +24,10 @@ namespace pqs{ namespace detail{
    };
 
    template <typename RatioExp, intmax_t N>
-   struct sub_conversion_factor1 {
+   struct ll_sub_conversion_factor1 {
       static_assert(N >= 0);
       typedef pqs::meta::to_power<10,N> mux;
-      typedef conversion_factor<
+      typedef pqs::detail::ll_conversion_factor<
          typename std::ratio_multiply<
             typename RatioExp::multiplier,std::ratio<mux::value,1> 
           >::type,
@@ -42,12 +41,12 @@ namespace pqs{ namespace detail{
     // conversion_factor::exp -> conversion_factor::exp + n
     // but number represented has same value
    template <typename RatioExp, intmax_t N>
-   struct conversion_factor_add_exp_n :
+   struct ll_conversion_factor_add_exp_n :
       pqs::meta::eval_if<
          std::integral_constant<bool,(N > 0)> 
-            ,add_conversion_factor1<RatioExp,N>
+            ,ll_add_conversion_factor1<RatioExp,N>
          ,std::integral_constant<bool,(N < 0)>
-            ,sub_conversion_factor1<RatioExp,-N>
+            ,ll_sub_conversion_factor1<RatioExp,-N>
          ,RatioExp
       >{};
 

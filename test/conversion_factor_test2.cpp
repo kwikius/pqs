@@ -41,50 +41,53 @@ namespace {
    
    void compare_test1()
    {
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v1;  // 50
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v2;  // 5
+      typedef pqs::detail::ll_conversion_factor<std::ratio<1,2>,std::ratio<2> > v1;  // 50
+      typedef pqs::detail::ll_conversion_factor<std::ratio<1,2>,std::ratio<1> > v2;  // 5
 
-      QUAN_CHECK(( pqs::detail::conversion_factor_compare<v1,v2>::value > 0 ))
-      QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v1>::value < 0 ))
-      QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v2>::value == 0 ))
+      QUAN_CHECK(( pqs::detail::ll_conversion_factor_compare<v1,v2>::value > 0 ))
+      QUAN_CHECK(( pqs::detail::ll_conversion_factor_compare<v2,v1>::value < 0 ))
+      QUAN_CHECK(( pqs::detail::ll_conversion_factor_compare<v2,v2>::value == 0 ))
 
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::less,v2>::value == false) )
-      QUAN_CHECK( ( pqs::binary_op<v2,pqs::less,v1>::value == true) )
+      typedef pqs::detail::to_conversion_factor<v1>::type v1a;
+      typedef pqs::detail::to_conversion_factor<v2>::type v2a;
 
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::less_equal,v2>::value == false) )
-      QUAN_CHECK( ( pqs::binary_op<v2,pqs::less_equal,v1>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::less,v2a>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v2a,pqs::less,v1a>::value == true) )
 
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::equal_to,v2>::value == false) )
-      QUAN_CHECK( ( pqs::binary_op<v2,pqs::equal_to,v1>::value == false) )
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::equal_to,v1>::value ==true) )
-      QUAN_CHECK( ( pqs::binary_op<v2,pqs::equal_to,v2>::value ==true) )
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::less_equal,v2a>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v2a,pqs::less_equal,v1a>::value == true) )
 
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::not_equal_to,v2>::value == true) )
-      QUAN_CHECK( ( pqs::binary_op<v2,pqs::not_equal_to,v1>::value == true) )
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::not_equal_to,v1>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::equal_to,v2a>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v2a,pqs::equal_to,v1a>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::equal_to,v1a>::value ==true) )
+      QUAN_CHECK( ( pqs::binary_op<v2a,pqs::equal_to,v2a>::value ==true) )
 
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::greater_equal,v2>::value == true) )
-      QUAN_CHECK( ( pqs::binary_op<v2,pqs::greater_equal,v1>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::not_equal_to,v2a>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v2a,pqs::not_equal_to,v1a>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::not_equal_to,v1a>::value == false) )
 
-      QUAN_CHECK( ( pqs::binary_op<v1,pqs::greater,v2>::value == true) )
-      QUAN_CHECK( ( pqs::binary_op<v2,pqs::greater,v1>::value == false) )
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::greater_equal,v2a>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v2a,pqs::greater_equal,v1a>::value == false) )
+
+      QUAN_CHECK( ( pqs::binary_op<v1a,pqs::greater,v2a>::value == true) )
+      QUAN_CHECK( ( pqs::binary_op<v2a,pqs::greater,v1a>::value == false) )
 
    }
 
    void compare_test2()
    {
-      typedef pqs::conversion_factor<std::ratio<10,3>,std::ratio<3> > v1; //approx 3000
-      typedef pqs::conversion_factor<std::ratio<10,2>,std::ratio<3> > v2; // 5000
-      QUAN_CHECK(( pqs::detail::conversion_factor_compare<v1,v2>::value < 0 ))
-      QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v1>::value > 0 ))
-      QUAN_CHECK(( pqs::detail::conversion_factor_compare<v2,v2>::value == 0 ))
+      typedef pqs::detail::ll_conversion_factor<std::ratio<10,3>,std::ratio<3> > v1; //approx 3000
+      typedef pqs::detail::ll_conversion_factor<std::ratio<10,2>,std::ratio<3> > v2; // 5000
+      QUAN_CHECK(( pqs::detail::ll_conversion_factor_compare<v1,v2>::value < 0 ))
+      QUAN_CHECK(( pqs::detail::ll_conversion_factor_compare<v2,v1>::value > 0 ))
+      QUAN_CHECK(( pqs::detail::ll_conversion_factor_compare<v2,v2>::value == 0 ))
    }
 
    void compare_test3()
    {
       // different exp
-      typedef pqs::conversion_factor<std::ratio<10,3>,std::ratio<-2> > v1;  
-      typedef pqs::conversion_factor<std::ratio<7,3>,std::ratio<-1> > v2;
+      typedef pqs::conversion_factor<std::ratio<10,3>,pqs::exponent10<-2> > v1;  
+      typedef pqs::conversion_factor<std::ratio<7,3>,pqs::exponent10<-1> > v2;
 
       QUAN_CHECK((pqs::binary_op<v1,pqs::less,v2>::value == true)) //f
       QUAN_CHECK((!pqs::binary_op<v2,pqs::less,v1>::value))
@@ -105,8 +108,8 @@ namespace {
       QUAN_CHECK((!pqs::binary_op<v1,pqs::greater,v2>::value))
     
             // TODO same exp
-      typedef pqs::conversion_factor<std::ratio<1000,3>,std::ratio<-9> > v3; // v3 < v4
-      typedef pqs::conversion_factor<std::ratio<1001,3>,std::ratio<-9> > v4;
+      typedef pqs::conversion_factor<std::ratio<1000,3>,pqs::exponent10<-9> > v3; // v3 < v4
+      typedef pqs::conversion_factor<std::ratio<1001,3>,pqs::exponent10<-9> > v4;
 
       QUAN_CHECK((pqs::binary_op<v3,pqs::less,v4>::value))
       QUAN_CHECK((!pqs::binary_op<v4,pqs::less,v3>::value))
@@ -130,28 +133,28 @@ namespace {
 
    void add_test1()
    {
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v2;
+      typedef pqs::conversion_factor<std::ratio<1,2>,pqs::exponent10<1> > v1;
+      typedef pqs::conversion_factor<std::ratio<1,2>,pqs::exponent10<1> > v2;
 
       typedef pqs::binary_op<v1,pqs::plus,v2> add;
       typedef add::type v3;
 
-      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<1>,std::ratio<1> > >::value ))
+      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<1>,pqs::exponent10<1> > >::value ))
    }
 
    void add_test2()
    {
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v2;
+      typedef pqs::conversion_factor<std::ratio<1,2>,pqs::exponent10<1> > v1;
+      typedef pqs::conversion_factor<std::ratio<1,2>,pqs::exponent10<2> > v2;
 
       typedef pqs::binary_op<v1,pqs::plus,v2> add;
       typedef add::type v3;
 
-      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<11,2>,std::ratio<1> > >::value ))
+      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<11,2>,pqs::exponent10<1> > >::value ))
 
       // same test switching order
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<2> > v4;
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v5;
+      typedef pqs::conversion_factor<std::ratio<1,2>,pqs::exponent10<2> > v4;
+      typedef pqs::conversion_factor<std::ratio<1,2>,pqs::exponent10<1> > v5;
 
       typedef pqs::binary_op<v4,pqs::plus,v5> add1;
       typedef add1::type v6;
@@ -167,21 +170,21 @@ namespace {
    void add_test()
    {
 
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
+      typedef pqs::detail::ll_conversion_factor<std::ratio<1,2>,std::ratio<1> > v1;
 
-      typedef pqs::conversion_factor<std::ratio<1,2>,std::ratio<3> > v2;
+      typedef pqs::detail::ll_conversion_factor<std::ratio<1,2>,std::ratio<3> > v2;
 
-      using pqs::detail::conversion_factor_add_exp_n;
+      using pqs::detail::ll_conversion_factor_add_exp_n;
 
-      typedef conversion_factor_add_exp_n<v2,v1::exponent::num - v2::exponent::num>::type t2;
+      typedef ll_conversion_factor_add_exp_n<v2,v1::exponent::num - v2::exponent::num>::type t2;
 
-      typedef pqs::detail::conversion_factor_add_values<v1,t2>::type t3;
+      typedef pqs::detail::ll_conversion_factor_add_values<v1,t2>::type t3;
 
-      QUAN_CHECK(( std::is_same<t3,pqs::conversion_factor<std::ratio<101,2>,std::ratio<1> > >::value ))
+      QUAN_CHECK(( std::is_same<t3,pqs::detail::ll_conversion_factor<std::ratio<101,2>,std::ratio<1> > >::value ))
   
-      typedef pqs::detail::conversion_factor_normalise<t3>::type v3;
+      typedef pqs::detail::ll_conversion_factor_normalise<t3>::type v3;
 
-      QUAN_CHECK(( std::is_same<v3,pqs::conversion_factor<std::ratio<101,20>,std::ratio<2> > >::value ))
+      QUAN_CHECK(( std::is_same<v3,pqs::detail::ll_conversion_factor<std::ratio<101,20>,std::ratio<2> > >::value ))
 
    }
 
@@ -192,102 +195,102 @@ namespace {
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<1,100>,
-         pqs::unit_exp<-3>
+         pqs::exponent10<-3>
       >;
 
-      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
-      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<-5> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,pqs::exponent10<-5> >::value) )
    }
 
    void normalise_test2()
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<99,1>,
-         pqs::unit_exp<7>
+         pqs::exponent10<7>
       >;
 
-      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<99,10> >::value) )
-      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<8> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,pqs::exponent10<8> >::value) )
    }
 
    void normalise_test3()
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<1>,
-         pqs::unit_exp<0>
+         pqs::exponent10<0>
       >;
 
-      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
-      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<0> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,pqs::exponent10<0> >::value) )
    }
 
    void normalise_test4()
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<10000>,
-         pqs::unit_exp<0>
+         pqs::exponent10<0>
       >;
 
-      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
-      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<4> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,pqs::exponent10<4> >::value) )
    }
 
    void normalise_test5()
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<12345>,
-         pqs::unit_exp<0>
+         pqs::exponent10<0>
       >;
 
-      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<2469,2000> >::value) )
-      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<4> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,pqs::exponent10<4> >::value) )
    }
 
    void normalise_test6()
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<12345>,
-         pqs::unit_exp<1,2>
+         pqs::exponent10<1,2>
       >;
    
-      using cf2 = pqs::detail::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
       
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<2469,2000> >::value) )
-      QUAN_CHECK( (std::is_same<cf2::exponent,std::ratio<9,2> >::value) )
+      QUAN_CHECK( (std::is_same<cf2::exponent,pqs::exponent10<9,2> >::value) )
    }
 
    void multiply_test1()
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<6>,
-         pqs::unit_exp<3>
+         pqs::exponent10<3>
       >;
 
       using cf2 = pqs::conversion_factor<
          std::ratio<7>,
-         pqs::unit_exp<2>
+         pqs::exponent10<2>
       >;
 
       typedef pqs::binary_op<cf1, pqs::times,cf2>::type res;
 
       QUAN_CHECK( (std::is_same<res::multiplier,std::ratio<21,5> >::value) )
-      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<6> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,pqs::exponent10<6> >::value) )
    
    }
 
@@ -295,36 +298,36 @@ namespace {
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<10>,
-         pqs::unit_exp<-1>
+         pqs::exponent10<-1>
       >;
 
       using cf2 = pqs::conversion_factor<
          std::ratio<100>,
-         pqs::unit_exp<-2>
+         pqs::exponent10<-2>
       >;
 
       typedef pqs::binary_op<cf1, pqs::times,cf2>::type res;
 
       QUAN_CHECK( (std::is_same<res::multiplier,std::ratio<1> >::value) )
-      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<0> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,pqs::exponent10<0> >::value) )
    }
 
   void multiply_test3()
    {
       using cf1 = pqs::conversion_factor<
          std::ratio<997>,
-         pqs::unit_exp<-3>
+         pqs::exponent10<-3>
       >;
 
       using cf2 = pqs::conversion_factor<
          std::ratio<56,97>,
-         pqs::unit_exp<-2>
+         pqs::exponent10<-2>
       >;
 
       typedef pqs::binary_op<cf1,pqs::times,cf2>::type res;
 
       QUAN_CHECK( (std::is_same<res::multiplier,std::ratio<13958,2425> >::value) )
-      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<-3> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,pqs::exponent10<-3> >::value) )
 
       auto v1 = eval_cf<cf1>();
       auto v2 = eval_cf<cf2>();
@@ -337,18 +340,18 @@ namespace {
    {
      using cf1 = pqs::conversion_factor<
          std::ratio<997>,
-         pqs::unit_exp<-3>
+         pqs::exponent10<-3>
       >;
 
       using cf2 = pqs::conversion_factor<
          std::ratio<56,97>,
-         pqs::unit_exp<-2>
+         pqs::exponent10<-2>
       >;
 
       typedef pqs::binary_op<cf1,pqs::divides,cf2>::type res;
 
       QUAN_CHECK( (std::is_same<res::multiplier,std::ratio< 96709 , 56000> >::value) )
-      QUAN_CHECK( (std::is_same<res::exponent,std::ratio<2> >::value) )
+      QUAN_CHECK( (std::is_same<res::exponent,pqs::exponent10<2> >::value) )
     
       auto v1 = eval_cf<cf1>();
       auto v2 = eval_cf<cf2>();

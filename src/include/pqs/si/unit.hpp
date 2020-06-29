@@ -6,7 +6,7 @@
 
 namespace pqs{ namespace si{
 
-   template <typename Dimension, typename Exp = unit_exp<0> >
+   template <typename Dimension, typename Exp = exponent10<0> >
    struct unit : pqs::basic_unit<
       pqs::si_measurement_system,
       Dimension,

@@ -8,24 +8,24 @@
 namespace  pqs { 
 
    namespace detail{
-      template <typename ConversionFactor>
-      struct conversion_factor_normalise{
+      template <typename LLConversionFactor>
+      struct ll_conversion_factor_normalise{
 
          typedef typename pqs::meta::eval_if<
             std::ratio_greater_equal<
                typename pqs::detail::std_ratio_abs<
-                  typename ConversionFactor::multiplier
+                  typename LLConversionFactor::multiplier
                >::type,
                std::ratio<10,1> 
             >,
-               pqs::detail::conversion_factor_make_ratio_less_than_10<
-                   ConversionFactor
+               pqs::detail::ll_conversion_factor_make_ratio_less_than_10<
+                   LLConversionFactor
                >,
-            std::ratio_less<typename pqs::detail::std_ratio_abs<typename ConversionFactor::multiplier>::type,std::ratio<1,1> >
-                ,pqs::detail::conversion_factor_make_ratio_greater_equal_1<
-                  ConversionFactor
+            std::ratio_less<typename pqs::detail::std_ratio_abs<typename LLConversionFactor::multiplier>::type,std::ratio<1,1> >
+                ,pqs::detail::ll_conversion_factor_make_ratio_greater_equal_1<
+                  LLConversionFactor
                 >,
-            ConversionFactor
+            LLConversionFactor
          >::type type;
       };
    }
