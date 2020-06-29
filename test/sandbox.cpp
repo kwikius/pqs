@@ -1,6 +1,7 @@
 #include "test.hpp"
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/bits/base_quantities.hpp>
+#include <pqs/instance/basic_quantity.hpp>
 
 struct my_rat{
   constexpr my_rat( int n , int d) : num{n},den{d} {}
@@ -60,7 +61,25 @@ namespace {
    struct my_abstract_acceleration : decltype( pqs::abstract_length<> / pqs::abstract_time<> ) {} ;
 
    struct my_abstract_time : decltype( pqs::abstract_time<> ) {};
+
+   struct si_sys{};
+
+   template <
+      typename S,
+      auto D,
+      auto CF
+   > struct unit1 {
+      using conversion_factor = decltype(CF);
+    };
+         
 }
+
+namespace pqs{ namespace impl{
+   
+
+//   > struct is_conversion_factor_impl<unit1<S,D,CF> > : std::true_type{};
+
+}}
 
 #if defined PQS_STANDALONE
 
@@ -77,6 +96,17 @@ void sandbox()
    testd<pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<> >();  // dimension_list
 
    testd<my_abstract_acceleration{}>();                                           // custom dimension_list     
-   testd<my_abstract_time{}>();                                          // custom base_quantity exp
+   testd<my_abstract_time{}>(); 
+
+   using nttpU = unit1< 
+         si_sys, 
+         pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<>,
+         pqs::conversion_factor<std::ratio<1>,pqs::unit_exp<3> >{}
+   >;
+
+  // static_assert( pqs::is_conversion_factor<nttpU> , "");
+   pqs::basic_quantity<nttpU,double> q1{20.0};
+
+  //int x = q1;
 
 }

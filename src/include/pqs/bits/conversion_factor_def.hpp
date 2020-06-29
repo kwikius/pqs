@@ -34,7 +34,12 @@ namespace pqs{
    } //impl
 
    template <typename T>
-   struct is_conversion_factor_legacy : impl::is_conversion_factor_impl<T>{};
+   struct is_conversion_factor_legacy : impl::is_conversion_factor_impl< 
+      typename pqs::meta::strip_cr<T>::type
+   >{};
+
+   template  <typename T>
+   inline constexpr bool is_conversion_factor = is_conversion_factor_legacy<T>::value;
 
 }  // pqs
 
