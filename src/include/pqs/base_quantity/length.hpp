@@ -1,6 +1,7 @@
 #ifndef PQS_BASE_QUANTITIES_LENGTH_HPP_INCLUDED
 #define PQS_BASE_QUANTITIES_LENGTH_HPP_INCLUDED
 
+#include <type_traits>
 #include <pqs/bits/base_quantity_of.hpp>
 #include <pqs/base_quantity/uuids.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
@@ -51,7 +52,11 @@ namespace pqs{
    }// impl
 
    template <int N = 1 , int D = 1>
-   inline constexpr auto abstract_length = exp_length<N,D>{};
+   inline constexpr auto abstract_length = std::conditional_t<
+      (D == 1),
+      exp_length<N>,
+      exp_length<N,D>
+   >{};
 
 }
 

@@ -49,8 +49,12 @@ namespace pqs{
 
    }// impl
 
-   template <int N = 1, int D = 1>
-   inline constexpr auto abstract_time = exp_time<N,D>{};
+   template <int N = 1 , int D = 1>
+   inline constexpr auto abstract_time = std::conditional_t<
+      (D == 1),
+      exp_time<N>,
+      exp_time<N,D>
+   >{};
 
 }
 

@@ -18,13 +18,13 @@ namespace pqs{
 
    template <
       typename QuantitySystem,
-      typename Dim, 
+      typename Dimension, 
       typename ConversionFactor
    >
    struct basic_unit : pqs::detail::basic_unit_base{
-      typedef QuantitySystem quantity_system;
-      typedef Dim dimension;
-      typedef ConversionFactor conversion_factor;
+      using quantity_system = std::remove_cvref_t<QuantitySystem>;
+      using dimension = std::remove_cvref_t<Dimension>;
+      using conversion_factor = std::remove_cvref_t<ConversionFactor>;
    };
 
    namespace impl{

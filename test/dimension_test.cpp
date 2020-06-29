@@ -36,7 +36,8 @@ namespace {
    void length_dimension_test()
    {
        typedef pqs::si::length_unit::mm::dimension dimension;
-       QUAN_CHECK(( std::is_same<dimension,pqs::exp_length<1> > ::value ))
+//int xx = dimension{};
+       QUAN_CHECK(( std::is_same<dimension,pqs::exp_length<1> >::value ))
        QUAN_CHECK(( pqs::is_base_quantity_exp_legacy<dimension> ::value ))
        QUAN_CHECK((pqs::is_base_quantity_legacy<pqs::get_base_quantity_legacy<dimension>::type>::value))
        QUAN_CHECK((std::is_same<pqs::get_base_quantity_legacy<dimension>::type,pqs::base_length>::value))

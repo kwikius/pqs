@@ -50,8 +50,12 @@ namespace pqs{
 
    }// impl
 
-   template <int N = 1, int D = 1>
-   inline constexpr auto abstract_current = exp_current<N,D>{};
+   template <int N = 1 , int D = 1>
+   inline constexpr auto abstract_current = std::conditional_t<
+      (D == 1),
+      exp_current<N>,
+      exp_current<N,D>
+   >{};
 
 }
 

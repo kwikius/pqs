@@ -49,8 +49,12 @@ namespace pqs{
 
    }// impl
 
-   template <int N = 1, int D = 1>
-   inline constexpr auto abstract_intensity = exp_intensity<N,D>{};
+   template <int N = 1 , int D = 1>
+   inline constexpr auto abstract_intensity = std::conditional_t<
+      (D == 1),
+      exp_intensity<N>,
+      exp_intensity<N,D>
+   >{};
 
 }
 
