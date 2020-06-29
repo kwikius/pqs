@@ -4,6 +4,7 @@
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/si/unit.hpp>
 #include <pqs/base_quantity/length.hpp>
+#include <pqs/bits/named.hpp>
 
 namespace pqs{ namespace si { namespace length_unit{
 
@@ -22,7 +23,7 @@ namespace pqs{ namespace si { namespace length_unit{
          std::ratio<381,125>,
          unit_exp<-1>
       >
-   >{};
+   > , named<"ft"> {};
 
 }}} // pqs::si::length_unit
 

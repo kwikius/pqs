@@ -4,12 +4,16 @@
 #include <pqs/type_templates/base_unit.hpp>
 #include <pqs/bits/base_quantities.hpp>
 
+namespace pqs{ 
+
+   struct  si_measurement_system {};
+
+ } //pqs::si
+
 namespace pqs{
 
-   struct  si_quantity_system {};
-
    template <>
-   struct  base_unit<base_length,si_quantity_system>{
+   struct  base_unit<base_length,si_measurement_system>{
       static constexpr const char * symbol()
       {
          return "m";
@@ -18,7 +22,7 @@ namespace pqs{
    };
 
    template <>
-   struct  base_unit<base_mass,si_quantity_system>{
+   struct  base_unit<base_mass,si_measurement_system>{
       static constexpr const char * symbol()
       {
          return "g";

@@ -17,9 +17,12 @@ void custom_test1()
 void custom_test2()
 {
    // derivation can be used to make a custom dimension
-   struct  abstract_velocity : decltype( 
-      abstract_length<> / abstract_time<>
-   ){};
+   struct  abstract_velocity : 
+      pqs::named<"abstract_velocity"> ,
+      decltype( 
+         abstract_length<> / abstract_time<>
+      ) 
+   {} ;
 
    basic_quantity< 
       si::unit<abstract_velocity,unit_exp<0> >, 
@@ -27,6 +30,7 @@ void custom_test2()
    > v2;
 
    static_assert(pqs::is_dimension<abstract_velocity>,"");
+   std::cout << "##### " << abstract_velocity::name << " ####\n";
    static_assert(pqs::is_quantity<decltype(v2)>,"");
 
    static_assert(pqs::dimension<abstract_velocity>,"");
@@ -38,7 +42,7 @@ void custom_test2()
    using u = pqs::get_unit<decltype(v2)>;
    static_assert(std::is_same<u, si::unit<abstract_velocity,unit_exp<0> > >::value,"");
    using s = pqs::get_measurement_system_legacy<u>::type;
-   static_assert( std::is_same<s,pqs::si_quantity_system>::value,"");
+   static_assert( std::is_same<s,pqs::si_measurement_system>::value,"");
    using cf = pqs::get_conversion_factor_legacy<u>::type;
    static_assert(std::is_same< cf, pqs::conversion_factor<std::ratio<1>,pqs::unit_exp<0> > >::value,"");
    using d = pqs::get_dimension_legacy<u>::type;
@@ -87,6 +91,12 @@ void quantity_syntax_test()
    auto constexpr qaa = si::speed::m_per_s<>{};  // si unit
 
    auto constexpr qb = si::length::ft<>{};  // si unit conversion
+
+   using qbu = pqs::get_unit<decltype(qb)>;
+
+   using qbcf = pqs::get_conversion_factor<qbu>;
+
+   std::cout << "----------------" << qbu::name << "-------\n";
          
    // slightly more verbose syntax
    auto qc = basic_quantity<si::length_unit::mm, double>{};
