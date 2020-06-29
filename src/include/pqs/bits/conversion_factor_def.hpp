@@ -3,6 +3,7 @@
 
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/type_templates/exponent10_fwd.hpp>
+#include <pqs/type_functions/get_exponent.hpp>
 #include <type_traits>
 
 namespace pqs{ 
@@ -30,6 +31,19 @@ namespace pqs{
          >
       > : std::true_type{};
 
+      template <intmax_t MuxNum, intmax_t MuxDenom, typename UnitExp>
+      struct get_exponent_impl<
+        pqs::conversion_factor<
+            std::ratio<MuxNum,MuxDenom>,
+            UnitExp 
+         >
+      > {
+         typedef typename  pqs::conversion_factor<
+            std::ratio<MuxNum,MuxDenom>,
+            UnitExp 
+         >::exponent type;
+      };
+
    } //impl
 
    template <typename T>
@@ -39,6 +53,8 @@ namespace pqs{
 
    template  <typename T>
    inline constexpr bool is_conversion_factor = is_conversion_factor_legacy<T>::value;
+
+  
 
 }  // pqs
 

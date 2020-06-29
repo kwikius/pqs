@@ -38,9 +38,6 @@ namespace pqs{
       template <typename UUID,typename Ratio,typename Where = void>
       struct make_base_quantity_exp_impl : pqs::undefined_arg<UUID>{};
 
-      template <typename T, typename Where = void >
-      struct get_exponent_impl : pqs::undefined_arg<T>{};
-
    } //impl
 
    template <typename T>
@@ -90,13 +87,6 @@ namespace pqs{
       >
    >{};
 
-   template <typename T>
-   struct get_exponent_legacy : impl::get_exponent_impl<
-      typename pqs::meta::strip_cr<T>::type
-   >{};
-
-   template <typename T>
-   using get_exponent = typename get_exponent_legacy<T>::type;
 
    namespace impl{
 

@@ -94,9 +94,13 @@ void quantity_syntax_test()
 
    using qbu = pqs::get_unit<decltype(qb)>;
 
+   std::cout << "----------------" << qbu::name << "-------\n";
+
    using qbcf = pqs::get_conversion_factor<qbu>;
 
-   std::cout << "----------------" << qbu::name << "-------\n";
+   using qbe = pqs::get_exponent<qbcf>;
+
+   QUAN_CHECK (( std::is_same_v<qbe,pqs::exponent10<-1> > ))
          
    // slightly more verbose syntax
    auto qc = basic_quantity<si::length_unit::mm, double>{};

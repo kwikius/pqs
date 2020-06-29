@@ -15,11 +15,11 @@ namespace pqs{ namespace si { namespace length_unit{
       exp
    >;
 
-   template <typename CF>
+   template <typename ConversionFactor>
    using length_unit_conversion = 
    pqs::si::unit_conversion<
       decltype(abstract_length<>),
-      CF
+      ConversionFactor
    >;
 
    struct m : coherent_length_unit<>{};
@@ -27,12 +27,10 @@ namespace pqs{ namespace si { namespace length_unit{
    struct mm : coherent_length_unit< exponent10<-3> >{};
 
    struct ft : named<"ft"> ,
-   length_unit_conversion< 
-      conversion_factor<
-         std::ratio<381,125>,
-         exponent10<-1>
+      length_unit_conversion< 
+         decltype( std::ratio<381,125>{} * exponent10<-1>{} )
       >
-   >{};
+   {};
 
 }}} // pqs::si::length_unit
 

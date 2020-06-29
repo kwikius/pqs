@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <ratio>
 #include <pqs/bits/binary_op.hpp>
+#include <pqs/type_functions/get_exponent.hpp>
 
 /**
 *   An instantiable type for representing dimensionlessness in dimensional analysis expressions
@@ -30,9 +31,6 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename T, typename Where >
-      struct get_exponent_impl;
-
       template <>
       struct get_exponent_impl<dimensionless,void> {
          using type = std::ratio<0,1>;
@@ -55,9 +53,6 @@ namespace pqs{
 
    } //impl
 
-   
-
 }
-
 
 #endif // PQS_CONCEPTS_DIMENSIONLESS_HPP_INCLUDED
