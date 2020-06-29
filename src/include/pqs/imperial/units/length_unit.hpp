@@ -7,13 +7,19 @@
 
 namespace pqs{ namespace imperial { namespace length_unit{
 
-   struct ft : pqs::imperial::base_unit<
-      pqs::exp_length<1>
-   >, named<"ft"> {};
+   struct ft : named<"ft">,
+      pqs::imperial::base_unit<
+         decltype( abstract_length<> )
+      >
+   {};
 
-   struct yd : decltype( ft{} * std::ratio<3>{}), named<"yd"> {};
+   struct yd : named<"yd">,
+      decltype( ft{} * std::ratio<3>{} )
+   {};
 
-   struct mi : decltype( yd{} * std::ratio<1760>{}), named<"mi">{};
+   struct mi : named<"mi">,
+      decltype( yd{} * std::ratio<1760>{} ) 
+   {};
 
 }}} // pqs::si::length_unit
 
