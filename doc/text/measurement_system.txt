@@ -1,7 +1,0 @@
-
-measurement_system concepts
-
-assigns base_units to set of base_quantities representing phenomena as well as providing consistent rules
-for represnting concrete_quantities
-
-measurement system exists in a measurement universe

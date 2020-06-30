@@ -1,9 +1,0 @@
-
-
-abstract_quantity concept
-
-has a dimension but no measurable numeric value.
-
-either an anonymous_abstract_quantity or a named_abstract_quantity
-
-
