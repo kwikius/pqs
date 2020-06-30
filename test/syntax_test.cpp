@@ -5,13 +5,19 @@
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/si/length.hpp>
 #include <pqs/si/speed.hpp>
+#include <pqs/imperial/units/length_unit.hpp>
+
 #include <iostream>
 
 using namespace pqs;
 
 void custom_test1()
 {
-  // pqs::abstract_length<1> * 
+   auto cf = std::ratio<100,2>{} * pqs::exponent10<3>{};
+
+   typedef pqs::imperial::length_unit::mi type1;
+
+    std::cout  << "imp miles name = " << pqs::imperial::length_unit::mi::name <<'\n';;
 }
 
 void custom_test2()

@@ -1,8 +1,9 @@
 #ifndef PQS_BITS_CONVERSION_FACTOR_OPS_HPP_INCLUDED
 #define PQS_BITS_CONVERSION_FACTOR_OPS_HPP_INCLUDED
 
-#include <pqs/bits/conversion_factor_def.hpp>
-#include <pqs/bits/detail/to_from_ll_conversion_factor.hpp>
+#include <pqs/bits/conversion_factor_fwd.hpp>
+#include <pqs/bits/detail/to_ll_conversion_factor.hpp>
+#include <pqs/bits/detail/to_conversion_factor.hpp>
 #include <pqs/bits/detail/conversion_factor_normalise.hpp>
 #include <pqs/bits/binary_op.hpp>
 
@@ -84,6 +85,8 @@ namespace pqs{
       };
 
    } // detail
+
+// ll 
 
    template <typename ConversionFactor>
    struct conversion_factor_normalise : pqs::detail::to_conversion_factor<

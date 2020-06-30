@@ -4,11 +4,11 @@
 #include <pqs/type_templates/base_unit.hpp>
 #include <pqs/bits/base_quantities.hpp>
 
-namespace pqs { namespace imperial{
+namespace pqs { 
 
    struct imperial_measurement_system {};
 
-}}
+}
 
 namespace pqs{
 

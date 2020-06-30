@@ -1,10 +1,7 @@
 #ifndef PQS_CONVERSION_FACTOR_DEF_HPP_INCLUDED
 #define PQS_CONVERSION_FACTOR_DEF_HPP_INCLUDED
 
-#include <pqs/bits/std_ratio.hpp>
-#include <pqs/type_templates/exponent10_fwd.hpp>
-#include <pqs/type_functions/get_exponent.hpp>
-#include <type_traits>
+#include <pqs/bits/conversion_factor_fwd.hpp>
 
 namespace pqs{ 
 
@@ -17,11 +14,24 @@ namespace pqs{
       typedef conversion_factor<multiplier,exponent> type;
    };
 
+   template <
+      typename Multiplier, typename  Exponent, 
+      intmax_t N1, intmax_t D1
+   > 
+   inline constexpr
+   auto operator * ( conversion_factor<Multiplier,Exponent>, std::ratio<N1,D1> )
+   {
+      using cf = typename conversion_factor<Multiplier,Exponent>::type;
+      using multiplier = typename cf::multiplier;
+      return typename pqs::conversion_factor_normalise<
+         pqs::conversion_factor<
+            std::ratio_multiply<multiplier,std::ratio<N1,D1> >,
+            Exponent
+         >
+      >::type{};
+   }
 
    namespace impl{
-
-      template <typename T, typename Where = void> 
-      struct is_conversion_factor_impl : std::false_type{};
 
       template <intmax_t MuxNum, intmax_t MuxDenom, typename UnitExp>
       struct is_conversion_factor_impl<
@@ -45,16 +55,6 @@ namespace pqs{
       };
 
    } //impl
-
-   template <typename T>
-   struct is_conversion_factor_legacy : impl::is_conversion_factor_impl< 
-      typename pqs::meta::strip_cr<T>::type
-   >{};
-
-   template  <typename T>
-   inline constexpr bool is_conversion_factor = is_conversion_factor_legacy<T>::value;
-
-  
 
 }  // pqs
 

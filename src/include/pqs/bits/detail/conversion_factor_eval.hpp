@@ -7,7 +7,7 @@
 #include <pqs/meta/narrowest_runtime_type.hpp>
 #include <pqs/meta/integer_max.hpp>
 #include <pqs/bits/detail/conversion_factor_normalise.hpp>
-#include <pqs/bits/detail/to_from_ll_conversion_factor.hpp>
+#include <pqs/bits/detail/to_ll_conversion_factor.hpp>
 
 namespace pqs{
 

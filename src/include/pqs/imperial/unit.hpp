@@ -8,16 +8,16 @@ namespace pqs{ namespace imperial{
 
    template <typename Dimension>
    struct base_unit : pqs::basic_unit<
-      pqs::imperial::measurement_system,
+      pqs::imperial_measurement_system,
       Dimension,
-      conversion_factor<std::ratio<1>, std::ratio<0> > 
+      conversion_factor<std::ratio<1>, pqs::exponent10<0> > 
    >{
-      using type = unit;
+      using type = base_unit;
    };
 
    template <typename Dimension, typename ConversionFactor>
    struct unit_conversion : pqs::basic_unit<
-      pqs::imperial::measurement_system, 
+      pqs::imperial_measurement_system, 
       Dimension, 
       ConversionFactor
    >{

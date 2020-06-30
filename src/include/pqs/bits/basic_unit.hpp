@@ -6,6 +6,7 @@
 #include <pqs/concepts/unit.hpp>
 #include <pqs/bits/where.hpp>
 
+
 /**
  *  basic_unit : encapsulates quantity system, dimension and conversion factor
  *  but without the numeric value.
@@ -25,6 +26,16 @@ namespace pqs{
       using quantity_system = std::remove_cvref_t<QuantitySystem>;
       using dimension = std::remove_cvref_t<Dimension>;
       using conversion_factor = std::remove_cvref_t<ConversionFactor>;
+
+      template <intmax_t N, intmax_t D>
+      constexpr friend auto operator * (basic_unit, std::ratio<N,D> r)
+      {
+         return basic_unit<
+             quantity_system,
+             dimension,
+             std::remove_cvref_t<decltype( conversion_factor{} * r)>
+         >{};
+      }
    };
 
    namespace impl{
