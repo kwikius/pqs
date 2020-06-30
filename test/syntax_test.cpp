@@ -64,28 +64,6 @@ void custom_test2()
    
 }
 
-namespace pqs{
-
-   template <int N>
-   struct pow10_t{
-
-      template <intmax_t N1, intmax_t D1>
-      friend constexpr 
-      conversion_factor<
-         std::ratio<N1,D1>,
-         exponent10<N> 
-      > operator * ( std::ratio<N1,D1>, pow10_t )
-      {
-         return {};
-      }
-
-   };
-
-   template <int N>
-   inline constexpr auto pow_10 = pow10_t<N>{};
-
-}
-
 void quantity_syntax_test() 
 {
 
@@ -123,7 +101,7 @@ void quantity_syntax_test()
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
          decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
-         decltype( std::ratio<383,100>{} * pow_10<-3> )
+         decltype( std::ratio<383,100>{} * exponent10<-3>{} )
       >
    >{20.0};
 
