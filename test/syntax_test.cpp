@@ -10,21 +10,22 @@
 #include <iostream>
 
 using namespace pqs;
+using std::ratio;
 
 void custom_test1()
 {
-   auto cf = std::ratio<100,2>{} * pqs::exponent10<3>{};
+   auto cf = ratio<100,2>{} * exponent10<3>{};
 
-   typedef pqs::imperial::length_unit::mi type1;
+   typedef imperial::length_unit::mi type1;
 
-    std::cout  << "imp miles name = " << pqs::imperial::length_unit::mi::name <<'\n';;
+    std::cout  << "imp miles name = " << imperial::length_unit::mi::name <<'\n';;
 }
 
 void custom_test2()
 {
    // derivation can be used to make a custom dimension
    struct  abstract_velocity : 
-      pqs::named<"abstract_velocity"> ,
+      named<"abstract_velocity"> ,
       decltype( 
          abstract_length<> / abstract_time<>
       ) 
@@ -35,26 +36,26 @@ void custom_test2()
       double
    > v2;
 
-   static_assert(pqs::is_dimension<abstract_velocity>,"");
+   static_assert(is_dimension<abstract_velocity>,"");
    std::cout << "##### " << abstract_velocity::name << " ####\n";
-   static_assert(pqs::is_quantity<decltype(v2)>,"");
+   static_assert(is_quantity<decltype(v2)>,"");
 
-   static_assert(pqs::dimension<abstract_velocity>,"");
-   static_assert(pqs::quantity<decltype(v2)>,"");
+   static_assert(dimension<abstract_velocity>,"");
+   static_assert(quantity<decltype(v2)>,"");
 
-   static_assert(pqs::is_dimension_legacy<abstract_velocity>::value,"");
-   static_assert(pqs::is_quantity_legacy<decltype(v2)>::value,"");
+   static_assert(is_dimension_legacy<abstract_velocity>::value,"");
+   static_assert(is_quantity_legacy<decltype(v2)>::value,"");
 
-   using u = pqs::get_unit<decltype(v2)>;
+   using u = get_unit<decltype(v2)>;
    static_assert(std::is_same<u, si::unit<abstract_velocity,exponent10<0> > >::value,"");
-   using s = pqs::get_measurement_system_legacy<u>::type;
-   static_assert( std::is_same<s,pqs::si_measurement_system>::value,"");
-   using cf = pqs::get_conversion_factor_legacy<u>::type;
-   static_assert(std::is_same< cf, pqs::conversion_factor<std::ratio<1>,pqs::exponent10<0> > >::value,"");
-   using d = pqs::get_dimension_legacy<u>::type;
+   using s = get_measurement_system_legacy<u>::type;
+   static_assert( std::is_same<s,si_measurement_system>::value,"");
+   using cf = get_conversion_factor_legacy<u>::type;
+   static_assert(std::is_same< cf, conversion_factor<std::ratio<1>,exponent10<0> > >::value,"");
+   using d = get_dimension_legacy<u>::type;
    static_assert(std::is_same<d,abstract_velocity>::value,"");
    
-   using v = pqs::get_numeric_type<decltype(v2)>;
+   using v = get_numeric_type<decltype(v2)>;
    static_assert(std::is_same<v,double>::value,"");
 
    auto nv = get_numeric_value(v2);
@@ -70,9 +71,9 @@ namespace pqs{
 
       template <intmax_t N1, intmax_t D1>
       friend constexpr 
-      pqs::conversion_factor<
+      conversion_factor<
          std::ratio<N1,D1>,
-         pqs::exponent10<N> 
+         exponent10<N> 
       > operator * ( std::ratio<N1,D1>, pow10_t )
       {
          return {};
@@ -98,15 +99,15 @@ void quantity_syntax_test()
 
    auto constexpr qb = si::length::ft<>{};  // si unit conversion
 
-   using qbu = pqs::get_unit<decltype(qb)>;
+   using qbu = get_unit<decltype(qb)>;
 
    std::cout << "----------------" << qbu::name << "-------\n";
 
-   using qbcf = pqs::get_conversion_factor<qbu>;
+   using qbcf = get_conversion_factor<qbu>;
 
-   using qbe = pqs::get_exponent<qbcf>;
+   using qbe = get_exponent<qbcf>;
 
-   QUAN_CHECK (( std::is_same_v<qbe,pqs::exponent10<-1> > ))
+   QUAN_CHECK (( std::is_same_v<qbe,exponent10<-1> > ))
          
    // slightly more verbose syntax
    auto qc = basic_quantity<si::length_unit::mm, double>{};
@@ -122,7 +123,7 @@ void quantity_syntax_test()
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
          decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
-         decltype( std::ratio<383,100>{} * pqs::pow_10<-3> )
+         decltype( std::ratio<383,100>{} * pow_10<-3> )
       >
    >{20.0};
 
