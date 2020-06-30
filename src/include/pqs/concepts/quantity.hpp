@@ -4,7 +4,10 @@
 #include <type_traits>
 #include <pqs/concepts/dimensionless_quantity.hpp>
 #include <pqs/type_functions/get_unit.hpp>
+#include <pqs/type_functions/get_dimension.hpp>
 #include <pqs/type_functions/get_numeric_type.hpp>
+#include <pqs/type_functions/get_conversion_factor.hpp>
+#include <pqs/type_functions/get_measurement_system.hpp>
 
 namespace pqs{
 
@@ -23,6 +26,20 @@ namespace pqs{
 
    template <typename T>
    concept quantity = is_quantity<T>;
+
+
+   namespace impl{
+
+      template <quantity Q>
+      struct get_dimension_impl<Q> : get_dimension<get_unit<Q> >{};
+
+      template <quantity Q>
+      struct get_conversion_factor_impl<Q> : get_conversion_factor<get_unit<Q> >{};
+
+      template <quantity Q>
+      struct get_measurement_system_impl<Q> : get_measurement_system<get_unit<Q> >{};
+
+   }
 
 }// pqs
 

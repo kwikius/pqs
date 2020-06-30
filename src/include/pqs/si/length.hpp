@@ -8,6 +8,9 @@
 namespace pqs{ namespace si { namespace length{
 
    template <typename ValueType = double>
+   using m = pqs::basic_quantity<pqs::si::length_unit::m,ValueType>;
+
+   template <typename ValueType = double>
    using mm = pqs::basic_quantity<pqs::si::length_unit::mm,ValueType>;
 
    template <typename ValueType = double>

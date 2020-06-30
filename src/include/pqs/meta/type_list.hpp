@@ -1,7 +1,7 @@
 #ifndef PQS_META_TYPE_LIST_HPP_INCLUDED
 #define PQS_META_TYPE_LIST_HPP_INCLUDED
 /*
- Copyright (c) 2003-2017 Andy Little.
+ Copyright (c) 2003-2020 Andy Little.
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
  along with this program. If not, see http://www.gnu.org/licenses./
  */
 
-//#include <quan/concepts/meta/type_list.hpp>
 #include <type_traits>
 #include <pqs/concepts/meta/type_list.hpp>
 #include <pqs/bits/undefined.hpp>
