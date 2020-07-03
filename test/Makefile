@@ -4,6 +4,7 @@ PQS_ROOT ?= ../src/include
 CXXFLAGS = -fmax-errors=1
 
 OBJECTS = \
+   dimension_test3.o \
    basic_quantity_test.o \
  	base_quantity_exp_test.o \
    dimension_test.o \

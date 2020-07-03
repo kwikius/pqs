@@ -9,6 +9,8 @@ void base_quantity_test();
 void dimension_test();
 void dimension_test1();
 void dimension_test2();
+void dimension_test3();
+
 void conversion_factor_test1();
 
 void type_list_test();

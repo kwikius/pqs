@@ -192,6 +192,7 @@ namespace pqs{
 
 //multiply
       // base_exp * base_exp
+      // TODO sort
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
          Lhs,pqs::times,Rhs,
@@ -202,7 +203,10 @@ namespace pqs{
                meta::not_<pqs::of_same_base_quantity_legacy<Lhs,Rhs> >
             > 
          >::type
-      > : dimension_list<Lhs,Rhs>{};
+      > : pqs::meta::merge_sort<
+          dimension_list<Lhs,Rhs>,
+          pqs::meta::detail::base_quantity_exp_sort_fun
+      >{};
 
       // base_exp list * base-exp
       template <typename Lhs, typename Rhs>
@@ -325,10 +329,11 @@ namespace pqs{
                meta::not_<pqs::of_same_base_quantity_legacy<Lhs,Rhs> >
             > 
          >::type
-      > : dimension_list<
-          Lhs,
-          typename pqs::unary_op<pqs::meta::reciprocal,Rhs>::type
+      > : pqs::meta::merge_sort<
+          dimension_list<Lhs,typename pqs::unary_op<pqs::meta::reciprocal,Rhs>::type>,
+          pqs::meta::detail::base_quantity_exp_sort_fun
       >{};
+
          // add to a dimension_list
       template <typename Lhs, typename Rhs>
       struct binary_op_impl <
