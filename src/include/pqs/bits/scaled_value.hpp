@@ -10,7 +10,7 @@ namespace pqs{
    template <typename ConversionFactor,typename ValueType>
    struct scaled_value{
 
-      static_assert(pqs::is_dimensionless_quantity_legacy<ValueType>::value, "invalid value_type for scaled_value");
+    //  static_assert(pqs::is_dimensionless_quantity_legacy<ValueType>::value, "invalid value_type for scaled_value");
       static_assert(pqs::is_conversion_factor<ConversionFactor>, "invalid conversion factor type for scaled_value");
 
       typedef ValueType value_type;

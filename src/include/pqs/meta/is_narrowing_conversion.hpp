@@ -34,10 +34,15 @@ namespace pqs { namespace meta{
    }//impl
 
    template <typename From, typename To>
-   struct is_narrowing_conversion : impl::is_narrowing_conversion_impl<
+   struct is_narrowing_conversion_legacy : impl::is_narrowing_conversion_impl<
       typename pqs::meta::strip_cr<From>::type,
       typename pqs::meta::strip_cr<To>::type
-   >{};   
+   >{};  
+
+   template <typename From, typename To>
+   inline constexpr bool is_narrowing_conversion = 
+      is_narrowing_conversion_legacy<From,To>::value;
+
 
 }} //pqs::meta
 

@@ -3,6 +3,7 @@
 
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/bits/scaled_value.hpp>
+#include <pqs/meta/is_narrowing_conversion.hpp>
 
 namespace pqs{
 
@@ -17,6 +18,18 @@ namespace pqs{
 
       constexpr basic_quantity( basic_quantity const & ) = default;
 
+      template <quantity Q>
+      constexpr basic_quantity( Q const & q)
+         requires
+            std::is_same_v< get_dimension<unit>,get_dimension<Q> > &&
+            std::is_same_v<get_measurement_system<unit>,get_measurement_system<Q> > &&
+            ! pqs::meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
+      :  m_scaled_value{scaled_value<
+            get_conversion_factor<Q>,
+            get_numeric_type<Q> 
+         >{get_numeric_value(q)}}
+      {}
+
       constexpr value_type numeric_value() const 
       { return m_scaled_value.numeric_value(); }
 
@@ -30,7 +43,7 @@ namespace pqs{
 
    // implement requirements for basic_quantity to be a model of quantity
 
-   template <typename Unit, typename ValueType>
+   template <unit Unit, dimensionless_quantity ValueType>
    inline constexpr ValueType get_numeric_value(basic_quantity<Unit,ValueType> const & q)
    {
       return q.numeric_value();

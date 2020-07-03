@@ -23,7 +23,7 @@ namespace pqs{
        template <typename Tout, typename Tin>
        constexpr static 
        typename pqs::where_<
-         pqs::meta::not_< pqs::meta::is_narrowing_conversion<Tin,Tout> >,
+         pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
          Tout
        >::type
        apply( Tin const & v)
@@ -32,7 +32,7 @@ namespace pqs{
        template <typename Tout, typename Tin>
        constexpr static 
        typename pqs::where_<
-         pqs::meta::is_narrowing_conversion<Tin,Tout>,
+         pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
          Tout
        >::type
        apply( Tin const & v)
@@ -67,7 +67,7 @@ namespace pqs{
        template <typename Tout, typename Tin>
        constexpr static 
        typename pqs::where_<
-         pqs::meta::not_< pqs::meta::is_narrowing_conversion<Tin,Tout> >,
+         pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
          Tout
        >::type
        apply( Tin const & v)
@@ -76,7 +76,7 @@ namespace pqs{
        template <typename Tout, typename Tin>
        constexpr static 
        typename pqs::where_<
-         pqs::meta::is_narrowing_conversion<Tin,Tout>,
+         pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
          pqs::invalid_conversion<Tin,Tout,no_narrowing_conversion>
        >::type
        apply( Tin const & v)
@@ -88,7 +88,7 @@ namespace pqs{
       template <typename Tout, typename Tin>
       constexpr static 
       typename pqs::where_<
-      pqs::meta::not_< pqs::meta::is_narrowing_conversion<Tin,Tout> >,
+      pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
       Tout
       >::type
       apply( Tin const & v)
@@ -98,7 +98,7 @@ namespace pqs{
       template <typename Tout, typename Tin>
       constexpr static 
       typename pqs::where_<
-      pqs::meta::is_narrowing_conversion<Tin,Tout>,
+      pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
       Tout
       >::type
       apply( Tin const & v)
@@ -128,7 +128,7 @@ namespace pqs{
       template <typename Tout, typename Tin>
       constexpr static 
       typename pqs::where_<
-         pqs::meta::not_< pqs::meta::is_narrowing_conversion<Tin,Tout> >,
+         pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
          Tout
       >::type
       apply( Tin const & v)
@@ -137,7 +137,7 @@ namespace pqs{
       template <typename Tout, typename Tin>
       constexpr static 
       typename pqs::where_<
-         pqs::meta::is_narrowing_conversion<Tin,Tout>,
+         pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
          Tout
       >::type
       apply( Tin const & v)

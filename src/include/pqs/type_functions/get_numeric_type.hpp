@@ -11,7 +11,7 @@ namespace pqs{
    template <typename T>
    struct get_numeric_type_legacy {
       typedef typename impl::get_numeric_type_impl<typename pqs::meta::strip_cr<T>::type>::type type;
-      static_assert(pqs::is_defined_legacy<type>::value,"");
+     // static_assert(pqs::is_defined_legacy<type>::value,"");
    };
 
    template <typename T>

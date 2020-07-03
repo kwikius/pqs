@@ -45,11 +45,11 @@ namespace pqs{
          >;
       };
 
-      template <quantity Q>
-      struct result<Q,Q>
-      {
-         using type = Q;
-      };
+//      template <quantity Q>
+//      struct result<Q,Q>
+//      {
+//         using type = Q;
+//      };
       
       template <quantity Lhs, quantity Rhs>
          requires  

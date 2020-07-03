@@ -1,13 +1,9 @@
 #include "test.hpp"
-
 #include <pqs/bits/base_quantities.hpp>
-
 #include <pqs/instance/basic_quantity.hpp>
 #include <pqs/bits/basic_unit.hpp>
-
 #include <pqs/si/length.hpp>
 #include <pqs/imperial/length.hpp>
-
 #include <iostream>
 
 struct dummy_system{ 
@@ -25,6 +21,7 @@ namespace {
 
    void basic_quantity_test1()
    {
+      static_assert(pqs::is_defined_legacy<double>::value,"");
       pqs::basic_quantity<
          pqs::basic_unit<
             dummy_system,
@@ -56,21 +53,19 @@ namespace {
      // int x = r;
    }
 
-
    void basic_quantity_test2()
    {
-        auto a = pqs::si::length::ft<>{1};
+      auto q_si1 = pqs::si::length::m<>{1};
+      auto q_si2 = pqs::si::length::mm<>{321};
+      auto q_r = q_si1 + q_si2;
+      std::cout << " q_r numeric value = " << get_numeric_value(q_r) << '\n';
 
-        auto b = pqs::imperial::length::ft<>{1};
-
-        auto c1 = a + a;
-       // auto c2 = b + b;
-       // auto c3 = a + b;
+      auto b = pqs::imperial::length::ft<>{1};
+      auto c = pqs::imperial::length::yd<>{2};
+      auto d = b + c;
+      std::cout << " imp numeric value = " << get_numeric_value(d) << '\n';
    }
-
 }
-
-
 
 void basic_quantity_test()
 {
