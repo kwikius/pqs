@@ -42,7 +42,7 @@ namespace pqs{ namespace meta{
     }//impl
 
     template <typename T>
-    struct is_numeric : pqs::meta::impl::is_numeric_impl<typename pqs::meta::strip_cr<T>::type>{};
+    struct is_numeric : pqs::meta::impl::is_numeric_impl< std::remove_cvref_t<T> >{};
 
                 
 }}//pqs::meta

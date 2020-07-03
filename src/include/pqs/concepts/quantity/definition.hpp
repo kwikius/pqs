@@ -19,7 +19,7 @@ namespace pqs{
    }// impl
 
    template <typename T>
-   struct is_quantity_legacy : impl::is_quantity_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_quantity_legacy : impl::is_quantity_impl< std::remove_cvref_t<T> >{};
 
    template <typename T>
    inline constexpr bool is_quantity = is_quantity_legacy<T>::value;
@@ -74,7 +74,6 @@ namespace pqs{
     impl::provide_operator_divides_impl<
          std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
-
 
 }// pqs
 

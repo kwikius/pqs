@@ -67,8 +67,8 @@ namespace {
 
    template <typename T1, typename T2>
    struct same_no_cr : std::is_same<
-      typename pqs::meta::strip_cr<T1>::type ,
-      typename pqs::meta::strip_cr<T2>::type 
+      std::remove_cvref_t<T1>,
+      std::remove_cvref_t<T2>
    >{};
 }
 

@@ -31,7 +31,7 @@ namespace pqs{ namespace meta{
 
    template <typename T>
    struct is_runtime_type : impl::is_runtime_type_impl<
-      typename pqs::meta::strip_cr<T>::type
+      std::remove_cvref_t<T>
    >{};
       
 }} //pqs::meta

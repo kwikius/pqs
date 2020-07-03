@@ -24,7 +24,7 @@ namespace pqs{ namespace meta{
    }// impl
 
    template <typename T>
-   struct is_type_function : impl::is_type_function_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_type_function : impl::is_type_function_impl< std::remove_cvref_t<T> >{};
 
 }} //pqs::meta
 

@@ -22,7 +22,7 @@ namespace pqs{
    template <typename T>
    struct is_dimensionless_quantity_legacy
    : impl::is_dimensionless_quantity_impl<
-      typename pqs::meta::strip_cr<T>::type
+      std::remove_cvref_t<T>
    >{};
 
    template <typename T>

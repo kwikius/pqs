@@ -15,9 +15,9 @@ namespace {
 
       pqs::dimensionless d2;
 
-      QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 * d2)>::type, pqs::dimensionless>::value))
+      QUAN_CHECK((std::is_same<std::remove_cvref_t<decltype(d1 * d2)>, pqs::dimensionless>::value))
 
-      QUAN_CHECK((std::is_same<pqs::meta::strip_cr<decltype(d1 / d2)>::type, pqs::dimensionless>::value))
+      QUAN_CHECK((std::is_same<std::remove_cvref_t<decltype(d1 / d2)>, pqs::dimensionless>::value))
 
       QUAN_CHECK( (pqs::pow<1,2>(d1) == d1) );
       QUAN_CHECK( (pqs::pow<-10>(d1) == d1) );

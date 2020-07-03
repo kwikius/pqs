@@ -13,6 +13,7 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/types/dimensionless.hpp>
+#include <pqs/type_functions/get_base_quantity.hpp>
 
 namespace pqs{
 
@@ -21,9 +22,6 @@ namespace pqs{
       template <typename T, typename Where = void>
       struct is_base_quantity_exp_impl : std::false_type{};
 
-      template <typename T, typename Where = void>
-      struct get_base_quantity_impl : pqs::undefined{};
-      
       template <typename Lhs, typename Rhs, typename Where = void>
       struct of_same_base_quantity_impl : std::false_type{};
 
@@ -32,7 +30,8 @@ namespace pqs{
       struct base_quantity_exp_is_zero_impl : pqs::undefined_arg<T> {};
 
       template <>
-      struct base_quantity_exp_is_zero_impl<pqs::dimensionless> : std::true_type{};
+      struct base_quantity_exp_is_zero_impl<pqs::dimensionless> 
+      : std::true_type{};
 
       // customise per UUID
       template <typename UUID,typename Ratio,typename Where = void>
@@ -41,23 +40,20 @@ namespace pqs{
    } //impl
 
    template <typename T>
-   struct is_base_quantity_exp_legacy : pqs::impl::is_base_quantity_exp_impl<typename pqs::meta::strip_cr<T>::type>{};
-
-   template <typename T>
-   struct get_base_quantity_legacy : pqs::impl::get_base_quantity_impl<typename pqs::meta::strip_cr<T>::type>{};
-
-   template <typename T>
-   using get_base_quantity = typename get_base_quantity_legacy<T>::type;
+   struct is_base_quantity_exp_legacy 
+   : pqs::impl::is_base_quantity_exp_impl< 
+      std::remove_cvref_t<T> 
+   >{};
 
    template <typename Lhs, typename Rhs>
    struct of_same_base_quantity_legacy : pqs::impl::of_same_base_quantity_impl<
-      typename pqs::meta::strip_cr<Lhs>::type,
-      typename pqs::meta::strip_cr<Rhs>::type
+      std::remove_cvref_t<Lhs>,
+      std::remove_cvref_t<Rhs>
    >{};
 
    template <typename T>
    struct base_quantity_exp_is_zero_legacy : pqs::impl::base_quantity_exp_is_zero_impl<
-      typename pqs::meta::strip_cr<T>::type
+      std::remove_cvref_t<T>
    >{};
 
    template <typename T>
@@ -274,7 +270,7 @@ namespace pqs{
    template <typename T>
    struct is_custom_base_quantity_exp_legacy 
    : impl::is_custom_base_quantity_exp_impl<
-      typename pqs::meta::strip_cr<T>::type 
+      std::remove_cvref_t<T> 
    >{};
 
    template <typename T>

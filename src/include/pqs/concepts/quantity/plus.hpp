@@ -14,7 +14,7 @@ namespace pqs{
    struct operator_plus;
 
    /**
-    * @brief The default add op where both Lhs and Rhs are in same measurement system
+    * @brief The default add op where both Lhs and Rhs are in any same measurement system
     * 
    */
    template <measurement_system S>
@@ -29,7 +29,7 @@ namespace pqs{
                S,
                get_dimension<Lhs>,
                std::conditional_t<
-                  pqs::binary_op_v<
+                  pqs::binary_op_v<  // choose the smallest unit
                      get_conversion_factor<Lhs>,
                      pqs::less_equal,
                      get_conversion_factor<Rhs>
@@ -44,7 +44,7 @@ namespace pqs{
             )>
          >;
       };
-
+// commented out just now only for testing conversions
 //      template <quantity Q>
 //      struct result<Q,Q>
 //      {
@@ -54,24 +54,22 @@ namespace pqs{
       template <quantity Lhs, quantity Rhs>
          requires  
          std::is_same_v<get_dimension<Lhs>,get_dimension<Rhs> > &&
-         std::is_same_v<get_measurement_system<Lhs>,S>  &&
-         std::is_same_v<get_measurement_system<Rhs>,S>  &&
          provide_operator_plus<Lhs,Rhs>
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
          using result_type = typename result<Lhs,Rhs>::type;
-         result_type const lhs1 = lhs;
-         result_type const rhs1 = rhs;
-         auto nl = get_numeric_value(lhs1);
-         auto nr = get_numeric_value(rhs1);
-         return result_type {nl + nr};
+
+         return result_type{
+            get_numeric_value(result_type{lhs}) + 
+            get_numeric_value(result_type{rhs})
+         };
       }
    };
    
    template <quantity Lhs, quantity Rhs>
       requires  
-         std::is_same_v<get_dimension<Lhs>,get_dimension<Rhs> > &&
-         provide_operator_plus<Lhs,Rhs>
+      std::is_same_v<get_dimension<Lhs>,get_dimension<Rhs> > &&
+      provide_operator_plus<Lhs,Rhs>
    inline constexpr auto operator + ( Lhs const & lhs, Rhs const & rhs)
    {
       return operator_plus<

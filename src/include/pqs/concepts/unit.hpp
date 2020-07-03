@@ -20,7 +20,7 @@ namespace pqs{
    }
 
    template < typename  T>
-   struct is_unit_legacy : impl::is_unit_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_unit_legacy : impl::is_unit_impl< std::remove_cvref_t<T> >{};
 
    template <typename T>
    inline constexpr bool is_unit = is_unit_legacy<T>::value;
@@ -29,6 +29,5 @@ namespace pqs{
    concept unit = is_unit<T>;
 
 };
-
 
 #endif // PQS_CONCEPTS_UNIT_HPP_INCLUDED

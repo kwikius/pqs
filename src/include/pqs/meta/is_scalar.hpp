@@ -37,7 +37,7 @@ namespace pqs{ namespace meta{
     };
 
     template <typename T>
-    struct is_scalar : impl::is_scalar_impl<typename pqs::meta::strip_cr<T>::type>{};
+    struct is_scalar : impl::is_scalar_impl< std::remove_cvref_t<T> >{};
 
 }}//quan::meta
 

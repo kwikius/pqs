@@ -24,7 +24,7 @@ namespace pqs{ namespace meta{
    };
 
    template <typename T> 
-   struct is_any_type : impl::is_any_type_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_any_type : impl::is_any_type_impl< std::remove_cvref_t<T> >{};
 
  }} // quan::meta
 

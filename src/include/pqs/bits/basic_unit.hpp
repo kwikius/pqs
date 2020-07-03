@@ -43,7 +43,7 @@ namespace pqs{
    }
 
    template <typename T> 
-   struct is_basic_unit_legacy : pqs::impl::is_basic_unit_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_basic_unit_legacy : pqs::impl::is_basic_unit_impl<std::remove_cvref_t<T> >{};
 
    template <typename T>
    inline constexpr bool is_basic_unit = is_basic_unit_legacy<T>::value;

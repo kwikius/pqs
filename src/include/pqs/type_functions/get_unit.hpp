@@ -12,10 +12,7 @@ namespace pqs{
    }
 
    template <typename T>
-   struct get_unit_legacy {
-      typedef typename impl::get_unit_impl<typename pqs::meta::strip_cr<T>::type>::type type;
-      static_assert(pqs::is_defined_legacy<type>::value,"");
-   };
+   struct get_unit_legacy : impl::get_unit_impl< std::remove_cvref_t<T> >{};
 
    template <typename T>
    using get_unit = typename get_unit_legacy<T>::type;

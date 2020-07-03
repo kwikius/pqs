@@ -18,7 +18,7 @@ namespace pqs{
    } // impl
 
    template <typename T>
-   struct is_ratio : pqs::impl::is_ratio_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_ratio : pqs::impl::is_ratio_impl< std::remove_cvref_t<T> >{};
 
 } // pqs
 

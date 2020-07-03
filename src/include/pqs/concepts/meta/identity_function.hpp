@@ -22,7 +22,9 @@ namespace pqs{ namespace meta{
    }
 
    template <typename T>
-   struct is_identity_function : impl::is_identity_function_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_identity_function : impl::is_identity_function_impl<
+      std::remove_cvref_t<T>
+   >{};
   
 }} //pqs::meta
 

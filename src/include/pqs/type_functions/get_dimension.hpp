@@ -17,7 +17,7 @@ namespace pqs{
    template <typename T>
    struct get_dimension_legacy 
    : impl::get_dimension_impl<
-      typename pqs::meta::strip_cr<T>::type
+      std::remove_cvref_t<T>
    >{};
 
    template <typename T>

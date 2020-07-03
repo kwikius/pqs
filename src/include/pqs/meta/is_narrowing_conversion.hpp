@@ -35,8 +35,8 @@ namespace pqs { namespace meta{
 
    template <typename From, typename To>
    struct is_narrowing_conversion_legacy : impl::is_narrowing_conversion_impl<
-      typename pqs::meta::strip_cr<From>::type,
-      typename pqs::meta::strip_cr<To>::type
+      std::remove_cvref_t<From>,
+      std::remove_cvref_t<To>
    >{};  
 
    template <typename From, typename To>

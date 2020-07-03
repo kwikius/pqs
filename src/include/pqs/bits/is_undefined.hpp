@@ -2,7 +2,6 @@
 #define PQS_BITS_IS_UNDEFINED_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/meta/strip_cr.hpp>
 #include <pqs/meta/not.hpp>
 
 namespace pqs{
@@ -15,11 +14,11 @@ namespace pqs{
     }
 
     template <typename T>
-    struct is_undefined_legacy : impl::is_undefined_impl<typename pqs::meta::strip_cr<T>::type> {};
+    struct is_undefined_legacy : impl::is_undefined_impl< std::remove_cvref_t<T> > {};
 
     template <typename T>
     struct is_defined_legacy : pqs::meta::not_<
-       impl::is_undefined_impl<typename pqs::meta::strip_cr<T>::type> 
+       impl::is_undefined_impl< std::remove_cvref_t<T> > 
     >{};
 
    template <typename T>

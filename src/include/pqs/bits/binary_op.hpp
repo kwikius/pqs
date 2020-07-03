@@ -14,16 +14,16 @@ namespace pqs{
 
    template <typename Lhs, typename Op, typename Rhs>
    struct binary_op : impl::binary_op_impl<
-      typename pqs::meta::strip_cr<Lhs>::type,
-         Op,
-            typename pqs::meta::strip_cr<Rhs>::type
+      std::remove_cvref_t<Lhs>,
+      Op,
+      std::remove_cvref_t<Rhs>
    >{};
 
    template <typename Lhs, typename Op, typename Rhs>
    struct is_valid_binary_op : impl::is_valid_binary_op_impl<
-      typename pqs::meta::strip_cr<Lhs>::type,
-         Op,
-            typename pqs::meta::strip_cr<Rhs>::type
+      std::remove_cvref_t<Lhs>,
+      Op,
+      std::remove_cvref_t<Rhs>
    >{};
 
    template <typename Lhs, typename Op, typename Rhs>

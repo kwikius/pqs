@@ -27,8 +27,8 @@ namespace pqs{ namespace meta{
 
    template <typename TL, typename TR>
    struct are_less_than_comparable : impl::are_less_than_comparable_impl<
-      typename pqs::meta::strip_cr<TL>::type,
-      typename pqs::meta::strip_cr<TR>::type
+      std::remove_cvref_t<TL>,
+      std::remove_cvref_t<TR>
    >{};
 
    template <typename TL,typename TR>

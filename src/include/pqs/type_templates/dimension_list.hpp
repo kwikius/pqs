@@ -48,7 +48,7 @@ namespace pqs{
    template <typename D>
    struct is_simple_dimension_list_legacy 
    : impl::is_simple_dimension_list_impl<
-      typename pqs::meta::strip_cr<D>::type
+      std::remove_cvref_t<D>
    >{};
 
    template <typename D>
@@ -68,7 +68,7 @@ namespace pqs{
 
    template <typename T>
    struct is_custom_dimension_list_legacy : impl::is_custom_dimension_list_impl<
-      typename pqs::meta::strip_cr<T>::type
+      std::remove_cvref_t<T>
    >{};
 
    template<typename T>
@@ -85,7 +85,7 @@ namespace pqs{
 
    template <typename D>
    struct is_custom_dimension_legacy : impl::is_custom_dimension_impl<
-      typename pqs::meta::strip_cr<D>::type
+      std::remove_cvref_t<D>
    >{};
 
    template <typename D>
@@ -185,7 +185,7 @@ namespace pqs{
 
    template <typename T>
    struct is_dimension_legacy : impl::is_dimension_impl<
-      typename pqs::meta::strip_cr<T>::type
+      std::remove_cvref_t<T>
    >{};
 
    namespace impl{

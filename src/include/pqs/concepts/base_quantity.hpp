@@ -21,7 +21,7 @@ namespace pqs{
    } //impl
 
    template <typename T>
-   struct is_base_quantity_legacy : impl::is_base_quantity_impl<typename pqs::meta::strip_cr<T>::type>{};
+   struct is_base_quantity_legacy : impl::is_base_quantity_impl< std::remove_cvref_t<T> >{};
 
    template <typename T>
    inline constexpr bool is_base_quantity = is_base_quantity_legacy<T>::value;

@@ -9,10 +9,7 @@ namespace pqs{
    }
 
    template <typename T>
-   struct get_numeric_type_legacy {
-      typedef typename impl::get_numeric_type_impl<typename pqs::meta::strip_cr<T>::type>::type type;
-     // static_assert(pqs::is_defined_legacy<type>::value,"");
-   };
+   struct get_numeric_type_legacy  : impl::get_numeric_type_impl< std::remove_cvref_t<T> >{};
 
    template <typename T>
    using get_numeric_type = typename get_numeric_type_legacy<T>::type;
