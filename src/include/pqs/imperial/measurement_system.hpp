@@ -6,8 +6,18 @@
 
 namespace pqs { 
 
-   struct imperial_measurement_system {};
+   struct imperial_measurement_system { 
+      using type = imperial_measurement_system; 
+   };
 
+}
+
+namespace pqs{
+   namespace impl{
+      template <> struct is_measurement_system_impl<
+         pqs::imperial_measurement_system
+      > : std::true_type{};
+   }
 }
 
 namespace pqs{

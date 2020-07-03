@@ -9,25 +9,25 @@
 namespace pqs{ namespace si { namespace length_unit{
 
    template <typename exp = exponent10<0> >
-   using coherent_length_unit = 
+   struct coherent :
    pqs::si::unit<
       decltype(abstract_length<1>),
       exp
-   >;
+   >{};
 
    template <typename ConversionFactor>
-   using length_unit_conversion = 
+   struct conversion : 
    pqs::si::unit_conversion<
       decltype(abstract_length<>),
       ConversionFactor
-   >;
+   >{};
 
-   struct m : coherent_length_unit<>{};
+   struct m : coherent<>{};
 
-   struct mm : coherent_length_unit< exponent10<-3> >{};
+   struct mm : coherent< exponent10<-3> >{};
 
    struct ft : named<"ft"> ,
-      length_unit_conversion< 
+      conversion< 
          decltype( std::ratio<381,125>{} * exponent10<-1>{} )
       >
    {};

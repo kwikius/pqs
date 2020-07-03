@@ -6,9 +6,19 @@
 
 namespace pqs{ 
 
-   struct  si_measurement_system {};
+   struct  si_measurement_system {
+      using type = si_measurement_system;
+   };
 
  } //pqs::si
+
+namespace pqs{
+   namespace impl{
+      template <> struct is_measurement_system_impl<
+         pqs::si_measurement_system
+       > : std::true_type{};
+   }
+}
 
 namespace pqs{
 

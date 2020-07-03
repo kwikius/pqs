@@ -6,7 +6,6 @@
 #include <pqs/concepts/unit.hpp>
 #include <pqs/bits/where.hpp>
 
-
 /**
  *  basic_unit : encapsulates quantity system, dimension and conversion factor
  *  but without the numeric value.
@@ -18,12 +17,12 @@ namespace pqs{
    }
 
    template <
-      typename QuantitySystem,
+      typename MeasurementSystem,
       typename Dimension, 
       typename ConversionFactor
    >
    struct basic_unit : pqs::detail::basic_unit_base{
-      using quantity_system = std::remove_cvref_t<QuantitySystem>;
+      using quantity_system = std::remove_cvref_t<MeasurementSystem>;
       using dimension = std::remove_cvref_t<Dimension>;
       using conversion_factor = std::remove_cvref_t<ConversionFactor>;
 
@@ -39,7 +38,6 @@ namespace pqs{
    };
 
    namespace impl{
-
       template <typename T> 
       struct is_basic_unit_impl : std::is_base_of<pqs::detail::basic_unit_base,T>{};
    }
@@ -50,9 +48,14 @@ namespace pqs{
    template <typename T>
    inline constexpr bool is_basic_unit = is_basic_unit_legacy<T>::value;
 
-   // implement unit concept requirements for basic unit
-   
+/**
+* implement unit concept requirements for basic unit
+*/
+
    namespace impl{
+
+      template <typename T>
+      struct is_unit_impl<T , std::enable_if_t<pqs::is_basic_unit<T> > > : std::true_type{};
 
       template <typename T>
       struct get_measurement_system_impl<

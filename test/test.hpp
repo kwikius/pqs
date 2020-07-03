@@ -45,10 +45,10 @@ inline
 int epilogue(const char* file)
 {
     if (errors){
-        std::cout << file << " FAIL: found " << errors << " errors\n";
+        std::cout << "TEST FAILED     :  " << file << " FAIL: found " << errors << " errors\n";
     }
     else{
-        std::cout << file << " PASS (no errors)\n";
+        std::cout << "TEST SUCCESSFUL : " << file << " PASS (no errors)\n";
     }
     return errors;
 }

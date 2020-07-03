@@ -98,14 +98,6 @@ void sandbox()
    testd<my_abstract_acceleration{}>();                                           // custom dimension_list     
    testd<my_abstract_time{}>(); 
 
-   using nttpU = unit1< 
-         si_sys, 
-         pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<>,
-         pqs::conversion_factor<std::ratio<1>,pqs::exponent10<3> >{}
-   >;
-
-  // static_assert( pqs::is_conversion_factor<nttpU> , "");
-   pqs::basic_quantity<nttpU,double> q1{20.0};
 
   //int x = q1;
 

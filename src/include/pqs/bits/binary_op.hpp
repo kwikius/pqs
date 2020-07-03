@@ -26,6 +26,12 @@ namespace pqs{
             typename pqs::meta::strip_cr<Rhs>::type
    >{};
 
+   template <typename Lhs, typename Op, typename Rhs>
+   using binary_op_t = typename binary_op<Lhs,Op,Rhs>::type;
+
+   template <typename Lhs, typename Op, typename Rhs>
+   inline constexpr bool binary_op_v = binary_op<Lhs,Op,Rhs>::value;
+
 }
 
 #endif // PQS_BINARY_OP_HPP_INCLUDED
