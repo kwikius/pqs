@@ -1,8 +1,11 @@
 #ifndef PQS_BITS_SI_QUANTITY_SYSTEM_HPP_INCLUDED
 #define PQS_BITS_SI_QUANTITY_SYSTEM_HPP_INCLUDED
 
-#include <pqs/type_templates/base_unit.hpp>
+#include <pqs/concepts/measurement_system.hpp>
 #include <pqs/bits/base_quantities.hpp>
+#include <pqs/value_functions/get_base_unit_symbol.hpp>
+#include <pqs/si/get_base_unit_prefix_offset.hpp>
+#include <pqs/bits/fixed_string.hpp>
 
 namespace pqs{ 
 
@@ -16,31 +19,126 @@ namespace pqs{
    namespace impl{
       template <> struct is_measurement_system_impl<
          pqs::si_measurement_system
-       > : std::true_type{};
+      > : std::true_type{};
    }
 }
 
 namespace pqs{
 
-   template <>
-   struct  base_unit<base_length,si_measurement_system>{
-      static constexpr const char * symbol()
-      {
-         return "m";
-      }
-      static constexpr int prefix_offset = 0;
-   };
+   namespace si{
+      template <>
+      inline constexpr int get_base_unit_prefix_offset<base_mass> = 3;
+   }
+
+   template <typename Charset>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_length,si_measurement_system,Charset
+   > = "m";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_mass,si_measurement_system,CharSet
+   > = "g";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_time,si_measurement_system,CharSet
+   > = "s";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_current,si_measurement_system,CharSet
+   > = "A";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_temperature,si_measurement_system,CharSet
+   > = "K";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_substance,si_measurement_system,CharSet
+   > = "mol";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_intensity,si_measurement_system,CharSet
+   > = "cd";
+
+   template <int Exp10, typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix = "";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-24, CharSet> = "y";
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-21, CharSet> = "z";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-18, CharSet> = "a";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-15, CharSet> = "f";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-12, CharSet> = "p";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-9, CharSet> = "n";
 
    template <>
-   struct  base_unit<base_mass,si_measurement_system>{
-      static constexpr const char * symbol()
-      {
-         return "g";
-      }
-      static constexpr int prefix_offset = 3;
-   };
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-6, charset_ascii> = "u";
 
-   // etc
+   template <>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-6, charset_utf8> = "\u00B5";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-3, CharSet> = "m";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-2, CharSet> = "c";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-1, CharSet> = "d";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<0, CharSet> = "";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<1, CharSet> = "da";
+   
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<2, CharSet> = "h";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<3, CharSet> = "k";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<6, CharSet> = "M";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<9, CharSet> = "G";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<12, CharSet> = "T";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<15, CharSet> = "P";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<18, CharSet> = "E";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<21, CharSet> = "Z";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<24, CharSet> = "Y";
 
 }
 
