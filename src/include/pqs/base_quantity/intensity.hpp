@@ -38,10 +38,10 @@ namespace pqs{
    namespace impl{
 
       template <int N>
-      struct is_base_quantity_exp_impl< pqs::exp_intensity<N>  > : std::true_type{};
+      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_intensity<N>  >  = true;
 
       template <int N,int D>
-      struct is_base_quantity_exp_impl< pqs::exp_intensity<N,D>  > : std::true_type{};
+      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_intensity<N,D>  > = true;
 
       template <typename Ratio>
       struct make_base_quantity_exp_impl<pqs::newtonian_universe::intensity_uuid,Ratio>

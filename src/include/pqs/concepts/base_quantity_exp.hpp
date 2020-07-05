@@ -19,12 +19,37 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename T, typename Where = void>
-      struct is_base_quantity_exp_impl : std::false_type{};
+      template <typename T>
+      inline constexpr bool is_base_quantity_exp_impl = false;
 
+   } // impl
+
+// TODO remove legacy
+   template <typename T>
+   struct is_base_quantity_exp_legacy 
+   : std::integral_constant<
+      bool,
+      pqs::impl::is_base_quantity_exp_impl< 
+         std::remove_cvref_t<T> 
+      >
+   >{};
+
+   template <typename T>
+   inline constexpr bool is_base_quantity_exp = 
+      impl::is_base_quantity_exp_impl< std::remove_cvref_t<T> >;
+
+   template <typename T>
+   concept base_quantity_exponent = is_base_quantity_exp<T>;
+
+   namespace impl{
+
+#if defined __cpp_concepts
+      template <typename Lhs, typename Rhs>
+      struct of_same_base_quantity_impl : std::false_type{};
+#else
       template <typename Lhs, typename Rhs, typename Where = void>
       struct of_same_base_quantity_impl : std::false_type{};
-
+#endif
       // derive default
       template <typename T, typename Where = void>
       struct base_quantity_exp_is_zero_impl : pqs::undefined_arg<T> {};
@@ -39,11 +64,6 @@ namespace pqs{
 
    } //impl
 
-   template <typename T>
-   struct is_base_quantity_exp_legacy 
-   : pqs::impl::is_base_quantity_exp_impl< 
-      std::remove_cvref_t<T> 
-   >{};
 
    template <typename Lhs, typename Rhs>
    struct of_same_base_quantity_legacy : pqs::impl::of_same_base_quantity_impl<
@@ -59,11 +79,7 @@ namespace pqs{
    template <typename T>
    struct is_custom_base_quantity_exp_legacy ;
 
-   template <typename T>
-   inline constexpr bool is_base_quantity_exp = is_base_quantity_exp_legacy<T>::value;
 
-   template <typename T>
-   concept base_quantity_exponent = is_base_quantity_exp<T>;
 
    template <typename Lhs, typename Rhs>
    inline constexpr bool of_same_base_quantity = of_same_base_quantity_legacy<Lhs,Rhs>::value;
@@ -86,6 +102,16 @@ namespace pqs{
 
    namespace impl{
 
+#if defined __cpp_concepts
+      template <base_quantity_exponent Lhs, base_quantity_exponent Rhs>
+      struct of_same_base_quantity_impl<
+         Lhs,Rhs
+      > : pqs::binary_op<
+          get_base_quantity<Lhs>,
+          pqs::equal_to,
+          get_base_quantity<Rhs>
+       >{};
+#else
       template <typename Lhs, typename Rhs>
       struct of_same_base_quantity_impl<
          Lhs,Rhs,
@@ -100,7 +126,7 @@ namespace pqs{
           pqs::equal_to,
           get_base_quantity<Rhs>
        >{};
-
+#endif
 /*
     Lhs * Rhs  where Lhs,Rhs are of same base quantity
 */
