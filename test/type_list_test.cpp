@@ -19,6 +19,7 @@ Copyright (c) 2003-2019 Andy Little.
 #include <pqs/meta/type_list.hpp>
 #include <pqs/meta/merge_sort.hpp>
 #include <pqs/concepts/dimension.hpp>
+#include <pqs/bits/base_quantities.hpp>
 
 namespace {
    // used in tests
@@ -36,8 +37,6 @@ namespace {
       template <typename Lhs, typename Rhs>
       struct apply : std::integral_constant<bool,Rhs::value < Lhs::value>{};
    };
-
-   
 }
 
 namespace {
@@ -45,24 +44,31 @@ namespace {
    // simple sorting
    template <int N> struct v : std::integral_constant<int,N>{};
 
+   using pqs::exp_length;
+   using pqs::exp_time;
+   using pqs::exp_mass;
+   using pqs::exp_current;
+
    void alias_test()
    {
-      typedef pqs::dimension_list< v<5>, v<10>, v<7>, v<2> > dim_type;
+      typedef pqs::dimension_list< exp_length<5>, exp_time<10>, exp_mass<7>, exp_current<2> > dim_type;
 
       typedef pqs::meta::type_list_alias<dim_type>::apply<pqs::meta::type_list>::type alias1;
 
-      QUAN_CHECK((std::is_same<alias1,pqs::meta::type_list< v<5>, v<10>, v<7>, v<2> > >::value ))
+      QUAN_CHECK((std::is_same_v<alias1,pqs::meta::type_list< exp_length<5>, exp_time<10>, exp_mass<7>, exp_current<2> > > ))
 
       typedef pqs::meta::type_list_alias<alias1>::apply<pqs::dimension_list>::type alias2;
 
       QUAN_CHECK((std::is_same<alias2,dim_type>::value))
    }
 
+   using quan_sort = pqs::meta::detail::base_quantity_exp_sort_fun;
+
    void sort_dim_test()
    {
-        typedef pqs::dimension_list< v<5>, v<10>, v<7>, v<2> > dim_type;
-        typedef pqs::meta::merge_sort<dim_type,meta_less>::type result_type;
-        typedef pqs::dimension_list< v<2>,v<5>,v<7>,v<10> > expected_type;
+        typedef pqs::dimension_list<  exp_current<2> , exp_length<5>, exp_time<10>, exp_mass<7> > dim_type;
+        typedef pqs::meta::merge_sort<dim_type,quan_sort>::type result_type;
+        typedef pqs::dimension_list<exp_length<5>, exp_mass<7>,exp_time<10>, exp_current<2> > expected_type;
         QUAN_CHECK((std::is_same<result_type,expected_type>::value))
    }
 

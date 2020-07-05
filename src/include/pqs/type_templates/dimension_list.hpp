@@ -21,7 +21,7 @@ namespace pqs{
       struct dimension_list_base{};
    }
 
-   template <typename ...D>
+   template <base_quantity_exponent ...D>
    struct dimension_list : pqs::detail::dimension_list_base{
       typedef dimension_list type;
       typedef type base_exponent_type;
@@ -39,10 +39,9 @@ namespace pqs{
       template <typename D>
       struct is_simple_dimension_list_impl : std::false_type{};
 
-      template <typename ... D >
+      template <base_quantity_exponent ... D >
       struct is_simple_dimension_list_impl<pqs::dimension_list<D...> > 
       : std::true_type{};
-
    }
 
    template <typename D>
@@ -107,9 +106,19 @@ namespace pqs{ namespace meta{
          typedef pqs::dimension_list<T> type;
       };
 
+      template <>
+      struct push_back_impl<pqs::dimension_list<>,pqs::dimensionless >{
+         typedef pqs::dimension_list<> type;
+      };
+
       template <typename ... L, typename T>
       struct push_back_impl<pqs::dimension_list<L...>,T >{
          typedef pqs::dimension_list<L...,T> type;
+      };
+
+      template <typename ... L>
+      struct push_back_impl<pqs::dimension_list<L...>,dimensionless >{
+         typedef pqs::dimension_list<L...> type;
       };
 
       template <typename Front, typename ... List>
@@ -130,6 +139,12 @@ namespace pqs{ namespace meta{
           typedef pqs::dimension_list<T,L...> type;
       };
 
+      template <typename...L>
+      struct push_front_impl<pqs::dimension_list<L...> , dimensionless>
+      {
+          typedef pqs::dimension_list<L...> type;
+      };
+
       template < typename Front, typename... List> 
       struct front_impl<pqs::dimension_list<Front,List...> >
       {
@@ -145,8 +160,7 @@ namespace pqs{ namespace meta{
       template <>
       struct front_impl<pqs::dimension_list<> >
       {
-         // could just be empty_list?
-         typedef pqs::undefined type;
+         typedef pqs::dimensionless type;
       };
 
       template < typename Front ,typename... List> 
@@ -164,9 +178,8 @@ namespace pqs{ namespace meta{
       template <>
       struct back_impl<pqs::dimension_list<> >
       {
-         typedef pqs::undefined type;
+         typedef pqs::dimensionless type;
       };
-
    }// impl
 
 }}//pqs::meta
@@ -188,49 +201,36 @@ namespace pqs{
       std::remove_cvref_t<T>
    >{};
 
+   template <typename T>
+   constexpr bool is_dimension = is_dimension_legacy<T>::value;
+
+   template <typename T>
+   concept dimension = is_dimension<T>;
+
    namespace impl{
 
-//multiply
-      // base_exp * base_exp
-      // TODO sort
-      template <typename Lhs, typename Rhs>
+      template <
+         pqs::base_quantity_exponent Lhs, 
+         pqs::base_quantity_exponent Rhs
+      > requires ! pqs::of_same_base_quantity<Lhs,Rhs>
       struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>, 
-               meta::not_<pqs::of_same_base_quantity_legacy<Lhs,Rhs> >
-            > 
-         >::type
+         Lhs,pqs::times,Rhs
       > : pqs::meta::merge_sort<
           dimension_list<Lhs,Rhs>,
           pqs::meta::detail::base_quantity_exp_sort_fun
       >{};
 
       // base_exp list * base-exp
-      template <typename Lhs, typename Rhs>
+      template <base_quantity_exponent... Lhs, base_quantity_exponent Rhs>
       struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_simple_dimension_list_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>
-            > 
-         >::type
-      > : pqs::binary_op<Lhs,pqs::times,pqs::dimension_list<Rhs> >{};
+         dimension_list<Lhs...>, pqs::times, Rhs
+      > : pqs::binary_op<dimension_list<Lhs...>,pqs::times, pqs::dimension_list<Rhs> >{};
 
       // base_exp * base_exp_list
-      template <typename Lhs, typename Rhs>
+      template <base_quantity_exponent Lhs, base_quantity_exponent... Rhs>
       struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>, 
-               pqs::is_simple_dimension_list_legacy<Rhs>
-            > 
-         >::type
-      > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::times,Rhs>{};
+         Lhs,pqs::times,dimension_list<Rhs...>
+      > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::times,dimension_list<Rhs...> >{};
 
       namespace detail{
 
@@ -248,70 +248,50 @@ namespace pqs{
          struct extract_single_element_list<pqs::dimension_list<> >{
             typedef dimensionless type;
          };
-
       }
 
       //base_exp_list * base_exp_list
-      template <typename Lhs, typename Rhs>
+      template <base_quantity_exponent... Lhs,base_quantity_exponent... Rhs>
       struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_simple_dimension_list_legacy<Lhs>, 
-               pqs::is_simple_dimension_list_legacy<Rhs>
-            > 
-         >::type
-      > {
-        // convert single element list to base_quantity_exp
-         typedef typename pqs::impl::detail::extract_single_element_list<
-            typename pqs::meta::merge_dim<Lhs,times,Rhs>::type
-         >::type type;
-      };
+         dimension_list<Lhs...>,pqs::times,dimension_list<Rhs...>
+
+      > : pqs::impl::detail::extract_single_element_list<
+            typename pqs::meta::merge_dim< dimension_list<Lhs...>,times,dimension_list<Rhs...> >::type
+      >{ };
 
       // derived_dim * derived_dim
-      template <typename Lhs, typename Rhs>
+      template <pqs::dimension Lhs, pqs::dimension Rhs>
+         requires 
+            pqs::is_custom_dimension<Lhs> &&
+            pqs::is_custom_dimension<Rhs>
       struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_<  
-            meta::and_<
-               pqs::is_custom_dimension_legacy<Lhs>, 
-               pqs::is_custom_dimension_legacy<Rhs>
-            > 
-         >::type
+         Lhs,pqs::times,Rhs
+
       > : pqs::binary_op<
          typename Lhs::base_exponent_type,
          pqs::times, 
          typename Rhs::base_exponent_type
       >{};
 
-      // dim * derived_dim
-      template <typename Lhs, typename Rhs>
+      template <pqs::dimension Lhs, pqs::dimension Rhs>
+         requires
+            pqs::is_custom_dimension<Lhs> &&
+            ! pqs::is_custom_dimension<Rhs> 
       struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_<  
-            meta::and_<
-               pqs::is_dimension_legacy<Rhs>,
-               pqs::is_custom_dimension_legacy<Lhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension_legacy<Rhs> >
-            > 
-         >::type
-       > : pqs::binary_op<
+         Lhs,pqs::times,Rhs
+      > : pqs::binary_op<
          typename Lhs::base_exponent_type,
          pqs::times,
          Rhs
        >{};
 
       // derived_dim * dim
-      template <typename Lhs, typename Rhs>
+      template <pqs::dimension Lhs, pqs::dimension Rhs>
+         requires
+            ! is_custom_dimension<Lhs> &&
+            is_custom_dimension<Rhs>
       struct binary_op_impl <
-         Lhs,pqs::times,Rhs,
-         typename where_<  
-            meta::and_<
-               pqs::is_dimension_legacy<Lhs>,
-               pqs::is_custom_dimension_legacy<Rhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension_legacy<Lhs> >
-            > 
-         >::type
+         Lhs,pqs::times,Rhs
        > : pqs::binary_op<
          Lhs,
          pqs::times,
@@ -319,70 +299,64 @@ namespace pqs{
       >{};
 
 //divide
-      template <typename Lhs, typename Rhs>
+      template <
+         pqs::base_quantity_exponent Lhs, 
+         pqs::base_quantity_exponent Rhs
+      > requires !of_same_base_quantity<Lhs,Rhs>
       struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>, 
-               meta::not_<pqs::of_same_base_quantity_legacy<Lhs,Rhs> >
-            > 
-         >::type
+         Lhs,pqs::divides,Rhs
       > : pqs::meta::merge_sort<
           dimension_list<Lhs,typename pqs::unary_op<pqs::meta::reciprocal,Rhs>::type>,
           pqs::meta::detail::base_quantity_exp_sort_fun
       >{};
 
          // add to a dimension_list
-      template <typename Lhs, typename Rhs>
+      template <
+         pqs::base_quantity_exponent... Lhs, 
+         pqs::base_quantity_exponent Rhs
+      >
       struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_simple_dimension_list_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>
-            > 
-         >::type
-      > : pqs::binary_op<Lhs,pqs::divides,pqs::dimension_list<Rhs> >{};
+         pqs::dimension_list<Lhs...>,pqs::divides,Rhs
+      > : pqs::binary_op<
+            pqs::dimension_list<Lhs...>,
+            pqs::divides,pqs::dimension_list<Rhs> 
+      >{};
 
-      template <typename Lhs, typename Rhs>
+      template <
+         pqs::base_quantity_exponent Lhs, 
+         pqs::base_quantity_exponent... Rhs
+      >
       struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>, 
-               pqs::is_simple_dimension_list_legacy<Rhs>
-            > 
-         >::type
-      > : pqs::binary_op<pqs::dimension_list<Lhs>,pqs::divides,Rhs>{};
+         Lhs,pqs::divides,pqs::dimension_list<Rhs...>
+      > : pqs::binary_op<
+         pqs::dimension_list<Lhs>,
+         pqs::divides,
+         pqs::dimension_list<Rhs...>
+      >{};
 
-      template <typename Lhs, typename Rhs>
+      template <
+         pqs::base_quantity_exponent... Lhs, 
+         pqs::base_quantity_exponent... Rhs
+      >
       struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_< 
-            meta::and_<
-               pqs::is_simple_dimension_list_legacy<Lhs>, 
-               pqs::is_simple_dimension_list_legacy<Rhs>
-            > 
-         >::type
-      >{
-         // convert single element list to base_quantity_exp
-         typedef typename pqs::impl::detail::extract_single_element_list<
-            typename pqs::meta::merge_dim<Lhs,divides,Rhs>::type
-         >::type type;
-      };
+         pqs::dimension_list<Lhs...>,
+         pqs::divides,
+         pqs::dimension_list<Rhs...>
+      > : pqs::impl::detail::extract_single_element_list<
+            typename pqs::meta::merge_dim<
+               pqs::dimension_list<Lhs...>,
+               divides,
+               pqs::dimension_list<Rhs...> 
+            >::type
+         >{};
 
       // derived_dim / derived_dim
-      template <typename Lhs, typename Rhs>
+      template <pqs::dimension Lhs, pqs::dimension Rhs>
+         requires 
+            pqs::is_custom_dimension<Lhs> &&
+            pqs::is_custom_dimension<Rhs>
       struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_<  
-            meta::and_<
-               pqs::is_custom_dimension_legacy<Lhs>, 
-               pqs::is_custom_dimension_legacy<Rhs>
-            > 
-         >::type
+         Lhs,pqs::divides,Rhs
       > : pqs::binary_op<
          typename Lhs::base_exponent_type,
          pqs::divides, 
@@ -390,16 +364,12 @@ namespace pqs{
       >{};
 
       // dim / derived_dim
-      template <typename Lhs, typename Rhs>
+      template <pqs::dimension Lhs, pqs::dimension Rhs>
+         requires 
+            pqs::is_custom_dimension<Lhs> &&
+            ! pqs::is_custom_dimension<Rhs>
       struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_<  
-            meta::and_<
-               pqs::is_dimension_legacy<Rhs>,
-               pqs::is_custom_dimension_legacy<Lhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension_legacy<Rhs> >
-            > 
-         >::type
+         Lhs,pqs::divides,Rhs
        > : pqs::binary_op<
          typename Lhs::base_exponent_type,
          pqs::divides,
@@ -407,16 +377,12 @@ namespace pqs{
        >{};
 
       // derived_dim / dim
-      template <typename Lhs, typename Rhs>
+      template <pqs::dimension Lhs, pqs::dimension Rhs>
+         requires
+            ! pqs::is_custom_dimension<Lhs> &&
+              is_custom_dimension<Rhs>
       struct binary_op_impl <
-         Lhs,pqs::divides,Rhs,
-         typename where_<  
-            meta::and_<
-               pqs::is_dimension_legacy<Lhs>,
-               pqs::is_custom_dimension_legacy<Rhs>, 
-               pqs::meta::not_<pqs::is_custom_dimension_legacy<Lhs> >
-            > 
-         >::type
+         Lhs,pqs::divides,Rhs
        > : pqs::binary_op<
          Lhs,
          pqs::divides,
@@ -442,19 +408,22 @@ namespace pqs{
          };
       }
 
-      template <typename Lhs, typename Rhs>
+      template <pqs::base_quantity_exponent... Lhs, typename Rhs>
+         requires pqs::is_ratio<Rhs>
       struct binary_op_impl <
-         Lhs,struct pqs::to_power,Rhs,
+         dimension_list<Lhs...>,struct pqs::to_power,Rhs
+/*,
          typename where_< 
             meta::and_<
                pqs::is_simple_dimension_list_legacy<Lhs>, 
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
+*/
       > : pqs::meta::fold<
          typename pqs::meta::transform<
             typename pqs::meta::merge_sort<
-               Lhs,
+               dimension_list<Lhs...>,
                pqs::meta::detail::base_quantity_exp_sort_fun
             >::type,
             pqs::dimension_list<>, 
@@ -464,98 +433,117 @@ namespace pqs{
          detail::push_back_not_zero
       >{};
 
-      template <typename Lhs, typename Rhs>
+      template <pqs::dimension Lhs, typename Rhs>
+         requires 
+            pqs::is_custom_dimension<Lhs> &&
+            pqs::is_ratio<Rhs>
       struct binary_op_impl <
          Lhs,
          struct pqs::to_power,
-         Rhs,
+         Rhs
+/*,
          typename where_< 
             pqs::meta::and_<
                pqs::is_custom_dimension_legacy<Lhs>, 
                pqs::impl::detail::is_std_ratio<Rhs>
             > 
          >::type
-      > : pqs::binary_op<typename Lhs::base_exponent_type,
+*/
+      > : pqs::binary_op<
+            typename Lhs::base_exponent_type,
             struct pqs::to_power,
             Rhs
       >{};
       
-      template <typename D>
+      template <pqs::base_quantity_exponent... D>
       struct unary_op_impl <
-         pqs::meta::reciprocal,D,
+         pqs::meta::reciprocal,dimension_list<D...>
+/*,
          typename where_< 
             pqs::is_simple_dimension_list_legacy<D>
          >::type
-      > : pqs::binary_op<D,struct pqs::to_power,std::ratio<-1> >{};
+*/
+      > : pqs::binary_op<
+         dimension_list<D...>,
+         struct pqs::to_power,std::ratio<-1> 
+      >{};
 
-      template <typename Lhs, typename Rhs>
+      template <
+         pqs::base_quantity_exponent... Lhs,    
+         pqs::base_quantity_exponent... Rhs
+      >
       struct binary_op_impl <
-         Lhs,pqs::equal_to,Rhs,
+         dimension_list<Lhs...>,pqs::equal_to,dimension_list<Rhs...>
+/*,
          typename where_< 
             meta::and_<
                pqs::is_simple_dimension_list_legacy<Lhs>, 
                pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
+*/
       > : std::is_same<
-            typename pqs::meta::merge_dim<Lhs,divides,Rhs>::type,
+         typename pqs::meta::merge_dim<
+            dimension_list<Lhs...>,
+            divides,
+            dimension_list<Rhs...>
+            >::type,
             pqs::dimension_list<> 
       > {};
 
-      template <typename Lhs, typename Rhs>
+      template <typename... Lhs, typename... Rhs>
       struct binary_op_impl <
-         Lhs,pqs::not_equal_to,Rhs,
+         dimension_list<Lhs...>,
+         pqs::not_equal_to, 
+         dimension_list<Rhs...>
+/*,
          typename where_< 
             meta::and_<
                pqs::is_simple_dimension_list_legacy<Lhs>, 
                pqs::is_simple_dimension_list_legacy<Rhs>
             > 
          >::type
-      > : pqs::meta::not_<pqs::binary_op<Lhs,pqs::equal_to,Rhs> > {};
-      
+*/
+      > : pqs::meta::not_<
+         pqs::binary_op<
+            dimension_list<Lhs...>,
+            pqs::equal_to,
+            dimension_list<Rhs...>
+         >
+      > {};
    } // impl
 
-   template <typename Lhs, typename Rhs>
+   template <pqs::dimension Lhs, pqs::dimension Rhs>
    inline
    constexpr
-   typename pqs::eval_where<
-      pqs::meta::and_<
-         pqs::is_dimension_legacy<Lhs>,
-         pqs::is_dimension_legacy<Rhs>
-      >,
-      pqs::binary_op<Lhs,pqs::times,Rhs>
-   >::type
+   auto
    operator * ( Lhs , Rhs ) 
    {
-      return typename pqs::binary_op<Lhs,pqs::times,Rhs>::type{};
+      return pqs::binary_op_t<Lhs,pqs::times,Rhs>{};
    }
 
-   template <typename Lhs, typename Rhs>
-   inline
-   constexpr
-   typename pqs::eval_where<
-      pqs::meta::and_<
-         pqs::is_dimension_legacy<Lhs>,
-         pqs::is_dimension_legacy<Rhs>
-      >, 
-      pqs::binary_op<Lhs,pqs::divides,Rhs>
-   >::type
-   operator / ( Lhs , Rhs ) 
+   template <pqs::dimension Lhs, pqs::dimension Rhs>
+   inline constexpr
+   auto operator / ( Lhs , Rhs ) 
    {
-      return typename pqs::binary_op<Lhs,pqs::divides,Rhs>::type{};
+      return typename pqs::binary_op_t<Lhs,pqs::divides,Rhs>{};
    }
 
-   template <int N, int D, typename Dim>
-   inline
-   constexpr
-   typename pqs::eval_where<
-         pqs::is_dimension_legacy<Dim>,
-      pqs::binary_op<Dim,struct pqs::to_power,std::ratio<N,D> >
-    >::type
-    pow( Dim )
-    {
-       return typename pqs::binary_op<Dim,struct pqs::to_power,std::ratio<N,D>>::type{};
-    }
+   template <int N, int D, pqs::dimension Dim>
+      requires ( D != 0)
+   inline constexpr
+   auto  pow( Dim )
+   {
+       return pqs::binary_op_t<Dim,struct pqs::to_power,std::ratio<N,D> >{};
+   }
+
+   template <int N, pqs::dimension Dim>
+   inline constexpr
+   auto  pow( Dim )
+   {
+      return pqs::binary_op_t<Dim,struct pqs::to_power,std::ratio<N,1> >{};
+   }
+
 
 }// pqs
 

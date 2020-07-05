@@ -1,7 +1,6 @@
 #ifndef PQS_BITS_STD_RATIO_HPP_INCLUDED1
 #define PQS_BITS_STD_RATIO_HPP_INCLUDED1
 
-//#include <pqs/concepts/ratio.hpp>
 #include <ratio>
 #include <pqs/bits/where.hpp>
 #include <pqs/meta/and.hpp>
@@ -18,7 +17,9 @@ namespace pqs{
    } // impl
 
    template <typename T>
-   struct is_ratio : pqs::impl::is_ratio_impl< std::remove_cvref_t<T> >{};
+   inline constexpr bool is_ratio = pqs::impl::is_ratio_impl<
+      std::remove_cvref_t<T> 
+   >::value;
 
 } // pqs
 

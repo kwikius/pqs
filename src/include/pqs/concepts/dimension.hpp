@@ -7,45 +7,27 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename D>
+      template <pqs::dimension D>
       struct binary_op_impl<
-         D, pqs::times, pqs::dimensionless,
-         typename pqs::where_<
-            pqs::is_dimension_legacy<D>
-         >::type
+         D, pqs::times, pqs::dimensionless
       > : D{};
 
-      template <typename D>
+      template <pqs::dimension D>
       struct binary_op_impl<
-         pqs::dimensionless, pqs::times,D,
-         typename pqs::where_<
-            pqs::is_dimension_legacy<D>
-         >::type
+         pqs::dimensionless, pqs::times, D
       > : D{};
 
-      template <typename D>
+      template <pqs::dimension D>
       struct binary_op_impl<
-         D, pqs::divides, pqs::dimensionless,
-         typename pqs::where_<
-            pqs::is_dimension_legacy<D>
-         >::type
+         D, pqs::divides, pqs::dimensionless
       > : D{};
 
-      template <typename D>
+      template <pqs::dimension D>
       struct binary_op_impl<
-         pqs::dimensionless, pqs::divides,D,
-         typename pqs::where_<
-            pqs::is_dimension_legacy<D>
-         >::type
+         pqs::dimensionless, pqs::divides,D
       > : D{};
    
    } // impl
-
-   template <typename T>
-   constexpr bool is_dimension = is_dimension_legacy<T>::value;
-
-   template <typename T>
-   concept dimension = is_dimension<T>;
 
 } // pqs
 

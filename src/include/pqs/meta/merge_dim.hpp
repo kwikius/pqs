@@ -8,7 +8,7 @@
 
 namespace pqs{
 
-   template <typename ...D>
+   template <base_quantity_exponent ...D>
    struct dimension_list ;
 
 }

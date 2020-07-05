@@ -24,16 +24,6 @@ namespace pqs{
 
    } // impl
 
-// TODO remove legacy
-   template <typename T>
-   struct is_base_quantity_exp_legacy 
-   : std::integral_constant<
-      bool,
-      pqs::impl::is_base_quantity_exp_impl< 
-         std::remove_cvref_t<T> 
-      >
-   >{};
-
    template <typename T>
    inline constexpr bool is_base_quantity_exp = 
       impl::is_base_quantity_exp_impl< std::remove_cvref_t<T> >;
@@ -41,230 +31,91 @@ namespace pqs{
    template <typename T>
    concept base_quantity_exponent = is_base_quantity_exp<T>;
 
+// ########TODO remove legacy ##############
+   template <typename T>
+   struct is_base_quantity_exp_legacy : std::bool_constant<
+      pqs::is_base_quantity_exp<T> 
+   >{};
+//###########################################
+
    namespace impl{
 
-#if defined __cpp_concepts
       template <typename Lhs, typename Rhs>
-      struct of_same_base_quantity_impl : std::false_type{};
-#else
-      template <typename Lhs, typename Rhs, typename Where = void>
-      struct of_same_base_quantity_impl : std::false_type{};
-#endif
-      // derive default
-      template <typename T, typename Where = void>
-      struct base_quantity_exp_is_zero_impl : pqs::undefined_arg<T> {};
+      inline constexpr auto of_same_base_quantity_impl = pqs::undefined_arg<Lhs,Rhs>{};
+
+      template <base_quantity_exponent Lhs, base_quantity_exponent Rhs>
+      inline constexpr bool of_same_base_quantity_impl<
+         Lhs,Rhs
+      > =  pqs::binary_op_v<
+          get_base_quantity<Lhs>,
+          pqs::equal_to,
+          get_base_quantity<Rhs>
+       >;
+
+   } // impl
+
+   template <typename Lhs, typename Rhs>
+   inline constexpr bool of_same_base_quantity = pqs::impl::of_same_base_quantity_impl<
+      std::remove_cvref_t<Lhs>,
+      std::remove_cvref_t<Rhs>
+   >;
+
+// ########TODO remove legacy ##############
+   template <typename Lhs, typename Rhs>
+   struct of_same_base_quantity_legacy : std::bool_constant<
+      pqs::of_same_base_quantity<Lhs,Rhs>
+   >{};
+//##########################################
+
+   namespace impl{
+
+      template <typename T>
+      inline constexpr auto base_quantity_exp_is_zero_impl = pqs::undefined_arg<T>{};
+
+      template <base_quantity_exponent T>
+      inline constexpr bool base_quantity_exp_is_zero_impl<
+         T 
+       > = std::ratio_equal_v<get_exponent<T>, std::ratio<0> >;
 
       template <>
-      struct base_quantity_exp_is_zero_impl<pqs::dimensionless> 
-      : std::true_type{};
+      inline constexpr bool base_quantity_exp_is_zero_impl<pqs::dimensionless> = true;
 
+   } //impl
+
+   template <typename T>
+   inline constexpr bool base_quantity_exp_is_zero = impl::base_quantity_exp_is_zero_impl<
+      std::remove_cvref_t<T>
+   >;
+
+// ########TODO remove legacy ##############
+   template <typename T>
+   struct base_quantity_exp_is_zero_legacy : std::bool_constant<
+      pqs::base_quantity_exp_is_zero<T>
+   >{};
+//############################
+
+   namespace impl{
       // customise per UUID
       template <typename UUID,typename Ratio,typename Where = void>
       struct make_base_quantity_exp_impl : pqs::undefined_arg<UUID>{};
 
    } //impl
 
-
-   template <typename Lhs, typename Rhs>
-   struct of_same_base_quantity_legacy : pqs::impl::of_same_base_quantity_impl<
-      std::remove_cvref_t<Lhs>,
-      std::remove_cvref_t<Rhs>
-   >{};
-
-   template <typename T>
-   struct base_quantity_exp_is_zero_legacy : pqs::impl::base_quantity_exp_is_zero_impl<
-      std::remove_cvref_t<T>
-   >{};
-
-   template <typename T>
-   struct is_custom_base_quantity_exp_legacy ;
-
-
-
-   template <typename Lhs, typename Rhs>
-   inline constexpr bool of_same_base_quantity = of_same_base_quantity_legacy<Lhs,Rhs>::value;
-
-   template <typename T>
-   inline constexpr bool base_quantity_exp_is_zero = base_quantity_exp_is_zero_legacy<T>::value;
-
-   template <typename T>
-   inline constexpr bool is_custom_base_quantity_exp = is_custom_base_quantity_exp_legacy<T>::value;
-
-   template <typename BaseQuantity, typename Ratio>
+   template <pqs::base_quantity Qb, typename Ratio>
    struct make_base_quantity_exp : pqs::meta::eval_if<
-      std::integral_constant<bool,(Ratio::num == 0)>,
+      std::bool_constant<(Ratio::num == 0)>,
          pqs::dimensionless,
       pqs::impl::make_base_quantity_exp_impl<
-         get_base_quantity_id<BaseQuantity>, typename Ratio::type
+         get_base_quantity_id<Qb>, typename Ratio::type
       >
    >{};
 
 
-   namespace impl{
-
-#if defined __cpp_concepts
-      template <base_quantity_exponent Lhs, base_quantity_exponent Rhs>
-      struct of_same_base_quantity_impl<
-         Lhs,Rhs
-      > : pqs::binary_op<
-          get_base_quantity<Lhs>,
-          pqs::equal_to,
-          get_base_quantity<Rhs>
-       >{};
-#else
-      template <typename Lhs, typename Rhs>
-      struct of_same_base_quantity_impl<
-         Lhs,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>
-            >
-         >::type
-       > : pqs::binary_op<
-          get_base_quantity<Lhs>,
-          pqs::equal_to,
-          get_base_quantity<Rhs>
-       >{};
-#endif
-/*
-    Lhs * Rhs  where Lhs,Rhs are of same base quantity
-*/
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs,pqs::times, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>,
-               pqs::of_same_base_quantity_legacy<Lhs,Rhs>
-            >
-         >::type
-      > : pqs::make_base_quantity_exp<
-            get_base_quantity<Lhs>,
-            typename pqs::binary_op<
-               get_exponent<Lhs>,
-               pqs::plus,
-               get_exponent<Rhs>
-            >::type
-      >{};
-
-/*
-   Lhs / Rhs  where Lhs,Rhs are of same base quantity
-*/
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, pqs::divides, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>,
-               pqs::of_same_base_quantity_legacy<Lhs,Rhs>
-            >
-         >::type
-      > : pqs::make_base_quantity_exp<
-            get_base_quantity<Lhs>,
-            typename pqs::binary_op<
-               get_exponent<Lhs>,
-               pqs::minus,
-               get_exponent<Rhs>
-            >::type
-      >{};
-
-/*
-      rational power
-*/
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, struct pqs::to_power, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_ratio<Rhs>
-            >
-         >::type
-      > : pqs::make_base_quantity_exp<
-            get_base_quantity<Lhs> ,
-            typename pqs::binary_op<
-               get_exponent<Lhs>,
-               pqs::times,
-               typename Rhs::type
-            >::type
-      >{};
-
-/*
-      reciprocal
-*/
-      template <typename T>
-      struct unary_op_impl<
-          pqs::meta::reciprocal,
-          T,
-          typename pqs::where_<
-            pqs::is_base_quantity_exp_legacy<T> 
-          >::type
-      > : pqs::make_base_quantity_exp<
-             get_base_quantity<T>,
-             typename pqs::unary_op<
-               pqs::meta::negate,
-               get_exponent<T>
-             >::type
-      >{};
-
-/* 
-      equality
-*/
-      template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, pqs::equal_to, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>,
-               pqs::of_same_base_quantity_legacy<Lhs,Rhs>
-            >
-         >::type
-      > : pqs::binary_op<
-            get_exponent<Lhs>,
-            pqs::equal_to,
-            get_exponent<Rhs>
-      >{};
-
-/*
-   inequality
-*/
-     template <typename Lhs, typename Rhs>
-      struct binary_op_impl<
-         Lhs, pqs::not_equal_to, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_base_quantity_exp_legacy<Lhs>,
-               pqs::is_base_quantity_exp_legacy<Rhs>,
-               pqs::of_same_base_quantity_legacy<Lhs,Rhs>
-            >
-         >::type
-      > : pqs::binary_op<
-            get_exponent<Lhs>,
-            pqs::not_equal_to,
-            get_exponent<Rhs>
-      >{};
- 
-      template <typename T>
-      struct base_quantity_exp_is_zero_impl<
-         T,
-         typename pqs::where_<
-             pqs::is_base_quantity_exp_legacy<T>
-         >::type
-      > : std::ratio_equal<
-         get_exponent<T>,
-         std::ratio<0> 
-      >{};
-   } //impl
-
    namespace detail{
 
-      struct base_quantity_exp_base_class{};
+      struct base_quantity_exp_base_class{}; 
    }
-  
+
    namespace impl{
 
       template <typename T>
@@ -274,6 +125,29 @@ namespace pqs{
             std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>
          >::type
       > : T::base_type {};
+
+   }
+
+
+   namespace impl{
+
+        template <typename T>
+        inline constexpr bool is_custom_base_quantity_exp_impl 
+            = std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
+              ! pqs::is_base_quantity_exp<T>;
+   
+
+   }//impl
+
+   template <typename T>
+   inline constexpr bool is_custom_base_quantity_exp 
+      = impl::is_custom_base_quantity_exp_impl<std::remove_cvref_t<T> >;
+
+   template <typename T>
+   struct is_custom_base_quantity_exp_legacy 
+   : std::bool_constant< is_custom_base_quantity_exp<T> >{};
+
+   namespace impl{
 
       template <typename T>
       struct get_exponent_impl<
@@ -285,23 +159,108 @@ namespace pqs{
          typedef typename T::exponent type;
       };
 
-      template <typename T>
-      struct is_custom_base_quantity_exp_impl : pqs::meta::and_<
-         std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>,
-         pqs::meta::not_<pqs::is_base_quantity_exp_legacy<T> >
-      >{};
-
    }//impl
 
-   template <typename T>
-   struct is_custom_base_quantity_exp_legacy 
-   : impl::is_custom_base_quantity_exp_impl<
-      std::remove_cvref_t<T> 
-   >{};
+   namespace impl{
 
-   template <typename T>
-   inline constexpr bool is_custom_base_quantity_exp 
-      = is_custom_base_quantity_exp_legacy<T>::value;
+/*
+    Lhs * Rhs  where Lhs,Rhs are of same base quantity
+*/
+      template <
+         pqs::base_quantity_exponent Lhs,
+         pqs::base_quantity_exponent Rhs
+      >  requires pqs::of_same_base_quantity<Lhs,Rhs>
+      struct binary_op_impl<Lhs,pqs::times,Rhs> 
+      : pqs::make_base_quantity_exp<
+         get_base_quantity<Lhs>,
+         pqs::binary_op_t<
+            get_exponent<Lhs>,
+               pqs::plus,
+                  get_exponent<Rhs>
+         >
+      >{};
+
+/*
+   Lhs / Rhs  where Lhs,Rhs are of same base quantity
+*/
+      template <
+         pqs::base_quantity_exponent Lhs,
+         pqs::base_quantity_exponent Rhs
+      >  requires pqs::of_same_base_quantity<Lhs,Rhs>
+      struct binary_op_impl<Lhs,pqs::divides,Rhs> 
+      : pqs::make_base_quantity_exp<
+         get_base_quantity<Lhs>,
+         pqs::binary_op_t<
+            get_exponent<Lhs>,
+               pqs::minus,
+                  get_exponent<Rhs>
+         >
+      >{};
+
+/*
+      rational power
+*/
+      template <
+         pqs::base_quantity_exponent Qbe,
+         typename R
+      >
+         requires pqs::is_ratio<R>
+      struct binary_op_impl<
+         Qbe,struct pqs::to_power,R
+      > : pqs::make_base_quantity_exp<
+         get_base_quantity<Qbe> ,
+         pqs::binary_op_t<
+            get_exponent<Qbe>,
+            pqs::times,
+            typename R::type
+         >
+      >{};
+
+/*
+      reciprocal
+*/
+      template <pqs::base_quantity_exponent T>
+      struct unary_op_impl<
+         pqs::meta::reciprocal,
+         T
+      > : pqs::make_base_quantity_exp<
+         get_base_quantity<T>,
+         typename pqs::unary_op<
+            pqs::meta::negate,
+            get_exponent<T>
+         >::type
+      >{};
+
+/* 
+      equality
+*/
+      template <
+         pqs::base_quantity_exponent Lhs, 
+         pqs::base_quantity_exponent Rhs
+      > requires pqs::of_same_base_quantity<Lhs,Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::equal_to, Rhs
+      > : pqs::binary_op<
+            get_exponent<Lhs>,
+            pqs::equal_to,
+            get_exponent<Rhs>
+      >{};
+
+/*
+   inequality
+*/
+      template <
+         pqs::base_quantity_exponent Lhs, 
+         pqs::base_quantity_exponent Rhs
+      > requires pqs::of_same_base_quantity<Lhs,Rhs>
+      struct binary_op_impl<
+         Lhs, pqs::not_equal_to, Rhs
+      > : pqs::binary_op<
+            get_exponent<Lhs>,
+            pqs::not_equal_to,
+            get_exponent<Rhs>
+      >{}; 
+   } //impl
 }
 
 #endif // PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED

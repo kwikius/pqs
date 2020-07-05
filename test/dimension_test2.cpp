@@ -23,6 +23,11 @@ namespace {
    struct : decltype(velocity) {  // anonymous class custom_dimension
    } vertical_velocity ;
 
+   typedef decltype(vertical_velocity) vvtype;
+   static_assert( pqs::dimension<vvtype>,"");
+   static_assert( pqs::dimension<vvtype::base_exponent_type>,"");
+   static_assert( pqs::is_custom_dimension<vvtype>,"");
+
    constexpr auto mux_test = vertical_velocity * time_ * length ;
    constexpr auto div_test = vertical_velocity / time_ ;
 
