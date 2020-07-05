@@ -100,6 +100,13 @@ void sandbox()
    testd<my_abstract_time{}>(); 
 
 
-  int x = pqs::abstract_length<> * pqs::abstract_time<> / pqs::abstract_mass<> ;
+   using t = unit1<
+      si_sys,
+     // my_abstract_acceleration{},
+      pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<>,
+      my_rat(1,1) * my_exp10(0,1)
+   >;
+      
+  int x = t{};
 
 }
