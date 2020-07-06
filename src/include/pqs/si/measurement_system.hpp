@@ -92,8 +92,8 @@ namespace pqs{
    template <typename CharSet>
    inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-9, CharSet> = "n";
 
-   template <>
-   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-6, charset_ascii> = "u";
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-6, CharSet> = "u";
 
    template <>
    inline constexpr pqs::basic_fixed_string unit_symbol_prefix<-6, charset_utf8> = "\u00B5";

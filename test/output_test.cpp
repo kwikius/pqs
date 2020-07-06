@@ -1,5 +1,9 @@
 
 #include <pqs/bits/dimension_as_fixed_string.hpp>
+#include <pqs/si/speed.hpp>
+#include <pqs/si/length.hpp>
+#include <pqs/imperial/length.hpp>
+
 #include "test.hpp"
 
 #if defined PQS_STANDALONE
@@ -18,14 +22,32 @@ void output_test()
  #endif
 
    // base_dimension_exponent
-   auto constexpr x = pqs::dimension_as_fixed_string<charset,ms,Qbe>;
+   auto constexpr x = pqs::dimension_to_fixed_string<Qbe,ms,charset>();
    std::cout << x <<'\n';
 
    // dimension_list
    using D = decltype(pqs::abstract_time<3> * pqs::abstract_length<-3> * pqs::abstract_current<-1>);
-   std::cout << pqs::dimension_as_fixed_string<charset,ms,D> << '\n';
+   std::cout << pqs::dimension_to_fixed_string<D,ms,charset>() << '\n';
 
    // custom dimension
    struct cd : decltype(pqs::abstract_length<> / pqs::pow<2>(pqs::abstract_time<>) ){};
-   std::cout << pqs::dimension_as_fixed_string<charset,ms,cd> << '\n';
+   std::cout << pqs::dimension_to_fixed_string<cd,ms,charset>() << '\n';
+
+   using Q = pqs::si::speed::m_per_s<>;
+   std::cout <<  pqs::dimension_to_fixed_string<Q, pqs::charset_utf8>()  << '\n';
+
+   using L = pqs::si::length::ft<>;
+   std::cout <<  pqs::dimension_to_fixed_string<L, pqs::charset_utf8>()  << '\n';
+
+   using L1 = pqs::imperial::length::ft<>;
+   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_utf8>()  << '\n';
+
+  // using Q = pqs::si::speed::m_per_s<>;
+   std::cout <<  pqs::dimension_to_fixed_string<Q, pqs::charset_ascii>()  << '\n';
+
+  // using L = pqs::si::length::ft<>;
+   std::cout <<  pqs::dimension_to_fixed_string<L, pqs::charset_ascii>()  << '\n';
+
+  // using L1 = pqs::imperial::length::ft<>;
+   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_ascii>()  << '\n';
 }

@@ -1,10 +1,11 @@
 #ifndef PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
 #define PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
 
-#include <pqs/concepts/dimension.hpp>
+#include <pqs/concepts/quantity.hpp>
 #include <pqs/si/measurement_system.hpp>
 #include <pqs/bits/fixed_string.hpp>
 #include <pqs/bits/charset.hpp>
+
 
 /**
  * @ brief encode a dimension to a fixed_string
@@ -218,22 +219,52 @@ namespace pqs{
             return signed_superscript_fraction<Exp,CharSet>();
       }
 
-      template <typename CharSet, pqs::measurement_system Ms, typename Q>
+      template <typename Q,pqs::measurement_system Ms,typename CharSet>
       struct dimension_to_fixed_string_impl;
    }
 
-   template <typename CharSet, pqs::measurement_system Ms, pqs::dimension Q>
+   template < pqs::dimension Q, pqs::measurement_system Ms, typename CharSet>
    inline constexpr 
-   pqs::basic_fixed_string dimension_as_fixed_string
-      = detail::dimension_to_fixed_string_impl<CharSet,Ms,std::remove_cvref_t<Q> >::apply();
+   auto dimension_to_fixed_string()
+   {
+      return detail::dimension_to_fixed_string_impl<std::remove_cvref_t<Q>,Ms,CharSet>::apply();
+   }
 
    namespace detail {
+
+      // generic base_quantity_exponent output
+      template <
+         pqs::base_quantity_exponent Qbe,
+         pqs::measurement_system Ms,
+         typename CharSet
+      >
+      struct dimension_to_fixed_string_impl<
+         Qbe,Ms,CharSet
+      >{
+         static constexpr auto apply()
+         {
+            using qB = pqs::get_base_quantity<Qbe>;
+            using qE = pqs::get_exponent<Qbe>;
+
+            auto constexpr no_ext_str = 
+               pqs::get_base_unit_symbol<
+                  qB,Ms,CharSet
+               >;
+            if constexpr ( std::ratio_equal_v<qE,std::ratio<1> > )
+               return no_ext_str;
+            else
+               return no_ext_str + 
+                  to_superscript_fixed_string<qE,CharSet>();      
+         }
+      };
+
       /**
        * @brief base_quantity exponent to fixed_string implementation
+       * in SI. The kg has to be fixed up with a prefix
       */
-      template <typename CharSet,pqs::base_quantity_exponent Qbe>
+      template <pqs::base_quantity_exponent Qbe,typename CharSet>
       struct dimension_to_fixed_string_impl<
-         CharSet,pqs::si_measurement_system,Qbe
+         Qbe,pqs::si_measurement_system,CharSet
       >{
          static constexpr auto apply()
          {
@@ -257,63 +288,77 @@ namespace pqs{
       };
 
       /**
-       * @brief single element dimension_list to fixed_string implementation
+       * @brief Single element dimension_list to fixed_string implementation
+       * which terminates the dimensionlist dimension_to_fixed_string_impl recursion
       */
-      template <typename CharSet,pqs::base_quantity_exponent D>
+      template <pqs::base_quantity_exponent D,pqs::measurement_system Ms, typename CharSet>
       struct dimension_to_fixed_string_impl<
-         CharSet,pqs::si_measurement_system,pqs::dimension_list<D> 
+         pqs::dimension_list<D>,Ms,CharSet
       >{
          static constexpr auto apply()
          {   
-            return dimension_as_fixed_string<
-               CharSet,pqs::si_measurement_system,D
-            > ;   
+            return dimension_to_fixed_string<
+               D,pqs::si_measurement_system,CharSet
+            >() ;   
          }
       };
 
       /**
-       * @brief multi element dimension_list to fixed_string implementation
+       * @brief Multi element dimension_list to fixed_string implementation
        * https://www.nist.gov/pml/special-publication-811/nist-guide-si-chapter-6-rules-and-style-conventions-printing-and-using
       */
-      template <typename CharSet,pqs::base_quantity_exponent... D>
+      template <pqs::base_quantity_exponent... D, pqs::measurement_system Ms, typename CharSet>
       struct dimension_to_fixed_string_impl<
-         CharSet,pqs::si_measurement_system,pqs::dimension_list<D...> 
+         pqs::dimension_list<D...>,Ms, CharSet
       >{
          static constexpr auto apply()
          {   
             using list = pqs::dimension_list<D...>;
-            return dimension_as_fixed_string<
-               CharSet,
-               pqs::si_measurement_system,
-               typename pqs::meta::front<list>::type
-            > + 
+            return dimension_to_fixed_string<
+               typename pqs::meta::front<list>::type,
+               Ms,
+               CharSet
+            >() + 
             multiplication_dot<CharSet> +
-            dimension_as_fixed_string<
-               CharSet,
-               pqs::si_measurement_system, 
-               typename pqs::meta::pop_front<list>::type
-            >; 
+            dimension_to_fixed_string<
+               typename pqs::meta::pop_front<list>::type,
+               Ms, 
+               CharSet
+            >(); 
          }
       };
 
       /**
-       * @brief custom dimension to fixed_string implementation
+       * @brief Custom dimension to fixed_string implementation
       */
-      template <typename CharSet,typename D>
+      template <typename D,pqs::measurement_system Ms,typename CharSet>
           requires pqs::is_custom_dimension<D>
       struct dimension_to_fixed_string_impl<
-         CharSet,pqs::si_measurement_system,D 
+         D,Ms, CharSet
       >{
          static constexpr auto apply()
          {   
-            return dimension_as_fixed_string<
-               CharSet,
-               pqs::si_measurement_system,
-               typename D::simple_dimension
-            >;   
+            return dimension_to_fixed_string<
+               pqs::get_simple_dimension<D>,
+               Ms,
+               CharSet
+            >();   
          }
       };
+
    }// detail
+
+   template <quantity Q,typename CharSet>
+   inline constexpr auto
+   dimension_to_fixed_string()
+   {
+      return dimension_to_fixed_string<
+         pqs::get_dimension<Q>,
+         pqs::get_measurement_system<Q>,
+         CharSet
+      >();  
+   }
+
 } // pqs
 
 #endif // PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED

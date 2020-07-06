@@ -25,7 +25,7 @@ namespace {
 
    typedef decltype(vertical_velocity) vvtype;
    static_assert( pqs::dimension<vvtype>,"");
-   static_assert( pqs::dimension<vvtype::simple_dimension>,"");
+   static_assert( pqs::dimension<pqs::get_simple_dimension<vvtype> >,"");
    static_assert( pqs::is_custom_dimension<vvtype>,"");
 
    constexpr auto mux_test = vertical_velocity * time_ * length ;

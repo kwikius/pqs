@@ -12,6 +12,7 @@
 #include <pqs/meta/transform.hpp>
 #include <pqs/meta/fold.hpp>
 #include <pqs/bits/std_ratio.hpp>
+#include <pqs/type_functions/get_simple_dimension.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/types/dimensionless.hpp>
 
@@ -209,6 +210,14 @@ namespace pqs{
 
    namespace impl{
 
+      template <pqs::dimension D>
+      struct get_simple_dimension_impl<D>{
+         typedef typename D::simple_dimension type;
+      };
+   }
+
+   namespace impl{
+
       template <
          pqs::base_quantity_exponent Lhs, 
          pqs::base_quantity_exponent Rhs
@@ -268,9 +277,9 @@ namespace pqs{
          Lhs,pqs::times,Rhs
 
       > : pqs::binary_op<
-         typename Lhs::simple_dimension,
+         get_simple_dimension<Lhs>,
          pqs::times, 
-         typename Rhs::simple_dimension
+         get_simple_dimension<Rhs>
       >{};
 
       template <pqs::dimension Lhs, pqs::dimension Rhs>
@@ -280,7 +289,7 @@ namespace pqs{
       struct binary_op_impl <
          Lhs,pqs::times,Rhs
       > : pqs::binary_op<
-         typename Lhs::simple_dimension,
+         get_simple_dimension<Lhs>,
          pqs::times,
          Rhs
        >{};
@@ -295,7 +304,7 @@ namespace pqs{
        > : pqs::binary_op<
          Lhs,
          pqs::times,
-         typename Rhs::simple_dimension
+         get_simple_dimension<Rhs>
       >{};
 
 //divide
@@ -358,9 +367,9 @@ namespace pqs{
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs
       > : pqs::binary_op<
-         typename Lhs::simple_dimension,
+         get_simple_dimension<Lhs>,
          pqs::divides, 
-         typename Rhs::simple_dimension
+         get_simple_dimension<Rhs>
       >{};
 
       // dim / derived_dim
@@ -371,7 +380,7 @@ namespace pqs{
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs
        > : pqs::binary_op<
-         typename Lhs::simple_dimension,
+         get_simple_dimension<Lhs>,
          pqs::divides,
          Rhs
        >{};
@@ -386,7 +395,7 @@ namespace pqs{
        > : pqs::binary_op<
          Lhs,
          pqs::divides,
-         typename Rhs::simple_dimension
+         get_simple_dimension<Rhs>
       >{};
 
       namespace detail{
@@ -450,7 +459,7 @@ namespace pqs{
          >::type
 */
       > : pqs::binary_op<
-            typename Lhs::simple_dimension,
+            get_simple_dimension<Lhs>,
             struct pqs::to_power,
             Rhs
       >{};

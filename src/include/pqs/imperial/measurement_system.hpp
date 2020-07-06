@@ -3,6 +3,7 @@
 
 #include <pqs/type_templates/base_unit.hpp>
 #include <pqs/bits/base_quantities.hpp>
+#include <pqs/value_functions/get_base_unit_symbol.hpp>
 
 namespace pqs { 
 
@@ -22,29 +23,31 @@ namespace pqs{
 
 namespace pqs{
 
-   template <>
-   struct base_unit<base_length,imperial_measurement_system>{
-      static constexpr const char * symbol()
-      {
-         return "ft";
-      }
-   };
+   template <typename Charset>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_length,imperial_measurement_system,Charset
+   > = "ft";
 
    template <>
-   struct base_unit<base_mass,imperial_measurement_system>{
-      static constexpr const char * symbol()
-      {
-         return "lb";
-      }
-   };
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_length,imperial_measurement_system,charset_utf8
+   > = "\u0192\u01AB"; 
 
-   template <>
-   struct base_unit<base_time,imperial_measurement_system>{
-      static constexpr const char * symbol()
-      {
-         return "s";
-      }
-   };
+   template <typename Charset>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_mass,imperial_measurement_system,Charset
+   > = "lb";
+
+   template <typename Charset>
+   inline constexpr pqs::basic_fixed_string
+   get_base_unit_symbol<
+      base_time,imperial_measurement_system,Charset
+   > = "s";
+
+  
 }
 
 #endif // PQS_IMPERIAL_MEASUREMENT_SYSTEM_HPP_INCLUDED
