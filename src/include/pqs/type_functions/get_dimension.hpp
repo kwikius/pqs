@@ -15,14 +15,15 @@ namespace pqs{
    }
 
    template <typename T>
+   using get_dimension =
+      impl::get_dimension_impl< std::remove_cvref_t<T> >::type;
+
+//TODO remove
+   template <typename T>
    struct get_dimension_legacy 
    : impl::get_dimension_impl<
       std::remove_cvref_t<T>
    >{};
-
-   template <typename T>
-   using get_dimension 
-      = typename get_dimension_legacy<T>::type;
 
 }
 
