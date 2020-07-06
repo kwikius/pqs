@@ -24,13 +24,13 @@ namespace pqs{
    template <base_quantity_exponent ...D>
    struct dimension_list : pqs::detail::dimension_list_base{
       typedef dimension_list type;
-      typedef type base_exponent_type;
+      typedef type simple_dimension;
       static constexpr uint32_t num_elements = sizeof...(D);
    };
 
    template <> struct dimension_list<>{
       typedef dimension_list type;
-      typedef type base_exponent_type;
+      typedef type simple_dimension;
       static constexpr uint32_t num_elements = 0;
    };
 
@@ -268,9 +268,9 @@ namespace pqs{
          Lhs,pqs::times,Rhs
 
       > : pqs::binary_op<
-         typename Lhs::base_exponent_type,
+         typename Lhs::simple_dimension,
          pqs::times, 
-         typename Rhs::base_exponent_type
+         typename Rhs::simple_dimension
       >{};
 
       template <pqs::dimension Lhs, pqs::dimension Rhs>
@@ -280,7 +280,7 @@ namespace pqs{
       struct binary_op_impl <
          Lhs,pqs::times,Rhs
       > : pqs::binary_op<
-         typename Lhs::base_exponent_type,
+         typename Lhs::simple_dimension,
          pqs::times,
          Rhs
        >{};
@@ -295,7 +295,7 @@ namespace pqs{
        > : pqs::binary_op<
          Lhs,
          pqs::times,
-         typename Rhs::base_exponent_type
+         typename Rhs::simple_dimension
       >{};
 
 //divide
@@ -358,9 +358,9 @@ namespace pqs{
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs
       > : pqs::binary_op<
-         typename Lhs::base_exponent_type,
+         typename Lhs::simple_dimension,
          pqs::divides, 
-         typename Rhs::base_exponent_type
+         typename Rhs::simple_dimension
       >{};
 
       // dim / derived_dim
@@ -371,7 +371,7 @@ namespace pqs{
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs
        > : pqs::binary_op<
-         typename Lhs::base_exponent_type,
+         typename Lhs::simple_dimension,
          pqs::divides,
          Rhs
        >{};
@@ -386,7 +386,7 @@ namespace pqs{
        > : pqs::binary_op<
          Lhs,
          pqs::divides,
-         typename Rhs::base_exponent_type
+         typename Rhs::simple_dimension
       >{};
 
       namespace detail{
@@ -450,7 +450,7 @@ namespace pqs{
          >::type
 */
       > : pqs::binary_op<
-            typename Lhs::base_exponent_type,
+            typename Lhs::simple_dimension,
             struct pqs::to_power,
             Rhs
       >{};

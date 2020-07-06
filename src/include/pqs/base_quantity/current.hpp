@@ -21,7 +21,7 @@ namespace pqs{
       typedef base_current  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef exp_current type; // identity
-      typedef type base_exponent_type;
+      typedef type simple_dimension;
    };
 
    // for shorter error messages, use an integer exp for the default case
@@ -30,7 +30,7 @@ namespace pqs{
       typedef base_current  base_type;
       typedef typename std::ratio<N,1>::type exponent;
       typedef exp_current type; // identity
-      typedef type base_exponent_type;
+      typedef type simple_dimension;
    };
 
    template <int N>

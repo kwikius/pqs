@@ -21,7 +21,7 @@ namespace pqs{
       typedef base_substance  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef exp_substance type; // identity
-      typedef type base_exponent_type;
+      typedef type simple_dimension;
    };
 
    template <int N>
@@ -29,7 +29,7 @@ namespace pqs{
       typedef base_substance  base_type;
       typedef typename std::ratio<N,1>::type exponent;
       typedef exp_substance type; // identity
-      typedef type base_exponent_type;
+      typedef type simple_dimension;
    };
 
    template <int N>

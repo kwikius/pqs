@@ -25,7 +25,7 @@ namespace {
 
    typedef decltype(vertical_velocity) vvtype;
    static_assert( pqs::dimension<vvtype>,"");
-   static_assert( pqs::dimension<vvtype::base_exponent_type>,"");
+   static_assert( pqs::dimension<vvtype::simple_dimension>,"");
    static_assert( pqs::is_custom_dimension<vvtype>,"");
 
    constexpr auto mux_test = vertical_velocity * time_ * length ;
@@ -110,7 +110,7 @@ void dimension_test2()
    static_assert(is_dimension(vertical_velocity ),"");
    static_assert(same_no_cr<
             decltype(velocity),
-            decltype(vertical_velocity)::base_exponent_type
+            decltype(vertical_velocity)::simple_dimension
    >::value,"");
 
    static_assert(is_simple_dimension_list(velocity2),"");

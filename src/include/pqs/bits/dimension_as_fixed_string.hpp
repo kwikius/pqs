@@ -309,7 +309,7 @@ namespace pqs{
             return dimension_as_fixed_string<
                CharSet,
                pqs::si_measurement_system,
-               typename D::base_exponent_type
+               typename D::simple_dimension
             >;   
          }
       };
