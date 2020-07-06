@@ -307,7 +307,11 @@ namespace pqs{
        * @brief Multi element dimension_list to fixed_string implementation
        * https://www.nist.gov/pml/special-publication-811/nist-guide-si-chapter-6-rules-and-style-conventions-printing-and-using
       */
-      template <pqs::base_quantity_exponent... D, pqs::measurement_system Ms, typename CharSet>
+      template <
+         pqs::base_quantity_exponent... D,
+         pqs::measurement_system Ms, 
+         typename CharSet
+      >
       struct dimension_to_fixed_string_impl<
          pqs::dimension_list<D...>,Ms, CharSet
       >{
@@ -315,13 +319,13 @@ namespace pqs{
          {   
             using list = pqs::dimension_list<D...>;
             return dimension_to_fixed_string<
-               typename pqs::meta::front<list>::type,
+               pqs::meta::front_t<list>,
                Ms,
                CharSet
             >() + 
             multiplication_dot<CharSet> +
             dimension_to_fixed_string<
-               typename pqs::meta::pop_front<list>::type,
+               pqs::meta::pop_front_t<list>,
                Ms, 
                CharSet
             >(); 
@@ -332,7 +336,7 @@ namespace pqs{
        * @brief Custom dimension to fixed_string implementation
       */
       template <typename D,pqs::measurement_system Ms,typename CharSet>
-          requires pqs::is_custom_dimension<D>
+         requires pqs::is_custom_dimension<D>
       struct dimension_to_fixed_string_impl<
          D,Ms, CharSet
       >{

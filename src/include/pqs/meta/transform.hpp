@@ -24,28 +24,27 @@ namespace pqs{ namespace meta{
 
    namespace detail{
 
-        template <typename ListIn, typename ListOut, typename F>
-        struct transform_i
-        {
-             typedef typename pqs::meta::front<ListIn>::type element_type;
-             typedef typename F::template apply<element_type>::type output_element;
-             typedef typename pqs::meta::pop_front<ListIn>::type list_in_next;
-             typedef typename pqs::meta::push_back<ListOut,output_element>::type list_out;
-             typedef typename pqs::meta::eval_if_c<
-               (pqs::meta::get_num_elements<list_in_next>::value > 0),
-               transform_i<list_in_next,list_out,F>,
-               list_out
-             >::type type;
-        };
+      template <typename ListIn, typename ListOut, typename F>
+      struct transform_i {
+         using element_type = pqs::meta::front_t<ListIn>;
+         using output_element = typename F::template apply<element_type>::type;
+         using list_in_next = pqs::meta::pop_front_t<ListIn>;
+         using list_out = pqs::meta::push_back_t<ListOut,output_element>;
+         using type = typename pqs::meta::eval_if_c<
+            (pqs::meta::get_num_elements_v<list_in_next> > 0),
+            transform_i<list_in_next,list_out,F>,
+            list_out
+         >::type;
+      };
    }
    // ListOut usually an empty list of correct type
    template <typename ListIn, typename ListOut, typename F>
    struct transform {
-      typedef typename pqs::meta::eval_if_c<
-         (pqs::meta::get_num_elements<ListIn>::value > 0),
+      using type = typename pqs::meta::eval_if_c<
+         (pqs::meta::get_num_elements_v<ListIn> > 0),
          pqs::meta::detail::transform_i<ListIn,ListOut,F>,
          ListOut
-      >::type type;
+      >::type ;
    };
 
 }}

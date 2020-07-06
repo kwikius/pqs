@@ -13,18 +13,18 @@ namespace pqs { namespace meta{
       template <int I, typename List, typename OtherList>
       struct split_list_impl : split_list_impl<I-1,List, OtherList>{
           
-         typedef split_list_impl<I-1,List, OtherList> base_type;
-         typedef typename pop_front<typename base_type::rhs_type_list>::type rhs_type_list;
-         typedef typename push_back<
+         using base_type = split_list_impl<I-1,List, OtherList> ;
+         using rhs_type_list = pop_front_t<typename base_type::rhs_type_list> ;
+         using lhs_type_list = push_back_t<
             typename base_type::lhs_type_list,
-            typename front<typename base_type::rhs_type_list>::type
-         >::type lhs_type_list;
+            front_t<typename base_type::rhs_type_list>
+         > ;
       };
 
       template <typename List, typename OtherList>
       struct split_list_impl<0,List, OtherList>{
-           typedef List rhs_type_list;
-           typedef type_list<> lhs_type_list;
+          using rhs_type_list = List ;
+          using lhs_type_list = type_list<> ;
       };
 
    }// detail

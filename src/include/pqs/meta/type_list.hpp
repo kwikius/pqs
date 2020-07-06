@@ -25,13 +25,13 @@
 namespace pqs{ namespace meta{
 
    template <typename ... T> struct type_list{
-      typedef type_list type;
-      static const uint32_t length = sizeof...(T);
+      using type = type_list;
+      static constexpr uint32_t length = sizeof...(T);
    };
 
    template <> struct type_list<>{
-     typedef type_list type;
-     static const uint32_t length = 0;
+     using type = type_list;
+     static constexpr uint32_t length = 0;
    };
 
    namespace impl{
@@ -43,66 +43,66 @@ namespace pqs{ namespace meta{
 
       template <typename T>
       struct push_back_impl<type_list<>,T >{
-         typedef type_list<T> type;
+         using type = type_list<T>;
       };
 
       template <typename ... L, typename T>
       struct push_back_impl<type_list<L...>,T >{
-         typedef type_list<L...,T> type;
+         using type = type_list<L...,T>;
       };
 
       template <typename Front, typename ... List>
       struct pop_front_impl<type_list<Front,List...> >
       {
-         typedef type_list<List...> type;
+         using type = type_list<List...>;
       };
 
       template <>
       struct pop_front_impl<type_list<> >
       {
-         typedef pqs::undefined type;
+         using type = pqs::undefined;
       };
 
       template <typename...L, typename T>
       struct push_front_impl<type_list<L...> , T>
       {
-         typedef type_list<T,L...> type;
+         using type = type_list<T,L...>;
       };
 
       template < typename Front, typename... List> 
       struct front_impl<type_list<Front,List...> >
       {
-         typedef Front type;
+         using type = Front;
       };
 
       template < typename Front> 
       struct front_impl<type_list<Front> >
       {
-        typedef Front type;
+          using type = Front;
       };
 
       template <>
       struct front_impl<type_list<> >
       {
-         typedef pqs::undefined type;
+         using type = pqs::undefined;
       };
 
       template < typename Front ,typename... List> 
       struct back_impl< type_list<Front,List...> >
       {
-          typedef typename back<type_list<List...> >::type type;
+         using type = back_t<type_list<List...> >;
       };
 
       template < typename Back> 
       struct back_impl< type_list<Back> >
       {
-         typedef Back type;
+         using type = Back;
       };
 
       template <>
       struct back_impl<type_list<> >
       {
-         typedef pqs::undefined type;
+         using type = pqs::undefined;
       };
 
       namespace detail {
@@ -110,54 +110,53 @@ namespace pqs{ namespace meta{
          template <uint32_t N,typename List, typename other_list = type_list<> >
          struct type_list_get_first_n{
 
-            typedef typename front<List>::type first_type;
-            typedef typename pop_front<List>::type rest_type;
-            typedef typename push_back<other_list,first_type>::type result_list_type;
-            typedef typename pqs::meta::eval_if_else_c<
+            using first_type = front_t<List>;
+            using rest_type = pop_front_t<List>;
+            using result_list_type = push_back_t<other_list,first_type>;
+            using type = typename pqs::meta::eval_if_else_c<
                result_list_type::length == N,
                result_list_type,
                type_list_get_first_n<N,rest_type,result_list_type>
-            >::type type;
+            >::type;
          };
       }
 
       template<typename... List>
       struct pop_back_impl<type_list<List...> >{
-         typedef type_list<List...> list_type;
-         typedef typename detail::type_list_get_first_n<
+         using list_type = type_list<List...>;
+         using type = typename detail::type_list_get_first_n<
             list_type::length-1,list_type
-         >::type type;
+         >::type;
       };
 
       template< typename Last>
       struct pop_back_impl<type_list<Last> >{
-         typedef type_list<> type;
+         using type = type_list<> ;
       };
 
       template <>
       struct pop_back_impl<type_list<> >
       {
-         typedef pqs::undefined type;
+         using type = pqs::undefined;
       };
 
       template <uint32_t N, typename... List>
       struct at_impl<N,type_list<List...> >{
-         typedef type_list<List...> list_type;
+         using list_type = type_list<List...>;
          static_assert(N < list_type::length,"index out of range in pqs::meta::type_list");
-         typedef typename pqs::meta::eval_if_else_c<
-         N==0,
-         pqs::meta::front<list_type>,
-         pqs::meta::at<N-1,typename pqs::meta::pop_front<list_type>::type>
-         >::type type; 
+         using type = typename pqs::meta::eval_if_else_c<
+            N==0,
+            pqs::meta::front<list_type>,
+            pqs::meta::at<N-1,pqs::meta::pop_front_t<list_type> >
+         >::type; 
       };
 
       template <uint32_t N>
       struct at_impl<N,type_list<> >{
-         typedef pqs::undefined type;
+         using type = pqs::undefined;
       };
 
    } // impl
-   
-}}
+}} //pqs::meta
 
 #endif // PQS_META_TYPE_LIST_HPP_INCLUDED
