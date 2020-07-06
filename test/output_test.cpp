@@ -6,7 +6,7 @@
 #include <string>
 
 /**
- * @ brief output a base_dimension_exponent.
+ * @ brief output a dimension.
  */
 
 namespace {
@@ -80,7 +80,6 @@ namespace {
          return exp_digit<N,CharSet>;
       else
          return int_to_fixed_string<N/10,CharSet>() + 
-        // int_to_fixed_string<N%10,CharSet>();
          exp_digit<N%10,CharSet>;
    }
 
@@ -148,6 +147,7 @@ namespace {
    struct to_fixed_string_impl;
 
 // ######## n.b specific to S.I. ####################
+// generic version requires a measurement system param
    template <typename CharSet,pqs::base_quantity_exponent Qbe>
    struct to_fixed_string_impl<CharSet,Qbe>{
       static constexpr auto apply()
@@ -181,11 +181,7 @@ namespace {
       
       static constexpr auto apply()
       {   
-         using list = pqs::dimension_list<D>;
-         return to_fixed_string<
-             CharSet,
-             typename pqs::meta::front<list>::type
-         >() ;   
+         return to_fixed_string<CharSet,D>() ;   
       }
    };
 
@@ -199,8 +195,8 @@ namespace {
             CharSet,
             typename pqs::meta::front<list>::type
          >() + 
-         multiplication_dot<CharSet>
-         + to_fixed_string<CharSet, typename pqs::meta::pop_front<list>::type>(); 
+         multiplication_dot<CharSet> +
+         to_fixed_string<CharSet, typename pqs::meta::pop_front<list>::type>(); 
       }
    };
 
@@ -216,7 +212,7 @@ void output_test()
 #endif
 {
    using Qbe = pqs::exp_mass<-1,2>;
- #if 0
+ #if 1
    using charset = pqs::charset_utf8;
  #else
    using charset = pqs::charset_ascii;
