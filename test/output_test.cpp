@@ -132,7 +132,8 @@ namespace {
    }
 
    template <typename Exp,typename CharSet>
-   inline constexpr auto exponent_to_fixed_string()
+        requires pqs::is_ratio<Exp>
+   inline constexpr auto to_superscript_fixed_string()
    {
       if constexpr ( Exp::den == 1)
          return int_to_fixed_string<Exp::num,CharSet>();
@@ -140,9 +141,12 @@ namespace {
          return signed_fraction_to_fixed_string<Exp,CharSet>();
    }
 
-   template <pqs::base_quantity Qb, typename Exp, typename CharSet>
-   inline constexpr auto get_base_unit_expression()
+   template <pqs::base_quantity_exponent Qbe, typename CharSet>
+   inline constexpr auto to_fixed_string()
    {
+      using Qb = pqs::get_base_quantity<Qbe>;
+      using Exp = pqs::get_exponent<Qbe>;
+
       auto constexpr no_ext_str = 
          pqs::unit_symbol_prefix<
            pqs::si::get_base_unit_prefix_offset<Qb> 
@@ -154,7 +158,7 @@ namespace {
       if constexpr ( std::ratio_equal<Exp,std::ratio<1> >::value )
          return no_ext_str;
       else
-         return no_ext_str + exponent_to_fixed_string<Exp,CharSet>();      
+         return no_ext_str + to_superscript_fixed_string<Exp,CharSet>();      
    }
 }
 
@@ -165,15 +169,13 @@ int main()
 void output_test()
 #endif
 {
-   using base_quantity = pqs::base_mass;
-
-   using exp = std::ratio<1,2>;
+   using Qbe = pqs::exp_mass<-1,2>;
  #if 1
    using charset = pqs::charset_utf8;
  #else
    using charset = pqs::charset_ascii;
  #endif
-   auto constexpr x = get_base_unit_expression<base_quantity,exp,charset>();
+   auto constexpr x = to_fixed_string<Qbe,charset>();
 
    std::cout << x <<'\n';
 }
