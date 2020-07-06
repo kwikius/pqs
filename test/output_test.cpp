@@ -7,10 +7,6 @@
 
 /**
  * @ brief output a base_dimension_exponent.
- *   requires 
- * a base_dimension_exponent
- * a measurement system
- * an output character type
  */
 
 namespace {
@@ -57,16 +53,22 @@ namespace {
    template<> inline constexpr pqs::basic_fixed_string exp_digit<9,pqs::charset_utf8> = "\u2079";
 
    template<typename CharSet>
-   inline constexpr pqs::basic_fixed_string minus_sign = "-";
+   inline constexpr pqs::basic_fixed_string minus_sign = '-';
 
    template <>
    inline constexpr pqs::basic_fixed_string minus_sign<pqs::charset_utf8> = "\u207b";
 
    template<typename CharSet>
-   inline constexpr pqs::basic_fixed_string fraction_slash = "/";
+   inline constexpr pqs::basic_fixed_string fraction_slash = '/';
    
    template <>
    inline constexpr pqs::basic_fixed_string fraction_slash<pqs::charset_utf8> = "\u002F";
+
+   template <typename CharSet>
+   inline constexpr pqs::basic_fixed_string multiplication_dot = '.';
+
+   template <>
+   inline constexpr pqs::basic_fixed_string multiplication_dot<pqs::charset_utf8> = "\u22C5";
 
    template <int N,typename CharSet >
    inline constexpr auto int_to_fixed_string()
@@ -78,7 +80,8 @@ namespace {
          return exp_digit<N,CharSet>;
       else
          return int_to_fixed_string<N/10,CharSet>() + 
-         int_to_fixed_string<N%10,CharSet>();
+        // int_to_fixed_string<N%10,CharSet>();
+         exp_digit<N%10,CharSet>;
    }
 
    template <typename Exp,typename CharSet>
@@ -141,41 +144,87 @@ namespace {
          return signed_fraction_to_fixed_string<Exp,CharSet>();
    }
 
-   template <pqs::base_quantity_exponent Qbe, typename CharSet>
-   inline constexpr auto to_fixed_string()
-   {
-      using Qb = pqs::get_base_quantity<Qbe>;
-      using Exp = pqs::get_exponent<Qbe>;
+   template <typename CharSet, typename Q>
+   struct to_fixed_string_impl;
 
-      auto constexpr no_ext_str = 
-         pqs::unit_symbol_prefix<
-           pqs::si::get_base_unit_prefix_offset<Qb> 
-            ,CharSet
-         > +
-         pqs::get_base_unit_symbol<
-            Qb,pqs::si_measurement_system,CharSet
-         >;
-      if constexpr ( std::ratio_equal<Exp,std::ratio<1> >::value )
-         return no_ext_str;
-      else
-         return no_ext_str + to_superscript_fixed_string<Exp,CharSet>();      
+// ######## n.b specific to S.I. ####################
+   template <typename CharSet,pqs::base_quantity_exponent Qbe>
+   struct to_fixed_string_impl<CharSet,Qbe>{
+      static constexpr auto apply()
+      {
+         using Qb = pqs::get_base_quantity<Qbe>;
+         using Exp = pqs::get_exponent<Qbe>;
+
+         auto constexpr no_ext_str = 
+            pqs::unit_symbol_prefix<
+              pqs::si::get_base_unit_prefix_offset<Qb> 
+               ,CharSet
+            > +
+            pqs::get_base_unit_symbol<
+               Qb,pqs::si_measurement_system,CharSet
+            >;
+         if constexpr ( std::ratio_equal_v<Exp,std::ratio<1> > )
+            return no_ext_str;
+         else
+            return no_ext_str + to_superscript_fixed_string<Exp,CharSet>();      
+      }
+   };
+
+   template <typename CharSet, typename Q>
+   inline constexpr auto to_fixed_string()  
+   {
+      return to_fixed_string_impl<CharSet,std::remove_cvref_t<Q> >::apply();
    }
+
+   template <typename CharSet,pqs::base_quantity_exponent D>
+   struct to_fixed_string_impl<CharSet,pqs::dimension_list<D> >{
+      
+      static constexpr auto apply()
+      {   
+         using list = pqs::dimension_list<D>;
+         return to_fixed_string<
+             CharSet,
+             typename pqs::meta::front<list>::type
+         >() ;   
+      }
+   };
+
+   template <typename CharSet,pqs::base_quantity_exponent... D>
+   struct to_fixed_string_impl<CharSet,pqs::dimension_list<D...> >{
+      
+      static constexpr auto apply()
+      {   
+         using list = pqs::dimension_list<D...>;
+         return to_fixed_string<
+            CharSet,
+            typename pqs::meta::front<list>::type
+         >() + 
+         multiplication_dot<CharSet>
+         + to_fixed_string<CharSet, typename pqs::meta::pop_front<list>::type>(); 
+      }
+   };
+
 }
 
+//https://www.nist.gov/pml/special-publication-811/nist-guide-si-chapter-6-rules-and-style-conventions-printing-and-using
+
 #if defined PQS_STANDALONE
-int errors =0;
+int errors = 0;
 int main()
 #else
 void output_test()
 #endif
 {
    using Qbe = pqs::exp_mass<-1,2>;
- #if 1
+ #if 0
    using charset = pqs::charset_utf8;
  #else
    using charset = pqs::charset_ascii;
  #endif
-   auto constexpr x = to_fixed_string<Qbe,charset>();
+   auto constexpr x = to_fixed_string<charset,Qbe>();
 
    std::cout << x <<'\n';
+
+   using D = decltype(pqs::abstract_time<3> * pqs::abstract_length<-3> * pqs::abstract_current<-1>);
+   std::cout << to_fixed_string<charset,D>() << '\n';
 }
