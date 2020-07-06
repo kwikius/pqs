@@ -143,13 +143,12 @@ namespace {
          return signed_fraction_to_fixed_string<Exp,CharSet>();
    }
 
-   template <typename CharSet, typename Q>
-   struct to_fixed_string_impl;
+   template <typename CharSet, pqs::measurement_system Ms, typename Q>
+   struct dimension_to_fixed_string_impl;
 
 // ######## n.b specific to S.I. ####################
-// generic version requires a measurement system param
    template <typename CharSet,pqs::base_quantity_exponent Qbe>
-   struct to_fixed_string_impl<CharSet,Qbe>{
+   struct dimension_to_fixed_string_impl<CharSet,pqs::si_measurement_system,Qbe>{
       static constexpr auto apply()
       {
          using Qb = pqs::get_base_quantity<Qbe>;
@@ -170,33 +169,38 @@ namespace {
       }
    };
 
-   template <typename CharSet, typename Q>
-   inline constexpr auto to_fixed_string()  
+   template <typename CharSet, pqs::measurement_system Ms, pqs::dimension Q>
+   inline constexpr auto dimension_to_fixed_string()  
    {
-      return to_fixed_string_impl<CharSet,std::remove_cvref_t<Q> >::apply();
+      return dimension_to_fixed_string_impl<CharSet,Ms,std::remove_cvref_t<Q> >::apply();
    }
 
    template <typename CharSet,pqs::base_quantity_exponent D>
-   struct to_fixed_string_impl<CharSet,pqs::dimension_list<D> >{
+   struct dimension_to_fixed_string_impl<CharSet,pqs::si_measurement_system,pqs::dimension_list<D> >{
       
       static constexpr auto apply()
       {   
-         return to_fixed_string<CharSet,D>() ;   
+         return dimension_to_fixed_string<CharSet,pqs::si_measurement_system,D>() ;   
       }
    };
 
    template <typename CharSet,pqs::base_quantity_exponent... D>
-   struct to_fixed_string_impl<CharSet,pqs::dimension_list<D...> >{
+   struct dimension_to_fixed_string_impl<CharSet,pqs::si_measurement_system,pqs::dimension_list<D...> >{
       
       static constexpr auto apply()
       {   
          using list = pqs::dimension_list<D...>;
-         return to_fixed_string<
+         return dimension_to_fixed_string<
             CharSet,
+            pqs::si_measurement_system,
             typename pqs::meta::front<list>::type
          >() + 
          multiplication_dot<CharSet> +
-         to_fixed_string<CharSet, typename pqs::meta::pop_front<list>::type>(); 
+         dimension_to_fixed_string<
+            CharSet,
+            pqs::si_measurement_system, 
+            typename pqs::meta::pop_front<list>::type
+         >(); 
       }
    };
 
@@ -212,15 +216,16 @@ void output_test()
 #endif
 {
    using Qbe = pqs::exp_mass<-1,2>;
+   using ms = pqs::si_measurement_system;
  #if 1
    using charset = pqs::charset_utf8;
  #else
    using charset = pqs::charset_ascii;
  #endif
-   auto constexpr x = to_fixed_string<charset,Qbe>();
+   auto constexpr x = dimension_to_fixed_string<charset,ms,Qbe>();
 
    std::cout << x <<'\n';
 
    using D = decltype(pqs::abstract_time<3> * pqs::abstract_length<-3> * pqs::abstract_current<-1>);
-   std::cout << to_fixed_string<charset,D>() << '\n';
+   std::cout << dimension_to_fixed_string<charset,ms,D>() << '\n';
 }
