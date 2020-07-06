@@ -40,136 +40,108 @@ namespace {
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-   template <int N>
-   constexpr auto to_fixed_string_ascii()
+
+   template<int N, typename CharSet>
+     requires (N >=0 ) && (N < 10)
+   inline constexpr pqs::basic_fixed_string exp_digit = static_cast<char>( N + '0');
+
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<0,pqs::charset_utf8> = "\u2070";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<1,pqs::charset_utf8> = "\u00b9";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<2,pqs::charset_utf8> = "\u00b2";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<3,pqs::charset_utf8> = "\u00b3";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<4,pqs::charset_utf8> = "\u2074";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<5,pqs::charset_utf8> = "\u2075";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<6,pqs::charset_utf8> = "\u2076";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<7,pqs::charset_utf8> = "\u2077";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<8,pqs::charset_utf8> = "\u2078";
+   template<> inline constexpr pqs::basic_fixed_string exp_digit<9,pqs::charset_utf8> = "\u2079";
+
+   template<typename CharSet>
+   inline constexpr pqs::basic_fixed_string minus_sign = "-";
+
+   template <>
+   inline constexpr pqs::basic_fixed_string minus_sign<pqs::charset_utf8> = "\u207b";
+
+   template<typename CharSet>
+   inline constexpr pqs::basic_fixed_string fraction_slash = "/";
+   
+   template <>
+   inline constexpr pqs::basic_fixed_string fraction_slash<pqs::charset_utf8> = "\u002F";
+
+   template <int N,typename CharSet >
+   inline constexpr auto int_to_fixed_string()
    {
-      if constexpr ( N < 0)
-         return pqs::basic_fixed_string{"-"} + to_fixed_string_ascii<-N>();
+      if constexpr ( N < 0) 
+         return minus_sign<CharSet> +
+         int_to_fixed_string<-N,CharSet>();
       else if constexpr (N < 10)
-         return pqs::basic_fixed_string{static_cast<char>( N + '0')};
+         return exp_digit<N,CharSet>;
       else
-         return to_fixed_string_ascii<N/10>() + to_fixed_string_ascii<N%10>();
+         return int_to_fixed_string<N/10,CharSet>() + 
+         int_to_fixed_string<N%10,CharSet>();
    }
 
-   template <typename Charset>
-   struct fixed_string_to_power;
+   template <typename Exp,typename CharSet>
+   inline constexpr pqs::basic_fixed_string fraction_to_fixed_string  =  
+      int_to_fixed_string<Exp::num,CharSet>() +
+      fraction_slash<CharSet> +
+      int_to_fixed_string<Exp::den,CharSet>();
+   ;
 
-   template<int Value>
-     requires (0 <= Value) && (Value < 10)
-   static constexpr pqs::basic_fixed_string superscript = "";
+   template <>
+   inline constexpr pqs::basic_fixed_string 
+   fraction_to_fixed_string<std::ratio<1,2>,pqs::charset_utf8>
+      = "\u00bd";
 
-   template<> inline constexpr pqs::basic_fixed_string superscript<0> = "\u2070";
-   template<> inline constexpr pqs::basic_fixed_string superscript<1> = "\u00b9";
-   template<> inline constexpr pqs::basic_fixed_string superscript<2> = "\u00b2";
-   template<> inline constexpr pqs::basic_fixed_string superscript<3> = "\u00b3";
-   template<> inline constexpr pqs::basic_fixed_string superscript<4> = "\u2074";
-   template<> inline constexpr pqs::basic_fixed_string superscript<5> = "\u2075";
-   template<> inline constexpr pqs::basic_fixed_string superscript<6> = "\u2076";
-   template<> inline constexpr pqs::basic_fixed_string superscript<7> = "\u2077";
-   template<> inline constexpr pqs::basic_fixed_string superscript<8> = "\u2078";
-   template<> inline constexpr pqs::basic_fixed_string superscript<9> = "\u2079";
+   template <>
+   inline constexpr pqs::basic_fixed_string 
+   fraction_to_fixed_string<std::ratio<1,3>,pqs::charset_utf8>
+      = "\u2153";
 
-   inline constexpr pqs::basic_fixed_string superscript_minus = "\u207b";
-   inline constexpr pqs::basic_fixed_string solidus = "\u2044";
-   inline constexpr pqs::basic_fixed_string fraction_slash = "\u002F";
+   template <>
+   inline constexpr pqs::basic_fixed_string 
+   fraction_to_fixed_string<std::ratio<1,4>,pqs::charset_utf8>
+      = "\u00bc";
 
-   template <int N>
-   constexpr auto to_fixed_string_utf8()
-   {
-      if constexpr ( N < 0)
-         return superscript_minus + to_fixed_string_utf8<-N>();
-      else if constexpr (N < 10)
-         return superscript<N>;
-      else
-         return to_fixed_string_utf8<N/10>() + to_fixed_string_utf8<N%10>();
-   }
+   template <>
+   inline constexpr pqs::basic_fixed_string 
+   fraction_to_fixed_string<std::ratio<1,5>,pqs::charset_utf8>
+      = "\u2155";
 
-   template <typename Exp>
-   inline constexpr auto to_fixed_string_fractional_power_utf8()
-   {
-      return to_fixed_string_utf8<Exp::num>()
-               + fraction_slash
-               + to_fixed_string_utf8<Exp::den>();
-   }
+   template <>
+   inline constexpr pqs::basic_fixed_string 
+   fraction_to_fixed_string<std::ratio<2,3>,pqs::charset_utf8>
+      = "\u2154";
 
-   template <typename Exp>
-   inline constexpr auto to_fixed_string_signed_fractional_power_utf8()
+   template <>
+   inline constexpr pqs::basic_fixed_string 
+   fraction_to_fixed_string<std::ratio<3,4>,pqs::charset_utf8>
+      = "\u00be";
+
+   template <typename Exp, typename CharSet>
+   inline constexpr auto signed_fraction_to_fixed_string()
    {
       if constexpr ( Exp::num > 0)
-         return to_fixed_string_fractional_power_utf8<Exp>();
+         return fraction_to_fixed_string<Exp,CharSet>;
       else
-         return superscript_minus + to_fixed_string_fractional_power_utf8<
-            std::ratio_multiply<Exp,std::ratio<-1> > 
-         >();
+         return minus_sign<CharSet> + 
+         fraction_to_fixed_string<
+            std::ratio_multiply<Exp,std::ratio<-1> > ,
+            CharSet
+         >;
    }
 
-   template <>
-   inline constexpr auto to_fixed_string_fractional_power_utf8<std::ratio<1,2> >()
+   template <typename Exp,typename CharSet>
+   inline constexpr auto exponent_to_fixed_string()
    {
-      return pqs::basic_fixed_string{"\u00bd"};
+      if constexpr ( Exp::den == 1)
+         return int_to_fixed_string<Exp::num,CharSet>();
+      else 
+         return signed_fraction_to_fixed_string<Exp,CharSet>();
    }
-
-   template <>
-   inline constexpr auto to_fixed_string_fractional_power_utf8<std::ratio<1,3> >()
-   {
-      return pqs::basic_fixed_string{"\u2153"};
-   }
-
-   template <>
-   inline constexpr auto to_fixed_string_fractional_power_utf8<std::ratio<1,4> >()
-   {
-      return pqs::basic_fixed_string{"\u00bc"};
-   }
-
-
-   template <>
-   inline constexpr auto to_fixed_string_fractional_power_utf8<std::ratio<1,5> >()
-   {
-      return pqs::basic_fixed_string{"\u2155"};
-   }
-
-   template <>
-   inline constexpr auto to_fixed_string_fractional_power_utf8<std::ratio<2,3> >()
-   {
-      return pqs::basic_fixed_string{"\u2154"};
-   }
-
-   template <>
-   inline constexpr auto to_fixed_string_fractional_power_utf8<std::ratio<3,4> >()
-   {
-      return pqs::basic_fixed_string{"\u00be"};
-   }
-
-   template <>
-   struct fixed_string_to_power<pqs::charset_utf8>{
-
-      template <typename Exp>
-      static constexpr auto apply()
-      {
-         if constexpr ( Exp::den == 1)
-            return to_fixed_string_utf8<Exp::num>();
-         else 
-            return to_fixed_string_signed_fractional_power_utf8<Exp>();
-      }
-   };
-
-
-   template <>
-   struct fixed_string_to_power<pqs::charset_ascii>{
-      template <typename Exp>
-      static constexpr auto apply()
-      {
-         if constexpr (Exp::den == 1)
-           return to_fixed_string_ascii<Exp::num>();
-         else 
-            return to_fixed_string_ascii<Exp::num>()
-               + pqs::basic_fixed_string{'/'}
-               + to_fixed_string_ascii<Exp::den>();
-      }
-   };
 
    template <pqs::base_quantity Qb, typename Exp, typename CharSet>
-   constexpr auto get_base_unit_expression()
+   inline constexpr auto get_base_unit_expression()
    {
       auto constexpr no_ext_str = 
          pqs::unit_symbol_prefix<
@@ -182,7 +154,7 @@ namespace {
       if constexpr ( std::ratio_equal<Exp,std::ratio<1> >::value )
          return no_ext_str;
       else
-         return no_ext_str + fixed_string_to_power<CharSet>::template apply<Exp>();      
+         return no_ext_str + exponent_to_fixed_string<Exp,CharSet>();      
    }
 }
 
@@ -190,12 +162,12 @@ namespace {
 int errors =0;
 int main()
 #else
-void sandbox()
+void output_test()
 #endif
 {
    using base_quantity = pqs::base_mass;
 
-   using exp = std::ratio<-3>;
+   using exp = std::ratio<1,2>;
  #if 1
    using charset = pqs::charset_utf8;
  #else

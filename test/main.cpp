@@ -26,16 +26,18 @@ void experimental_test();
 void scaled_value_test();
 void binary_op_test();
 void sandbox();
+void output_test();
 
 void basic_quantity_test();
 
 
-int  errors = 0;
+int errors = 0;
 
 int main()
 {
    std::cout << "pqs test\n";
 
+   output_test();
    sandbox();
    basic_quantity_test();
    quantity_syntax_test();
