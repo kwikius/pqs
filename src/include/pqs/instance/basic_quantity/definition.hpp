@@ -34,10 +34,10 @@ namespace pqs{
       { return m_scaled_value.numeric_value(); }
 
     private:
-      typedef scaled_value<
-         typename unit::conversion_factor,
+      using scaled_value_type = scaled_value<
+         get_conversion_factor<unit>,
          value_type
-      > scaled_value_type;
+      > ;
       scaled_value_type m_scaled_value;
    };
 
