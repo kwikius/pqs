@@ -59,25 +59,25 @@ namespace pqs{
     template <quantity Lhs, quantity Rhs>
     inline constexpr bool provide_operator_plus = 
     impl::provide_operator_plus_impl<
-         std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
+       std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
     template <quantity Lhs, quantity Rhs>
     inline constexpr bool provide_operator_minus = 
     impl::provide_operator_minus_impl<
-         std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
+       std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
     template <quantity Lhs, quantity Rhs>
     inline constexpr bool provide_operator_times = 
     impl::provide_operator_times_impl<
-         std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
+       std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
     template <quantity Lhs, quantity Rhs>
     inline constexpr bool provide_operator_divides = 
     impl::provide_operator_divides_impl<
-         std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
+       std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
 }// pqs
