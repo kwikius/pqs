@@ -45,7 +45,7 @@ void custom_test2()
    static_assert(quantity<decltype(v2)>,"");
 
    static_assert(is_dimension_legacy<abstract_velocity>::value,"");
-   static_assert(is_quantity_legacy<decltype(v2)>::value,"");
+  // static_assert(is_quantity_legacy<decltype(v2)>::value,"");
 
    using u = get_unit<decltype(v2)>;
    static_assert(std::is_same<u, si::unit<abstract_velocity,exponent10<0> > >::value,"");

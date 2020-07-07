@@ -1,7 +1,6 @@
 #ifndef PQS_TYPE_FUNCTIONS_GET_SIMPLE_DIMENSION_HPP_INCLUDED
 #define PQS_TYPE_FUNCTIONS_GET_SIMPLE_DIMENSION_HPP_INCLUDED
 
-
 #include <type_traits>
 
 namespace pqs{
@@ -13,9 +12,10 @@ namespace pqs{
    }
 
    template <typename T>
-   using get_simple_dimension = typename impl::get_simple_dimension_impl<
-      typename std::remove_cvref_t<T> 
-   >::type;
+   using get_simple_dimension = 
+      typename impl::get_simple_dimension_impl<
+         typename std::remove_cvref_t<T> 
+      >::type;
 
 }
 

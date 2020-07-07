@@ -16,7 +16,6 @@ namespace pqs{
 
       template <typename T, typename Where = void>
       struct is_unit_impl : std::false_type{};
-
    }
 
    template < typename  T>
@@ -28,6 +27,12 @@ namespace pqs{
    template <typename T>
    concept unit = is_unit<T>;
 
+    namespace impl{
+
+      template <unit U>
+      struct get_simple_dimension_impl<U> 
+      : pqs::get_simple_dimension<pqs::get_dimension<U> >{};
+    }
 };
 
 #endif // PQS_CONCEPTS_UNIT_HPP_INCLUDED

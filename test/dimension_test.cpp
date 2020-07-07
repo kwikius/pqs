@@ -29,18 +29,19 @@ namespace {
       pqs::dimensionless d3 = d1;  // copy ctor
       pqs::dimensionless d4 = pqs::dimensionless{};
       d2 = d1;                    // assignment
-      QUAN_CHECK( (std::is_same<pqs::get_exponent_legacy<pqs::dimensionless>::type, std::ratio<0,1> >::value))
+      QUAN_CHECK( (std::is_same_v<pqs::get_exponent<pqs::dimensionless>, std::ratio<0,1> >))
  
    }
 
    void length_dimension_test()
    {
        typedef pqs::si::length_unit::mm::dimension dimension;
-//int xx = dimension{};
-       QUAN_CHECK(( std::is_same<dimension,pqs::exp_length<1> >::value ))
-       QUAN_CHECK(( pqs::is_base_quantity_exp_legacy<dimension> ::value ))
-       QUAN_CHECK((pqs::is_base_quantity_legacy<pqs::get_base_quantity_legacy<dimension>::type>::value))
-       QUAN_CHECK((std::is_same<pqs::get_base_quantity_legacy<dimension>::type,pqs::base_length>::value))
+
+       QUAN_CHECK(( std::is_same_v<dimension,pqs::exp_length<1> > ))
+       QUAN_CHECK(( pqs::is_base_quantity_exp<dimension> ))
+       QUAN_CHECK(( pqs::is_base_quantity<pqs::get_base_quantity<dimension> > ))
+       QUAN_CHECK(( std::is_same_v<pqs::get_base_quantity<dimension>,pqs::base_length> ))
+       QUAN_CHECK(( std::is_same_v<pqs::get_simple_dimension<dimension>,dimension> ))
 
    }
 
@@ -55,16 +56,16 @@ namespace {
          pqs::exp_mass<2> 
       > lhs_dimension;
 
-      QUAN_CHECK((pqs::meta::get_num_elements<lhs_dimension>::value == 3))
-      QUAN_CHECK((std::is_same<pqs::meta::front<lhs_dimension>::type,pqs::exp_length<1> >::value))
-      QUAN_CHECK((std::is_same<pqs::meta::back<lhs_dimension>::type,pqs::exp_mass<2> >::value))
+      QUAN_CHECK((pqs::meta::get_num_elements_v<lhs_dimension> == 3))
+      QUAN_CHECK((std::is_same_v<pqs::meta::front_t<lhs_dimension>,pqs::exp_length<1> >))
+      QUAN_CHECK((std::is_same_v<pqs::meta::back_t<lhs_dimension>,pqs::exp_mass<2> > ))
 
       typedef pqs::dimension_list< 
          pqs::exp_mass<2>,
          pqs::exp_time<1>
       > rhs_dimension;
 
-      typedef pqs::binary_op<lhs_dimension,pqs::times,rhs_dimension>::type result;
+      typedef pqs::binary_op_t<lhs_dimension,pqs::times,rhs_dimension> result;
 
       typedef pqs::dimension_list<
          pqs::exp_length<1>,  

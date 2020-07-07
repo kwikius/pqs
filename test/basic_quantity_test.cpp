@@ -57,12 +57,22 @@ namespace {
    {
       auto q_si1 = pqs::si::length::m<>{1};
       auto q_si2 = pqs::si::length::mm<>{321};
-      auto q_r = q_si1 + q_si2;
-      std::cout << " q_r numeric value = " << get_numeric_value(q_r) << '\n';
+      auto q_sir = q_si1 + q_si2;
+      QUAN_CHECK( (get_numeric_value(q_sir) == 1321))
+      std::cout << " q_r numeric value = " << get_numeric_value(q_sir) << '\n';
+
+      auto q_si3 = pqs::si::length::ft<>{6};
+      auto q_sir1 = q_si1 + q_si3;
+      std::cout << " q_r numeric value = " << get_numeric_value(q_sir1) << '\n';
+      QUAN_CHECK(( std::is_same_v<
+         pqs::get_conversion_factor<decltype(q_sir1)>,
+         pqs::conversion_factor<std::ratio<1>,pqs::exponent10<-1> >
+      > ))
 
       auto b = pqs::imperial::length::ft<>{1};
       auto c = pqs::imperial::length::yd<>{2};
       auto d = b + c;
+      QUAN_CHECK( (get_numeric_value(d) == 7))
       std::cout << " imp numeric value = " << get_numeric_value(d) << '\n';
    }
 }

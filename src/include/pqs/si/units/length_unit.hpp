@@ -8,6 +8,7 @@
 
 namespace pqs{ namespace si { namespace length_unit{
 
+   //for si units is_base_of<si::unit,T> is true
    template <typename exp = exponent10<0> >
    struct coherent :
    pqs::si::unit<
@@ -15,6 +16,7 @@ namespace pqs{ namespace si { namespace length_unit{
       exp
    >{};
 
+    //for si unit_conversions is_base_of<si::unit_conversion,T> is true
    template <typename ConversionFactor>
    struct conversion : 
    pqs::si::unit_conversion<
