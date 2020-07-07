@@ -41,7 +41,7 @@ namespace pqs{
 
       template <quantity Q>
       struct get_simple_dimension_impl<Q> 
-      : pqs::get_simple_dimension<pqs::get_dimension<Q> >{};
+      : get_simple_dimension<get_unit<Q> >{};
     
       template <typename Lhs, typename Rhs>
       struct provide_operator_plus_impl : std::true_type{};
@@ -54,7 +54,7 @@ namespace pqs{
 
     }
   
-// TODO this should probably test the semantic
+// TODO this should maybe test the semantic
     // e.g dimensionally_equivalent
     template <quantity Lhs, quantity Rhs>
     inline constexpr bool provide_operator_plus = 

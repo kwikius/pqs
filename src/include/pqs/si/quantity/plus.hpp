@@ -4,6 +4,7 @@
 #include <pqs/concepts/quantity/plus.hpp>
 #include <pqs/si/measurement_system.hpp>
 
+
 /**
 *  @brief. Implement a custom + semantic for the si measurement system.
 *  If the quantities are the same the result is the same, but for different quantities
@@ -13,26 +14,21 @@
 namespace pqs{
 
    template <>
-   struct quantity_plus_semantic<pqs::si_measurement_system,pqs::si_measurement_system>
+   struct quantity_plus_semantic<
+      pqs::si_measurement_system,
+      pqs::si_measurement_system
+   >
    {
-
       template <quantity Lhs, quantity Rhs>
-         requires  
-         std::is_same_v<get_dimension<Lhs>,get_dimension<Rhs> >
       struct result{
          using type = pqs::basic_quantity <
             pqs::basic_unit<
                pqs::si_measurement_system,
                get_simple_dimension<Lhs>,
                pqs::si::make_coherent<  // turn the result to a coherent quantity
-                  std::conditional_t<
-                     pqs::binary_op_v<  // choose the smallest unit
-                        get_conversion_factor<Lhs>,
-                        pqs::less_equal,
-                        get_conversion_factor<Rhs>
-                     >,
+                  pqs::meta::min<
                      get_conversion_factor<Lhs>,
-                     get_conversion_factor<Rhs>
+                     get_conversion_factor<Rhs> 
                   >
                >
             >,
@@ -50,9 +46,6 @@ namespace pqs{
       };
 
       template <quantity Lhs, quantity Rhs>
-         requires  
-         std::is_same_v<get_dimension<Lhs>,get_dimension<Rhs> > &&
-         provide_operator_plus<Lhs,Rhs>
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
          using result_type = typename result<Lhs,Rhs>::type;
