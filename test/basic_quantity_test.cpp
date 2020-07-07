@@ -75,10 +75,53 @@ namespace {
       QUAN_CHECK( (get_numeric_value(d) == 7))
       std::cout << " imp numeric value = " << get_numeric_value(d) << '\n';
    }
+
+   using namespace pqs;
+
+   void check_conversion_factor_test()
+   {
+
+#if 1
+
+   using Qb = si::length::m<>;
+   using Q  = si::length::ft<>;
+
+   static_assert( evaluate<get_conversion_factor<Qb> >() == 1 );
+   static_assert( evaluate<get_conversion_factor<Q> >() != 1 );
+
+   constexpr dimensionless_quantity n = -12345.678;
+   
+   constexpr Q  q{n};
+   constexpr Qb qB = q;
+
+   static_assert( 
+      get_numeric_value(qB) == 
+         get_numeric_value(q) * evaluate<get_conversion_factor<Q> >() 
+   );
+
+#else
+      using Qb = pqs::si::length::m<>;
+      using Q = pqs::si::length::ft<>;
+
+      static_assert( pqs::evaluate<pqs::get_conversion_factor<Qb> >() == 1 );
+      static_assert( pqs::evaluate<pqs::get_conversion_factor<Q> >() != 1 );
+
+      pqs::dimensionless_quantity constexpr n = 12345.678;
+      
+      Q  constexpr q{n};
+      Qb constexpr qB = q;
+
+      static_assert( 
+         get_numeric_value(qB) == 
+            get_numeric_value(q) *  pqs::evaluate<pqs::get_conversion_factor<Q> >() 
+      );
+#endif
+   }
 }
 
 void basic_quantity_test()
 {
    basic_quantity_test1();
    basic_quantity_test2();
+   check_conversion_factor_test();
 }

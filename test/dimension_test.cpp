@@ -11,6 +11,7 @@ namespace {
 
    void dimensionless_test()
    {
+      static_assert( !pqs::dimension<pqs::dimensionless>,"");
       pqs::dimensionless d1;
 
       pqs::dimensionless d2;
