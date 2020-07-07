@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_QUANTITY_PLUS_HPP_INCLUDED
 
 #include <pqs/concepts/quantity/definition.hpp>
+#include <pqs/instance/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/basic_unit.hpp>
 #include <pqs/meta/min.hpp>
@@ -15,9 +16,6 @@
    */
 
 namespace pqs{
-
-   template <unit Unit, dimensionless_quantity ValueType>
-   struct basic_quantity;
 
    template <typename LhsMS, typename RhsMS>
    struct quantity_plus_semantic;

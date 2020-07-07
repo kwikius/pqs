@@ -3,7 +3,7 @@
 
 #include <pqs/concepts/quantity/plus.hpp>
 #include <pqs/si/measurement_system.hpp>
-
+#include <pqs/instance/basic_quantity_fwd.hpp>
 
 /**
 *  @brief. Implement a custom + semantic for the si measurement system.
@@ -17,8 +17,7 @@ namespace pqs{
    struct quantity_plus_semantic<
       pqs::si_measurement_system,
       pqs::si_measurement_system
-   >
-   {
+   > {
       template <quantity Lhs, quantity Rhs>
       struct result{
          using type = pqs::basic_quantity <
@@ -40,8 +39,7 @@ namespace pqs{
       };
 
       template <quantity Q>
-      struct result<Q,Q>
-      {
+      struct result<Q,Q>{
          using type = Q;
       };
 
@@ -57,6 +55,5 @@ namespace pqs{
       }
    };
 }
-
 
 #endif // PQS_SI_OPERATIONS_PLUS_HPP_INCLUDED
