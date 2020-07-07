@@ -7,44 +7,40 @@
 
 namespace pqs{
 
-   template <typename ConversionFactor,typename ValueType>
+   template <typename ConversionFactor,pqs::dimensionless_quantity ValueType>
+         requires pqs::is_conversion_factor<ConversionFactor>
    struct scaled_value{
 
-    //  static_assert(pqs::is_dimensionless_quantity_legacy<ValueType>::value, "invalid value_type for scaled_value");
-      static_assert(pqs::is_conversion_factor<ConversionFactor>, "invalid conversion factor type for scaled_value");
-
-      typedef ValueType value_type;
-      typedef ConversionFactor conversion_factor;
+      using value_type = ValueType ;
+      using conversion_factor = ConversionFactor;
 
       // F is a function to fix up the value_type
       // see the <pqs/bits/implicit_conversion_functions.hpp> header for some examples
-      template <typename ConversionFactorR, typename ValueTypeR,typename F>
+      template <typename ConversionFactorR, pqs::dimensionless_quantity ValueTypeR,typename F>
+         requires pqs::is_conversion_factor<ConversionFactorR>
       static constexpr 
       ValueType
       scale_from (ValueTypeR const & vR, F const & f)
       {
-#if 0
-         // use runtime conversion factor expressions
-         return F::template apply<value_type>( vR * (ConversionFactorR{} / conversion_factor{})();
-#else
          typedef typename pqs::binary_op<ConversionFactorR,pqs::divides,ConversionFactor>::type conv_factor;
-         return F::template apply<ValueType>(vR * pqs::conversion_factor_eval<conv_factor>{}());
-#endif      
+         return F::template apply<ValueType>(vR * pqs::conversion_factor_eval<conv_factor>{}());    
       }
 
-      template <typename V>
+      template <pqs::dimensionless_quantity V>
       constexpr 
       explicit
       scaled_value(V const& v )
       :m_numeric_value{pqs::default_conversion::template apply<ValueType>(v)}{}
 
-      template <typename ConversionFactorR,typename ValueTypeR, typename F>
+      template <typename ConversionFactorR,pqs::dimensionless_quantity ValueTypeR, typename F>
+         requires pqs::is_conversion_factor<ConversionFactorR>
       constexpr 
       explicit
       scaled_value(scaled_value<ConversionFactorR,ValueTypeR> const & in, F const & f)
       :m_numeric_value{scale_from<ConversionFactorR>(in.numeric_value(),f)}{}
 
-      template <typename ConversionFactorR,typename ValueTypeR>
+      template <typename ConversionFactorR,pqs::dimensionless_quantity ValueTypeR>
+         requires pqs::is_conversion_factor<ConversionFactorR>
       constexpr 
       scaled_value(scaled_value<ConversionFactorR,ValueTypeR> const & in)
       :m_numeric_value{scale_from<ConversionFactorR,ValueTypeR>(in.numeric_value(),pqs::default_conversion{})}{}
