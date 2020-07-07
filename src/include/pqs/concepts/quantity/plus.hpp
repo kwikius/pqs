@@ -55,7 +55,7 @@ namespace pqs{
       template <quantity Lhs, quantity Rhs>
          requires  
          std::is_same_v<get_dimension<Lhs>,get_dimension<Rhs> > &&
-         provide_quantity_plus<Lhs,Rhs>
+         provide_operator_plus<Lhs,Rhs>
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
          using result_type = typename result<Lhs,Rhs>::type;
@@ -70,7 +70,7 @@ namespace pqs{
    template <quantity Lhs, quantity Rhs>
       requires  
       std::is_same_v<get_dimension<Lhs>,get_dimension<Rhs> > &&
-      provide_quantity_plus<Lhs,Rhs>
+      provide_operator_plus<Lhs,Rhs>
    inline constexpr auto operator + ( Lhs const & lhs, Rhs const & rhs)
    {
       return quantity_plus_semantic<
