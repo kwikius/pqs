@@ -1,23 +1,21 @@
 #ifndef PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
 #define PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
 
-#include <pqs/concepts/quantity/definition.hpp>
+#include <pqs/concepts/quantity/times.hpp>
+#include <pqs/si/measurement_system_def.hpp>
 #include <pqs/instance/basic_quantity_fwd.hpp>
-#include <pqs/bits/binary_op.hpp>
-#include <pqs/bits/basic_unit.hpp>
-#include <pqs/meta/min.hpp>
+#include <pqs/si/unit.hpp>
 
    /**
-   * @brief default quantity multiplication semantic
+   * @brief si quantity multiplication semantic. 
+   * quantities are converted to quantities whose multiplier is one before
+   * multiply
    */
 
 namespace pqs{
 
-   template <typename LhsMS, typename RhsMS>
-   struct quantity_times_semantic;
-
-   template <measurement_system S>
-   struct quantity_times_semantic<S,S>
+   template <>
+   struct quantity_times_semantic<pqs::si_measurement_system, pqs::si_measurement_system>
    {
       // dimension of Lhs* Rhs maybe a dimension or dimensionless
       template <quantity Lhs, quantity Rhs>
@@ -34,10 +32,13 @@ namespace pqs{
             pqs::basic_unit<
                S,
                result_dimension<Lhs,Rhs>,
+               //TODO probably want only if one is si_unit and one is not
+               // so if both si no need to convert
+               // if both unit conversions then no need to convert
                pqs::binary_op_t<
-                  get_conversion_factor<Lhs>,
+                  pqs::si::make_coherent< get_conversion_factor<Lhs> >,
                   pqs::times,
-                  get_conversion_factor<Rhs> 
+                  pqs::si::make_coherent< get_conversion_factor<Rhs> >
                >
             >,
             std::remove_cvref_t<decltype(
@@ -76,8 +77,8 @@ namespace pqs{
       {
          using result_type = typename result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(lhs) * 
-            get_numeric_value(rhs)
+            get_numeric_value(pqs::si::make_coherent<Lhs>{lhs}) * 
+            get_numeric_value(pqs::si::make_coherent<Rhs>{rhs})
          };
       }
 

@@ -4,6 +4,8 @@
 #include <pqs/bits/basic_unit.hpp>
 #include <pqs/si/length.hpp>
 #include <pqs/imperial/length.hpp>
+#include <pqs/si/quantity/plus.hpp>
+
 #include <iostream>
 
 struct dummy_system{ 
@@ -21,7 +23,7 @@ namespace {
 
    void basic_quantity_test1()
    {
-      static_assert(pqs::is_defined_legacy<double>::value,"");
+      static_assert(pqs::is_defined<double>,"");
       pqs::basic_quantity<
          pqs::basic_unit<
             dummy_system,
@@ -31,6 +33,8 @@ namespace {
       > constexpr q{20.0};
 
       using tu = pqs::get_unit<decltype(q)>;
+
+      QUAN_CHECK(( ! pqs::si::is_si_unit<tu> ))
          
       using td = pqs::get_dimension<decltype(q)>;
 
@@ -56,7 +60,10 @@ namespace {
    void basic_quantity_test2()
    {
       auto q_si1 = pqs::si::length::m<>{1};
+
+      QUAN_CHECK(( pqs::si::is_si_unit<pqs::get_unit<decltype(q_si1)> > ))
       auto q_si2 = pqs::si::length::mm<>{321};
+      QUAN_CHECK(( pqs::si::is_si_unit<pqs::get_unit<decltype(q_si1)> > ))
       auto q_sir = q_si1 + q_si2;
       QUAN_CHECK( (get_numeric_value(q_sir) == 1321))
       std::cout << " q_r numeric value = " << get_numeric_value(q_sir) << '\n';
@@ -64,9 +71,11 @@ namespace {
       auto q_si3 = pqs::si::length::ft<>{6};
       auto q_sir1 = q_si1 + q_si3;
       std::cout << " q_r numeric value = " << get_numeric_value(q_sir1) << '\n';
-      QUAN_CHECK(( std::is_same_v<
-         pqs::get_conversion_factor<decltype(q_sir1)>,
-         pqs::conversion_factor<std::ratio<1>,pqs::exponent10<-1> >
+
+      using cf1 = pqs::get_conversion_factor<decltype(q_sir1)>;
+
+      QUAN_CHECK(( std::is_same_v< 
+         cf1, pqs::conversion_factor<std::ratio<1>,pqs::exponent10<-1> >
       > ))
 
       auto b = pqs::imperial::length::ft<>{1};

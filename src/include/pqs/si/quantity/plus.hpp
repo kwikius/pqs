@@ -2,14 +2,19 @@
 #define PQS_SI_QUANTITY_PLUS_HPP_INCLUDED
 
 #include <pqs/concepts/quantity/plus.hpp>
-#include <pqs/si/measurement_system.hpp>
+#include <pqs/si/measurement_system_def.hpp>
 #include <pqs/instance/basic_quantity_fwd.hpp>
+#include <pqs/si/unit.hpp>
 
 /**
 *  @brief. Implement a custom + semantic for the si measurement system.
-*  If the quantities are the same the result is the same, but for different quantities
-*  the result is converted to a basic_unit with a multiplier of 1.
-*  N.B  just for initial testing. In reality, perhaps a more subtle semantic is required
+*  If the quantities are the same then
+      the result is the same as both
+ * else if one or both quantities is an si::unit then
+ *    get finest grained and convert to basic quantity with si::unit
+ * else
+      get finest grained 
+ *   
 */
 namespace pqs{
 
@@ -20,17 +25,31 @@ namespace pqs{
    > {
       template <quantity Lhs, quantity Rhs>
       struct result{
-         using type = pqs::basic_quantity <
-            pqs::basic_unit<
-               pqs::si_measurement_system,
-               get_simple_dimension<Lhs>,
-               pqs::si::make_coherent<  // turn the result to a coherent quantity
-                  pqs::meta::min<
-                     get_conversion_factor<Lhs>,
-                     get_conversion_factor<Rhs> 
-                  >
-               >
+
+         using lhs_unit = pqs::get_unit<Lhs>;
+         using rhs_unit = pqs::get_unit<Rhs>;
+
+         using finest_grained_unit = std::conditional_t<
+            pqs::binary_op_v<
+               get_conversion_factor<Lhs>,
+               pqs::less_equal,
+               get_conversion_factor<Rhs> 
             >,
+            lhs_unit,
+            rhs_unit
+         >;
+
+         using unit_type = std::conditional_t<
+            ( pqs::si::is_si_unit<lhs_unit >||
+              pqs::si::is_si_unit<rhs_unit > ),
+            pqs::si::make_si_unit<
+               finest_grained_unit
+            >,
+            finest_grained_unit
+         >;
+         
+         using type = pqs::basic_quantity <
+            unit_type,  
             std::remove_cvref_t<decltype(
                std::declval<get_numeric_type<Lhs> >() + 
                std::declval<get_numeric_type<Rhs> >()
