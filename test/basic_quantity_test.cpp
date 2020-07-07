@@ -76,6 +76,25 @@ namespace {
       std::cout << " imp numeric value = " << get_numeric_value(d) << '\n';
    }
 
+   void basic_quantity_multiply_test()
+   {
+      auto q_si1 = pqs::si::length::m<>{10};
+      auto q_si2 = pqs::si::length::mm<>{321};
+      auto q_sir = q_si1 * q_si2;
+      QUAN_CHECK( (get_numeric_value(q_sir) == 3210))
+      std::cout << "result of mux = "  << get_numeric_value(q_sir) <<'\n';
+
+      pqs::basic_quantity<
+         pqs::si::unit<
+            pqs::exp_length<-1>,
+            pqs::exponent10<-1>
+         >
+      > q_si3{2};
+      auto r1 = q_si1 * q_si3;
+      QUAN_CHECK( (r1 == 2.))
+      std::cout << "result of dimless mux = "  << r1 <<'\n';    
+   }
+
    using namespace pqs;
 
    void check_conversion_factor_test()
@@ -124,4 +143,5 @@ void basic_quantity_test()
    basic_quantity_test1();
    basic_quantity_test2();
    check_conversion_factor_test();
+   basic_quantity_multiply_test();
 }

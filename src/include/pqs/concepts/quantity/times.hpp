@@ -8,7 +8,7 @@
 #include <pqs/meta/min.hpp>
 
    /**
-   * @brief default multiplication op
+   * @brief default quantity multiplication semantic
    */
 
 namespace pqs{
@@ -29,8 +29,7 @@ namespace pqs{
       >;
 
       template <quantity Lhs, quantity Rhs>
-         requires pqs::dimension<result_dimension<Lhs,Rhs> >
-      struct result{
+      struct dimensioned_result{
          using type = pqs::basic_quantity <
             pqs::basic_unit<
                S,
@@ -49,22 +48,47 @@ namespace pqs{
       };
 
       template <quantity Lhs, quantity Rhs>
-         requires std::is_same_v<result_dimension<Lhs,Rhs>,pqs::dimensionless>
-      struct result{
+      struct dimensionless_result{
+         using cf = pqs::binary_op_t<
+            pqs::get_conversion_factor<Lhs>,
+            pqs::times,
+            pqs::get_conversion_factor<Rhs>
+         >;
          using type = std::remove_cvref_t<decltype(
             std::declval<get_numeric_type<Lhs> >() * 
-            std::declval<get_numeric_type<Rhs> >()
+            std::declval<get_numeric_type<Rhs> >() * 
+            pqs::evaluate<cf>()
          )>;
       };
 
+#if 1
+      template <quantity Lhs, quantity Rhs>
+      struct result{
+         using type = typename pqs::meta::eval_if_c<
+            dimension<result_dimension<Lhs,Rhs> >,
+               dimensioned_result<Lhs,Rhs>,
+            dimensionless_result<Lhs,Rhs>
+         >::type;
+      };
+
+#else
+      template <quantity Lhs, quantity Rhs>
+      struct result{
+         using type = typename pqs::meta::eval_if<
+            std::is_same<result_dimension<Lhs,Rhs>, pqs::dimensionless>,
+               dimensionless_result<Lhs,Rhs>,
+            dimensioned_result<Lhs,Rhs>
+         >::type;
+      };
+#endif
       template <quantity Lhs, quantity Rhs>
          requires pqs::dimension<result_dimension<Lhs,Rhs> >
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
          using result_type = typename result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(result_type{lhs}) * 
-            get_numeric_value(result_type{rhs})
+            get_numeric_value(lhs) * 
+            get_numeric_value(rhs)
          };
       }
 
@@ -72,18 +96,21 @@ namespace pqs{
          requires std::is_same_v<result_dimension<Lhs,Rhs>,pqs::dimensionless>
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
-
+         using cf = pqs::binary_op_t<
+            pqs::get_conversion_factor<Lhs>,
+            pqs::times,
+            pqs::get_conversion_factor<Rhs>
+         >;
          using result_type = typename result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(result_type{lhs}) * 
-#error TODO
-            get_numeric_value(result_type{rhs})
+            get_numeric_value(lhs) * 
+            get_numeric_value(rhs) * pqs::evaluate<cf>()
          };
       }
    };
    
    template <quantity Lhs, quantity Rhs>
-      provide_operator_times<Lhs,Rhs>
+      requires provide_operator_times<Lhs,Rhs>
    inline constexpr auto operator * ( Lhs const & lhs, Rhs const & rhs)
    {
       return quantity_times_semantic<

@@ -3,4 +3,5 @@
 
 #include <pqs/instance/basic_quantity/definition.hpp>
 #include <pqs/concepts/quantity/plus.hpp>
+#include <pqs/concepts/quantity/times.hpp>
 #endif
