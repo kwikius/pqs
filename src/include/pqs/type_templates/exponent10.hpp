@@ -20,10 +20,32 @@ namespace pqs{
             exponent10
          >
       >
-      operator * ( std::ratio<N1,D1>, exponent10 )
+      operator ^( std::ratio<N1,D1>, exponent10 )
       {
          return {};
       }
+
+      template <typename Exp>
+      struct raise{
+         using r1 = typename Exp::ratio;
+         using ratio_type = std::ratio_multiply<ratio,r1>;
+         using type = pqs::exponent10<
+            ratio_type::num,ratio_type::den
+         >;
+      };
+
+      template <typename Mux, typename Exp>
+      friend constexpr 
+       pqs::normalise<
+         pqs::conversion_factor<
+            Mux,
+            typename raise<Exp>::type
+         >
+       > operator ^ ( conversion_factor<Mux,Exp>, exponent10 )
+       {
+         return {};
+       }
+
    };
 }
 

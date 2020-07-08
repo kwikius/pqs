@@ -31,9 +31,9 @@ namespace pqs{
       constexpr friend auto operator * (basic_unit, std::ratio<N,D> r)
       {
          return basic_unit<
-             quantity_system,
-             dimension,
-             std::remove_cvref_t<decltype( conversion_factor{} * r)>
+            quantity_system,
+            dimension,
+            std::remove_cvref_t<decltype( conversion_factor{} * r)>
          >{};
       }
    };

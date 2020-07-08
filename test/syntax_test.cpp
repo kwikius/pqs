@@ -13,7 +13,7 @@ using std::ratio;
 
 void custom_test1()
 {
-   auto cf = ratio<100,2>{} * exponent10<3>{};
+   auto cf = ratio<100,2>{} ^ exponent10<3>{};
 
    typedef imperial::length_unit::mi type1;
 
@@ -100,7 +100,7 @@ void quantity_syntax_test()
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
          decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
-         decltype( std::ratio<383,100>{} * exponent10<-3>{} )
+         decltype( std::ratio<383,100>{} ^ exponent10<-3>{} )
       >
    >{20.0};
 

@@ -13,24 +13,73 @@ namespace pqs{
      // TODO make 0 special case?
       static_assert(Multiplier::num != 0, "conversion_factor : only non-zero ratios values allowed");
       typedef conversion_factor<multiplier,exponent> type;
-   };
 
-   template <
-      typename Multiplier, typename  Exponent, 
-      intmax_t N1, intmax_t D1
-   > 
-   inline constexpr
-   auto operator * ( conversion_factor<Multiplier,Exponent>, std::ratio<N1,D1> )
-   {
-      using cf = typename conversion_factor<Multiplier,Exponent>::type;
-      using multiplier = typename cf::multiplier;
-      return pqs::normalise<
-         pqs::conversion_factor<
-            std::ratio_multiply<multiplier,std::ratio<N1,D1> >,
-            Exponent
-         >
-      >{};
-   }
+      template <
+         intmax_t N1, intmax_t D1
+      > 
+      constexpr
+      friend
+      auto operator * ( conversion_factor, std::ratio<N1,D1> )
+      {
+         return pqs::normalise<
+            pqs::conversion_factor<
+               std::ratio_multiply<multiplier,std::ratio<N1,D1> >,
+               Exponent
+            >
+         >{};
+      }
+
+      template <
+         intmax_t N1, intmax_t D1
+      > 
+      constexpr
+      friend
+      auto operator * ( std::ratio<N1,D1>, conversion_factor )
+      {
+         return pqs::normalise<
+            pqs::conversion_factor<
+               std::ratio_multiply<multiplier,std::ratio<N1,D1> >,
+               Exponent
+            >
+         >{};
+      }
+
+      template <
+         intmax_t N1, intmax_t D1
+      > 
+      constexpr
+      friend
+      auto operator / ( conversion_factor, std::ratio<N1,D1> )
+      {
+         return pqs::normalise<
+            pqs::conversion_factor<
+               std::ratio_divide<multiplier,std::ratio<N1,D1> >,
+               Exponent
+            >
+         >{};
+      }
+
+      template <
+         intmax_t N1, intmax_t D1
+      > 
+      constexpr
+      friend
+      auto operator / ( std::ratio<N1,D1>,conversion_factor )
+      {
+         
+         return pqs::normalise<
+            pqs::conversion_factor<
+               std::ratio_divide<std::ratio<N1,D1>,multiplier>,
+               exponent10<
+                  -exponent::ratio::num,
+                  exponent::ratio::den
+               >
+            >
+         >{};
+      }
+
+      
+   }; // conversion_factor
 
    namespace impl{
 

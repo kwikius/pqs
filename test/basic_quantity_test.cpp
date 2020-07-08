@@ -28,7 +28,7 @@ namespace {
          pqs::basic_unit<
             dummy_system,
             decltype(pqs::abstract_length<> / pqs::abstract_time<> ),
-            decltype( std::ratio<30,2>{} * pqs::exponent10<3>{})
+            decltype( std::ratio<30,2>{} ^ pqs::exponent10<3>{})
          >, double
       > constexpr q{20.0};
 

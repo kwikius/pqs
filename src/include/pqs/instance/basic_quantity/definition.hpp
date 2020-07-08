@@ -54,7 +54,9 @@ namespace pqs{
 
       // TODO check Unit and ValueType concepts
       template <typename Unit, typename ValueType>
-      struct is_quantity_impl<basic_quantity<Unit,ValueType> > : std::true_type{};
+      struct is_quantity_impl<
+         basic_quantity<Unit,ValueType> 
+      > : std::true_type{};
 
       template <typename Unit, typename ValueType>
       struct get_unit_impl<basic_quantity<Unit,ValueType> >{

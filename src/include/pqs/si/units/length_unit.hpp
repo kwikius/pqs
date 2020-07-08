@@ -10,11 +10,11 @@ namespace pqs{ namespace si { namespace length_unit{
    //for si units is_base_of<si::unit,T> is true
    template <
       pqs::basic_fixed_string Name, 
-      typename exp = exponent10<0> 
+      typename Exp = exponent10<0> 
    >
    struct proper : pqs::si::proper_unit<
       decltype(abstract_length<1>),
-      exp
+      Exp
    >{
       static constexpr basic_fixed_string name = Name;
    };
@@ -33,7 +33,7 @@ namespace pqs{ namespace si { namespace length_unit{
 
    struct ft : named<"ft"> ,
       conversion< 
-         decltype( std::ratio<381,125>{} * exponent10<-1>{} )
+         decltype( std::ratio<381,125>{}^exponent10<-1>{} )
       >
    {};
 

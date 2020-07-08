@@ -16,6 +16,7 @@ OBJECTS = \
 	main.o \
 	conversion_factor_test1.o \
 	conversion_factor_test2.o \
+   conversion_factor_test3.o \
 	to_power_test.o \
 	type_list_test.o \
    basic_concepts_test.o \
@@ -23,6 +24,7 @@ OBJECTS = \
    base_quantity_test.o \
    scaled_value_test.o \
    binary_op_test.o \
+   unit_test1.o \
    sandbox.o
 
 .PHONY : all test gcc7_cpp11 gcc9_cpp17 gcc9_concepts_cpp2a clean 
