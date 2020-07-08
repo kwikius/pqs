@@ -1,7 +1,10 @@
 #include "test.hpp"
 
+// test interaction with time.h
+#include <time.h>
 #include <pqs/si/length.hpp>
 #include <pqs/imperial/length.hpp>
+#include <pqs/imperial/time.hpp>
 
 #include <iostream>
 
@@ -81,6 +84,17 @@ namespace {
       std::cout << " imp numeric value = " << get_numeric_value(d) << '\n';
    }
 
+   void basic_quantity_test3()
+   {
+      auto constexpr t_s = pqs::imperial::time::s<>{10};
+      pqs::imperial::time::min<> min = t_s;
+      std::cout << get_numeric_value(min) <<'\n';
+      QUAN_CHECK(( get_numeric_value(min) == 10./(60) ))
+      pqs::imperial::time::hr<> hr = t_s;
+      std::cout << get_numeric_value(hr) <<'\n';
+      QUAN_CHECK(( get_numeric_value(hr) == 10./(60*60) ))
+   }
+
    void basic_quantity_multiply_test()
    {
       auto q_si1 = pqs::si::length::m<>{10};
@@ -132,6 +146,7 @@ void basic_quantity_test()
 {
    basic_quantity_test1();
    basic_quantity_test2();
+   basic_quantity_test3();
    check_conversion_factor_test();
    basic_quantity_multiply_test();
 }

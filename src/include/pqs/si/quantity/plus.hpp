@@ -10,7 +10,7 @@
 *  If the quantities are the same then
       the result is the same as both
  * else if one or both quantities is an si::proper_unit then
- *    get finest grained and convert to basic quantity with si::proper_unit
+ *    get finest grained and convert to bais_quantity with si::proper_unit
  * else
       get finest grained 
  *   

@@ -12,7 +12,7 @@
     * addition of same quantities results in same quantity
     * else returns a basic_quantity with basic unit
     * of simple dimension  and conversion factor of smallest
-    *  N.B. These are low level operations. We rely on the top level operator + for requirments checking
+    *  N.B. These are low level operations. We rely on the top level operator + for requirements checking
    */
 
 namespace pqs{

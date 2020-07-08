@@ -15,8 +15,8 @@ namespace pqs{
 
    template <>
    struct quantity_times_semantic<
-         pqs::si_measurement_system, 
-         pqs::si_measurement_system
+      pqs::si_measurement_system, 
+      pqs::si_measurement_system
    >
    {
       // dimension of Lhs* Rhs maybe a dimension or dimensionless
@@ -79,6 +79,7 @@ namespace pqs{
          >::type;
       };
 
+      
       template <quantity Lhs, quantity Rhs>
          requires pqs::dimension<result_dimension<Lhs,Rhs> >
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)

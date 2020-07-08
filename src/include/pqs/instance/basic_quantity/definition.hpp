@@ -33,6 +33,13 @@ namespace pqs{
       constexpr value_type numeric_value() const 
       { return m_scaled_value.numeric_value(); }
 
+      // fulfill requirements for basic_quantity to be a model of pqs::quantity
+      friend inline constexpr 
+      value_type get_numeric_value(basic_quantity const & q)
+      {
+         return q.numeric_value();
+      }
+
     private:
       using scaled_value_type = scaled_value<
          get_conversion_factor<unit>,
@@ -41,14 +48,8 @@ namespace pqs{
       scaled_value_type m_scaled_value;
    };
 
-   // implement requirements for basic_quantity to be a model of quantity
 
-   template <unit Unit, dimensionless_quantity ValueType>
-   inline constexpr ValueType get_numeric_value(basic_quantity<Unit,ValueType> const & q)
-   {
-      return q.numeric_value();
-   }
-
+   // fulfill requirements for basic_quantity to be a model of pqs::quantity
    namespace impl{
 
       // TODO check Unit and ValueType concepts
