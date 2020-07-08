@@ -24,12 +24,12 @@ namespace pqs{
    {
       using cf = typename conversion_factor<Multiplier,Exponent>::type;
       using multiplier = typename cf::multiplier;
-      return typename pqs::conversion_factor_normalise<
+      return pqs::normalise<
          pqs::conversion_factor<
             std::ratio_multiply<multiplier,std::ratio<N1,D1> >,
             Exponent
          >
-      >::type{};
+      >{};
    }
 
    namespace impl{

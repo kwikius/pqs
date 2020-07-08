@@ -7,18 +7,26 @@
 
 namespace pqs{ namespace si{
 
-      namespace detail{
-         struct si_unit_base{};
+   /**
+    * @brief derive si_unit_base from basic_unit_base
+    *  to make si::unit a model of pqs::unit
+    */
+      namespace impl{
+         struct si_unit_base : pqs::impl::basic_unit_base{};
       }
 
       template <
          dimension D, 
          typename Exp = exponent10<0> 
       >
-      struct unit : pqs::si::detail::si_unit_base{
-         using dimension = std::remove_cvref_t<D>;
-         using exponent = std::remove_cvref_t<Exp>;
+      struct unit : pqs::si::impl::si_unit_base{
+
          using type = unit;
+         using quantity_system = si_measurement_system;
+         using dimension = std::remove_cvref_t<D>;
+         using conversion_factor = 
+            pqs::conversion_factor<std::ratio<1>,Exp>;
+
       };
 
       namespace impl{
@@ -26,7 +34,7 @@ namespace pqs{ namespace si{
          template <typename U>
          struct is_si_unit_impl 
          :  std::is_base_of<
-               pqs::si::detail::si_unit_base,
+               pqs::si::impl::si_unit_base,
                U
             >{};
 
@@ -53,34 +61,6 @@ namespace pqs{ namespace si{
       >::type;
    
    } // si
-
-   namespace impl{
-
-      template <typename U>
-         requires pqs::si::is_si_unit<U>
-      struct is_unit_impl<U> : std::true_type{};
-
-      template <typename U>
-         requires pqs::si::is_si_unit<U>
-      struct get_measurement_system_impl<U>{
-         using type = pqs::si_measurement_system;
-      };
-
-      template <typename U>
-         requires pqs::si::is_si_unit<U>
-      struct get_conversion_factor_impl<U> {
-         using type = pqs::conversion_factor<
-            std::ratio<1>,
-            typename U::exponent
-         >;
-      };
-
-      template <typename U>
-         requires pqs::si::is_si_unit<U>
-      struct get_dimension_impl<U>{
-         using type = typename U::dimension;
-      };
-   }
 
 namespace si{
 

@@ -3,16 +3,21 @@
 
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/si/unit.hpp>
+#include <pqs/bits/fixed_string.hpp>
 
 namespace pqs{ namespace si { namespace length_unit{
 
    //for si units is_base_of<si::unit,T> is true
-   template <typename exp = exponent10<0> >
-   struct coherent :
-   pqs::si::unit<
+   template <
+      pqs::basic_fixed_string Name, 
+      typename exp = exponent10<0> 
+   >
+   struct proper : pqs::si::unit<
       decltype(abstract_length<1>),
       exp
-   >{};
+   >{
+      static constexpr basic_fixed_string name = Name;
+   };
 
     //for si unit_conversions is_base_of<si::unit_conversion,T> is true
    template <typename ConversionFactor>
@@ -22,9 +27,9 @@ namespace pqs{ namespace si { namespace length_unit{
       ConversionFactor
    >{};
 
-   struct m : coherent<>{};
+   struct m : proper<"m">{};
 
-   struct mm : coherent< exponent10<-3> >{};
+   struct mm : proper<"mm", exponent10<-3> >{};
 
    struct ft : named<"ft"> ,
       conversion< 

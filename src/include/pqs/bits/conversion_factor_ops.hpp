@@ -88,12 +88,20 @@ namespace pqs{
 
 // ll 
 
-   template <typename ConversionFactor>
-   struct conversion_factor_normalise : pqs::detail::to_conversion_factor<
-      typename pqs::detail::ll_conversion_factor_normalise<
-         typename pqs::detail::to_ll_conversion_factor<ConversionFactor>::type
-      >::type
-   >{};
+
+   namespace impl{
+      template <typename ConversionFactor>
+      struct conversion_factor_normalise : pqs::detail::to_conversion_factor<
+         typename pqs::detail::ll_conversion_factor_normalise<
+            typename pqs::detail::to_ll_conversion_factor<ConversionFactor>::type
+         >::type
+      >{};
+   }
+
+
+   template <typename T> 
+       requires pqs::is_conversion_factor<T>
+   using normalise = typename impl::conversion_factor_normalise<std::remove_cvref_t<T> >::type;
 
    namespace impl{
 

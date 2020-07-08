@@ -198,7 +198,7 @@ namespace {
          pqs::exponent10<-3>
       >;
 
-      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::normalise<cf1>;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
@@ -212,7 +212,7 @@ namespace {
          pqs::exponent10<7>
       >;
 
-      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::normalise<cf1>;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<99,10> >::value) )
@@ -226,7 +226,7 @@ namespace {
          pqs::exponent10<0>
       >;
 
-      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::normalise<cf1>;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
@@ -240,7 +240,7 @@ namespace {
          pqs::exponent10<0>
       >;
 
-      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::normalise<cf1>;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<1> >::value) )
@@ -254,7 +254,7 @@ namespace {
          pqs::exponent10<0>
       >;
 
-      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::normalise<cf1>;
 
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<2469,2000> >::value) )
@@ -268,7 +268,7 @@ namespace {
          pqs::exponent10<1,2>
       >;
    
-      using cf2 = pqs::conversion_factor_normalise<cf1>::type;
+      using cf2 = pqs::normalise<cf1>;
       
       QUAN_CHECK( (same_cf<cf1,cf2>()) )
       QUAN_CHECK( (std::is_same<cf2::multiplier,std::ratio<2469,2000> >::value) )

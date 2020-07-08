@@ -14,12 +14,12 @@ namespace pqs{
 
       template <intmax_t N1, intmax_t D1>
       friend constexpr 
-      typename pqs::conversion_factor_normalise<
+      pqs::normalise<
          pqs::conversion_factor<
             std::ratio<N1,D1>,
             exponent10
          >
-      >::type
+      >
       operator * ( std::ratio<N1,D1>, exponent10 )
       {
          return {};

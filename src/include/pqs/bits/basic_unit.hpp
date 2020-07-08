@@ -12,7 +12,7 @@
  */
 namespace pqs{ 
 
-   namespace detail{
+   namespace impl{
       struct basic_unit_base{};
    }
 
@@ -21,10 +21,11 @@ namespace pqs{
       typename Dimension, 
       typename ConversionFactor
    >
-   struct basic_unit : pqs::detail::basic_unit_base{
+   struct basic_unit : pqs::impl::basic_unit_base{
+      using type = basic_unit;
       using quantity_system = std::remove_cvref_t<MeasurementSystem>;
       using dimension = std::remove_cvref_t<Dimension>;
-      using conversion_factor = std::remove_cvref_t<ConversionFactor>;
+      using conversion_factor = pqs::normalise<std::remove_cvref_t<ConversionFactor> >;
 
       template <intmax_t N, intmax_t D>
       constexpr friend auto operator * (basic_unit, std::ratio<N,D> r)
@@ -39,7 +40,7 @@ namespace pqs{
 
    namespace impl{
       template <typename T> 
-      struct is_basic_unit_impl : std::is_base_of<pqs::detail::basic_unit_base,T>{};
+      struct is_basic_unit_impl : std::is_base_of<pqs::impl::basic_unit_base,T>{};
    }
 
    template <typename T>
