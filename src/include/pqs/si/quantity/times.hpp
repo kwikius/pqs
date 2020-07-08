@@ -1,9 +1,8 @@
-#ifndef PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
-#define PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
+#ifndef PQS_SI_QUANTITY_TIMES_HPP_INCLUDED
+#define PQS_SI_QUANTITY_TIMES_HPP_INCLUDED
 
 #include <pqs/instance/basic_quantity_fwd.hpp>
 #include <pqs/concepts/quantity/times.hpp>
-#include <pqs/si/measurement_system_def.hpp>
 #include <pqs/si/unit.hpp>
 
    /**
@@ -15,7 +14,10 @@
 namespace pqs{
 
    template <>
-   struct quantity_times_semantic<pqs::si_measurement_system, pqs::si_measurement_system>
+   struct quantity_times_semantic<
+         pqs::si_measurement_system, 
+         pqs::si_measurement_system
+   >
    {
       // dimension of Lhs* Rhs maybe a dimension or dimensionless
       template <quantity Lhs, quantity Rhs>
@@ -28,18 +30,24 @@ namespace pqs{
 
       template <quantity Lhs, quantity Rhs>
       struct dimensioned_result{
+
+         using lhs_type = pqs::basic_quantity<
+            pqs::si::make_si_unit<get_unit<Lhs> >,
+            get_numeric_type<Lhs>
+         >;
+         using rhs_type = pqs::basic_quantity<
+            pqs::si::make_si_unit<get_unit<Rhs> >,
+            get_numeric_type<Rhs>
+         >;
+
          using type = pqs::basic_quantity <
-            pqs::basic_unit<
-               S,
+            pqs::si::unit<
                result_dimension<Lhs,Rhs>,
-               //TODO probably want only if one is si_unit and one is not
-               // so if both si no need to convert
-               // if both unit conversions then no need to convert
-               pqs::binary_op_t<
-                  pqs::si::make_coherent< get_conversion_factor<Lhs> >,
+               typename pqs::binary_op_t<
+                  get_conversion_factor<lhs_type>,
                   pqs::times,
-                  pqs::si::make_coherent< get_conversion_factor<Rhs> >
-               >
+                  get_conversion_factor<rhs_type>
+               >::exponent
             >,
             std::remove_cvref_t<decltype(
                std::declval<get_numeric_type<Lhs> >() * 
@@ -75,10 +83,12 @@ namespace pqs{
          requires pqs::dimension<result_dimension<Lhs,Rhs> >
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
-         using result_type = typename result<Lhs,Rhs>::type;
+         using lhs_type = typename dimensioned_result<Lhs,Rhs>::lhs_type;
+         using rhs_type = typename dimensioned_result<Lhs,Rhs>::rhs_type;
+         using result_type = typename dimensioned_result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(pqs::si::make_coherent<Lhs>{lhs}) * 
-            get_numeric_value(pqs::si::make_coherent<Rhs>{rhs})
+            get_numeric_value(lhs_type{lhs}) * 
+            get_numeric_value(rhs_type{rhs})
          };
       }
 
@@ -100,15 +110,6 @@ namespace pqs{
       }
    };
    
-   template <quantity Lhs, quantity Rhs>
-      requires provide_operator_times<Lhs,Rhs>
-   inline constexpr auto operator * ( Lhs const & lhs, Rhs const & rhs)
-   {
-      return quantity_times_semantic<
-         get_measurement_system<Lhs>,
-         get_measurement_system<Rhs>
-      >::apply(lhs, rhs);
-   }
 } // pqs
 
 #endif // PQS_CONCEPTS_QUANTITY_TIMES_QUANTITY_HPP_INCLUDED

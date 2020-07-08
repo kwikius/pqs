@@ -1,6 +1,5 @@
 #include "test.hpp"
 
-#include <pqs/si/basic_si_quantity.hpp>
 #include <pqs/si/length.hpp>
 #include <pqs/imperial/length.hpp>
 
@@ -64,11 +63,11 @@ namespace {
       QUAN_CHECK(( pqs::si::is_si_unit<pqs::get_unit<decltype(q_si1)> > ))
       auto q_sir = q_si1 + q_si2;
       QUAN_CHECK( (get_numeric_value(q_sir) == 1321))
-      std::cout << " q_r numeric value = " << get_numeric_value(q_sir) << '\n';
+      std::cout << " q_sir numeric value = " << get_numeric_value(q_sir) << '\n';
 
       auto q_si3 = pqs::si::length::ft<>{6};
       auto q_sir1 = q_si1 + q_si3;
-      std::cout << " q_r numeric value = " << get_numeric_value(q_sir1) << '\n';
+      std::cout << " q_sir1 numeric value = " << get_numeric_value(q_sir1) << '\n';
 
       using cf1 = pqs::get_conversion_factor<decltype(q_sir1)>;
 
@@ -99,7 +98,11 @@ namespace {
       > q_si3{2};
       auto r1 = q_si1 * q_si3;
       QUAN_CHECK( (r1 == 2.))
-      std::cout << "result of dimless mux = "  << r1 <<'\n';    
+      std::cout << "result of dimless mux = "  << r1 <<'\n'; 
+
+      pqs::si::length::ft<> uc1 = q_si1;
+      auto q_ucr = uc1 * q_si2; 
+      std::cout << "result of mux1 = "  << get_numeric_value(q_ucr) <<'\n';  
    }
 
    using namespace pqs;

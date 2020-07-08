@@ -3,7 +3,6 @@
 
 #include <pqs/instance/basic_quantity_fwd.hpp>
 #include <pqs/concepts/quantity/plus.hpp>
-#include <pqs/si/measurement_system_def.hpp>
 #include <pqs/si/unit.hpp>
 
 /**
