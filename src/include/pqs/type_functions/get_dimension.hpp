@@ -11,20 +11,13 @@ namespace pqs{
 
       template <typename T, typename Where = void>
       struct get_dimension_impl : pqs::undefined{};
-
    }
 
    template <typename T>
    using get_dimension =
-      impl::get_dimension_impl< std::remove_cvref_t<T> >::type;
-
-//TODO remove
-   template <typename T>
-   struct get_dimension_legacy 
-   : impl::get_dimension_impl<
-      std::remove_cvref_t<T>
-   >{};
-
+      impl::get_dimension_impl< 
+         std::remove_cvref_t<T> 
+   >::type;
 }
 
 #endif // PQS_TYPE_FUNCTIONS_GET_DIMENSION_HPP_INCLUDED

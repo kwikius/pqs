@@ -42,20 +42,20 @@ void custom_test2()
    static_assert(dimension<abstract_velocity>,"");
    static_assert(quantity<decltype(v2)>,"");
 
-   static_assert(is_dimension_legacy<abstract_velocity>::value,"");
+   static_assert(is_dimension<abstract_velocity>,"");
   // static_assert(is_quantity_legacy<decltype(v2)>::value,"");
 
    using u = get_unit<decltype(v2)>;
-   static_assert(std::is_same<u, si::unit<abstract_velocity,exponent10<0> > >::value,"");
+   static_assert(std::is_same_v<u, si::unit<abstract_velocity,exponent10<0> > >,"");
    using s = get_measurement_system_legacy<u>::type;
-   static_assert( std::is_same<s,si_measurement_system>::value,"");
-   using cf = get_conversion_factor_legacy<u>::type;
-   static_assert(std::is_same< cf, conversion_factor<std::ratio<1>,exponent10<0> > >::value,"");
-   using d = get_dimension_legacy<u>::type;
-   static_assert(std::is_same<d,abstract_velocity>::value,"");
+   static_assert( std::is_same_v<s,si_measurement_system>,"");
+   using cf = get_conversion_factor<u>;
+   static_assert(std::is_same_v< cf, conversion_factor<std::ratio<1>,exponent10<0> > >,"");
+   using d = get_dimension<u>;
+   static_assert(std::is_same_v<d,abstract_velocity>,"");
    
    using v = get_numeric_type<decltype(v2)>;
-   static_assert(std::is_same<v,double>::value,"");
+   static_assert(std::is_same_v<v,double>,"");
 
    auto nv = get_numeric_value(v2);
 
