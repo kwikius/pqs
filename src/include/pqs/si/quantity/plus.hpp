@@ -9,8 +9,8 @@
 *  @brief. Implement a custom + semantic for the si measurement system.
 *  If the quantities are the same then
       the result is the same as both
- * else if one or both quantities is an si::unit then
- *    get finest grained and convert to basic quantity with si::unit
+ * else if one or both quantities is an si::proper_unit then
+ *    get finest grained and convert to basic quantity with si::proper_unit
  * else
       get finest grained 
  *   
@@ -39,9 +39,9 @@ namespace pqs{
          >;
 
          using unit_type = std::conditional_t<
-            ( pqs::si::is_si_unit<lhs_unit >||
-              pqs::si::is_si_unit<rhs_unit > ),
-            pqs::si::make_si_unit<
+            ( pqs::si::is_proper_si_unit<lhs_unit >||
+              pqs::si::is_proper_si_unit<rhs_unit > ),
+            pqs::si::make_proper_si_unit<
                finest_grained_unit
             >,
             finest_grained_unit

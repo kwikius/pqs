@@ -19,14 +19,14 @@ int main()
 void sandbox()
 #endif
 {
-  using u = pqs::si::unit< 
+  using u = pqs::si::proper_unit< 
       decltype( abstract_length<> * abstract_time<2> ),
       pqs::exponent10<1>
   >;
 
  static_assert ( pqs::unit<u> ,"");
 
- static_assert (pqs::si::is_si_unit<u> );
+ static_assert (pqs::si::is_proper_si_unit<u> );
 
  auto res = pqs::si::length::m<>{1} * pqs::si::length::ft<>{1};
 

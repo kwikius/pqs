@@ -9,7 +9,7 @@ namespace pqs{ namespace si{
 
    /**
     * @brief derive si_unit_base from basic_unit_base
-    *  to make si::unit a model of pqs::unit
+    *  to make si::proper_unit a model of pqs::unit
     */
       namespace impl{
          struct si_unit_base : pqs::impl::basic_unit_base{};
@@ -19,9 +19,9 @@ namespace pqs{ namespace si{
          dimension D, 
          typename Exp = exponent10<0> 
       >
-      struct unit : pqs::si::impl::si_unit_base{
+      struct proper_unit : pqs::si::impl::si_unit_base{
 
-         using type = unit;
+         using type = proper_unit;
          using quantity_system = si_measurement_system;
          using dimension = std::remove_cvref_t<D>;
          using conversion_factor = 
@@ -32,15 +32,15 @@ namespace pqs{ namespace si{
       namespace impl{
 
          template <typename U>
-         struct is_si_unit_impl 
+         struct is_proper_si_unit_impl 
          :  std::is_base_of<
                pqs::si::impl::si_unit_base,
                U
             >{};
 
          template <pqs::unit U>
-         struct make_si_unit_impl 
-         : pqs::si::unit< 
+         struct make_proper_si_unit_impl 
+         : pqs::si::proper_unit< 
             pqs::get_dimension<U>,
             typename pqs::get_conversion_factor<
                U
@@ -49,14 +49,14 @@ namespace pqs{ namespace si{
       }
 
       template <typename  U>
-      constexpr inline bool is_si_unit = 
-      pqs::si::impl::is_si_unit_impl<
+      constexpr inline bool is_proper_si_unit = 
+      pqs::si::impl::is_proper_si_unit_impl<
          std::remove_cvref_t<U> 
       >::value;
 
       template <typename  U>
-      using make_si_unit = 
-      typename impl::make_si_unit_impl<
+      using make_proper_si_unit = 
+      typename impl::make_proper_si_unit_impl<
          std::remove_cvref_t<U>
       >::type;
    

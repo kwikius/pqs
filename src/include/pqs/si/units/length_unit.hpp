@@ -12,7 +12,7 @@ namespace pqs{ namespace si { namespace length_unit{
       pqs::basic_fixed_string Name, 
       typename exp = exponent10<0> 
    >
-   struct proper : pqs::si::unit<
+   struct proper : pqs::si::proper_unit<
       decltype(abstract_length<1>),
       exp
    >{

@@ -31,7 +31,7 @@ namespace {
 
       using tu = pqs::get_unit<decltype(q)>;
 
-      QUAN_CHECK(( ! pqs::si::is_si_unit<tu> ))
+      QUAN_CHECK(( ! pqs::si::is_proper_si_unit<tu> ))
          
       using td = pqs::get_dimension<decltype(q)>;
 
@@ -51,16 +51,15 @@ namespace {
 
       QUAN_CHECK(( get_numeric_value(r) == 40.0))
 
-     // int x = r;
    }
 
    void basic_quantity_test2()
    {
       auto q_si1 = pqs::si::length::m<>{1};
 
-      QUAN_CHECK(( pqs::si::is_si_unit<pqs::get_unit<decltype(q_si1)> > ))
+      QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q_si1)> > ))
       auto q_si2 = pqs::si::length::mm<>{321};
-      QUAN_CHECK(( pqs::si::is_si_unit<pqs::get_unit<decltype(q_si1)> > ))
+      QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q_si1)> > ))
       auto q_sir = q_si1 + q_si2;
       QUAN_CHECK( (get_numeric_value(q_sir) == 1321))
       std::cout << " q_sir numeric value = " << get_numeric_value(q_sir) << '\n';
@@ -91,7 +90,7 @@ namespace {
       std::cout << "result of mux = "  << get_numeric_value(q_sir) <<'\n';
 
       pqs::basic_quantity<
-         pqs::si::unit<
+         pqs::si::proper_unit<
             pqs::exp_length<-1>,
             pqs::exponent10<-1>
          >

@@ -32,16 +32,16 @@ namespace pqs{
       struct dimensioned_result{
 
          using lhs_type = pqs::basic_quantity<
-            pqs::si::make_si_unit<get_unit<Lhs> >,
+            pqs::si::make_proper_si_unit<get_unit<Lhs> >,
             get_numeric_type<Lhs>
          >;
          using rhs_type = pqs::basic_quantity<
-            pqs::si::make_si_unit<get_unit<Rhs> >,
+            pqs::si::make_proper_si_unit<get_unit<Rhs> >,
             get_numeric_type<Rhs>
          >;
 
          using type = pqs::basic_quantity <
-            pqs::si::unit<
+            pqs::si::proper_unit<
                result_dimension<Lhs,Rhs>,
                typename pqs::binary_op_t<
                   get_conversion_factor<lhs_type>,
