@@ -17,11 +17,10 @@ namespace pqs{
       struct is_unit_impl : std::false_type{};
    }
 
-   template < typename  T>
-   struct is_unit_legacy : impl::is_unit_impl< std::remove_cvref_t<T> >{};
-
    template <typename T>
-   inline constexpr bool is_unit = is_unit_legacy<T>::value;
+   inline constexpr bool is_unit = impl::is_unit_impl< 
+      std::remove_cvref_t<T> 
+   >::value;
 
    template <typename T>
    concept unit = is_unit<T>;

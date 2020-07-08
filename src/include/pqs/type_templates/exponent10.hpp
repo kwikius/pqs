@@ -25,6 +25,7 @@ namespace pqs{
          return {};
       }
 
+      // raise an exponent10 by Exp
       template <typename Exp>
       struct raise{
          using r1 = typename Exp::ratio;

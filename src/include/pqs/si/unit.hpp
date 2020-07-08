@@ -26,7 +26,6 @@ namespace pqs{ namespace si{
          using dimension = std::remove_cvref_t<D>;
          using conversion_factor = 
             pqs::conversion_factor<std::ratio<1>,Exp>;
-
       };
 
       namespace impl{

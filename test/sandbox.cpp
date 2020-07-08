@@ -1,102 +1,127 @@
 
-
+#include <pqs/bits/base_quantities.hpp>
+#include <pqs/bits/basic_unit.hpp>
 #include <pqs/type_templates/conversion_factor.hpp>
+#include <pqs/bits/binary_op.hpp>
+#include <pqs/si/unit.hpp>
 
 #include <iostream>
 
-using namespace pqs;
-
 namespace pqs{
 
-   template <intmax_t N, intmax_t D>
-   constexpr
-   std::ostream & operator << (std::ostream & os, std::ratio<N,D> )
-   {
-      using r = std::ratio<N,D>;
-      if constexpr ( r::den == 1)
-         return os  << r::num ;
-      else 
-         return os << "(" << r::num << "/" << r::den << ")" ;
+   namespace impl{
+
+      template <unit Lhs, unit Rhs>
+         requires 
+            std::is_same_v<
+               get_measurement_system<Lhs>,
+               get_measurement_system<Rhs>
+            >
+      struct binary_op_impl< Lhs, pqs::divides, Rhs> {
+          using SmL = get_measurement_system<Lhs>;
+          using DL = get_dimension<Lhs>; 
+          using CfL = get_conversion_factor<Lhs>;
+
+          using SmR = get_measurement_system<Rhs>;
+          using DR = get_dimension<Rhs>; 
+          using CfR = get_conversion_factor<Rhs>;
+
+          static_assert(std::is_same_v<SmL,SmR>);
+
+          using D = std::remove_cvref_t<decltype( DL{} / DR{})>;
+          static_assert( ! std::is_same_v<D,dimensionless>);
+          using Cf = pqs::binary_op_t<CfL,pqs::divides,CfR>;
+
+          using type = basic_unit<SmL,D,Cf>;
+      };
+
+      /*
+         if one or other is proper si unit
+         then convert result to proper si unit.
+         N.b Take care to make the inputs
+         proper too in runtime op
+      */
+      template <unit Lhs, unit Rhs>
+         requires 
+            std::is_same_v<
+               get_measurement_system<Lhs>,
+               get_measurement_system<Rhs>
+            > && (
+               pqs::si::is_proper_si_unit<Lhs> ||
+               pqs::si::is_proper_si_unit<Rhs> 
+            )
+      struct binary_op_impl< Lhs, pqs::divides, Rhs> {
+          using SmL = get_measurement_system<Lhs>;
+          using DL = get_dimension<Lhs>; 
+          using CfL = get_conversion_factor<Lhs>;
+
+          using SmR = get_measurement_system<Rhs>;
+          using DR = get_dimension<Rhs>; 
+          using CfR = get_conversion_factor<Rhs>;
+
+          using D = std::remove_cvref_t<decltype( DL{} / DR{})>;
+          static_assert( ! std::is_same_v<D,dimensionless>);
+          using Cf = pqs::binary_op_t<CfL,pqs::divides,CfR>;
+          using basic_type = basic_unit<SmL,D,Cf>;
+          using type = si::make_proper_si_unit<basic_type>;
+      };
+       
    }
-
-   template <int N, int D>
-   constexpr
-   std::ostream & operator << (std::ostream & os, pqs::exponent10<N,D> )
+   
+   template <unit Lhs, unit Rhs>
+   inline constexpr 
+   auto operator / ( Lhs, Rhs)
    {
-      using r = typename pqs::exponent10<N,D>::ratio;
-      if constexpr ( r::den ==1) 
-         return os << r::num;
-      else
-         return os << "(" << r::num << "/" << r::den << ")" ;
-
-   }
-
-   template <typename M, typename E>
-   std::ostream & operator << (std::ostream & os, conversion_factor<M,E> v)
-   {
-      return os << typename decltype(v)::multiplier{} << "*10^" << typename decltype(v)::exponent{} ;
-   }
-
-   template <typename CFL, typename CFR>
-   inline constexpr bool same_cf()
-   {
-      return evaluate<CFL>() == evaluate<CFR>() ;
-   }
-
-   template <typename CF>
-   void show_cf()
-   {
-      std::cout << CF{} << " == " << evaluate<CF>() ;
+      return pqs::binary_op_t< Lhs, pqs::divides, Rhs>{};
    }
 }   
 
+using namespace pqs;
+
 namespace {
 
-   void cf_times_rat_test()
+   void unit_div_test()
    {
-      using cf1 = conversion_factor< 
-         std::ratio<1>, exponent10<3> 
+      using L = basic_unit<
+         si_measurement_system,
+         decltype(abstract_length<> ),
+         decltype(std::ratio<1>{} ^ exponent10<0>{})
       >;
-      std::cout<< "cf1 = " << cf1{} <<'\n';
-      using res1 = decltype(cf1{} * std::ratio<2>{});
 
-      std::cout << "res1 = " << res1{} <<'\n';
-      static_assert(is_conversion_factor<res1>);
-      static_assert( std::is_same_v<res1::multiplier ,std::ratio<2> > );
-      static_assert( std::is_same_v<res1::exponent , exponent10<3> > );
+      using T = basic_unit<
+         si_measurement_system,
+         decltype(abstract_time<> ),
+         decltype(std::ratio<1>{} ^ exponent10<0>{})
+      >;
+         
+      using  R = binary_op_t<L, divides,T>;
 
-      using res2 = decltype( std::ratio<10>{} * res1{} );
-      std::cout << "res2 = " << res2{} <<'\n';
-      static_assert(is_conversion_factor<res2>);
-      static_assert( std::is_same_v<res2::multiplier ,std::ratio<2> > );
-      static_assert( std::is_same_v<res2::exponent , exponent10<4> > );
-
-      using res3 = decltype(  res1{} / std::ratio<2>{} );
-      std::cout << "res3 = " << res3{} <<'\n';
-      static_assert(is_conversion_factor<res3>);
-      static_assert( std::is_same_v<res3::multiplier ,std::ratio<1> > );
-      static_assert( std::is_same_v<res3::exponent , exponent10<3> > );
-
-      using res4 = decltype( std::ratio<2>{} / res3{});
-      std::cout << "res4 = " << res4{} <<'\n';
-      static_assert(is_conversion_factor<res4>);
-      static_assert( std::is_same_v<res4::multiplier ,std::ratio<2> > );
-      static_assert( std::is_same_v<res4::exponent , exponent10<-3> > );
-
-      using res5 = decltype( res2{} / std::ratio<3>{});
-      std::cout << "res5 = " << res5{} <<'\n';
-      static_assert(is_conversion_factor<res5>);
-      static_assert( std::is_same_v<res5::multiplier ,std::ratio<20,3> > );
-      static_assert( std::is_same_v<res5::exponent , exponent10<3> > );
+      R constexpr r = L{} / T{};
+       
+      static_assert(pqs::is_basic_unit<R>);
    }
 
-   void cf_exp10_rat_test()
+   void si_unit_div_test()
    {
-      using cf1 = decltype(std::ratio<123,456>{} ^ exponent10<-2,3>{});
-      std::cout << "cf1 = " << cf1{} <<'\n';
-      static_assert( std::is_same_v<cf1::multiplier ,std::ratio<205,76> > );
-      static_assert( std::is_same_v<cf1::exponent , exponent10<-5,3> > );
+      using L = si::proper_unit<
+         decltype(abstract_length<> ),
+         exponent10<-6>
+      >;
+
+      using T = basic_unit<
+         si_measurement_system,
+         decltype(abstract_time<> ),
+         decltype(std::ratio<1>{} ^ exponent10<-2>{})
+      >;
+         
+      using  R = binary_op_t<L, divides,T>;
+
+      R constexpr r = L{} / T{};
+
+      static_assert(is_basic_unit<R>);
+      static_assert(si::is_proper_si_unit<R>);
    }
+
 }
 
 #if defined PQS_STANDALONE
@@ -106,6 +131,6 @@ int main()
 void sandbox()
 #endif
 {
-   cf_times_rat_test();
-   cf_exp10_rat_test();
+    unit_div_test();
+    si_unit_div_test();
 }
