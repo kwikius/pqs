@@ -1,9 +1,9 @@
 #ifndef PQS_SI_UNIT_HPP_INCLUDED1
 #define PQS_SI_UNIT_HPP_INCLUDED1
 
+#include <type_traits>
 #include <pqs/bits/basic_unit.hpp>
 #include <pqs/si/measurement_system_def.hpp>
-#include <type_traits>
 
 namespace pqs{ namespace si{
 

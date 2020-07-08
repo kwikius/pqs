@@ -1,7 +1,7 @@
 #ifndef PQS_SI_LENGTH_HPP_INCLUDED
 #define PQS_SI_LENGTH_HPP_INCLUDED
 
-#include <pqs/instance/basic_quantity.hpp>
+#include <pqs/si/basic_si_quantity.hpp>
 #include <pqs/si/units/length_unit.hpp>
 
 // si quantities length definition namespace 

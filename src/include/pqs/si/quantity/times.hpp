@@ -1,9 +1,9 @@
 #ifndef PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
 #define PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
 
+#include <pqs/instance/basic_quantity_fwd.hpp>
 #include <pqs/concepts/quantity/times.hpp>
 #include <pqs/si/measurement_system_def.hpp>
-#include <pqs/instance/basic_quantity_fwd.hpp>
 #include <pqs/si/unit.hpp>
 
    /**

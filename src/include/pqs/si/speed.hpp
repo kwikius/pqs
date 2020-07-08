@@ -1,10 +1,9 @@
 #ifndef PQS_SI_SPEED_HPP_INCLUDED
 #define PQS_SI_SPEED_HPP_INCLUDED
 
-#include <pqs/instance/basic_quantity.hpp>
+#include <pqs/si/basic_si_quantity.hpp>
 #include <pqs/si/units/speed_unit.hpp>
 
-// si quantities speed definition namespace 
 namespace pqs{ namespace si { namespace speed{
 
    template <typename ValueType = double>

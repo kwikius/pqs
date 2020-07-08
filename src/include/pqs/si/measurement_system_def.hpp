@@ -1,12 +1,12 @@
 #ifndef PQS_BITS_SI_QUANTITY_SYSTEM_DEF_HPP_INCLUDED
 #define PQS_BITS_SI_QUANTITY_SYSTEM_DEF_HPP_INCLUDED
 
+#include <pqs/bits/base_quantities.hpp>
+#include <pqs/bits/fixed_string.hpp>
 #include <pqs/concepts/measurement_system.hpp>
 #include <pqs/type_templates/conversion_factor.hpp>
-#include <pqs/bits/base_quantities.hpp>
 #include <pqs/value_functions/get_base_unit_symbol.hpp>
 #include <pqs/si/get_base_unit_prefix_offset.hpp>
-#include <pqs/bits/fixed_string.hpp>
 
 namespace pqs{ 
 

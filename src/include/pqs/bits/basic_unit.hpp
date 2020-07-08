@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/unit.hpp>
-#include <pqs/bits/where.hpp>
+#include <pqs/bits/named.hpp>
 
 /**
  *  basic_unit : encapsulates quantity system, dimension and conversion factor
@@ -42,11 +42,9 @@ namespace pqs{
       struct is_basic_unit_impl : std::is_base_of<pqs::detail::basic_unit_base,T>{};
    }
 
-   template <typename T> 
-   struct is_basic_unit_legacy : pqs::impl::is_basic_unit_impl<std::remove_cvref_t<T> >{};
-
    template <typename T>
-   inline constexpr bool is_basic_unit = is_basic_unit_legacy<T>::value;
+   inline constexpr bool is_basic_unit = 
+      pqs::impl::is_basic_unit_impl< std::remove_cvref_t<T> >::value;
 
 /**
 * implement unit concept requirements for basic unit
@@ -55,29 +53,24 @@ namespace pqs{
    namespace impl{
 
       template <typename T>
-      struct is_unit_impl<T , std::enable_if_t<pqs::is_basic_unit<T> > > : std::true_type{};
+         requires pqs::is_basic_unit<T>
+      struct is_unit_impl<T> : std::true_type{};
 
       template <typename T>
-      struct get_measurement_system_impl<
-          T, 
-         typename pqs::where_<pqs::is_basic_unit_legacy<T> >::type
-      >{
+         requires pqs::is_basic_unit<T>
+      struct get_measurement_system_impl<T>{
          using type = typename T::quantity_system;
       };
 
       template <typename T>
-      struct get_conversion_factor_impl<
-          T, 
-         typename pqs::where_<pqs::is_basic_unit_legacy<T> >::type
-      >{
+         requires pqs::is_basic_unit<T>
+      struct get_conversion_factor_impl<T>{
          using type = typename T::conversion_factor;
       };
 
       template <typename T>
-      struct get_dimension_impl<
-          T, 
-         typename pqs::where_<pqs::is_basic_unit_legacy<T> >::type
-      >{
+         requires pqs::is_basic_unit<T>
+      struct get_dimension_impl<T>{
          using type = typename T::dimension;
       };
 

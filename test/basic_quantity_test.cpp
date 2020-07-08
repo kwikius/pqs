@@ -1,10 +1,8 @@
 #include "test.hpp"
-#include <pqs/bits/base_quantities.hpp>
-#include <pqs/instance/basic_quantity.hpp>
-#include <pqs/bits/basic_unit.hpp>
+
+#include <pqs/si/basic_si_quantity.hpp>
 #include <pqs/si/length.hpp>
 #include <pqs/imperial/length.hpp>
-#include <pqs/si/quantity/plus.hpp>
 
 #include <iostream>
 
