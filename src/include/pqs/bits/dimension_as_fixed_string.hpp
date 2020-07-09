@@ -6,7 +6,6 @@
 #include <pqs/bits/fixed_string.hpp>
 #include <pqs/bits/charset.hpp>
 
-
 /**
  * @ brief encode a dimension to a fixed_string
  */

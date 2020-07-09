@@ -80,6 +80,17 @@ namespace pqs{
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
+    template <quantity QL, quantity QR>
+    inline constexpr bool same_measurement_system<QL,QR> =
+      same_measurement_system<get_unit<QL>,get_unit<QR> >;
+
+    template <quantity Qj,quantity Qk>
+    inline constexpr bool dimensionally_equivalent<Qj,Qk> =
+       dimensionally_equivalent<
+          get_dimension<Qj>,
+          get_dimension<Qk> 
+       >;
+
 }// pqs
 
 #endif // PQS_CONCEPTS_QUANTITY_HPP_INCLUDED

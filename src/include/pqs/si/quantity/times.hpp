@@ -110,7 +110,6 @@ namespace pqs{
          };
       }
    };
-   
 } // pqs
 
 #endif // PQS_CONCEPTS_QUANTITY_TIMES_QUANTITY_HPP_INCLUDED

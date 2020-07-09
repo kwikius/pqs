@@ -11,7 +11,9 @@
 namespace pqs{ 
 
    // base quantities are required to be model of meta::identity_function 
-   struct base_length : pqs::base_quantity_of<pqs::newtonian_universe::length_uuid>{
+   struct base_length : pqs::base_quantity_of<
+      pqs::newtonian_universe::length_uuid
+   >{
       typedef base_length type;
    };
 
@@ -19,7 +21,8 @@ namespace pqs{
    struct exp_length;
 
    template <int N, int D>
-   struct exp_length<N,D> : pqs::detail::base_quantity_exp_base_class {
+   struct exp_length<N,D> 
+   : pqs::detail::base_quantity_exp_base_class {
       typedef base_length  base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef exp_length type; // identity
@@ -40,7 +43,7 @@ namespace pqs{
    namespace impl{
 
       template <int N>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_length<N>  > =true;
+      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_length<N>  > = true;
 
       template <int N,int D>
       constexpr inline bool is_base_quantity_exp_impl< pqs::exp_length<N,D>  > = true;

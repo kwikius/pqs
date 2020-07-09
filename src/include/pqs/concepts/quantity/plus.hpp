@@ -8,11 +8,13 @@
 #include <pqs/meta/min.hpp>
 
    /**
-    * @brief The default add op where both Lhs and Rhs are in any same measurement system
-    * addition of same quantities results in same quantity
+    * @brief The default add op where both Lhs and Rhs 
+    * are in any same measurement system.
+    * Addition of same quantities results in same quantity
     * else returns a basic_quantity with basic unit
     * of simple dimension  and conversion factor of smallest
-    *  N.B. These are low level operations. We rely on the top level operator + for requirements checking
+    * N.B. These are low level operations. We rely on the 
+    * top level operator + for requirements checking
    */
 
 namespace pqs{
@@ -25,11 +27,11 @@ namespace pqs{
    {
       template <quantity Lhs, quantity Rhs>
       struct result{
-         using type = pqs::basic_quantity <
-            pqs::basic_unit<
+         using type = basic_quantity <
+            basic_unit<
                S,
                get_simple_dimension<Lhs>,
-               pqs::meta::min<
+               meta::min<
                   get_conversion_factor<Lhs>,
                   get_conversion_factor<Rhs> 
                >
@@ -59,16 +61,16 @@ namespace pqs{
    
    template <quantity Lhs, quantity Rhs>
       requires  
-      std::is_same_v<get_simple_dimension<Lhs>,get_simple_dimension<Rhs> > &&
+      dimensionally_equivalent<Lhs,Rhs> &&
       provide_operator_plus<Lhs,Rhs>
-   inline constexpr auto operator + ( Lhs const & lhs, Rhs const & rhs)
+   inline constexpr 
+   auto operator + ( Lhs const & lhs, Rhs const & rhs)
    {
       return quantity_plus_semantic<
          get_measurement_system<Lhs>,
          get_measurement_system<Rhs>
       >::apply(lhs, rhs);
    }
-
 }
 
 #endif // PQS_CONCEPTS_QUANTITY_PLUS_QUANTITY_HPP_INCLUDED

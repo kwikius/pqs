@@ -29,23 +29,6 @@ namespace pqs{
    namespace si{
       template <>
       inline constexpr int get_base_unit_prefix_offset<base_mass> = 3;
-
-      namespace impl{
-
-         template <typename X>
-         struct make_coherent_impl;
-
-         template <typename Multiplier, typename Exponent>
-         struct make_coherent_impl<
-            conversion_factor<Multiplier,Exponent>
-         > : pqs::conversion_factor< 
-            std::ratio<1>, 
-            Exponent 
-         >{};
-      }
-
-      template <typename T>
-      using make_coherent = typename impl::make_coherent_impl<std::remove_cvref_t<T> >::type;
    }
 
    template <typename Charset>

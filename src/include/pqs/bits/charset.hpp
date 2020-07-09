@@ -1,6 +1,10 @@
 #ifndef PQS_BITS_CHARSET_HPP_INCLUDED
 #define PQS_BITS_CHARSET_HPP_INCLUDED
 
+/*
+TODO rename as encoding?
+*/
+
 namespace pqs{
 
    struct charset_ascii{ using type = charset_ascii; };

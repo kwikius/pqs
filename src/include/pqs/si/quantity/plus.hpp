@@ -6,13 +6,15 @@
 #include <pqs/si/unit.hpp>
 
 /**
-*  @brief. Implement a custom + semantic for the si measurement system.
-*  If the quantities are the same then
-      the result is the same as both
- * else if one or both quantities is an si::proper_unit then
- *    get finest grained and convert to bais_quantity with si::proper_unit
+ * @brief. Implement a custom + semantic for the 
+ * si measurement system.
+ *
+ * if the quantities are the same then
+ *    the result is the same as both
+ * else if one or both quantities is a proper si_quantity then
+ *    get finest grained and convert it to a proper si quantity
  * else
-      get finest grained 
+ *    get finest grained 
  *   
 */
 namespace pqs{
@@ -39,7 +41,7 @@ namespace pqs{
          >;
 
          using unit_type = std::conditional_t<
-            ( pqs::si::is_proper_si_unit<lhs_unit >||
+            ( pqs::si::is_proper_si_unit<lhs_unit > ||
               pqs::si::is_proper_si_unit<rhs_unit > ),
             pqs::si::make_proper_si_unit<
                finest_grained_unit
@@ -62,7 +64,8 @@ namespace pqs{
       };
 
       template <quantity Lhs, quantity Rhs>
-      static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+      static constexpr 
+      auto apply(Lhs const & lhs, Rhs const & rhs)
       {
          using result_type = typename result<Lhs,Rhs>::type;
 

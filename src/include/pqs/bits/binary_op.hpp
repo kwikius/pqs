@@ -12,6 +12,7 @@
 
 namespace pqs{
 
+   // TODO make Op a model of binary_operator_tag?
    template <typename Lhs, typename Op, typename Rhs>
    struct binary_op : impl::binary_op_impl<
       std::remove_cvref_t<Lhs>,

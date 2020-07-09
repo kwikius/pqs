@@ -29,8 +29,22 @@ namespace pqs{
 
       template <unit U>
       struct get_simple_dimension_impl<U> 
-      : pqs::get_simple_dimension<pqs::get_dimension<U> >{};
+      : get_simple_dimension<pqs::get_dimension<U> >{};
     }
+   
+   template < unit Uj,unit Uk> 
+   inline constexpr bool same_measurement_system<Uj,Uk> = 
+      same_measurement_system<
+        get_measurement_system<Uj>,
+        get_measurement_system<Uk> 
+      >;
+
+   template < unit Uj,unit Uk>
+   inline constexpr bool dimensionally_equivalent<Uj,Uk> =
+      dimensionally_equivalent<
+         get_dimension<Uj>,
+         get_dimension<Uk> 
+      >;
 };
 
 #endif // PQS_CONCEPTS_UNIT_HPP_INCLUDED

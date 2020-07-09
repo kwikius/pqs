@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_DIMENSION_HPP_INCLUDED
 
 #include <pqs/type_templates/dimension_list.hpp>
+#include <pqs/inline_constants/dimensionally_equivalent.hpp>
 
 namespace pqs{ 
 
@@ -29,6 +30,12 @@ namespace pqs{
    
    } // impl
 
+   template < dimension Dx, dimension Dy>
+   inline constexpr bool dimensionally_equivalent<Dx,Dy> =
+      std::is_same_v<
+         get_simple_dimension<Dx>,
+         get_simple_dimension<Dy> 
+      >;
 } // pqs
 
 #endif // PQS_CONCEPTS_DIMENSION_HPP_INCLUDED

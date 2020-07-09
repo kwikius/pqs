@@ -11,61 +11,81 @@ namespace pqs{
 
    namespace impl{
 
-      template <unit Lhs, unit Rhs>
+      template <unit UL, unit UR>
          requires 
-            std::is_same_v<
-               get_measurement_system<Lhs>,
-               get_measurement_system<Rhs>
+            same_measurement_system<UL,UR> && 
+            dimension< 
+               binary_op_t<
+                  get_dimension<UL>,
+                  pqs::divides,
+                  get_dimension<UR>
+               >
             >
-      struct binary_op_impl< Lhs, pqs::divides, Rhs> {
-          using SmL = get_measurement_system<Lhs>;
-          using DL = get_dimension<Lhs>; 
-          using CfL = get_conversion_factor<Lhs>;
-
-          using SmR = get_measurement_system<Rhs>;
-          using DR = get_dimension<Rhs>; 
-          using CfR = get_conversion_factor<Rhs>;
-
-          static_assert(std::is_same_v<SmL,SmR>);
-
-          using D = std::remove_cvref_t<decltype( DL{} / DR{})>;
-          static_assert( ! std::is_same_v<D,dimensionless>);
-          using Cf = pqs::binary_op_t<CfL,pqs::divides,CfR>;
-
-          using type = basic_unit<SmL,D,Cf>;
+      struct binary_op_impl< UL, pqs::divides, UR> {
+ 
+         using measurement_system = 
+            get_measurement_system<UL>;
+         using conversion_factor = 
+            pqs::binary_op_t<
+               get_conversion_factor<UL>,
+               pqs::divides,
+               get_conversion_factor<UR>
+            >;
+         using dimension = 
+            pqs::binary_op_t<
+               get_dimension<UL>,
+               pqs::divides,
+               get_dimension<UR>
+            >;
+         using type =
+            pqs::basic_unit<
+               measurement_system,
+               dimension,
+               conversion_factor
+            >;
       };
 
       /*
+         refinement for SI
          if one or other is proper si unit
          then convert result to proper si unit.
          N.b Take care to make the inputs
-         proper too in runtime op
+         proper too in runtime op before calc
       */
-      template <unit Lhs, unit Rhs>
+      template <unit UL, unit UR>
          requires 
-            std::is_same_v<
-               get_measurement_system<Lhs>,
-               get_measurement_system<Rhs>
-            > && (
-               pqs::si::is_proper_si_unit<Lhs> ||
-               pqs::si::is_proper_si_unit<Rhs> 
+            same_measurement_system<UL,UR> && 
+            dimension< 
+               binary_op_t<
+                  get_dimension<UL>,
+                  pqs::divides,
+                  get_dimension<UR>
+               >
+            > &&
+            ( pqs::si::is_proper_si_unit<UL> ||
+              pqs::si::is_proper_si_unit<UR> 
             )
-      struct binary_op_impl< Lhs, pqs::divides, Rhs> {
-          using SmL = get_measurement_system<Lhs>;
-          using DL = get_dimension<Lhs>; 
-          using CfL = get_conversion_factor<Lhs>;
-
-          using SmR = get_measurement_system<Rhs>;
-          using DR = get_dimension<Rhs>; 
-          using CfR = get_conversion_factor<Rhs>;
-
-          using D = std::remove_cvref_t<decltype( DL{} / DR{})>;
-          static_assert( ! std::is_same_v<D,dimensionless>);
-          using Cf = pqs::binary_op_t<CfL,pqs::divides,CfR>;
-          using basic_type = basic_unit<SmL,D,Cf>;
-          using type = si::make_proper_si_unit<basic_type>;
+      struct binary_op_impl< UL, pqs::divides, UR> {
+         using conversion_factor = 
+            pqs::binary_op_t<
+               get_conversion_factor<UL>,
+               pqs::divides,
+               get_conversion_factor<UR>
+            >;
+         using dimension = 
+            pqs::binary_op_t<
+               get_dimension<UL>,
+               pqs::divides,
+               get_dimension<UR>
+            >;
+         using basic_type =
+            pqs::basic_unit<
+               pqs::si_measurement_system,
+               dimension,
+               conversion_factor
+            >;
+         using type = si::make_proper_si_unit<basic_type>;
       };
-       
    }
    
    template <unit Lhs, unit Rhs>
@@ -94,7 +114,7 @@ namespace {
          decltype(std::ratio<1>{} ^ exponent10<0>{})
       >;
          
-      using  R = binary_op_t<L, divides,T>;
+      using R = binary_op_t<L, divides,T>;
 
       R constexpr r = L{} / T{};
        
