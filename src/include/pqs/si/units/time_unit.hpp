@@ -1,11 +1,11 @@
-#ifndef PQS_SI_UNITS_LENGTH_UNIT_HPP_INCLUDED
-#define PQS_SI_UNITS_LENGTH_UNIT_HPP_INCLUDED
+#ifndef PQS_SI_UNITS_TIME_UNIT_HPP_INCLUDED
+#define PQS_SI_UNITS_TIME_UNIT_HPP_INCLUDED
 
-#include <pqs/base_quantity/length.hpp>
+#include <pqs/base_quantity/time.hpp>
 #include <pqs/si/unit.hpp>
 #include <pqs/bits/fixed_string.hpp>
 
-namespace pqs{ namespace si { namespace length_unit{
+namespace pqs{ namespace si { namespace time_unit{
 
    //for si units is_base_of<si::unit,T> is true
    template <
@@ -13,7 +13,7 @@ namespace pqs{ namespace si { namespace length_unit{
       typename Exp = exponent10<0> 
    >
    struct proper : pqs::si::proper_unit<
-      decltype(abstract_length<1>),
+      decltype(abstract_time<1>),
       Exp
    >{
       static constexpr basic_fixed_string name = Name;
@@ -23,20 +23,20 @@ namespace pqs{ namespace si { namespace length_unit{
    template <typename ConversionFactor>
    struct conversion : 
    pqs::si::unit_conversion<
-      decltype(abstract_length<>),
+      decltype(abstract_time<>),
       ConversionFactor
    >{};
 
-   struct m : proper<"m">{};
+   struct s : proper<"s">{};
 
-   struct mm : proper<"mm", exponent10<-3> >{};
+   struct ms : proper<"ms", exponent10<-3> >{};
 
-   struct ft : named<"ft"> ,
+   struct min : named<"min"> ,
       conversion< 
-         decltype( std::ratio<381,125>() ^ exponent10<-1>() )
+         decltype( std::ratio<1,60>{} ^ exponent10<0>{} )
       >
    {};
 
-}}} // pqs::si::length_unit
+}}} // pqs::si::time_unit
 
-#endif //PQS_SI_UNITS_LENGTH_UNIT_HPP_INCLUDED
+#endif //PQS_SI_UNITS_TIME_UNIT_HPP_INCLUDED

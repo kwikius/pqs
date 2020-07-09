@@ -15,6 +15,14 @@ namespace pqs{
       return conversion_factor_eval<ConversionFactor>{}();
    }
 
+   template <typename ConversionFactor>
+      requires pqs::is_conversion_factor<ConversionFactor>
+   inline constexpr
+   auto evaluate( ConversionFactor )
+   {
+      return evaluate<ConversionFactor>();
+   }
+
 }
 
 

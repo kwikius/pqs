@@ -4,6 +4,8 @@
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/instance/basic_quantity.hpp>
+#include <pqs/bits/dimension_as_fixed_string.hpp>
+#include <pqs/imperial/measurement_system.hpp>
 
 using namespace pqs;
 
@@ -62,6 +64,32 @@ namespace {
             pqs::dimensionless
           > ,"");
    }
+
+   void dimension_list_example()
+   {
+      auto constexpr acc = abstract_length<> / pow<2>(abstract_time<>) ;
+
+      static_assert( dimension<decltype(acc)>);
+      static_assert( is_simple_dimension_list<decltype(acc)>);
+
+      auto constexpr acc_str_si = 
+         dimension_to_fixed_string<
+            charset_utf8,si_measurement_system
+         >(acc);
+
+      auto constexpr acc_str_fps = 
+         dimension_to_fixed_string<
+            charset_utf8,imperial_measurement_system
+         >(acc);
+
+      std::cout << "acc_v1 dimension in S.I. = " << acc_str_si <<'\n';
+      std::cout << "acc_v1 dimension in f.p.s = " << acc_str_fps <<'\n';
+
+      auto constexpr acc_v2 = abstract_length<> * abstract_time<-2>; // alternate form
+
+      static_assert( acc_v2 == acc );  
+
+   }
 }
 
 void dimension_test3()
@@ -69,4 +97,5 @@ void dimension_test3()
    mul_ee_test();
    dimensionless_mul_test();
    dimensionless_divide_test();
+   dimension_list_example();
 }

@@ -3,6 +3,7 @@
 // test interaction with time.h
 #include <time.h>
 #include <pqs/si/length.hpp>
+#include <pqs/si/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/time.hpp>
 
@@ -118,6 +119,36 @@ namespace {
       std::cout << "result of mux1 = "  << get_numeric_value(q_ucr) <<'\n';  
    }
 
+   void basic_quantity_divide_test()
+   {
+      auto q_si1 = pqs::si::length::m<>{10};
+      auto q_si2 = pqs::si::length::mm<>{10000};
+      auto v1 =  q_si1 / q_si2;
+      QUAN_CHECK(( v1 == 1 ))
+      std::cout << "result of div = "  << v1 <<'\n';
+
+     auto q_si3 = pqs::si::time::s<>{5};
+
+     auto v2 = q_si1 / q_si3;
+     QUAN_CHECK(( get_numeric_value(v2) == 2 ))
+      std::cout << "result of div1 = "  << get_numeric_value(v2) <<'\n';
+/*
+      pqs::basic_quantity<
+         pqs::si::proper_unit<
+            pqs::exp_length<-1>,
+            pqs::exponent10<-1>
+         >
+      > q_si3{2};
+      auto r1 = q_si1 * q_si3;
+      QUAN_CHECK( (r1 == 2.))
+      std::cout << "result of dimless mux = "  << r1 <<'\n'; 
+
+      pqs::si::length::ft<> uc1 = q_si1;
+      auto q_ucr = uc1 * q_si2; 
+      std::cout << "result of mux1 = "  << get_numeric_value(q_ucr) <<'\n'; 
+*/ 
+   }
+
    using namespace pqs;
 
    void check_conversion_factor_test()
@@ -126,6 +157,8 @@ namespace {
    using Qb = si::length::m<>;
    using Q  = si::length::ft<>;
 
+
+   static_assert( same_measurement_system<Q,Qb> );
    static_assert( evaluate<get_conversion_factor<Qb> >() == 1 );
    static_assert( evaluate<get_conversion_factor<Q> >() != 1 );
 
@@ -149,4 +182,5 @@ void basic_quantity_test()
    basic_quantity_test3();
    check_conversion_factor_test();
    basic_quantity_multiply_test();
+   basic_quantity_divide_test();
 }

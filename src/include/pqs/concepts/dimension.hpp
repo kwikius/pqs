@@ -36,6 +36,20 @@ namespace pqs{
          get_simple_dimension<Dx>,
          get_simple_dimension<Dy> 
       >;
+
+   template < dimension DL, dimension DR>
+   inline constexpr 
+   auto operator ==( DL, DR)
+   {
+      return dimensionally_equivalent<DL,DR>;
+   }
+
+   template < dimension DL, dimension DR>
+   inline constexpr 
+   auto operator !=( DL, DR)
+   {
+      return !dimensionally_equivalent<DL,DR>;
+   }
 } // pqs
 
 #endif // PQS_CONCEPTS_DIMENSION_HPP_INCLUDED

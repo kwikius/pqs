@@ -47,6 +47,7 @@ int main()
    dimension_test();
    dimension_test1();
    dimension_test2();
+   dimension_test3();
 
    output_test();
 

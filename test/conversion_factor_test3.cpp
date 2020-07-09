@@ -3,6 +3,7 @@
 
 #include <pqs/type_templates/conversion_factor.hpp>
 #include <iostream>
+#include <iomanip>
 
 using namespace pqs;
 
@@ -114,6 +115,21 @@ namespace {
        static_assert( std::is_same_v<res1::multiplier ,std::ratio<23,11> > );
        static_assert( std::is_same_v<res1::exponent , exponent10<3> > ); 
    }
+
+   void conversion_factor_example()
+   {
+      auto constexpr pi = std::ratio<314159265358979>() ^ exponent10<-14>();
+
+      static_assert(is_conversion_factor<decltype(pi)> );
+      constexpr auto v1 = evaluate(pi);             // object form
+      constexpr auto v2 = evaluate<decltype(pi)>(); // type argument form
+
+      static_assert( v1 == v2 );  // both forms are equivalent
+
+      std::cout << std::setprecision(16) << " pi = " << v1 << '\n';
+
+   }
+   // pi = 3.14159265358979
 }
 
 #if defined PQS_STANDALONE
@@ -126,4 +142,5 @@ void conversion_factor_test3()
    cf_times_rat_test();
    rat_exp10_test();
    cf_exp10_test();
+   conversion_factor_example();
 }

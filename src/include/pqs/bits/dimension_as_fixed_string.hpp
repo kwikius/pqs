@@ -222,11 +222,30 @@ namespace pqs{
       struct dimension_to_fixed_string_impl;
    }
 
-   template < pqs::dimension Q, pqs::measurement_system Ms, typename CharSet>
+   template < 
+      pqs::dimension D, 
+      pqs::measurement_system Ms, 
+      typename CharSet
+   >
    inline constexpr 
    auto dimension_to_fixed_string()
    {
-      return detail::dimension_to_fixed_string_impl<std::remove_cvref_t<Q>,Ms,CharSet>::apply();
+      return detail::dimension_to_fixed_string_impl<
+         std::remove_cvref_t<D>,Ms,CharSet
+      >::apply();
+   }
+
+   template < 
+      typename CharSet,
+      pqs::measurement_system Ms, 
+      pqs::dimension D
+   >
+   inline constexpr 
+   auto dimension_to_fixed_string(D)
+   {
+      return detail::dimension_to_fixed_string_impl<
+         std::remove_cvref_t<D>,Ms,CharSet
+      >::apply();
    }
 
    namespace detail {
@@ -354,6 +373,17 @@ namespace pqs{
    template <quantity Q,typename CharSet>
    inline constexpr auto
    dimension_to_fixed_string()
+   {
+      return dimension_to_fixed_string<
+         pqs::get_dimension<Q>,
+         pqs::get_measurement_system<Q>,
+         CharSet
+      >();  
+   }
+
+   template <typename CharSet, quantity Q>
+   inline constexpr auto
+   dimension_to_fixed_string(Q)
    {
       return dimension_to_fixed_string<
          pqs::get_dimension<Q>,
