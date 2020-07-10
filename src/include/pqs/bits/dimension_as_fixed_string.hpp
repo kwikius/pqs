@@ -236,8 +236,8 @@ namespace pqs{
    }
 
    template < 
-      typename CharSet,
       pqs::measurement_system Ms, 
+      typename CharSet,
       pqs::dimension D
    >
    inline constexpr 

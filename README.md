@@ -3,7 +3,7 @@ PQS is a C++ library for modelling physical quantities. ( [PQS Wiki](https://git
 
 PQS has a long history. [I started working on PQS in maybe 2002/3](https://github.com/kwikius/pqs/wiki/History). 
 
-In 2005/6, I  [proposed pqs]((https://github.com/kwikius/pqs/blob/master/doc/archive/pqs_3_1_1.zip)) to be 
+In 2005/6, I  [proposed PQS]((https://github.com/kwikius/pqs/blob/master/doc/archive/pqs_3_1_1.zip)) to be 
 a [member of the Boost C++ libraries](https://lists.boost.org/Archives/boost/2006/05/105631.php)
 where [there was a lot of discussion](https://lists.boost.org/Archives/boost/2006/06/index.php)
 but [it was rejected](https://lists.boost.org/Archives/boost/2006/06/106557.php).

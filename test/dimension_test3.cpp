@@ -74,12 +74,12 @@ namespace {
 
       auto constexpr acc_str_si = 
          dimension_to_fixed_string<
-            charset_utf8,si_measurement_system
+            si_measurement_system,charset_utf8
          >(acc);
 
       auto constexpr acc_str_fps = 
          dimension_to_fixed_string<
-            charset_utf8,imperial_measurement_system
+            imperial_measurement_system,charset_utf8
          >(acc);
 
       std::cout << "acc_v1 dimension in S.I. = " << acc_str_si <<'\n';
