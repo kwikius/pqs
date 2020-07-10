@@ -22,13 +22,13 @@
 
 namespace pqs{
    
-      template<typename T>
-      constexpr
-      inline
-      T implicit_cast(typename meta::identity<T>::type in)
-      {
-         return in;
-      }
+   template<typename T>
+   constexpr
+   inline
+   T implicit_cast(typename meta::identity<T>::type in)
+   {
+      return in;
+   }
 }
 
 #endif
