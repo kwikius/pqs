@@ -58,7 +58,7 @@ using namespace pqs;
 
 namespace {
 
-   void basic_quantity_test1()
+   void basic_quantity_concept_test()
    {
       static_assert(pqs::is_defined<double>,"");
       pqs::basic_quantity<
@@ -90,10 +90,9 @@ namespace {
       auto constexpr r = q + q;
 
       QUAN_CHECK(( get_numeric_value(r) == 40.0))
-
    }
 
-   void basic_quantity_test2()
+   void basic_quantity_add_test()
    {
       auto q1 = pqs::si::length::m<>{1};
       QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q1)> > ))
@@ -124,7 +123,7 @@ namespace {
       std::cout << " imp numeric value = " << get_numeric_value(q8) << '\n';
    }
 
-   void basic_quantity_test3()
+   void basic_quantity_imperial_test()
    {
       auto constexpr q1 = pqs::imperial::time::s<>{10};
       pqs::imperial::time::min<> q2 = q1;
@@ -196,7 +195,7 @@ namespace {
    using namespace pqs;
 
    // wiki example
-   void check_conversion_factor_test()
+   void conversion_factor_semantic_test()
    {
       using Qb = si::length::m<>;
       using Q  = si::length::ft<>;
@@ -219,10 +218,10 @@ namespace {
 
 void basic_quantity_test()
 {
-   basic_quantity_test1();
-   basic_quantity_test2();
-   basic_quantity_test3();
-   check_conversion_factor_test();
+   basic_quantity_concept_test();
+   basic_quantity_add_test();
+   basic_quantity_imperial_test();
+   conversion_factor_semantic_test();
    basic_quantity_multiply_test();
    basic_quantity_divide_test();
 }
