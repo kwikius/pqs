@@ -1,7 +1,7 @@
 #ifndef PQS_SI_QUANTITY_PLUS_HPP_INCLUDED
 #define PQS_SI_QUANTITY_PLUS_HPP_INCLUDED
 
-#include <pqs/instance/basic_quantity_fwd.hpp>
+#include <pqs/bits/implicit_cast.hpp>
 #include <pqs/concepts/quantity/plus.hpp>
 #include <pqs/si/unit.hpp>
 
@@ -70,8 +70,8 @@ namespace pqs{
          using result_type = typename result<Lhs,Rhs>::type;
 
          return result_type{
-            get_numeric_value(result_type{lhs}) + 
-            get_numeric_value(result_type{rhs})
+            get_numeric_value(implicit_cast<result_type>(lhs)) + 
+            get_numeric_value(implicit_cast<result_type>(rhs))
          };
       }
    };

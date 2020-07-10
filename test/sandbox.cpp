@@ -5,6 +5,15 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/si/unit.hpp>
 
+// test interaction with time.h
+#include <time.h>
+#include <pqs/si/length.hpp>
+#include <pqs/si/time.hpp>
+#include <pqs/imperial/length.hpp>
+#include <pqs/imperial/time.hpp>
+
+#include <iostream>
+
 #include <iostream>
 
 namespace pqs{

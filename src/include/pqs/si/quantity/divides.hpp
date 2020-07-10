@@ -1,23 +1,21 @@
-#ifndef PQS_CONCEPTS_QUANTITY_DIVIDES_HPP_INCLUDED
-#define PQS_CONCEPTS_QUANTITY_DIVIDES_HPP_INCLUDED
+#ifndef PQS_SI_QUANTITY_DIVIDES_HPP_INCLUDED
+#define PQS_SI_QUANTITY_DIVIDES_HPP_INCLUDED
 
-#include <pqs/concepts/quantity/definition.hpp>
-#include <pqs/instance/basic_quantity_fwd.hpp>
-#include <pqs/bits/binary_op.hpp>
-#include <pqs/bits/basic_unit.hpp>
-#include <pqs/meta/min.hpp>
+#include <pqs/bits/implicit_cast.hpp>
+#include <pqs/concepts/quantity/divides.hpp>
+#include <pqs/si/unit.hpp>
 
    /**
-   * @brief default quantity divide semantic
+   * @brief si quantity division semantic
    */
 
 namespace pqs{
 
-   template <typename LhsMS, typename RhsMS>
-   struct quantity_divides_semantic;
-
-   template <measurement_system S>
-   struct quantity_divides_semantic<S,S>
+   template <>
+   struct quantity_divides_semantic<      
+      pqs::si_measurement_system, 
+      pqs::si_measurement_system
+   >
    {
       // dimension of Lhs / Rhs maybe a dimension or dimensionless
       template <quantity Lhs, quantity Rhs>
@@ -30,18 +28,27 @@ namespace pqs{
 
       template <quantity Lhs, quantity Rhs>
       struct dimensioned_result{
+         
+         using lhs_type = pqs::basic_quantity<
+            pqs::si::make_proper_si_unit<get_unit<Lhs> >,
+            get_numeric_type<Lhs>
+         >;
+         using rhs_type = pqs::basic_quantity<
+            pqs::si::make_proper_si_unit<get_unit<Rhs> >,
+            get_numeric_type<Rhs>
+         >;
+
          using type = pqs::basic_quantity <
-            pqs::basic_unit<
-               S,
+            pqs::si::proper_unit<
                result_dimension<Lhs,Rhs>,
-               pqs::binary_op_t<
-                  get_conversion_factor<Lhs>,
+               typename pqs::binary_op_t<
+                  get_conversion_factor<lhs_type>,
                   pqs::divides,
-                  get_conversion_factor<Rhs> 
-               >
+                  get_conversion_factor<rhs_type>
+               >::exponent
             >,
             std::remove_cvref_t<decltype(
-               std::declval<get_numeric_type<Lhs> >() /
+               std::declval<get_numeric_type<Lhs> >() * 
                std::declval<get_numeric_type<Rhs> >()
             )>
          >;
@@ -74,13 +81,16 @@ namespace pqs{
          requires pqs::dimension<result_dimension<Lhs,Rhs> >
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
+         using lhs_type = typename dimensioned_result<Lhs,Rhs>::lhs_type;
+         using rhs_type = typename dimensioned_result<Lhs,Rhs>::rhs_type;
          using result_type = typename result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(lhs) / 
-            get_numeric_value(rhs)
+            get_numeric_value(implicit_cast<lhs_type>(lhs)) / 
+            get_numeric_value(implicit_cast<rhs_type>(rhs))
          };
       }
 
+     // n.b same as default
      template <quantity Lhs, quantity Rhs>
          requires std::is_same_v<result_dimension<Lhs,Rhs>,pqs::dimensionless>
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
@@ -92,21 +102,12 @@ namespace pqs{
          >;
          using result_type = typename result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(lhs) / get_numeric_value(rhs) * 
+            (get_numeric_value(lhs) / get_numeric_value(rhs)) * 
             pqs::evaluate<cf>()
          };
       }
    };
    
-   template <quantity Lhs, quantity Rhs>
-      requires provide_operator_divides<Lhs,Rhs>
-   inline constexpr auto operator / ( Lhs const & lhs, Rhs const & rhs)
-   {
-      return quantity_divides_semantic<
-         get_measurement_system<Lhs>,
-         get_measurement_system<Rhs>
-      >::apply(lhs, rhs);
-   }
 } // pqs
 
 #endif // PQS_CONCEPTS_QUANTITY_DIVIDES_QUANTITY_HPP_INCLUDED

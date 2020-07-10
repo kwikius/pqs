@@ -6,6 +6,7 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/basic_unit.hpp>
 #include <pqs/meta/min.hpp>
+#include <pqs/bits/implicit_cast.hpp>
 
    /**
     * @brief The default add op where both Lhs and Rhs 
@@ -53,8 +54,8 @@ namespace pqs{
       {
          using result_type = typename result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(result_type{lhs}) + 
-            get_numeric_value(result_type{rhs})
+            get_numeric_value(implicit_cast<result_type>(lhs)) + 
+            get_numeric_value(implicit_cast<result_type>(rhs))
          };
       }
    };

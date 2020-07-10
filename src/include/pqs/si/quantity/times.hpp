@@ -1,7 +1,7 @@
 #ifndef PQS_SI_QUANTITY_TIMES_HPP_INCLUDED
 #define PQS_SI_QUANTITY_TIMES_HPP_INCLUDED
 
-#include <pqs/instance/basic_quantity_fwd.hpp>
+#include <pqs/bits/implicit_cast.hpp>
 #include <pqs/concepts/quantity/times.hpp>
 #include <pqs/si/unit.hpp>
 
@@ -88,8 +88,8 @@ namespace pqs{
          using rhs_type = typename dimensioned_result<Lhs,Rhs>::rhs_type;
          using result_type = typename dimensioned_result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(lhs_type{lhs}) * 
-            get_numeric_value(rhs_type{rhs})
+            get_numeric_value(implicit_cast<lhs_type>(lhs)) * 
+            get_numeric_value(implicit_cast<rhs_type>(rhs))
          };
       }
 
@@ -104,8 +104,7 @@ namespace pqs{
          >;
          using result_type = typename result<Lhs,Rhs>::type;
          return result_type{
-            get_numeric_value(lhs) * 
-            get_numeric_value(rhs) * 
+            get_numeric_value(lhs) * get_numeric_value(rhs) * 
             pqs::evaluate<cf>()
          };
       }
