@@ -112,8 +112,8 @@ namespace pqs{
 
       template <quantity Lhs,quantity Rhs>
            requires same_measurement_system<Lhs,Rhs>
-      struct binary_op_semantic<Lhs,divides,Rhs>{  
-         using type =  std::conditional_t<
+      struct binary_op_semantic<Lhs,divides,Rhs> 
+      :  std::conditional_t<
             is_dimension<
                binary_op_t<
                   get_simple_dimension<Lhs>, 
@@ -123,9 +123,8 @@ namespace pqs{
             >,
             dimensioned_op_semantic<Lhs,divides,Rhs>,
             dimensionless_op_semantic<Lhs,divides,Rhs>
-         >;
+         >{};
         
-      };
 
    } // impl
    
@@ -135,7 +134,7 @@ namespace pqs{
    {
       return impl::binary_op_semantic<
          Lhs,divides, Rhs
-      >::type::apply(lhs, rhs);
+      >::apply(lhs, rhs);
    }
 } // pqs
 
