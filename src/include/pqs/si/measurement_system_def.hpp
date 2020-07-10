@@ -4,6 +4,7 @@
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/bits/fixed_string.hpp>
 #include <pqs/concepts/measurement_system.hpp>
+#include <pqs/concepts/quantity.hpp>
 #include <pqs/type_templates/conversion_factor.hpp>
 #include <pqs/value_functions/get_base_unit_symbol.hpp>
 #include <pqs/si/get_base_unit_prefix_offset.hpp>
@@ -14,21 +15,30 @@ namespace pqs{
       using type = si_measurement_system;
    };
 
- } //pqs
+} //pqs
 
 namespace pqs{
+
    namespace impl{
       template <> struct is_measurement_system_impl<
          pqs::si_measurement_system
       > : std::true_type{};
    }
+
 }
 
 namespace pqs{
 
    namespace si{
+
       template <>
       inline constexpr int get_base_unit_prefix_offset<base_mass> = 3;
+
+      template <quantity Lhs, quantity Rhs>
+      inline constexpr bool are_in_si_measurement_system
+         = std::is_same_v<get_measurement_system<Lhs>,si_measurement_system> &&
+         std::is_same_v<get_measurement_system<Rhs>,si_measurement_system>
+      ;
    }
 
    template <typename Charset>
