@@ -18,24 +18,28 @@ namespace pqs{ namespace meta{
    namespace detail{
 
       template <typename T, typename DimOut>
-      struct append_if_not_zero : eval_if<
-         base_quantity_exp_is_zero_legacy<T>,
+      struct append_if_not_zero : eval_if_c<
+         base_quantity_exp_is_zero<T>,
          DimOut,
          push_back<DimOut,T>
       >{};
+
+      template <typename T, typename DimOut>
+      using append_if_not_zero_t = 
+         typename append_if_not_zero<T,DimOut>::type;
 
       template <typename DimL, typename Op, typename DimR, typename DimOut>
       struct merge_dim;
      
       template <typename DimL, typename Op,typename DimR, typename DimOut>
       struct merge_dim_left : merge_dim<
-         typename pop_front<DimL>::type,
+         pop_front_t<DimL>,
          Op,
          DimR,
-         typename append_if_not_zero<
-            typename front<DimL>::type,
+         append_if_not_zero_t<
+            front_t<DimL>,
             DimOut
-         >::type
+         >
       >{};
 
       template <typename DimL, typename Op, typename DimR, typename DimOut>
@@ -44,78 +48,74 @@ namespace pqs{ namespace meta{
       template <typename DimL, typename DimR, typename DimOut>
       struct merge_dim_right<DimL,pqs::times,DimR,DimOut> : merge_dim<
          DimL,
-         pqs::times,
-         typename pop_front<DimR>::type,
-         typename append_if_not_zero<
-            typename front<DimR>::type,
+         times,
+         pop_front_t<DimR>,
+         append_if_not_zero_t<
+            front_t<DimR>,
             DimOut
-         >::type
+         >
       >{};
 
       template <typename DimL, typename DimR, typename DimOut>
-      struct merge_dim_right<DimL,pqs::divides,DimR,DimOut> : merge_dim<
+      struct merge_dim_right<DimL,divides,DimR,DimOut> : merge_dim<
          DimL,
-         pqs::divides,
-         typename pop_front<DimR>::type,
-         typename append_if_not_zero<
-            typename pqs::unary_op<reciprocal, typename front<DimR>::type >::type,
+         divides,
+         pop_front_t<DimR>,
+         append_if_not_zero_t<
+            unary_op_t<reciprocal,front_t<DimR> >,
             DimOut
-         >::type
+         >
       >{};
 
       template <typename DimL, typename Op, typename DimR, typename DimOut>
       struct merge_dim_both : merge_dim<
-         typename pop_front<DimL>::type,
+         pop_front_t<DimL>,
          Op,
-         typename pop_front<DimR>::type,
-         typename append_if_not_zero<
-            typename pqs::binary_op<
-               typename front<DimL>::type,
-               Op,
-               typename front<DimR>::type
-            >::type,
+         pop_front_t<DimR>,
+         append_if_not_zero_t<
+            binary_op_t<front_t<DimL>,Op,front_t<DimR> >,
             DimOut
-         >::type
+         >
       >{};
      
       template <typename DimL, typename Op, typename DimR, typename DimOut>
       struct merge_dim{
-         typedef typename front<DimL>::type lhs_front;
-         typedef typename front<DimR>::type rhs_front;
-         typedef typename pqs::get_base_quantity_legacy<lhs_front>::type lhs_base;
-         typedef typename pqs::get_base_quantity_legacy<rhs_front>::type rhs_base;
-         typedef typename eval_if<
-            pqs::binary_op<lhs_base,pqs::less,rhs_base>,
+         using lhs_front = front_t<DimL>;
+         using rhs_front = front_t<DimR>;
+         using lhs_base = get_base_quantity<lhs_front> ;
+         using rhs_base = get_base_quantity<rhs_front> ;
+         using type = eval_if_t<
+            binary_op<lhs_base,less,rhs_base>,
                merge_dim_left<DimL,Op,DimR,DimOut>,
-            pqs::binary_op<rhs_base,pqs::less,lhs_base>,
+            binary_op<rhs_base,less,lhs_base>,
                merge_dim_right<DimL,Op,DimR,DimOut>,
             merge_dim_both<DimL,Op,DimR,DimOut>
-        >::type type;
+         >;
       };
     
       template <typename DimL, typename Op, typename DimOut>
-      struct merge_dim<DimL,Op,pqs::dimension_list<>,DimOut> : merge_dim<
-         typename pop_front<DimL>::type ,
+      struct merge_dim<DimL,Op,dimension_list<>,DimOut> : merge_dim<
+         pop_front_t<DimL>,
          Op,
-         pqs::dimension_list<>, 
-         typename append_if_not_zero<
-            typename front<DimL>::type,DimOut
-         >::type
+         dimension_list<>, 
+         append_if_not_zero_t<
+            front_t<DimL>,DimOut
+         >
       >{};
 
       template <typename DimR,typename Op, typename DimOut>
-      struct merge_dim<pqs::dimension_list<>,Op,DimR,DimOut> : merge_dim<
-         pqs::dimension_list<>,
+      struct merge_dim<dimension_list<>,Op,DimR,DimOut> : merge_dim<
+         dimension_list<>,
          Op,
-         typename pop_front<DimR>::type ,
-         typename append_if_not_zero<
-            typename pqs::meta::eval_if<
+         pop_front_t<DimR> ,
+         append_if_not_zero_t<
+            pqs::meta::eval_if_t<
                std::is_same<Op,pqs::divides>,
-                  pqs::unary_op<reciprocal,typename front<DimR>::type>,
+                  pqs::unary_op<reciprocal,front_t<DimR> >,
                front<DimR>
-            >::type,
+            >,
            DimOut
-         >::type
+         >
       >{};
 
       template <typename Op,typename DimOut>

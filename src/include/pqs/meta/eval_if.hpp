@@ -57,6 +57,12 @@ namespace pqs{ namespace meta{
       >::type type;
    };
 
+   template <typename C, typename FT, typename... Rest>
+   using eval_if_t  = typename eval_if<C,FT, Rest...> ::type;
+
+   template <bool b, typename FT, typename... Rest>
+   using eval_if_c_t  = typename eval_if_c<b,FT, Rest...> ::type;
+
 }} // pqs::meta
 
 #endif // PQS_META_EVAL_IF_HPP_INCLUDED

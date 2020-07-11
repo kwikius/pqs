@@ -20,6 +20,9 @@ namespace pqs{
       typename pqs::meta::strip_cr<T>::type
    >{};
 
+   template < typename Op, typename T>
+   using unary_op_t = typename unary_op<Op,T>::type;
+
 }
 
 #endif // PQS_UNARY_OP_HPP_INCLUDED

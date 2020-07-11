@@ -190,23 +190,24 @@ namespace pqs{
    namespace impl{
 
       template <typename T>
-      struct is_dimension_impl : pqs::meta::or_<
-         pqs::is_base_quantity_exp_legacy<T>,
-         pqs::is_simple_dimension_list_legacy<T>,
-         pqs::is_custom_dimension_legacy<T>
-      >{};
-   }
+      inline constexpr bool is_dimension_impl =
+        is_base_quantity_exp<T> || 
+        is_simple_dimension_list<T> ||
+        is_custom_dimension<T>;
+ 
+   } // impl
 
    template <typename T>
-   struct is_dimension_legacy : impl::is_dimension_impl<
-      std::remove_cvref_t<T>
-   >{};
-
-   template <typename T>
-   constexpr bool is_dimension = is_dimension_legacy<T>::value;
+   inline constexpr bool is_dimension = 
+      impl::is_dimension_impl< std::remove_cvref_t<T> >;
 
    template <typename T>
    concept dimension = is_dimension<T>;
+
+   template <typename T>
+   struct is_dimension_legacy : std::bool_constant< 
+      impl::is_dimension_impl< std::remove_cvref_t<T> >
+   >{};
 
    namespace impl{
 

@@ -9,8 +9,10 @@
 
 namespace pqs{ 
 
-   struct base_current : pqs::base_quantity_of<pqs::newtonian_universe::current_uuid>{
-      typedef base_current type;
+   struct base_current : pqs::base_quantity_of<
+      pqs::newtonian_universe::current_uuid
+   >{
+      using type = base_current;
    };
 
    template <int... N>
@@ -39,10 +41,10 @@ namespace pqs{
    namespace impl{
 
       template <int N>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_current<N>  > = true;
+      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_current<N> > = true;
 
       template <int N,int D>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_current<N,D>  > = true;
+      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_current<N,D> > = true;
 
       template <typename Ratio>
       struct make_base_quantity_exp_impl<pqs::newtonian_universe::current_uuid,Ratio>

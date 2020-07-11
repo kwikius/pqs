@@ -18,7 +18,8 @@ namespace pqs{
    // base_quantity_of model of meta identity function
    template <typename Id>
    struct base_quantity_of : pqs::detail::base_quantity_base_class{
-      static_assert(pqs::meta::are_totally_ordered<Id,Id>::value, "base_quantity_of requires Id to be totally ordered at compile time");
+      static_assert(pqs::meta::are_totally_ordered<Id,Id>::value, 
+      "base_quantity_of requires Id to be totally ordered at compile time");
       typedef Id identifier;
       typedef base_quantity_of type;
    };
