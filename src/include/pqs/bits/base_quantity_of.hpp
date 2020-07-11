@@ -1,8 +1,8 @@
-#ifndef PQS_BASE_QUANTITY_HPP_INCLUDED
-#define PQS_BASE_QUANTITY_HPP_INCLUDED
+#ifndef PQS_BITS_BASE_QUANTITY_OF_HPP_INCLUDED
+#define PQS_BITS_BASE_QUANTITY_OF_HPP_INCLUDED
 
 #include <type_traits>
-
+#include <pqs/bits/undefined_arg.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/bits/where.hpp>
@@ -13,7 +13,6 @@ namespace pqs{
    namespace detail{
       struct base_quantity_base_class{};
    }
-
    // Id must be meta::totally_ordered
    // base_quantity_of model of meta identity function
    template <typename Id>
@@ -27,18 +26,15 @@ namespace pqs{
    namespace impl{
 
       template <typename T>
-      struct is_base_quantity_impl< 
-         T,typename pqs::where_<std::is_base_of<pqs::detail::base_quantity_base_class,T> >::type
-      > : std::true_type{};
+         requires std::is_base_of_v<pqs::detail::base_quantity_base_class,T>
+      inline constexpr bool is_base_quantity_impl<T> = true;
 
       template <typename T>
-      struct get_base_quantity_id_impl<
-         T,
-         typename pqs::where_<std::is_base_of<pqs::detail::base_quantity_base_class,T> >::type
-      > : T::identifier{};
-
+         requires std::is_base_of_v<pqs::detail::base_quantity_base_class,T>
+      struct get_base_quantity_id_impl<T>{
+          using type = typename T::identifier;
+      };
    }
-
 }//pqs
 
-#endif // PQS_BASE_QUANTITY_HPP_INCLUDED
+#endif // PQS_BITS_BASE_QUANTITY_OF_HPP_INCLUDED

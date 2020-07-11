@@ -13,12 +13,14 @@ namespace pqs{
    }
 
    template <typename T>
-   struct get_exponent_legacy : impl::get_exponent_impl<
+   using get_exponent = typename impl::get_exponent_impl<
       typename std::remove_cvref<T>::type
-   >{};
+   >::type;
 
    template <typename T>
-   using get_exponent = typename get_exponent_legacy<T>::type;
+   struct get_exponent_legacy {
+      using type = get_exponent<T>;
+   };
 
 }
 

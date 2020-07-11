@@ -17,14 +17,15 @@ namespace pqs{
       struct is_conversion_factor_impl : std::false_type{};
    }
 
-   template <typename T>
-   struct is_conversion_factor_legacy : impl::is_conversion_factor_impl< 
-      std::remove_cvref_t<T>
-   >{};
-
    template  <typename T>
-   inline constexpr bool is_conversion_factor = is_conversion_factor_legacy<T>::value;
+   inline constexpr bool is_conversion_factor = impl::is_conversion_factor_impl< 
+      std::remove_cvref_t<T>
+   >::value;
 
+   template <typename T>
+   struct is_conversion_factor_legacy : std::bool_constant< 
+      is_conversion_factor<T>
+   >{};
 }
 
 #endif // PQS_BITS_CONVERSION_FACTOR_FWD_HPP_INCLUDED

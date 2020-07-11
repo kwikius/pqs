@@ -30,7 +30,6 @@
 */
 
 #include <type_traits>
-
 #include <pqs/bits/config.hpp>
 #include <pqs/bits/undefined_arg.hpp>
 #include <pqs/bits/where.hpp>
@@ -45,12 +44,14 @@
 namespace pqs{ 
 
     namespace meta{
+
        template <typename A, typename B>
        struct are_arithmetic : pqs::meta::and_<
            std::is_arithmetic<A>,
            std::is_arithmetic<B>
        >{};
-    }
+
+    } //meta
 
     template <typename Tl, typename Op, typename TR>
     struct binary_op;
@@ -76,62 +77,38 @@ namespace pqs{
        struct is_valid_binary_op_impl 
        : pqs::meta::is_any_type<typename pqs::binary_op<Left,Op,Right>::type>{};
 
-       template < 
-           typename A, 
-           typename Op,
-           typename B
-       >
-       struct binary_op_impl<
-           A,Op,B,
-           typename pqs::where_< 
-              pqs::meta::and_<          
-                  pqs::meta::is_assignment_operator<Op>,
-                  std::is_assignable<A,B>
-              >
-           >::type
-       >{
-           typedef typename std::add_lvalue_reference<A>::type type;
-       };
+       template < typename A, typename Op, typename B>
+          requires
+             pqs::meta::is_assignment_operator<Op>::value
+             && std::is_assignable_v<A,B>
+       struct binary_op_impl<A, Op,B> : std::add_lvalue_reference<A>{};
 
-       template<
-         typename A, 
-         typename Op,
-         typename B
-       >
-       struct binary_op_impl<
-           A,Op,B,
-           typename pqs::where_<
-               pqs::meta::and_<
-                  pqs::meta::are_arithmetic<A,B>,
-                  pqs::meta::or_<
-                     pqs::meta::is_comparison_operator<Op>,
-                     pqs::meta::is_logical_operator<Op>
-                  >,
-                  pqs::meta::or_<
-                     pqs::meta::is_runtime_type<A>,
-                     pqs::meta::is_runtime_type<B>
-                  >,
-                  pqs::meta::or_<
-                     pqs::is_valid_binary_op<A,minus,B>,
-                     pqs::meta::and_<
-                        std::is_same<A,bool>,
-                        std::is_same<B,bool>
-                     >
+      template < typename A, typename Op, typename B>
+         requires  
+            pqs::meta::and_<
+               pqs::meta::are_arithmetic<A,B>,
+               pqs::meta::or_<
+                  pqs::meta::is_comparison_operator<Op>,
+                  pqs::meta::is_logical_operator<Op>
+               >,
+               pqs::meta::or_<
+                  pqs::meta::is_runtime_type<A>,
+                  pqs::meta::is_runtime_type<B>
+               >,
+               pqs::meta::or_<
+                  pqs::is_valid_binary_op<A,minus,B>,
+                  pqs::meta::and_<
+                     std::is_same<A,bool>,
+                     std::is_same<B,bool>
                   >
                >
-           >::type
-       >{
+             >::value
+       struct binary_op_impl<A,Op,B>{
           typedef bool type;
        };
 
-      template<
-         typename A, 
-         typename Op,
-         typename B
-      >
-      struct binary_op_impl<
-         A,Op,B,
-         typename pqs::where_<
+      template < typename A, typename Op, typename B>
+         requires   
             pqs::meta::or_<
                pqs::meta::and_<
                   pqs::meta::are_arithmetic<A,B>,
@@ -147,9 +124,8 @@ namespace pqs{
                      (pqs::meta::op_class<Op>::value == pqs::meta::op_class_t::shift)
                   )>
                >
-            >
-         >::type
-      > : std::common_type<A,B>{};
+            >::value
+      struct binary_op_impl<A,Op,B> : std::common_type<A,B>{};
 
 /*
       template <

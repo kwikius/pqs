@@ -3,8 +3,7 @@
 
 #include <type_traits>
 #include <pqs/concepts/meta/totally_ordered.hpp>
-#include <pqs/bits/where.hpp>
-#include <pqs/meta/and.hpp>
+
 #include <pqs/bits/undefined_arg.hpp>
 #include <pqs/bits/binary_op.hpp>
 
@@ -12,58 +11,48 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename T, typename Where = void>
-      struct is_base_quantity_impl : std::false_type{};
-      
-      template <typename BaseQuantity, typename Where = void>
-      struct get_base_quantity_id_impl : pqs::undefined_arg<BaseQuantity>{};
+      template <typename T>
+      inline constexpr 
+      bool is_base_quantity_impl = false;
 
+      template <typename BaseQuantity>
+      struct get_base_quantity_id_impl 
+      : undefined_arg<BaseQuantity>{};
+      
    } //impl
 
    template <typename T>
-   struct is_base_quantity_legacy : impl::is_base_quantity_impl< std::remove_cvref_t<T> >{};
-
-   template <typename T>
-   inline constexpr bool is_base_quantity = is_base_quantity_legacy<T>::value;
+   inline constexpr bool is_base_quantity = 
+      impl::is_base_quantity_impl< 
+         std::remove_cvref_t<T> 
+      >;
 
    template <typename T>
    concept base_quantity = is_base_quantity<T>;
 
    template <typename BaseQuantity>
-   struct get_base_quantity_id_legacy : impl::get_base_quantity_id_impl<BaseQuantity>{};
-
-   template <typename BaseQuantity>
-   using get_base_quantity_id = typename get_base_quantity_id_legacy<BaseQuantity>::type;
+   using get_base_quantity_id = 
+      typename impl::get_base_quantity_id_impl<
+         std::remove_cvref_t<BaseQuantity> 
+      >::type;
    
    namespace impl{
 
-      template <typename Lhs,typename Rhs>
+      template <base_quantity Lhs,base_quantity Rhs>
       struct binary_op_impl<
-         Lhs,pqs::less, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-              pqs::is_base_quantity_legacy<Lhs>,
-              pqs::is_base_quantity_legacy<Rhs>
-            >
-         >::type 
-      > : pqs::binary_op<
+         Lhs,less, Rhs
+      > : binary_op<
            get_base_quantity_id<Lhs>,
-           pqs::less, 
+           less, 
            get_base_quantity_id<Rhs>
       >{};
 
-      template <typename Lhs,typename Rhs>
+      template <base_quantity Lhs,base_quantity Rhs>
       struct binary_op_impl<
-         Lhs,pqs::equal_to, Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-              pqs::is_base_quantity_legacy<Lhs>,
-              pqs::is_base_quantity_legacy<Rhs>
-            >
-         >::type 
-      > : pqs::binary_op<
+         Lhs,equal_to, Rhs
+      > : binary_op<
          get_base_quantity_id<Lhs>,
-         pqs::equal_to, 
+         equal_to, 
          get_base_quantity_id<Rhs>
       >{};
       

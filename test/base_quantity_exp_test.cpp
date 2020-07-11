@@ -18,45 +18,31 @@ namespace {
 
    void same_id_test()
    {
-      QUAN_CHECK((not pqs::is_base_quantity_exp_legacy<int>::value))
+      static_assert( not pqs::is_base_quantity_exp<int> );
 
-      typedef exp_length<2> tl;
-      typedef exp_length<3> tr;
+      using tl = exp_length<2> ;
+      using tr = exp_length<3> ;
 
-      QUAN_CHECK((pqs::is_base_quantity_exp<tl>))
-      QUAN_CHECK((pqs::is_base_quantity_exp<tr>))
-      QUAN_CHECK((pqs::of_same_base_quantity<tl,tr>))
-      QUAN_CHECK((pqs::of_same_base_quantity<tr,tl>))
+      static_assert( pqs::is_base_quantity_exp<tl> );
+      static_assert( pqs::is_base_quantity_exp<tr> );
+      static_assert( pqs::of_same_base_quantity<tl,tr> );
+      static_assert( pqs::of_same_base_quantity<tr,tl> );
 
-      typedef pqs::get_base_quantity_legacy<tl>::type base_type1;
-      QUAN_CHECK((pqs::is_base_quantity_legacy<base_type1>::value))
-      QUAN_CHECK((std::is_same<base_type1,pqs::base_length>::value))
+      using base_type1 = pqs::get_base_quantity<tl> ;
+      static_assert( pqs::is_base_quantity<base_type1>  );
+      static_assert( std::is_same_v<base_type1,pqs::base_length> );
 
-      typedef exp_length<3,2> tx;
-      QUAN_CHECK((pqs::is_base_quantity_exp_legacy<tx>::value))
-      QUAN_CHECK((pqs::of_same_base_quantity_legacy<tl,tx>::value))
+      using tx = exp_length<3,2>;
+      static_assert(pqs::is_base_quantity_exp<tx> );
+      static_assert( pqs::of_same_base_quantity<tl,tx> );
 
-      typedef exp_time<2> ty;
-      QUAN_CHECK(( not pqs::of_same_base_quantity_legacy<tl,ty>::value)) 
+      using ty = exp_time<2>;
+      static_assert( pqs::is_base_quantity_exp<ty> );
+      static_assert( not pqs::of_same_base_quantity<tl,ty> ); 
 
-      QUAN_CHECK((not pqs::is_base_quantity_exp<int>))
-
-      QUAN_CHECK((pqs::is_base_quantity_exp<tl>))
-      QUAN_CHECK((pqs::is_base_quantity_exp<tr>))
-      QUAN_CHECK((pqs::of_same_base_quantity<tl,tr>))
-      QUAN_CHECK((pqs::of_same_base_quantity<tr,tl>))
-
-      typedef pqs::get_base_quantity<tl> base_type1a;
-      QUAN_CHECK((pqs::is_base_quantity<base_type1a>))
-      QUAN_CHECK((std::is_same<base_type1,pqs::base_length>::value))
-
-      typedef exp_length<3,2> tx;
-      QUAN_CHECK((pqs::is_base_quantity_exp<tx>))
-      QUAN_CHECK((pqs::of_same_base_quantity<tl,tx>))
-
-      typedef exp_time<2> ty;
-      QUAN_CHECK(( not pqs::of_same_base_quantity<tl,ty>)) 
-
+      using base_type1a = pqs::get_base_quantity<tl>;
+      static_assert( pqs::is_base_quantity<base_type1a> );
+      static_assert( std::is_same_v<base_type1,pqs::base_length> );
    }
 
    void add_test_int_int_int()
@@ -436,8 +422,8 @@ namespace {
       typedef exp_mass<0> zero;
       typedef exp_mass<1> one;
       
-      QUAN_CHECK(pqs::base_quantity_exp_is_zero_legacy<zero>::value)
-      QUAN_CHECK(!pqs::base_quantity_exp_is_zero_legacy<one>::value)
+      QUAN_CHECK(pqs::base_quantity_exp_is_zero<zero>)
+      QUAN_CHECK(!pqs::base_quantity_exp_is_zero<one>)
    }
 
    void is_zero_test_r()
@@ -445,8 +431,8 @@ namespace {
       typedef exp_mass<0,3> zero;
       typedef exp_mass<1,1> one;
       
-      QUAN_CHECK(pqs::base_quantity_exp_is_zero_legacy<zero>::value)
-      QUAN_CHECK(!pqs::base_quantity_exp_is_zero_legacy<one>::value)
+      QUAN_CHECK(pqs::base_quantity_exp_is_zero<zero>)
+      QUAN_CHECK(!pqs::base_quantity_exp_is_zero<one>)
    }
 
    void is_zero_test()

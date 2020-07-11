@@ -3,6 +3,7 @@
 
 /*
 TODO rename as encoding?
+TODO concepts?
 */
 
 namespace pqs{

@@ -33,8 +33,8 @@ namespace pqs{ namespace meta{
 
       template <typename... Lhs, typename... Rhs, typename F>
       struct merge_list<
-            pqs::meta::type_list<Lhs...>,
-            pqs::meta::type_list<Rhs...> ,
+            meta::type_list<Lhs...>,
+            meta::type_list<Rhs...> ,
             F
       >{
          using lhs_list = meta::type_list<Lhs...>;
@@ -51,25 +51,25 @@ namespace pqs{ namespace meta{
 
       template <typename ...Lhs, typename F>
       struct merge_list<
-         pqs::meta::type_list<Lhs...>,
-         pqs::meta::type_list<> ,F > 
-      : pqs::meta::type_list<Lhs...>{};
+         meta::type_list<Lhs...>,
+         meta::type_list<> ,F > 
+      : meta::type_list<Lhs...>{};
 
       template <typename... Rhs, typename F>
       struct merge_list<
-         pqs::meta::type_list<>,
-         pqs::meta::type_list<Rhs...> ,F> 
-      : pqs::meta::type_list<Rhs...>{};
+         meta::type_list<>,
+         meta::type_list<Rhs...> ,F> 
+      : meta::type_list<Rhs...>{};
 
       template <typename F>
       struct merge_list<
-         pqs::meta::type_list<>,
-         pqs::meta::type_list<>,F> 
-      : pqs::meta::type_list<> {};
+         meta::type_list<>,
+         meta::type_list<>,F> 
+      : meta::type_list<> {};
 
       template <typename List, typename F>
       struct merge_sort_impl{
-         using split_type = pqs::meta::split_list<List>;
+         using split_type = meta::split_list<List>;
          using lhs_split = typename split_type::lhs_type_list;
          using rhs_split = typename split_type::rhs_type_list;
          using lhs_merge = typename merge_sort_impl<lhs_split, F>::type;
@@ -78,18 +78,18 @@ namespace pqs{ namespace meta{
       };
 
       template <typename T, typename F> 
-      struct merge_sort_impl< pqs::meta::type_list<T> , F> 
-      : pqs::meta::type_list<T>{};
+      struct merge_sort_impl< meta::type_list<T> , F> 
+      : meta::type_list<T>{};
 
       template <typename F> 
-      struct merge_sort_impl< pqs::meta::type_list<> , F> 
-      : pqs::meta::type_list<> {};
+      struct merge_sort_impl< meta::type_list<> , F> 
+      : meta::type_list<> {};
 
    }// detail
 
    /*
       F is a polymorphic functor of two args
-      e.g  an example for a list that contains types modelling pqs::meta::_integral_constant
+      e.g  an example for a list that contains types modelling meta::_integral_constant
       This less_than function will sort the list in increasing order from left to right
       
       struct less_than {
@@ -103,12 +103,28 @@ namespace pqs{ namespace meta{
    template <typename List, typename F>
    struct merge_sort ;
 
-   template <template <typename...> class List, typename ... Elems, typename F>
+   template <
+      template <typename...> class List, 
+      typename ... Elems, typename F
+   >
    struct merge_sort<List<Elems...>,F >{
 
-       typedef typename pqs::meta::type_list_alias<List<Elems...> >:: template apply<pqs::meta::type_list>::type list_in_alias_type;
-       typedef typename detail::merge_sort_impl<list_in_alias_type,F>::type list_out_alias_type;
-       typedef typename pqs::meta::type_list_alias<list_out_alias_type >:: template apply<List>::type type;
+      using list_in_alias_type = 
+         typename meta::type_list_alias<
+            List<Elems...> 
+         >:: template apply<
+            meta::type_list
+         >::type;
+
+      using list_out_alias_type =
+         typename detail::merge_sort_impl<
+            list_in_alias_type,F
+         >::type;
+
+      using type = 
+         typename meta::type_list_alias<
+            list_out_alias_type 
+         >:: template apply<List>::type;
    };
 
    template <typename List, typename F>

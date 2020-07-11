@@ -6,6 +6,8 @@
 
 namespace pqs{ 
 
+   // TODO constrain exponent and multiplier
+
    template <typename Multiplier, typename  Exponent>
    struct conversion_factor{
       typedef typename Multiplier::type multiplier;

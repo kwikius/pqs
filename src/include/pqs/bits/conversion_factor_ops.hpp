@@ -87,8 +87,6 @@ namespace pqs{
    } // detail
 
 // ll 
-
-
    namespace impl{
       template <typename ConversionFactor>
       struct conversion_factor_normalise : pqs::detail::to_conversion_factor<

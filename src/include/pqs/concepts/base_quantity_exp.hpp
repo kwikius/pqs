@@ -31,13 +31,6 @@ namespace pqs{
    template <typename T>
    concept base_quantity_exponent = is_base_quantity_exp<T>;
 
-// ########TODO remove legacy ##############
-   template <typename T>
-   struct is_base_quantity_exp_legacy : std::bool_constant<
-      pqs::is_base_quantity_exp<T> 
-   >{};
-//###########################################
-
    namespace impl{
 
       template <typename Lhs, typename Rhs>
@@ -87,13 +80,6 @@ namespace pqs{
       std::remove_cvref_t<T>
    >;
 
-// ########TODO remove legacy ##############
-   template <typename T>
-   struct base_quantity_exp_is_zero_legacy : std::bool_constant<
-      pqs::base_quantity_exp_is_zero<T>
-   >{};
-//############################
-
    namespace impl{
       // customise per UUID
       template <typename UUID,typename Ratio,typename Where = void>
@@ -110,7 +96,6 @@ namespace pqs{
       >
    >{};
 
-
    namespace detail{
 
       struct base_quantity_exp_base_class{}; 
@@ -125,9 +110,7 @@ namespace pqs{
             std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>
          >::type
       > : T::base_type {};
-
    }
-
 
    namespace impl{
 
@@ -135,28 +118,20 @@ namespace pqs{
         inline constexpr bool is_custom_base_quantity_exp_impl 
             = std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
               ! pqs::is_base_quantity_exp<T>;
-   
-
    }//impl
 
    template <typename T>
    inline constexpr bool is_custom_base_quantity_exp 
       = impl::is_custom_base_quantity_exp_impl<std::remove_cvref_t<T> >;
 
-   template <typename T>
-   struct is_custom_base_quantity_exp_legacy 
-   : std::bool_constant< is_custom_base_quantity_exp<T> >{};
-
    namespace impl{
 
       template <typename T>
-      struct get_exponent_impl<
-         T,
-         typename pqs::where_<
-            std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>
-         >::type
-      > {
-         typedef typename T::exponent type;
+         requires std::is_base_of_v<
+            pqs::detail::base_quantity_exp_base_class,T
+         >
+      struct get_exponent_impl<T> {
+         using type = typename T::exponent;
       };
 
    }//impl

@@ -49,25 +49,25 @@ namespace {
    template <typename T>
    constexpr bool is_dimension(T t)
    {
-      return pqs::is_dimension_legacy<T>::value;
+      return pqs::is_dimension<T>;
    }
 
    template <typename T> 
    constexpr bool is_base_quantity_exp(T t)
    {
-      return pqs::is_base_quantity_exp_legacy<T>::value;
+      return pqs::is_base_quantity_exp<T>;
    }
 
    template <typename T> 
    constexpr bool is_simple_dimension_list(T t)
    {
-      return pqs::is_simple_dimension_list_legacy<T>::value;
+      return pqs::is_simple_dimension_list<T>;
    }
 
    template <typename T> 
    constexpr bool is_custom_dimension(T t)
    {
-      return pqs::is_custom_dimension_legacy<T>::value;
+      return pqs::is_custom_dimension<T>;
    }
 
    template <typename T1, typename T2>

@@ -9,8 +9,10 @@
 
 namespace pqs{ 
 
-    struct base_intensity : pqs::base_quantity_of<pqs::newtonian_universe::intensity_uuid>{
-       typedef base_intensity type;
+    struct base_intensity : pqs::base_quantity_of<
+      pqs::newtonian_universe::intensity_uuid
+    >{
+       using type = base_intensity;
     };
 
    template <int... N>
@@ -18,7 +20,7 @@ namespace pqs{
 
    template <int N, int D>
    struct exp_intensity<N,D> : pqs::detail::base_quantity_exp_base_class {
-      typedef base_intensity  base_type;
+      typedef base_intensity base_type;
       typedef typename std::ratio<N,D>::type exponent;
       typedef exp_intensity type; // identity
       typedef type simple_dimension;
@@ -38,10 +40,10 @@ namespace pqs{
    namespace impl{
 
       template <int N>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_intensity<N>  >  = true;
+      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_intensity<N> > = true;
 
       template <int N,int D>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_intensity<N,D>  > = true;
+      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_intensity<N,D> > = true;
 
       template <typename Ratio>
       struct make_base_quantity_exp_impl<pqs::newtonian_universe::intensity_uuid,Ratio>
@@ -55,7 +57,6 @@ namespace pqs{
       exp_intensity<N>,
       exp_intensity<N,D>
    >{};
-
 }
 
 #endif //PQS_BASE_QUANTITIES_INTENSITY_HPP_INCLUDED
