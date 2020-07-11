@@ -7,108 +7,70 @@
 
    /**
    * @brief si quantity multiplication semantic. 
-   * quantities are converted to quantities whose multiplier is one before
-   * multiply
+   * If one or other of inputs is a proper_quantity
+   * quantities are converted to proper_quantites quantities  before
+   * multiply and reult is a proper quantity
    */
 
-namespace pqs{
+namespace pqs{ namespace impl {
 
-   template <>
-   struct quantity_times_semantic<
-      pqs::si_measurement_system, 
-      pqs::si_measurement_system
-   >
-   {
-      // dimension of Lhs* Rhs maybe a dimension or dimensionless
-      template <quantity Lhs, quantity Rhs>
-      using result_dimension = std::remove_cvref_t<
-         decltype(
-            std::declval<get_simple_dimension<Lhs> >() *
-            std::declval<get_simple_dimension<Rhs> >()
-         )
+   template <quantity Lhs, quantity Rhs> 
+      requires si::are_in_si_measurement_system<Lhs,Rhs>
+        && ( si::is_proper_si_unit<get_unit<Lhs>  > ||
+           si::is_proper_si_unit<get_unit<Rhs> > )
+   struct dimensioned_op_semantic< Lhs, times, Rhs>{
+
+      // type to convert Lhs to before calc
+      using lhs_type = basic_quantity<
+         si::make_proper_si_unit<get_unit<Lhs> >,
+         get_numeric_type<Lhs>
       >;
 
-      template <quantity Lhs, quantity Rhs>
-      struct dimensioned_result{
+      // type to convert Rhs to before calc
+      using rhs_type = basic_quantity<
+         si::make_proper_si_unit<get_unit<Rhs> >,
+         get_numeric_type<Rhs>
+      >;
 
-         using lhs_type = pqs::basic_quantity<
-            pqs::si::make_proper_si_unit<get_unit<Lhs> >,
-            get_numeric_type<Lhs>
+      using result_dimension = 
+         binary_op_t<
+            get_simple_dimension<lhs_type>,
+            times,
+            get_simple_dimension<rhs_type>
          >;
-         using rhs_type = pqs::basic_quantity<
-            pqs::si::make_proper_si_unit<get_unit<Rhs> >,
+
+      using result_conversion_factor = 
+         binary_op_t<
+            get_conversion_factor<lhs_type>,
+            times,
+            get_conversion_factor<rhs_type>
+         >;
+
+      using result_unit = si::proper_unit<
+            result_dimension,
+            typename result_conversion_factor::exponent
+         >;
+         
+      using result_numeric_type =
+         binary_op_t<
+            get_numeric_type<Lhs>,
+            times,
             get_numeric_type<Rhs>
          >;
 
-         using type = pqs::basic_quantity <
-            pqs::si::proper_unit<
-               result_dimension<Lhs,Rhs>,
-               typename pqs::binary_op_t<
-                  get_conversion_factor<lhs_type>,
-                  pqs::times,
-                  get_conversion_factor<rhs_type>
-               >::exponent
-            >,
-            std::remove_cvref_t<decltype(
-               std::declval<get_numeric_type<Lhs> >() * 
-               std::declval<get_numeric_type<Rhs> >()
-            )>
-         >;
-      };
+      using result = basic_quantity <
+         result_unit,
+         result_numeric_type
+      >;
 
-      template <quantity Lhs, quantity Rhs>
-      struct dimensionless_result{
-         using cf = pqs::binary_op_t<
-            pqs::get_conversion_factor<Lhs>,
-            pqs::times,
-            pqs::get_conversion_factor<Rhs>
-         >;
-         using type = std::remove_cvref_t<decltype(
-            std::declval<get_numeric_type<Lhs> >() * 
-            std::declval<get_numeric_type<Rhs> >() * 
-            pqs::evaluate<cf>()
-         )>;
-      };
-
-      template <quantity Lhs, quantity Rhs>
-      struct result{
-         using type = typename pqs::meta::eval_if_c<
-            dimension<result_dimension<Lhs,Rhs> >,
-               dimensioned_result<Lhs,Rhs>,
-            dimensionless_result<Lhs,Rhs>
-         >::type;
-      };
-
-      
-      template <quantity Lhs, quantity Rhs>
-         requires pqs::dimension<result_dimension<Lhs,Rhs> >
       static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
       {
-         using lhs_type = typename dimensioned_result<Lhs,Rhs>::lhs_type;
-         using rhs_type = typename dimensioned_result<Lhs,Rhs>::rhs_type;
-         using result_type = typename dimensioned_result<Lhs,Rhs>::type;
-         return result_type{
-            get_numeric_value(implicit_cast<lhs_type>(lhs)) * 
+         return result{
+            get_numeric_value(implicit_cast<lhs_type>(lhs)) *
             get_numeric_value(implicit_cast<rhs_type>(rhs))
          };
       }
-
-     template <quantity Lhs, quantity Rhs>
-         requires std::is_same_v<result_dimension<Lhs,Rhs>,pqs::dimensionless>
-      static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
-      {
-         using cf = pqs::binary_op_t<
-            pqs::get_conversion_factor<Lhs>,
-            pqs::times,
-            pqs::get_conversion_factor<Rhs>
-         >;
-         using result_type = typename result<Lhs,Rhs>::type;
-         return result_type{
-            get_numeric_value(lhs) * get_numeric_value(rhs) * 
-            pqs::evaluate<cf>()
-         };
-      }
    };
-} // pqs
+}} // pqs::impl
 
 #endif // PQS_CONCEPTS_QUANTITY_TIMES_QUANTITY_HPP_INCLUDED
