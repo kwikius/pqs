@@ -97,51 +97,7 @@ namespace pqs{
       return impl::binary_op_semantic<
          Lhs, plus, Rhs
       >::apply( lhs, rhs);
-   }
-
-#else
-   template <typename LhsMS, typename RhsMS>
-   struct quantity_plus_semantic;
-
-   template <measurement_system S>
-   struct quantity_plus_semantic<S,S>
-   {
-      template <quantity Lhs, quantity Rhs>
-      struct result{
-         using type = basic_quantity <
-            basic_unit<
-               S,
-               get_simple_dimension<Lhs>,
-               meta::min<
-                  get_conversion_factor<Lhs>,
-                  get_conversion_factor<Rhs> 
-               >
-            >,
-            std::remove_cvref_t<decltype(
-               std::declval<get_numeric_type<Lhs> >() + 
-               std::declval<get_numeric_type<Rhs> >()
-            )>
-         >;
-      };
-
-      template <quantity Q>
-      struct result<Q,Q>{
-         using type = Q;
-      };
-      
-      template <quantity Lhs, quantity Rhs>
-      static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
-      {
-         using result_type = typename result<Lhs,Rhs>::type;
-         return result_type{
-            get_numeric_value(implicit_cast<result_type>(lhs)) + 
-            get_numeric_value(implicit_cast<result_type>(rhs))
-         };
-      }
-   };
-
-#endif
-  
-}
+   }  
+} //pqs
 
 #endif // PQS_CONCEPTS_QUANTITY_PLUS_QUANTITY_HPP_INCLUDED

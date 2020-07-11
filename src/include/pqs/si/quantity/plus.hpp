@@ -17,8 +17,6 @@
  *    get finest grained 
  *   
 */
-#if 1
-
 namespace pqs { namespace impl{
 
    
@@ -80,67 +78,5 @@ namespace pqs { namespace impl{
       };
 
 }}// pqs::impl
-
-#else
-namespace pqs{
-
-   template <>
-   struct quantity_plus_semantic<
-      pqs::si_measurement_system,
-      pqs::si_measurement_system
-   > {
-      template <quantity Lhs, quantity Rhs>
-      struct result{
-
-         using lhs_unit = pqs::get_unit<Lhs>;
-         using rhs_unit = pqs::get_unit<Rhs>;
-
-         using finest_grained_unit = std::conditional_t<
-            pqs::binary_op_v<
-               get_conversion_factor<Lhs>,
-               pqs::less_equal,
-               get_conversion_factor<Rhs> 
-            >,
-            lhs_unit,
-            rhs_unit
-         >;
-
-         using unit_type = std::conditional_t<
-            ( pqs::si::is_proper_si_unit<lhs_unit > ||
-              pqs::si::is_proper_si_unit<rhs_unit > ),
-            pqs::si::make_proper_si_unit<
-               finest_grained_unit
-            >,
-            finest_grained_unit
-         >;
-         
-         using type = pqs::basic_quantity <
-            unit_type,  
-            std::remove_cvref_t<decltype(
-               std::declval<get_numeric_type<Lhs> >() + 
-               std::declval<get_numeric_type<Rhs> >()
-            )>
-         >;
-      };
-
-      template <quantity Q>
-      struct result<Q,Q>{
-         using type = Q;
-      };
-
-      template <quantity Lhs, quantity Rhs>
-      static constexpr 
-      auto apply(Lhs const & lhs, Rhs const & rhs)
-      {
-         using result_type = typename result<Lhs,Rhs>::type;
-
-         return result_type{
-            get_numeric_value(implicit_cast<result_type>(lhs)) + 
-            get_numeric_value(implicit_cast<result_type>(rhs))
-         };
-      }
-   };
-}
-#endif
 
 #endif // PQS_SI_OPERATIONS_PLUS_HPP_INCLUDED
