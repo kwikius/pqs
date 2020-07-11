@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_QUANTITY_PLUS_HPP_INCLUDED
 
 #include <pqs/concepts/quantity/definition.hpp>
+#include <pqs/concepts/binary_op_semantic.hpp>
 #include <pqs/instance/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/basic_unit.hpp>
@@ -19,7 +20,86 @@
    */
 
 namespace pqs{
+#if 1
 
+   namespace impl{
+
+      template < quantity Lhs, quantity Rhs> 
+      struct binary_op_semantic< Lhs, plus, Rhs>{
+
+         using result_dimension = std::conditional_t<
+            std::is_same_v< get_dimension<Lhs> , get_dimension<Rhs> >,
+            get_dimension<Lhs>,
+            get_simple_dimension<Lhs>
+         >;
+
+         using result_conversion_factor =  
+            meta::min<
+               get_conversion_factor<Lhs>,
+               get_conversion_factor<Rhs> 
+           >;
+
+         using result_unit = 
+            basic_unit<
+               get_measurement_system<Lhs>,
+               result_dimension,
+               result_conversion_factor
+            >;
+
+         using result_numeric_type = 
+            std::remove_cvref_t<
+               decltype( 
+                  std::declval<
+                     binary_op_t<
+                        get_numeric_type<Lhs>,
+                        plus,
+                        get_numeric_type<Rhs>
+                     >
+                  >() *
+                  evaluate<result_conversion_factor>() 
+               )
+            >;
+
+         using result = 
+            basic_quantity<
+               result_unit,
+               result_numeric_type
+            >;
+
+         static constexpr auto apply( Lhs const & lhs, Rhs const & rhs)
+         {
+            return result{
+               get_numeric_value(implicit_cast<result>(lhs)) + 
+               get_numeric_value(implicit_cast<result>(rhs))
+            };
+         }
+      };
+
+      // optimise for same quantities
+      template <quantity Q> 
+      struct binary_op_semantic< Q, plus, Q>{
+         static constexpr Q apply( Q const & lhs, Q const & rhs)
+         {
+            return Q{ get_numeric_value(lhs) + get_numeric_value(rhs) };
+         }
+      };
+
+   }//impl
+
+   template <quantity Lhs, quantity Rhs>
+      requires  
+         same_measurement_system<Lhs,Rhs> &&
+         dimensionally_equivalent<Lhs,Rhs> &&
+         provide_operator_plus<Lhs,Rhs>
+   inline constexpr 
+   auto operator+( Lhs const & lhs, Rhs const & rhs)
+   {
+      return impl::binary_op_semantic<
+         Lhs, plus, Rhs
+      >::apply( lhs, rhs);
+   }
+
+#else
    template <typename LhsMS, typename RhsMS>
    struct quantity_plus_semantic;
 
@@ -59,19 +139,9 @@ namespace pqs{
          };
       }
    };
-   
-   template <quantity Lhs, quantity Rhs>
-      requires  
-      dimensionally_equivalent<Lhs,Rhs> &&
-      provide_operator_plus<Lhs,Rhs>
-   inline constexpr 
-   auto operator + ( Lhs const & lhs, Rhs const & rhs)
-   {
-      return quantity_plus_semantic<
-         get_measurement_system<Lhs>,
-         get_measurement_system<Rhs>
-      >::apply(lhs, rhs);
-   }
+
+#endif
+  
 }
 
 #endif // PQS_CONCEPTS_QUANTITY_PLUS_QUANTITY_HPP_INCLUDED

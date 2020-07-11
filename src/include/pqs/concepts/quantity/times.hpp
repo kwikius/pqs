@@ -83,7 +83,6 @@ namespace pqs{
       };
 
       template <quantity Lhs,quantity Rhs>
-           requires same_measurement_system<Lhs,Rhs>
       struct binary_op_semantic<Lhs,times,Rhs> 
       :  std::conditional_t<
             is_dimension<
@@ -99,12 +98,14 @@ namespace pqs{
     }// impl
 
    template <quantity Lhs, quantity Rhs>
-      requires provide_operator_times<Lhs,Rhs>
-   inline constexpr auto operator *( Lhs const & lhs, Rhs const & rhs)
+      requires
+         same_measurement_system<Lhs,Rhs> &&
+         provide_operator_times<Lhs,Rhs>         
+   inline constexpr auto operator*( Lhs const & lhs, Rhs const & rhs)
    {
       return impl::binary_op_semantic<
          Lhs, times, Rhs
-      >::apply(lhs, rhs);
+      >::apply( lhs, rhs);
    }
 } // pqs
 
