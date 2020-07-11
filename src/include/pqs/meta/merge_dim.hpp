@@ -110,8 +110,8 @@ namespace pqs{ namespace meta{
          pop_front_t<DimR> ,
          append_if_not_zero_t<
             pqs::meta::eval_if_t<
-               std::is_same<Op,pqs::divides>,
-                  pqs::unary_op<reciprocal,front_t<DimR> >,
+               std::is_same<Op,divides>,
+                  unary_op<reciprocal,front_t<DimR> >,
                front<DimR>
             >,
            DimOut
@@ -119,17 +119,17 @@ namespace pqs{ namespace meta{
       >{};
 
       template <typename Op,typename DimOut>
-      struct merge_dim<pqs::dimension_list<>,Op, pqs::dimension_list<>,DimOut>{
-         typedef DimOut type;
+      struct merge_dim<dimension_list<>,Op, dimension_list<>,DimOut>{
+         using type = DimOut;
       };
 
       struct base_quantity_exp_sort_fun{
     
          template <typename LhsExp, typename RhsExp>
-         struct apply : pqs::binary_op<
-            typename pqs::get_base_quantity_legacy<LhsExp>::type,
-            pqs::less,
-            typename pqs::get_base_quantity_legacy<RhsExp>::type
+         struct apply : binary_op<
+            get_base_quantity<LhsExp>,
+            less,
+            get_base_quantity<RhsExp>
          >{};
       };
 
@@ -137,15 +137,15 @@ namespace pqs{ namespace meta{
 
     // Op is pqs::times or pqs::divides 
    template <typename DimL, typename Op, typename DimR>
-   struct merge_dim : pqs::meta::detail::merge_dim<
-      typename pqs::meta::merge_sort<
-         DimL,pqs::meta::detail::base_quantity_exp_sort_fun
-      >::type,
+   struct merge_dim : meta::detail::merge_dim<
+      meta::merge_sort_t<
+         DimL,meta::detail::base_quantity_exp_sort_fun
+      >,
       Op,
-      typename pqs::meta::merge_sort<
-         DimR,pqs::meta::detail::base_quantity_exp_sort_fun
-      >::type, 
-      pqs::dimension_list<> 
+      meta::merge_sort_t<
+         DimR,meta::detail::base_quantity_exp_sort_fun
+      >, 
+      dimension_list<> 
    >{};
    
 }} // pqs::meta
