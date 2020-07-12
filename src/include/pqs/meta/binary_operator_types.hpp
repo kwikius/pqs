@@ -236,6 +236,13 @@ namespace pqs { namespace meta{
        ( (op_class<Op>::value == op_class_t::additive) || (op_class<Op>::value == op_class_t::multiplicative) ) 
     >{};
 
+    template< 
+        typename Op
+    >
+    struct is_multiplicative_operator : std::integral_constant<bool,
+         op_class<Op>::value == op_class_t::multiplicative
+    >{};
+
 #if 0
 
     template< 
@@ -372,17 +379,7 @@ namespace pqs { namespace meta{
         };
     };
 
-    template< 
-        typename Op
-    >
-    struct is_multiplicative_operator{
-        typedef is_multiplicative_operator type;
-        enum{ 
-        value =
-           (binary_operator_traits<Op>::expression_family
-            == static_cast<int>(binary_operator_parameters::multiplicative_expression))
-        };
-    };
+
 
     template< 
         typename Op

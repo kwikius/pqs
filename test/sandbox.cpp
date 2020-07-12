@@ -27,6 +27,7 @@ namespace pqs{
    */
    template <unit UnitL, typename Op, unit UnitR>
       requires same_measurement_system<UnitL,UnitR>
+            && meta::is_multiplicative_operator<Op>::value
    struct unit_binary_op : impl::unit_binary_op_base{
 
       using type = unit_binary_op;
@@ -116,8 +117,9 @@ namespace pqs{
    inline constexpr
    auto operator*( Lhs, Rhs)
    {
-      return unit_binary_op<Lhs,divides,Rhs>{};
+      return unit_binary_op<Lhs,times,Rhs>{};
    }
+
 }
 
 #include <pqs/imperial/units/speed_unit.hpp>
@@ -141,7 +143,10 @@ void sandbox()
 
    static_assert(pqs::is_unit_binary_op<U1>);
 
-   std::cout << get_numeric_value(q1) << '\n';
+   std::cout << "q1 value = " << get_numeric_value(q1) << '\n';
+
+   std::cout << "q1 dimension = " << 
+      dimension_to_fixed_string<pqs::charset_utf8>(q1) <<'\n';
 
    fps::speed::ft_per_s<> q2 = q1;
 
@@ -173,9 +178,18 @@ void sandbox()
 
    using U5 = pqs::get_unit<decltype(q5)>;
 
+  
+
    q1 = q5 / q4;
 
    std::cout << get_numeric_value(q1) << '\n';
+
+   auto q6 = q5 * q4;
+
+   auto str6 = pqs::dimension_to_fixed_string<
+      pqs::charset_utf8
+   >(q6);
+   std::cout << "should be  str6" << '\n';
 
    //std::cout << pqs::get_unit<fps::length::yd<> >::name <<'\n';
    
