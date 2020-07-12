@@ -7,8 +7,6 @@
 namespace pqs{
 
    namespace impl{
-      // derive form here for type to be a basic_unit
-      // and a unit_binary_op
       struct unit_binary_op_base : basic_unit_base{};
    }
 
@@ -101,8 +99,8 @@ namespace pqs{
 
    template <typename CharSet, quantity Q>
       requires is_unit_binary_op<get_unit<Q> >
-   inline constexpr auto
-   dimension_to_fixed_string(Q)
+   inline constexpr 
+   auto dimension_to_fixed_string(Q)
    {
       return dimension_to_fixed_string<get_unit<Q>,CharSet>();
    }
@@ -137,7 +135,7 @@ void sandbox()
 {
    namespace fps = pqs::imperial;
    
-   auto constexpr q1 = fps::speed::mi_per_hr<>{10};
+   auto q1 = fps::speed::mi_per_hr<>{10};
   
    using U1 = pqs::get_unit<decltype(q1)>;
 
@@ -163,7 +161,7 @@ void sandbox()
    >(q1);
    std::cout << "(should be mi/hr) " << str1 <<'\n';
 
-   pqs::si::time::min<> q4{3};
+   pqs::imperial::time::min<> q4{3};
    
    auto str4 =  pqs::dimension_to_fixed_string<
       pqs::charset_utf8
@@ -174,6 +172,10 @@ void sandbox()
    fps::length::yd<> q5{1};
 
    using U5 = pqs::get_unit<decltype(q5)>;
+
+   q1 = q5 / q4;
+
+   std::cout << get_numeric_value(q1) << '\n';
 
    //std::cout << pqs::get_unit<fps::length::yd<> >::name <<'\n';
    
