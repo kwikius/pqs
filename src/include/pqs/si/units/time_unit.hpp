@@ -25,7 +25,7 @@ namespace pqs{ namespace si { namespace time_unit{
       ConversionFactor
    >{};
 
-   struct s : proper<"s">{};
+   struct s : si::base_unit<base_time>{};
 
    struct ms : proper<"ms", exponent10<-3> >{};
 

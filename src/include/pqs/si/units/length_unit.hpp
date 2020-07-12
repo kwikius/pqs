@@ -25,7 +25,7 @@ namespace pqs{ namespace si { namespace length_unit{
       ConversionFactor
    >{};
 
-   struct m : proper<"m">{};
+   struct m : si::base_unit<base_length>{};
 
    struct mm : proper<"mm", exponent10<-3> >{};
 

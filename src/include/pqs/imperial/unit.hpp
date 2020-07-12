@@ -2,18 +2,10 @@
 #define PQS_IMPERIAL_UNIT_HPP_INCLUDED
 
 #include <pqs/bits/basic_unit.hpp>
+#include <pqs/type_templates/base_unit.hpp>
 #include <pqs/imperial/measurement_system.hpp>
 
 namespace pqs{ namespace imperial{
-
-   template <typename Dimension>
-   struct base_unit : pqs::basic_unit<
-      pqs::imperial_measurement_system,
-      Dimension,
-      conversion_factor<std::ratio<1>, pqs::exponent10<0> > 
-   >{
-      using type = base_unit;
-   };
 
    template <typename Dimension, typename ConversionFactor>
    struct unit_conversion : pqs::basic_unit<

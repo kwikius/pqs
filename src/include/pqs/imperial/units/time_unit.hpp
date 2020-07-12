@@ -3,15 +3,12 @@
 
 #include <pqs/imperial/unit.hpp>
 #include <pqs/base_quantity/time.hpp>
-#include <pqs/type_templates/conversion_factor.hpp>
 
 namespace pqs{ namespace imperial { namespace time_unit{
 
-   struct s :
-      pqs::imperial::base_unit<
-         decltype( abstract_time<> )
-      >
-   {};
+   struct s : pqs::base_unit<
+      base_time,imperial_measurement_system
+   >{};
 
    struct min : named<"min">,
       decltype( s{} * std::ratio<60>{} )

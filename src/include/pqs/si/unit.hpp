@@ -28,6 +28,16 @@ namespace pqs{ namespace si{
             pqs::conversion_factor<std::ratio<1>,Exp>;
       };
 
+      template <base_quantity Qb>
+      struct base_unit : proper_unit<
+          typename make_base_quantity_exp<Qb,std::ratio<1> >::type,
+          exponent10<0>
+      >{
+         template <typename CharSet>
+         static constexpr auto symbol
+            = get_base_unit_symbol<Qb,si_measurement_system,CharSet>;
+      };
+
       namespace impl{
 
          template <typename U>

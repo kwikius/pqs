@@ -3,15 +3,12 @@
 
 #include <pqs/imperial/unit.hpp>
 #include <pqs/base_quantity/length.hpp>
-#include <pqs/type_templates/conversion_factor.hpp>
 
 namespace pqs{ namespace imperial { namespace length_unit{
 
-   struct ft : 
-      pqs::imperial::base_unit<
-         decltype( abstract_length<> )
-      >
-   {};
+   struct ft : pqs::base_unit<
+      base_length,imperial_measurement_system
+   >{};
 
    struct yd : named<"yd">,
       decltype( ft{} * std::ratio<3>{} )
