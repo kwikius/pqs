@@ -1,8 +1,8 @@
 #ifndef PQS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
 #define PQS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
 
-#include <pqs/imperial/length_unit.hpp>
-#include <pqs/imperial/time_unit.hpp>
+#include <pqs/imperial/units/length_unit.hpp>
+#include <pqs/imperial/units/time_unit.hpp>
 
 namespace pqs{ namespace imperial { namespace speed_unit{
 
@@ -14,8 +14,8 @@ namespace pqs{ namespace imperial { namespace speed_unit{
       decltype( length_unit::yd{} / time_unit::s{} )
    {};
 
-   struct mi_per_h : 
-      decltype( length_unit::mi{} / time_unit::h{} ) 
+   struct mi_per_hr : 
+      decltype( length_unit::mi{} / time_unit::hr{} ) 
    {};
 
 }}} // pqs::si::length_unit

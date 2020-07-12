@@ -352,6 +352,11 @@ namespace pqs{
 
       /**
        * @brief Custom dimension to fixed_string implementation
+       * 
+       * TODO
+       * - reordering of base_quantities in the output
+       * - use division op raher than negative power
+       * - detact and prefer user provided name string
       */
       template <typename D,pqs::measurement_system Ms,typename CharSet>
          requires pqs::is_custom_dimension<D>
@@ -370,26 +375,32 @@ namespace pqs{
 
    }// detail
 
+   template <unit U,typename CharSet>
+   inline constexpr auto
+   dimension_to_fixed_string()
+   {
+      return dimension_to_fixed_string<
+         pqs::get_dimension<U>,
+         pqs::get_measurement_system<U>,
+         CharSet
+      >();  
+   }
+
    template <quantity Q,typename CharSet>
    inline constexpr auto
    dimension_to_fixed_string()
    {
       return dimension_to_fixed_string<
-         pqs::get_dimension<Q>,
-         pqs::get_measurement_system<Q>,
+         pqs::get_unit<Q>,
          CharSet
       >();  
    }
 
-   template <typename CharSet, quantity Q>
+   template <typename CharSet, typename T>
    inline constexpr auto
-   dimension_to_fixed_string(Q)
+   dimension_to_fixed_string(T)
    {
-      return dimension_to_fixed_string<
-         pqs::get_dimension<Q>,
-         pqs::get_measurement_system<Q>,
-         CharSet
-      >();  
+      return dimension_to_fixed_string<T,CharSet>();
    }
 
 } // pqs

@@ -7,7 +7,7 @@
 
 namespace pqs{ namespace imperial { namespace length_unit{
 
-   struct ft : named<"ft">,
+   struct ft : 
       pqs::imperial::base_unit<
          decltype( abstract_length<> )
       >

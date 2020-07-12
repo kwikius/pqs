@@ -7,7 +7,7 @@
 
 namespace pqs{ namespace imperial { namespace time_unit{
 
-   struct s : named<"s">,
+   struct s :
       pqs::imperial::base_unit<
          decltype( abstract_time<> )
       >
