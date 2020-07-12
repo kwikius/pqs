@@ -12,6 +12,17 @@ namespace pqs{
       struct unit_binary_op_base : basic_unit_base{};
    }
 
+   template <typename Op, typename CharSet>
+   inline constexpr auto op_output_symbol = pqs::undefined_arg<Op,CharSet>();
+
+   template <typename CharSet>
+   inline constexpr auto op_output_symbol<times, CharSet>
+     = detail::multiplication_dot<CharSet>;
+
+   template <typename CharSet>
+   inline constexpr auto op_output_symbol<divides, CharSet>
+     = detail::fraction_slash<CharSet>;
+
    /*
       creates a model of unit fromed from binary op on 
       two units
@@ -82,7 +93,7 @@ namespace pqs{
       return dimension_to_fixed_string<
          typename U::lhs_unit,CharSet
       >() +
-       basic_fixed_string{'/'} +
+       op_output_symbol<typename U::operation,CharSet> +
        dimension_to_fixed_string<
          typename U::rhs_unit,CharSet
       >(); 
