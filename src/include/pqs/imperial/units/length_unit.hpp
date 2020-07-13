@@ -1,6 +1,7 @@
 #ifndef PQS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
 #define PQS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
 
+#include <pqs/bits/charset.hpp>
 #include <pqs/imperial/unit.hpp>
 #include <pqs/base_quantity/length.hpp>
 
@@ -10,9 +11,19 @@ namespace pqs{ namespace imperial { namespace length_unit{
       base_length,imperial_measurement_system
    >{};
 
-   struct yd : named<"yd">,
+   struct yd : 
       decltype( ft{} * std::ratio<3>{} )
-   {};
+   {
+     /**
+      * @brief demonstrate alternative naming method
+      */ 
+      template <typename CharSet>
+      static constexpr auto name = 
+         std::is_same_v<CharSet,charset_utf8> 
+            ? "\u04b7\u0503" 
+            : "yd"; // default to ascii
+
+   };
 
    struct mi : named<"mi">,
       decltype( yd{} * std::ratio<1760>{} ) 

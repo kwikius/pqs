@@ -7,7 +7,9 @@ namespace pqs{
 
    template <pqs::basic_fixed_string Name>
    struct named{
-       static constexpr auto name = Name;
+
+       template <typename CharSet>
+       static constexpr pqs::basic_fixed_string name = Name;
    };
 }
 

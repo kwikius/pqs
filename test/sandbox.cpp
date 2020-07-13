@@ -56,25 +56,26 @@ namespace pqs{
 
       struct no_name_in_unit{};
 
+      template <typename CharSet>
       no_name_in_unit unit_has_name_test(...);
 
-      template <unit T>
-      auto unit_has_name_test(T) -> decltype(T::name);
+      template <typename CharSet, unit T>
+      auto unit_has_name_test(T) -> decltype(T::template name<CharSet>);
 
-      template <unit T>
+      template <unit T, typename CharSet>
       inline constexpr bool unit_has_name = 
          not std::is_same_v<
-            decltype(unit_has_name_test(T())),
+            decltype(unit_has_name_test<CharSet>(T())),
             no_name_in_unit
          >;
    }
 
    template <unit U,typename CharSet>
-      requires detail::unit_has_name<U>
+      requires detail::unit_has_name<U,CharSet>
    inline constexpr 
    auto dimension_to_fixed_string()
    {
-      return U::name;
+      return U::template name<CharSet>;
    }
 
    template <unit U>
@@ -178,8 +179,6 @@ void sandbox()
 
    using U5 = pqs::get_unit<decltype(q5)>;
 
-  
-
    q1 = q5 / q4;
 
    std::cout << get_numeric_value(q1) << '\n';
@@ -189,8 +188,12 @@ void sandbox()
    auto str6 = pqs::dimension_to_fixed_string<
       pqs::charset_utf8
    >(q6);
-   std::cout << "should be  str6" << '\n';
-
-   //std::cout << pqs::get_unit<fps::length::yd<> >::name <<'\n';
+   std::cout << "str6 = " <<  str6 << '\n';
+  std::cout << " yd has name = " << pqs::detail::unit_has_name<pqs::get_unit<fps::length::yd<> >,pqs::charset_ascii > << '\n';
+ std::cout << " ft has name = " << pqs::detail::unit_has_name<pqs::get_unit<fps::length::ft<> >,pqs::charset_ascii > << '\n';
+  std::cout << pqs::get_unit<fps::length::ft<> >::name<pqs::charset_utf8> <<'\n';
+  std::cout << pqs::get_unit<fps::length::ft<> >::name<pqs::charset_ascii> <<'\n';
+  std::cout << pqs::get_unit<fps::length::yd<> >::name<pqs::charset_utf8> <<'\n';
+  std::cout << pqs::get_unit<fps::length::yd<> >::name<pqs::charset_ascii> <<'\n';
    
 }

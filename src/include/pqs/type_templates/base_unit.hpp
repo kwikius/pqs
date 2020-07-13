@@ -18,8 +18,8 @@ namespace pqs{
          conversion_factor<std::ratio<1>, exponent10<1> > 
     >{
         template <typename CharSet>
-        static constexpr auto symbol
-            = get_base_unit_symbol<Qb,Sm,CharSet>;
+        static constexpr auto name
+           = get_base_unit_symbol<Qb,Sm,CharSet>;
     };
 
 }
