@@ -15,7 +15,7 @@ namespace pqs{ namespace imperial { namespace length_unit{
       decltype( ft{} * std::ratio<3>{} )
    {
      /**
-      * @brief demonstrate alternative naming method
+      * @brief demonstrate alternative name customisation
       */ 
       template <typename CharSet>
       static constexpr auto name = 
