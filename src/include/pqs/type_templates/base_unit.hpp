@@ -15,7 +15,7 @@ namespace pqs{
     : basic_unit<
          Sm,
          typename make_base_quantity_exp<Qb,std::ratio<1> >::type,
-         conversion_factor<std::ratio<1>, exponent10<1> > 
+         conversion_factor<std::ratio<1>, exponent10<0> > 
     >{
         template <typename CharSet>
         static constexpr auto name

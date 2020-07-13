@@ -3,7 +3,9 @@
 #include <pqs/imperial/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/si/speed.hpp>
-#include <pqs/bits/dimension_as_fixed_string.hpp>
+#include <pqs/bits/dimension_to_fixed_string.hpp>
+#include <pqs/type_templates/conversion_factor.hpp>
+#include <pqs/bits/conversion_factor_to_fixed_string.hpp>
 
 namespace pqs{
 
@@ -25,6 +27,7 @@ namespace pqs{
    /*
       creates a model of unit fromed from binary op on 
       two units
+      call it a composition op
    */
    template <unit UnitL, typename Op, unit UnitR>
       requires same_measurement_system<UnitL,UnitR>
@@ -69,6 +72,13 @@ namespace pqs{
             decltype(unit_has_name_test<CharSet>(T())),
             no_name_in_unit
          >;
+   }
+
+   template <unit U, typename CharSet>
+   inline constexpr
+   auto unit_to_fixed_string()
+   {
+      
    }
 
    template <unit U,typename CharSet>
@@ -196,5 +206,81 @@ void sandbox()
    std::cout << pqs::get_unit<fps::length::ft<> >::name<pqs::charset_ascii> <<'\n';
    std::cout << pqs::get_unit<fps::length::yd<> >::name<pqs::charset_utf8> <<'\n';
    std::cout << pqs::get_unit<fps::length::yd<> >::name<pqs::charset_ascii> <<'\n';
- 
+  
+
+   using q_type = pqs::imperial::length::mi<> ;
+   std::cout <<"q_type cf = " << pqs::conversion_factor_to_fixed_string<
+      pqs::get_conversion_factor<q_type>,
+      pqs::charset_utf8
+   >() <<'\n';
+
+   std::cout <<"q_type cf = " << pqs::conversion_factor_to_fixed_string<
+      pqs::get_conversion_factor<q_type>,
+      pqs::charset_ascii
+   >() <<'\n';
+;
+
+   std::cout << "eval q_type = " << pqs::evaluate<pqs::get_conversion_factor<q_type> >() <<'\n';
+
+   using q_type1 = pqs::imperial::length::ft<> ;
+   std::cout <<"q_type1 cf = " << pqs::conversion_factor_to_fixed_string<
+      pqs::get_conversion_factor<q_type1>,
+      pqs::charset_utf8
+   >() <<'\n';
+
+   std::cout <<"q_type1 cf = " << pqs::conversion_factor_to_fixed_string<
+      pqs::get_conversion_factor<q_type1>,
+      pqs::charset_ascii
+   >() <<'\n';
+   std::cout << "eval q_type1 cf = " << static_cast<double>(pqs::evaluate<pqs::get_conversion_factor<q_type1> >()) <<'\n';
+
+   auto cf3 = std::ratio<7,3>() ^ pqs::exponent10<26>();
+
+   std::cout << "cf3 =" << pqs::conversion_factor_to_fixed_string<
+      decltype(cf3),
+      pqs::charset_utf8
+   >() << '\n';
+   std::cout << "cf3 =" << pqs::conversion_factor_to_fixed_string<
+      decltype(cf3),
+      pqs::charset_ascii
+   >() << '\n';
+
 }
+
+#if 0
+      /**
+       * @brief SI specific base_quantity exponent
+       * to fixed_string.
+       * The kg has to be fixed up with a prefix
+       */
+      template <
+         pqs::base_quantity_exponent Qbe,
+         typename CharSet
+      >
+      struct dimension_to_fixed_string_impl<
+         Qbe,pqs::si_measurement_system,CharSet
+      >{
+         static constexpr auto apply()
+         {
+            using qB = pqs::get_base_quantity<Qbe>;
+            using qE = pqs::get_exponent<Qbe>;
+
+            auto constexpr no_ext_str = 
+
+               pqs::unit_symbol_prefix<
+                 pqs::si::get_base_unit_prefix_offset<qB> 
+                  ,CharSet
+               > +
+               // get_unprefixed_base_unit_symbol
+               pqs::get_base_unit_symbol<
+                  qB,pqs::si_measurement_system,CharSet
+               >;
+            if constexpr ( std::ratio_equal_v<qE,std::ratio<1> > )
+               return no_ext_str;
+            else
+               return no_ext_str + 
+                  to_superscript_fixed_string<qE,CharSet>();      
+         }
+      };
+#endif
+

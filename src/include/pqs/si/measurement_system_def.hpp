@@ -39,6 +39,17 @@ namespace pqs{
          = std::is_same_v<get_measurement_system<Lhs>,si_measurement_system> &&
          std::is_same_v<get_measurement_system<Rhs>,si_measurement_system>
       ;
+
+      template <base_quantity Q, typename CharSet>
+      inline constexpr 
+      basic_fixed_string get_unprefixed_base_unit_symbol = 
+         pqs::get_base_unit_symbol<Q,CharSet>;
+
+      template <typename CharSet>
+      inline constexpr 
+      basic_fixed_string get_unprefixed_base_unit_symbol<
+         pqs::base_mass ,CharSet
+      > = "g";
    }
 
    template <typename Charset>
@@ -51,7 +62,7 @@ namespace pqs{
    inline constexpr pqs::basic_fixed_string
    get_base_unit_symbol<
       base_mass,si_measurement_system,CharSet
-   > = "g";
+   > = "kg";
 
    template <typename CharSet>
    inline constexpr pqs::basic_fixed_string

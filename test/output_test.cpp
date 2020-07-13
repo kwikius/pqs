@@ -1,5 +1,5 @@
 
-#include <pqs/bits/dimension_as_fixed_string.hpp>
+#include <pqs/bits/dimension_to_fixed_string.hpp>
 #include <pqs/si/speed.hpp>
 #include <pqs/si/length.hpp>
 #include <pqs/imperial/length.hpp>

@@ -1,16 +1,8 @@
-#ifndef PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
-#define PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
+#ifndef PQS_BITS_FIXED_STRING_STUFF_HPP_INCLUDED
+#define PQS_BITS_FIXED_STRING_STUFF_HPP_INCLUDED
 
-#include <pqs/concepts/quantity.hpp>
-#include <pqs/si/measurement_system.hpp>
-#include <pqs/bits/fixed_string.hpp>
 #include <pqs/bits/charset.hpp>
-
-/**
- * @ brief encode a dimension to a fixed_string
- */
-
-namespace pqs{
+#include <pqs/bits/fixed_string.hpp>
 
 // Copyright (c) Andy Little 2020
 
@@ -38,6 +30,12 @@ namespace pqs{
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
+namespace pqs{
+
+  /*
+      TODO superscript ascii number is same as regular_ascii number
+   */
 
    namespace detail {
 
@@ -113,7 +111,15 @@ namespace pqs{
          pqs::charset_utf8
       > = "\u207b";
 
-      // cant find a superscript fraction slash
+
+      template<typename CharSet>
+      inline constexpr 
+      pqs::basic_fixed_string superscript_fraction_slash = '/';
+
+      template<>
+      inline constexpr 
+      pqs::basic_fixed_string superscript_fraction_slash<charset_utf8> = "\u2044";
+
       template<typename CharSet>
       inline constexpr 
       pqs::basic_fixed_string fraction_slash = '/';
@@ -122,7 +128,7 @@ namespace pqs{
       inline constexpr 
       pqs::basic_fixed_string fraction_slash<
          pqs::charset_utf8
-      > = "\u002F";
+      > = "\u2044"; //2019
 
       template <typename CharSet>
       inline constexpr 
@@ -146,7 +152,7 @@ namespace pqs{
             return superscript_integer_impl<N/10,CharSet>() + 
             superscript_digit<N%10,CharSet>;
       }
-   
+
       template <int N,typename CharSet >
       inline constexpr
       pqs::basic_fixed_string superscript_integer =
@@ -156,8 +162,8 @@ namespace pqs{
       inline constexpr pqs::basic_fixed_string 
       superscript_fraction =  
          superscript_integer<Exp::num,CharSet> +
-         fraction_slash<CharSet> +
-         superscript_integer<Exp::den,CharSet>;
+         superscript_fraction_slash<CharSet> +
+         superscript_integer<Exp::den,charset_ascii>;
      
       template <>
       inline constexpr pqs::basic_fixed_string 
@@ -218,191 +224,19 @@ namespace pqs{
             return signed_superscript_fraction<Exp,CharSet>();
       }
 
-      template <typename Q,pqs::measurement_system Ms,typename CharSet>
-      struct dimension_to_fixed_string_impl;
+      template <typename Exp,typename CharSet>
+           requires pqs::is_ratio<Exp>
+      inline constexpr auto to_regular_fixed_string()
+      {
+         if constexpr ( Exp::den == 1)
+            return superscript_integer<Exp::num,charset_ascii>;
+         else 
+            return signed_superscript_fraction<Exp,charset_ascii>();
+      }
    }
 
-   template < 
-      pqs::dimension D, 
-      pqs::measurement_system Ms, 
-      typename CharSet
-   >
-   inline constexpr 
-   auto dimension_to_fixed_string()
-   {
-      return detail::dimension_to_fixed_string_impl<
-         std::remove_cvref_t<D>,Ms,CharSet
-      >::apply();
-   }
+}
 
-   template < 
-      pqs::measurement_system Ms, 
-      typename CharSet,
-      pqs::dimension D
-   >
-   inline constexpr 
-   auto dimension_to_fixed_string(D)
-   {
-      return detail::dimension_to_fixed_string_impl<
-         std::remove_cvref_t<D>,Ms,CharSet
-      >::apply();
-   }
 
-   namespace detail {
 
-      // generic base_quantity_exponent output
-      template <
-         pqs::base_quantity_exponent Qbe,
-         pqs::measurement_system Ms,
-         typename CharSet
-      >
-      struct dimension_to_fixed_string_impl<
-         Qbe,Ms,CharSet
-      >{
-         static constexpr auto apply()
-         {
-            using qB = pqs::get_base_quantity<Qbe>;
-            using qE = pqs::get_exponent<Qbe>;
-
-            auto constexpr no_ext_str = 
-               pqs::get_base_unit_symbol<
-                  qB,Ms,CharSet
-               >;
-            if constexpr ( std::ratio_equal_v<qE,std::ratio<1> > )
-               return no_ext_str;
-            else
-               return no_ext_str + 
-                  to_superscript_fixed_string<qE,CharSet>();      
-         }
-      };
-
-      /**
-       * @brief base_quantity exponent to fixed_string implementation
-       * in SI. The kg has to be fixed up with a prefix
-      */
-      template <pqs::base_quantity_exponent Qbe,typename CharSet>
-      struct dimension_to_fixed_string_impl<
-         Qbe,pqs::si_measurement_system,CharSet
-      >{
-         static constexpr auto apply()
-         {
-            using qB = pqs::get_base_quantity<Qbe>;
-            using qE = pqs::get_exponent<Qbe>;
-
-            auto constexpr no_ext_str = 
-               pqs::unit_symbol_prefix<
-                 pqs::si::get_base_unit_prefix_offset<qB> 
-                  ,CharSet
-               > +
-               pqs::get_base_unit_symbol<
-                  qB,pqs::si_measurement_system,CharSet
-               >;
-            if constexpr ( std::ratio_equal_v<qE,std::ratio<1> > )
-               return no_ext_str;
-            else
-               return no_ext_str + 
-                  to_superscript_fixed_string<qE,CharSet>();      
-         }
-      };
-
-      /**
-       * @brief Single element dimension_list to fixed_string implementation
-       * which terminates the dimensionlist dimension_to_fixed_string_impl recursion
-      */
-      template <pqs::base_quantity_exponent D,pqs::measurement_system Ms, typename CharSet>
-      struct dimension_to_fixed_string_impl<
-         pqs::dimension_list<D>,Ms,CharSet
-      >{
-         static constexpr auto apply()
-         {   
-            return dimension_to_fixed_string<
-               D,pqs::si_measurement_system,CharSet
-            >() ;   
-         }
-      };
-
-      /**
-       * @brief Multi element dimension_list to fixed_string implementation
-       * https://www.nist.gov/pml/special-publication-811/nist-guide-si-chapter-6-rules-and-style-conventions-printing-and-using
-      */
-      template <
-         pqs::base_quantity_exponent... D,
-         pqs::measurement_system Ms, 
-         typename CharSet
-      >
-      struct dimension_to_fixed_string_impl<
-         pqs::dimension_list<D...>,Ms, CharSet
-      >{
-         static constexpr auto apply()
-         {   
-            using list = pqs::dimension_list<D...>;
-            return dimension_to_fixed_string<
-               pqs::meta::front_t<list>,
-               Ms,
-               CharSet
-            >() + 
-            multiplication_dot<CharSet> +
-            dimension_to_fixed_string<
-               pqs::meta::pop_front_t<list>,
-               Ms, 
-               CharSet
-            >(); 
-         }
-      };
-
-      /**
-       * @brief Custom dimension to fixed_string implementation
-       * 
-       * TODO
-       * - reordering of base_quantities in the output
-       * - use division op raher than negative power
-       * - detact and prefer user provided name string
-      */
-      template <typename D,pqs::measurement_system Ms,typename CharSet>
-         requires pqs::is_custom_dimension<D>
-      struct dimension_to_fixed_string_impl<
-         D,Ms, CharSet
-      >{
-         static constexpr auto apply()
-         {   
-            return dimension_to_fixed_string<
-               pqs::get_simple_dimension<D>,
-               Ms,
-               CharSet
-            >();   
-         }
-      };
-
-   }// detail
-
-   template <unit U,typename CharSet>
-   inline constexpr auto
-   dimension_to_fixed_string()
-   {
-      return dimension_to_fixed_string<
-         pqs::get_dimension<U>,
-         pqs::get_measurement_system<U>,
-         CharSet
-      >();  
-   }
-
-   template <quantity Q,typename CharSet>
-   inline constexpr auto
-   dimension_to_fixed_string()
-   {
-      return dimension_to_fixed_string<
-         pqs::get_unit<Q>,
-         CharSet
-      >();  
-   }
-
-   template <typename CharSet, typename T>
-   inline constexpr auto
-   dimension_to_fixed_string(T)
-   {
-      return dimension_to_fixed_string<T,CharSet>();
-   }
-
-} // pqs
-
-#endif // PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
+#endif // PQS_BITS_FIXED_STRING_STUFF_HPP_INCLUDED

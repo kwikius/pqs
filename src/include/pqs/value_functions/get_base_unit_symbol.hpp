@@ -16,7 +16,9 @@ namespace pqs{
       base_quantity Qb,
       measurement_system S,
       typename CharSet
-   > inline constexpr basic_fixed_string get_base_unit_symbol = "";
+   > 
+   inline constexpr 
+   basic_fixed_string get_base_unit_symbol = "";
 
 }
 
