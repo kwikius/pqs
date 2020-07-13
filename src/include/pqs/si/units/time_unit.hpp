@@ -27,6 +27,8 @@ namespace pqs{ namespace si { namespace time_unit{
 
    struct s : si::base_unit<base_time>{};
 
+  // struct ms : decltype( s{} ^ exponent10<-3> )
+
    struct ms : proper<"ms", exponent10<-3> >{};
 
    struct min : named<"min"> ,
