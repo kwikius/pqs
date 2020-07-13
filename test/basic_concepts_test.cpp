@@ -8,6 +8,7 @@
 #include <pqs/concepts/meta/type_function.hpp>
 #include <pqs/concepts/meta/identity_function.hpp>
 #include <pqs/bits/undefined.hpp>
+#include <pqs/bits/implicit_cast.hpp>
 
 namespace {
 
@@ -117,6 +118,13 @@ namespace{
 
    }
 
+   void implicit_cast_test()
+   {
+        // ok, implict conversion from int to double
+      auto x = pqs::implicit_cast<double>(1);
+      static_assert(std::is_same_v<decltype(x),double>);
+   }
+
 }//namespace
 
 void basic_concepts_test()
@@ -127,4 +135,5 @@ void basic_concepts_test()
    test_meta_equality_comparable();
    test_meta_less_than_comparable();
    test_meta_totally_ordered();
+   implicit_cast_test();
 }

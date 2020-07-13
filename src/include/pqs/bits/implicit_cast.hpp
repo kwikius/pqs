@@ -1,5 +1,5 @@
-#ifndef PQS_IMPLICIT_CAST_HPP_INCLUDED
-#define PQS_IMPLICIT_CAST_HPP_INCLUDED
+#ifndef PQS_BITS_IMPLICIT_CAST_HPP_INCLUDED
+#define PQS_BITS_IMPLICIT_CAST_HPP_INCLUDED
 
 /*
  Copyright (c) 2003-2019 Andy Little.
@@ -19,16 +19,32 @@
  */
 
 #include <pqs/meta/identity.hpp>
+#include <type_traits>
 
 namespace pqs{
-   
+
+#if 1
+
+// see link for this implementation
+// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0758r0.html
+template <class T, class U>
+constexpr inline 
+T implicit_cast(U&& u) 
+  noexcept(std::is_nothrow_convertible_v<U, T>) 
+{
+  return std::forward<U>(u);
+}
+
+#else
+
    template<typename T>
-   constexpr
-   inline
+   constexpr inline
    T implicit_cast(typename meta::identity<T>::type in)
    {
       return in;
    }
-}
 
 #endif
+}
+
+#endif  // PQS_BITS_IMPLICIT_CAST_HPP_INCLUDED
