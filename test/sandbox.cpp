@@ -74,21 +74,7 @@ namespace pqs{
          >;
    }
 
-   template <unit U, typename CharSet>
-   inline constexpr
-   auto unit_to_fixed_string()
-   {
-      
-   }
-
-   template <unit U,typename CharSet>
-      requires detail::unit_has_name<U,CharSet>
-   inline constexpr 
-   auto dimension_to_fixed_string()
-   {
-      return U::template name<CharSet>;
-   }
-
+   
    template <unit U>
    inline constexpr bool is_unit_binary_op = 
       std::is_base_of_v<
@@ -96,26 +82,52 @@ namespace pqs{
          std::remove_cvref_t<U> 
       >;
 
+
+   // defuaklt unnamed unit
+   template <unit U, typename CharSet>
+   inline constexpr
+   auto unit_to_fixed_string()
+   {
+      using cf = get_conversion_factor<U>;
+      if constexpr (pqs::evaluate<cf>() == 1)
+         return dimension_to_fixed_string<U,CharSet>();
+      else 
+         return dimension_to_fixed_string<U,CharSet>() +
+         detail::multiplication_dot<CharSet> +
+         conversion_factor_to_fixed_string<get_conversion_factor<U>,CharSet>();
+   }
+
+   
+
+   template <unit U,typename CharSet>
+      requires detail::unit_has_name<U,CharSet>
+   inline constexpr 
+   auto unit_to_fixed_string()
+   {
+      return U::template name<CharSet>;
+   }
+
+
    template <unit U,typename CharSet>
       requires is_unit_binary_op<U>
    inline constexpr 
-   auto dimension_to_fixed_string()
+   auto unit_to_fixed_string()
    {
-      return dimension_to_fixed_string<
+      return unit_to_fixed_string<
          typename U::lhs_unit,CharSet
       >() +
        op_output_symbol<typename U::operation,CharSet> +
-       dimension_to_fixed_string<
+       unit_to_fixed_string<
          typename U::rhs_unit,CharSet
       >(); 
    }
 
    template <typename CharSet, quantity Q>
-      requires is_unit_binary_op<get_unit<Q> >
+     // requires is_unit_binary_op<get_unit<Q> >
    inline constexpr 
-   auto dimension_to_fixed_string(Q)
+   auto unit_to_fixed_string(Q)
    {
-      return dimension_to_fixed_string<get_unit<Q>,CharSet>();
+      return unit_to_fixed_string<get_unit<Q>,CharSet>();
    }
 
    template <unit Lhs, unit Rhs>
@@ -158,7 +170,7 @@ void sandbox()
    std::cout << "q1 value = " << get_numeric_value(q1) << '\n';
 
    std::cout << "q1 dimension = " << 
-      dimension_to_fixed_string<pqs::charset_utf8>(q1) <<'\n';
+      unit_to_fixed_string<pqs::charset_utf8>(q1) <<'\n';
 
    fps::speed::ft_per_s<> q2 = q1;
 
@@ -168,19 +180,19 @@ void sandbox()
 
    std::cout << get_numeric_value(q3) << '\n';
 //
-   auto  str2 = pqs::dimension_to_fixed_string<
+   auto  str2 = pqs::unit_to_fixed_string<
       pqs::get_unit<decltype(q2)>,pqs::charset_utf8
    >();
    std::cout << "(should be ft/s) " << str2 <<'\n';
 
-   auto  str1 = pqs::dimension_to_fixed_string<
+   auto  str1 = pqs::unit_to_fixed_string<
       pqs::charset_utf8
    >(q1);
    std::cout << "(should be mi/hr) " << str1 <<'\n';
 
    pqs::imperial::time::min<> q4{3};
    
-   auto str4 =  pqs::dimension_to_fixed_string<
+   auto str4 =  pqs::unit_to_fixed_string<
       pqs::charset_utf8
    >(q4);
 
@@ -196,7 +208,7 @@ void sandbox()
 
    auto q6 = q5 * q4;
 
-   auto str6 = pqs::dimension_to_fixed_string<
+   auto str6 = pqs::unit_to_fixed_string<
       pqs::charset_utf8
    >(q6);
    std::cout << "str6 = " <<  str6 << '\n';
@@ -257,7 +269,7 @@ void sandbox()
          pqs::base_quantity_exponent Qbe,
          typename CharSet
       >
-      struct dimension_to_fixed_string_impl<
+      struct unit_to_fixed_string_impl<
          Qbe,pqs::si_measurement_system,CharSet
       >{
          static constexpr auto apply()
