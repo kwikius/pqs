@@ -9,5 +9,6 @@
 #include <pqs/bits/conversion_factor_ops.hpp>
 #include <pqs/bits/conversion_factor_def.hpp>
 #include <pqs/type_templates/exponent10.hpp>
+#include <pqs/bits/conversion_factor_to_fixed_string.hpp>
 
 #endif // PQS_TYPE_TEMPLATES_CONVERSION_FACTOR_HPP_INCLUDED
