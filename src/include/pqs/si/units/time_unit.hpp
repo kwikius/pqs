@@ -7,17 +7,6 @@
 
 namespace pqs{ namespace si { namespace time_unit{
 
-   template <
-      pqs::basic_fixed_string Name, 
-      typename Exp = exponent10<0> 
-   >
-   struct proper : pqs::si::proper_unit<
-      decltype(abstract_time<1>),
-      Exp
-   >{
-      static constexpr basic_fixed_string name = Name;
-   };
-
    template <typename ConversionFactor>
    struct conversion : 
    pqs::si::unit_conversion<
@@ -27,9 +16,7 @@ namespace pqs{ namespace si { namespace time_unit{
 
    struct s : si::base_unit<base_time>{};
 
-  // struct ms : decltype( s{} ^ exponent10<-3> )
-
-   struct ms : proper<"ms", exponent10<-3> >{};
+   struct ms : si::proper_unit<exp_time<1>, exponent10<-3> >{};
 
    struct min : named<"min"> ,
       conversion< 

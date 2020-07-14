@@ -1,0 +1,2 @@
+
+rename is_base_quantity_exp to is_base_quantity_exponent

@@ -43,7 +43,7 @@ namespace pqs{
       template <base_quantity Q, typename CharSet>
       inline constexpr 
       basic_fixed_string get_unprefixed_base_unit_symbol = 
-         pqs::get_base_unit_symbol<Q,CharSet>;
+         pqs::get_base_unit_symbol<Q,si_measurement_system,CharSet>;
 
       template <typename CharSet>
       inline constexpr 

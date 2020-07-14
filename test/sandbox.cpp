@@ -1,6 +1,4 @@
 
-
-
 #include <pqs/type_templates/conversion_factor.hpp>
 
 #include <pqs/bits/unit_to_fixed_string.hpp>
@@ -10,9 +8,28 @@
 #include <pqs/imperial/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/speed.hpp>
+#include <pqs/bits/base_quantities.hpp>
 #include <pqs/si/time.hpp>
 #include <pqs/si/speed.hpp>
 #include <iostream>
+
+namespace {
+
+   void check_prefixable()
+   {
+      std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<0> >() <<'\n';
+       std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<1,2> >() <<'\n';
+      std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<1,2>,pqs::exponent10<0> >() <<'\n';
+      std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<0> >() <<'\n';
+      std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<2> >() <<'\n';
+      std::cout << "prefixable n = "  << pqs::si::is_prefixable<
+         decltype(pqs::abstract_time<3> * pqs::abstract_mass<2>) ,pqs::exponent10<0> >() <<'\n';
+      std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_mass<3>,pqs::exponent10<6> >() <<'\n';
+
+      std::cout << "( should be ms )" << pqs::si::time_unit::ms::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be s )" << pqs::si::time_unit::s::name<pqs::charset_utf8> <<'\n';
+   }
+}
 
 #if defined PQS_STANDALONE
 int errors =0;
@@ -21,6 +38,8 @@ int main()
 void sandbox()
 #endif
 {
+
+   check_prefixable();
    namespace fps = pqs::imperial;
    
    auto q1 = fps::speed::mi_per_hr<>{10};
@@ -108,7 +127,7 @@ void sandbox()
    >() <<'\n';
    std::cout << "eval q_type1 cf = " << static_cast<double>(pqs::evaluate<pqs::get_conversion_factor<q_type1> >()) <<'\n';
 
-   auto cf3 = std::ratio<7,3>() ^ pqs::exponent10<26>();
+   auto cf3 = std::ratio<7,3>() ^ pqs::exponent10<26,7>();
 
    std::cout << "cf3 =" << pqs::conversion_factor_to_fixed_string<
       decltype(cf3),
