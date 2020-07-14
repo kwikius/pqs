@@ -6,7 +6,8 @@ namespace pqs{
    namespace impl{
 
       /**
-      *  @brief A base class used to test for units
+      *  @brief A convenient base class from which 
+      *         to derive models of unit.
       */ 
       struct basic_unit_base{};
 

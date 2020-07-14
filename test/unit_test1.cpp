@@ -52,14 +52,14 @@ namespace {
 
    void check_prefixable()
    {
-      std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<0> >() <<'\n';
-      std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<1,2> >() <<'\n';
-      std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<1,2>,pqs::exponent10<0> >() <<'\n';
-      std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<0> >() <<'\n';
-      std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<2> >() <<'\n';
-      std::cout << "prefixable n = "  << pqs::si::is_prefixable<
-         decltype(pqs::abstract_time<3> * pqs::abstract_mass<2>) ,pqs::exponent10<0> >() <<'\n';
-      std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_mass<3>,pqs::exponent10<6> >() <<'\n';
+      static_assert( pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<0> >() );
+      static_assert( not pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<1,2> >() );
+      static_assert( not pqs::si::is_prefixable<pqs::exp_time<1,2>,pqs::exponent10<0> >() );
+      static_assert( pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<0> >());
+      static_assert( not pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<2> >() );
+      static_assert( not pqs::si::is_prefixable<
+         decltype(pqs::abstract_time<3> * pqs::abstract_mass<2>) ,pqs::exponent10<0> >() );
+      static_assert( pqs::si::is_prefixable<pqs::exp_mass<3>,pqs::exponent10<9> >() );
 
       std::cout << "( should be ms )" << pqs::si::time_unit::ms::name<pqs::charset_utf8> <<'\n';
       std::cout << "( should be s )" << pqs::si::time_unit::s::name<pqs::charset_utf8> <<'\n';

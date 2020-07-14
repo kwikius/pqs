@@ -1,9 +1,8 @@
 #ifndef PQS_BITS_CHARSET_HPP_INCLUDED
 #define PQS_BITS_CHARSET_HPP_INCLUDED
 
-/*
-TODO rename as encoding?
-TODO concepts?
+/**
+* tag classes represneting character encodings
 */
 
 namespace pqs{
