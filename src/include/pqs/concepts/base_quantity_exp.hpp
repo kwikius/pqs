@@ -25,11 +25,11 @@ namespace pqs{
    } // impl
 
    template <typename T>
-   inline constexpr bool is_base_quantity_exp = 
+   inline constexpr bool is_base_quantity_exponent = 
       impl::is_base_quantity_exp_impl< std::remove_cvref_t<T> >;
 
    template <typename T>
-   concept base_quantity_exponent = is_base_quantity_exp<T>;
+   concept base_quantity_exponent = is_base_quantity_exponent<T>;
 
    namespace impl{
 
@@ -117,7 +117,7 @@ namespace pqs{
         template <typename T>
         inline constexpr bool is_custom_base_quantity_exp_impl 
             = std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
-              ! pqs::is_base_quantity_exp<T>;
+              ! pqs::is_base_quantity_exponent<T>;
    }//impl
 
    template <typename T>

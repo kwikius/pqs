@@ -18,13 +18,13 @@ namespace {
 
    void same_id_test()
    {
-      static_assert( not pqs::is_base_quantity_exp<int> );
+      static_assert( not pqs::is_base_quantity_exponent<int> );
 
       using tl = exp_length<2> ;
       using tr = exp_length<3> ;
 
-      static_assert( pqs::is_base_quantity_exp<tl> );
-      static_assert( pqs::is_base_quantity_exp<tr> );
+      static_assert( pqs::is_base_quantity_exponent<tl> );
+      static_assert( pqs::is_base_quantity_exponent<tr> );
       static_assert( pqs::of_same_base_quantity<tl,tr> );
       static_assert( pqs::of_same_base_quantity<tr,tl> );
 
@@ -33,11 +33,11 @@ namespace {
       static_assert( std::is_same_v<base_type1,pqs::base_length> );
 
       using tx = exp_length<3,2>;
-      static_assert(pqs::is_base_quantity_exp<tx> );
+      static_assert(pqs::is_base_quantity_exponent<tx> );
       static_assert( pqs::of_same_base_quantity<tl,tx> );
 
       using ty = exp_time<2>;
-      static_assert( pqs::is_base_quantity_exp<ty> );
+      static_assert( pqs::is_base_quantity_exponent<ty> );
       static_assert( not pqs::of_same_base_quantity<tl,ty> ); 
 
       using base_type1a = pqs::get_base_quantity<tl>;

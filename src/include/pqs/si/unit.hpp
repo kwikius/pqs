@@ -23,7 +23,7 @@ namespace pqs{ namespace si{
       inline constexpr bool is_prefixable()
       {
          using unit_exp = typename Exp::ratio;
-         if constexpr ( is_base_quantity_exp<D> && (unit_exp::den == 1) ){
+         if constexpr ( is_base_quantity_exponent<D> && (unit_exp::den == 1) ){
             using extent = get_exponent<D>;
             if constexpr ( 
                ( extent::den == 1 ) && 

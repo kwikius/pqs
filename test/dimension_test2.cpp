@@ -53,9 +53,9 @@ namespace {
    }
 
    template <typename T> 
-   constexpr bool is_base_quantity_exp(T t)
+   constexpr bool is_base_quantity_exponent(T t)
    {
-      return pqs::is_base_quantity_exp<T>;
+      return pqs::is_base_quantity_exponent<T>;
    }
 
    template <typename T> 
@@ -87,7 +87,7 @@ void dimension_test2()
 #endif
 { 
    static_assert(same_no_cr<decltype(length),pqs::exp_length<1> >::value,"");
-   static_assert(is_base_quantity_exp(length),"");
+   static_assert(is_base_quantity_exponent(length),"");
    static_assert(is_dimension(length),"");
 
    static_assert(
@@ -100,10 +100,10 @@ void dimension_test2()
    static_assert(not is_custom_dimension(velocity),"");
 
    static_assert(same_no_cr<decltype(mass),pqs::exp_mass<1> >::value,"");
-   static_assert(is_base_quantity_exp(mass),"");
+   static_assert(is_base_quantity_exponent(mass),"");
    static_assert(is_dimension(mass),"");
 
-   static_assert(is_base_quantity_exp(time_),"");
+   static_assert(is_base_quantity_exponent(time_),"");
    static_assert(is_dimension(time_),"");
 
    static_assert(is_custom_dimension(vertical_velocity),"");
