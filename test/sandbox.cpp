@@ -5,6 +5,9 @@
 
 #include <pqs/imperial/units/length_unit.hpp>
 #include <pqs/imperial/units/speed_unit.hpp>
+
+#include <pqs/si/units/area_unit.hpp>
+#include <pqs/si/units/mass_unit.hpp>
 #include <pqs/imperial/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/speed.hpp>
@@ -18,7 +21,7 @@ namespace {
    void check_prefixable()
    {
       std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<0> >() <<'\n';
-       std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<1,2> >() <<'\n';
+      std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<1>,pqs::exponent10<1,2> >() <<'\n';
       std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<1,2>,pqs::exponent10<0> >() <<'\n';
       std::cout << "prefixable y = "  << pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<0> >() <<'\n';
       std::cout << "prefixable n = "  << pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<2> >() <<'\n';
@@ -28,6 +31,14 @@ namespace {
 
       std::cout << "( should be ms )" << pqs::si::time_unit::ms::name<pqs::charset_utf8> <<'\n';
       std::cout << "( should be s )" << pqs::si::time_unit::s::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be mm^2 )" << pqs::si::area_unit::mm2::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be mm2 )" << pqs::si::area_unit::mm2::name<pqs::charset_ascii> <<'\n';
+
+      std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_ascii> <<'\n';
+
+      std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_ascii> <<'\n';
    }
 }
 

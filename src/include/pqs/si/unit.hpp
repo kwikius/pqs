@@ -29,7 +29,7 @@ namespace pqs{ namespace si{
                ( extent::den == 1 ) && 
                ( extent::num != 0 ) && 
                ( (unit_exp::num % extent::num) == 0) ){
-                auto constexpr prefix = (unit_exp::num / extent::num) - 
+                auto constexpr prefix = (unit_exp::num / extent::num) + 
                    get_base_unit_prefix_offset<get_base_quantity<D> >;
                 return ( prefix == 0 ) || (unit_symbol_prefix<
                    static_cast<int>(prefix),charset_ascii
@@ -51,10 +51,17 @@ namespace pqs{ namespace si{
          using extent = get_exponent<D>;
          using Qb = get_base_quantity<D>;
 
-         auto constexpr prefix = (unit_exp::num / extent::num) - 
+         auto constexpr prefix = (unit_exp::num / extent::num) + 
               get_base_unit_prefix_offset<Qb>;
-         return unit_symbol_prefix<prefix,CharSet> + 
-            get_unprefixed_base_unit_symbol<Qb,CharSet>;
+         if constexpr ( extent::num ==1)
+            return unit_symbol_prefix<prefix,CharSet> + 
+               get_unprefixed_base_unit_symbol<Qb,CharSet>;
+         else
+            return unit_symbol_prefix<prefix,CharSet> + 
+               get_unprefixed_base_unit_symbol<Qb,CharSet> +
+                  detail::superscript_integer<
+                     static_cast<int>(extent::num),CharSet
+                  >;
       }
 
       template <

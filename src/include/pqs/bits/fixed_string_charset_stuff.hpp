@@ -233,9 +233,9 @@ namespace pqs{
          else 
             return signed_superscript_fraction<Exp,charset_ascii>();
       }
-   }
+   }// detail
 
-}
+}// pqs
 
 
 
