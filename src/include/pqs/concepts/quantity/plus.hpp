@@ -27,10 +27,13 @@ namespace pqs{
       struct binary_op_semantic< Lhs, plus, Rhs>{
 
          using result_dimension = std::conditional_t<
-            std::is_same_v< get_dimension<Lhs> , get_dimension<Rhs> >,
-            get_dimension<Lhs>,
-            get_simple_dimension<Lhs>
-         >;
+            std::is_same_v< 
+                  get_dimension<Lhs> , 
+                  get_dimension<Rhs> 
+               >,
+               get_dimension<Lhs>,
+               get_simple_dimension<Lhs>
+            >;
 
          using result_conversion_factor =  
             meta::min<
@@ -38,25 +41,35 @@ namespace pqs{
                get_conversion_factor<Rhs> 
            >;
 
+         using lhs_conversion_factor = 
+            binary_op_t<
+               get_conversion_factor<Lhs>,
+               divides,
+               result_conversion_factor
+            >;
+
+         using rhs_conversion_factor = 
+            binary_op_t<
+               get_conversion_factor<Rhs>,
+               divides,
+               result_conversion_factor
+            >;
+
+         using  result_numeric_type =
+            std::remove_cvref_t<
+               decltype(
+                  std::declval< get_numeric_type<Lhs> >()
+                     * evaluate< lhs_conversion_factor >() +
+                  std::declval< get_numeric_type<Rhs> >()
+                     * evaluate< rhs_conversion_factor >()
+               )
+            >;
+
          using result_unit = 
             basic_unit<
                get_measurement_system<Lhs>,
                result_dimension,
                result_conversion_factor
-            >;
-
-         using result_numeric_type = 
-            std::remove_cvref_t<
-               decltype( 
-                  std::declval<
-                     binary_op_t<
-                        get_numeric_type<Lhs>,
-                        plus,
-                        get_numeric_type<Rhs>
-                     >
-                  >() *
-                  evaluate<result_conversion_factor>() 
-               )
             >;
 
          using result = 
