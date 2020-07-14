@@ -1,7 +1,6 @@
 #ifndef PQS_IMPERIAL_MEASUREMENT_SYSTEM_HPP_INCLUDED
 #define PQS_IMPERIAL_MEASUREMENT_SYSTEM_HPP_INCLUDED
 
-#include <pqs/type_templates/base_unit.hpp>
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/value_functions/get_base_unit_symbol.hpp>
 
@@ -47,7 +46,6 @@ namespace pqs{
       base_time,imperial_measurement_system,Charset
    > = "s";
 
-  
 }
 
 #endif // PQS_IMPERIAL_MEASUREMENT_SYSTEM_HPP_INCLUDED

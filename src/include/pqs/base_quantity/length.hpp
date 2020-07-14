@@ -8,6 +8,10 @@
 #include <pqs/base_quantity/uuids.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
 
+/**
+ * @brief implement length as a model of base_quantity
+*/
+
 namespace pqs{ 
 
    // base quantities are required to be model of meta::identity_function 

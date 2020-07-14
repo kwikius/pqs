@@ -7,6 +7,10 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/meta/eval_if.hpp>
 
+/**
+ * @brief implement intensity as a model of base_quantity
+*/
+
 namespace pqs{ 
 
     struct base_intensity : pqs::base_quantity_of<

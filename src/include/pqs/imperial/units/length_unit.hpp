@@ -4,6 +4,7 @@
 #include <pqs/bits/charset.hpp>
 #include <pqs/imperial/unit.hpp>
 #include <pqs/base_quantity/length.hpp>
+#include <pqs/bits/named.hpp>
 
 namespace pqs{ namespace imperial { namespace length_unit{
 

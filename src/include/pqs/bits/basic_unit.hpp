@@ -4,12 +4,10 @@
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/unit.hpp>
-#include <pqs/bits/named.hpp>
 #include <pqs/bits/basic_unit_base.hpp>
 
-
 /**
- *  basic_unit : encapsulates quantity system, dimension and conversion factor
+ *  basic_unit  model of unit: encapsulates quantity system, dimension and conversion factor
  *  but without the numeric value.
  */
 namespace pqs{ 

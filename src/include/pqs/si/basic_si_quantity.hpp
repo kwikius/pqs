@@ -6,5 +6,4 @@
 #include <pqs/si/measurement_system.hpp>
 #include <pqs/si/unit.hpp>
 
-
 #endif // PQS_SI_BASIC_SI_QUANTITY_HPP_INCLUDED

@@ -11,16 +11,25 @@
 namespace pqs{
 
    namespace detail{
-      struct base_quantity_base_class{};
+      /**
+       * @brief convenience : derive model of base_quantity 
+       * from base_quantity_base_class, for derived to be 
+       * models of base_quantity
+       */
+        struct base_quantity_base_class{};
    }
-   // Id must be meta::totally_ordered
-   // base_quantity_of model of meta identity function
+ 
+   /**
+   * @brief convenience : Also derive from base_quantity_of
+   * to implement model of base_quantity. 
+   * requires Id to be compile time totally ordered
+   */
    template <typename Id>
    struct base_quantity_of : pqs::detail::base_quantity_base_class{
       static_assert(pqs::meta::are_totally_ordered<Id,Id>::value, 
       "base_quantity_of requires Id to be totally ordered at compile time");
-      typedef Id identifier;
-      typedef base_quantity_of type;
+      using identifier = Id;
+      using type = base_quantity_of;
    };
 
    namespace impl{
