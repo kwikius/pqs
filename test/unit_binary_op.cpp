@@ -69,8 +69,8 @@ namespace pqs{
                   get_dimension<UR>
                >
             > &&
-            ( pqs::si::is_proper_si_unit<UL> ||
-              pqs::si::is_proper_si_unit<UR> 
+            ( pqs::si::is_normative_unit<UL> ||
+              pqs::si::is_normative_unit<UR> 
             )
       struct binary_op_impl< UL, pqs::divides, UR> {
          using conversion_factor = 
@@ -146,7 +146,7 @@ namespace {
       R constexpr r = L{} / T{};
 
       static_assert(is_basic_unit<R>);
-      static_assert(si::is_proper_si_unit<R>);
+      static_assert(si::is_normative_unit<R>);
    }
 
 }

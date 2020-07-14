@@ -14,7 +14,7 @@ namespace {
       >;
 
       static_assert( unit<U> );
-      static_assert( si::is_proper_si_unit<U> );
+      static_assert( si::is_normative_unit<U> );
 
       using D = get_dimension<U>;
       static_assert( dimension< D > );

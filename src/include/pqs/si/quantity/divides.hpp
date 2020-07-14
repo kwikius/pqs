@@ -16,8 +16,8 @@ namespace pqs{ namespace impl {
 
    template <quantity Lhs, quantity Rhs> 
       requires si::are_in_si_measurement_system<Lhs,Rhs>
-        && ( si::is_proper_si_unit<get_unit<Lhs>  > ||
-           si::is_proper_si_unit<get_unit<Rhs> > )
+        && ( si::is_normative_unit<get_unit<Lhs>  > ||
+           si::is_normative_unit<get_unit<Rhs> > )
    struct dimensioned_op_semantic< Lhs, divides, Rhs>{
 
       // type to convert Lhs to before calc

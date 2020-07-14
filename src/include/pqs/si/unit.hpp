@@ -110,7 +110,7 @@ namespace pqs{ namespace si{
       namespace impl{
 
          template <typename U>
-         struct is_proper_si_unit_impl 
+         struct is_normative_unit_impl 
          :  std::is_base_of<
                pqs::si::impl::si_unit_base,
                U
@@ -127,8 +127,8 @@ namespace pqs{ namespace si{
       }
 
       template <typename  U>
-      constexpr inline bool is_proper_si_unit = 
-      pqs::si::impl::is_proper_si_unit_impl<
+      constexpr inline bool is_normative_unit = 
+      pqs::si::impl::is_normative_unit_impl<
          std::remove_cvref_t<U> 
       >::value;
 

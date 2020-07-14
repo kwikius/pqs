@@ -71,7 +71,7 @@ namespace {
 
       using U = pqs::get_unit<decltype(q)>;
 
-      QUAN_CHECK(( ! pqs::si::is_proper_si_unit<U> ))
+      QUAN_CHECK(( ! pqs::si::is_normative_unit<U> ))
          
       using D = pqs::get_dimension<decltype(q)>;
 
@@ -95,10 +95,10 @@ namespace {
    void basic_quantity_add_test()
    {
       auto q1 = pqs::si::length::m<>{1};
-      QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q1)> > ))
+      QUAN_CHECK(( pqs::si::is_normative_unit<pqs::get_unit<decltype(q1)> > ))
 
       auto q2 = pqs::si::length::mm<>{321};
-      QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q1)> > ))
+      QUAN_CHECK(( pqs::si::is_normative_unit<pqs::get_unit<decltype(q1)> > ))
 
       auto q3 = q1 + q2;
       QUAN_CHECK( (get_numeric_value(q3) == 1321))
@@ -107,7 +107,7 @@ namespace {
 
       auto q4 = pqs::si::length::ft<>{6};
       auto q5 = q1 + q4;
-      QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q5)> > ))
+      QUAN_CHECK(( pqs::si::is_normative_unit<pqs::get_unit<decltype(q5)> > ))
       std::cout << "q5 numeric value = " << get_numeric_value(q5) << '\n';
 
       using Cf5 = pqs::get_conversion_factor<decltype(q5)>;
@@ -141,7 +141,7 @@ namespace {
 
       using U1 = pqs::get_unit<decltype(q1)>;
 
-      QUAN_CHECK(( pqs::si::is_proper_si_unit<U1> ))
+      QUAN_CHECK(( pqs::si::is_normative_unit<U1> ))
 
       auto q3 = q1 * q2;
       QUAN_CHECK( (get_numeric_value(q3) == 3210))
@@ -159,10 +159,10 @@ namespace {
 
       pqs::si::length::ft<> q5 = q1;
       using U5 = pqs::get_unit<decltype(q5)>;
-      QUAN_CHECK(( not pqs::si::is_proper_si_unit<U5> ))
+      QUAN_CHECK(( not pqs::si::is_normative_unit<U5> ))
 
       auto q6 = q5 * q2; 
-      QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q6)> > ))
+      QUAN_CHECK(( pqs::si::is_normative_unit<pqs::get_unit<decltype(q6)> > ))
       std::cout << "result of mux1 = "  << get_numeric_value(q6) <<'\n';  
    }
 
@@ -183,10 +183,10 @@ namespace {
 
       pqs::si::time::min<> q6 = q4;
       std::cout << "q6 cf = " << get_conversion_factor<decltype(q6)>() << '\n';
-      QUAN_CHECK(( not pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q6)> > ))
+      QUAN_CHECK(( not pqs::si::is_normative_unit<pqs::get_unit<decltype(q6)> > ))
 
       auto q7 = q1 / q6;
-      QUAN_CHECK(( pqs::si::is_proper_si_unit<pqs::get_unit<decltype(q7)> > ))
+      QUAN_CHECK(( pqs::si::is_normative_unit<pqs::get_unit<decltype(q7)> > ))
       std::cout << "q7 cf = " << get_conversion_factor<decltype(q7)>() << '\n';
       std::cout << "q7 = "  << get_numeric_value(q7) <<'\n';
       QUAN_CHECK(( get_numeric_value(q7) == 0.02 ))

@@ -21,8 +21,8 @@ namespace pqs { namespace impl{
 
    
       template < quantity Lhs, quantity Rhs> 
-         requires ( pqs::si::is_proper_si_unit<get_unit<Lhs> > ||
-              pqs::si::is_proper_si_unit<get_unit<Rhs> > )
+         requires ( pqs::si::is_normative_unit<get_unit<Lhs> > ||
+              pqs::si::is_normative_unit<get_unit<Rhs> > )
          
       struct binary_op_semantic< Lhs, plus, Rhs>{
          //TODO here want to grab same dim if poss
