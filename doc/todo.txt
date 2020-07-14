@@ -2,10 +2,5 @@
 rename is_base_quantity_exp to is_base_quantity_exponent
 
 
-rename 
-si::proper_unit to one of
+rename si::proper_unit to si::normative_unit
 
-si::normative_unit
-si::official_unit
-si::regular_unit
-si::standard_unit
