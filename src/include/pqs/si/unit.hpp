@@ -9,7 +9,7 @@ namespace pqs{ namespace si{
 
    /**
     * @brief derive si_unit_base from basic_unit_base
-    *  to make si::proper_unit a model of pqs::unit
+    *  to make si::normative_unit a model of pqs::unit
     */
       namespace impl{
          struct si_unit_base : pqs::impl::basic_unit_base{};
@@ -68,9 +68,9 @@ namespace pqs{ namespace si{
          dimension D, 
          typename Exp = exponent10<0> 
       >
-      struct proper_unit : pqs::si::impl::si_unit_base{
+      struct normative_unit : pqs::si::impl::si_unit_base{
 
-         using type = proper_unit;
+         using type = normative_unit;
          using quantity_system = si_measurement_system;
          using dimension = std::remove_cvref_t<D>;
          using conversion_factor = 
@@ -83,9 +83,9 @@ namespace pqs{ namespace si{
          typename Exp
       >
          requires is_prefixable<D,Exp>()
-      struct proper_unit<D,Exp> : pqs::si::impl::si_unit_base{
+      struct normative_unit<D,Exp> : pqs::si::impl::si_unit_base{
 
-         using type = proper_unit;
+         using type = normative_unit;
          using quantity_system = si_measurement_system;
          using dimension = std::remove_cvref_t<D>;
          using conversion_factor = 
@@ -97,7 +97,7 @@ namespace pqs{ namespace si{
       };
 
       template <base_quantity Qb>
-      struct base_unit : proper_unit<
+      struct base_unit : normative_unit<
           typename make_base_quantity_exp<Qb,std::ratio<1> >::type,
           exponent10<0>
       >{
@@ -117,8 +117,8 @@ namespace pqs{ namespace si{
             >{};
 
          template <pqs::unit U>
-         struct make_proper_si_unit_impl 
-         : pqs::si::proper_unit< 
+         struct make_normative_unit_impl 
+         : pqs::si::normative_unit< 
             pqs::get_dimension<U>,
             typename pqs::get_conversion_factor<
                U
@@ -133,8 +133,8 @@ namespace pqs{ namespace si{
       >::value;
 
       template <typename  U>
-      using make_proper_si_unit = 
-      typename impl::make_proper_si_unit_impl<
+      using make_normative_unit = 
+      typename impl::make_normative_unit_impl<
          std::remove_cvref_t<U>
       >::type;
    

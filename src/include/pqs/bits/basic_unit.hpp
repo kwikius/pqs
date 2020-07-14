@@ -5,16 +5,14 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/unit.hpp>
 #include <pqs/bits/named.hpp>
+#include <pqs/bits/basic_unit_base.hpp>
+
 
 /**
  *  basic_unit : encapsulates quantity system, dimension and conversion factor
  *  but without the numeric value.
  */
 namespace pqs{ 
-
-   namespace impl{
-      struct basic_unit_base{};
-   }
 
    template <
       typename MeasurementSystem,

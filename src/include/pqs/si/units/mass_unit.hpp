@@ -8,7 +8,7 @@ namespace pqs{ namespace si { namespace mass_unit{
 
    struct kg : si::base_unit<base_mass>{};
 
-   struct g : si::proper_unit<exp_mass<1>, exponent10<-3> >{};
+   struct g : si::normative_unit<exp_mass<1>, exponent10<-3> >{};
 
 }}} // pqs::si::mass_unit
 

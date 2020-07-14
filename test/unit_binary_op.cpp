@@ -91,7 +91,7 @@ namespace pqs{
                dimension,
                conversion_factor
             >;
-         using type = si::make_proper_si_unit<basic_type>;
+         using type = si::make_normative_unit<basic_type>;
       };
    }
    
@@ -130,7 +130,7 @@ namespace {
 
    void si_unit_div_test()
    {
-      using L = si::proper_unit<
+      using L = si::normative_unit<
          decltype(abstract_length<> ),
          exponent10<-6>
       >;

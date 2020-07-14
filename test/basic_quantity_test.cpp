@@ -148,7 +148,7 @@ namespace {
       std::cout << "result of mux = "  << get_numeric_value(q3) <<'\n';
 
       pqs::basic_quantity<
-         pqs::si::proper_unit<
+         pqs::si::normative_unit<
             pqs::exp_length<-1>,
             pqs::exponent10<-1>
          >

@@ -1,7 +1,8 @@
-#ifndef PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
-#define PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
+#ifndef PQS_BITS_DIMENSION_TO_FIXED_STRING_HPP_INCLUDED
+#define PQS_BITS_DIMENSION_TO_FIXED_STRING_HPP_INCLUDED
 
-#include <pqs/concepts/quantity.hpp>
+#include <pqs/concepts/dimension.hpp>
+
 #include <pqs/value_functions/get_base_unit_symbol.hpp>
 #include <pqs/bits/fixed_string_charset_stuff.hpp>
 
@@ -155,6 +156,7 @@ namespace pqs{
 
    }// detail
 
+#if 0
    /**
     * @brief oveload for unit
     */
@@ -191,7 +193,7 @@ namespace pqs{
    {
       return dimension_to_fixed_string<T,CharSet>();
    }
-
+#endif
 } // pqs
 
-#endif // PQS_OPERATIONS_DIMENSION_AS_FIXED_STRING_HPP_INCLUDED
+#endif // PQS_BITS_DIMENSION_TO_FIXED_STRING_HPP_INCLUDED

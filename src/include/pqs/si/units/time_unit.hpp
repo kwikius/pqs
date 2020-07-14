@@ -16,7 +16,7 @@ namespace pqs{ namespace si { namespace time_unit{
 
    struct s : si::base_unit<base_time>{};
 
-   struct ms : si::proper_unit<exp_time<1>, exponent10<-3> >{};
+   struct ms : si::normative_unit<exp_time<1>, exponent10<-3> >{};
 
    struct min : named<"min"> ,
       conversion< 

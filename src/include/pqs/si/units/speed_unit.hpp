@@ -7,7 +7,7 @@
 
 namespace pqs{ namespace si { namespace speed_unit{
 
-   struct m_per_s : pqs::si::proper_unit<
+   struct m_per_s : pqs::si::normative_unit<
       decltype( abstract_length<> / abstract_time<>)
    >{};
 

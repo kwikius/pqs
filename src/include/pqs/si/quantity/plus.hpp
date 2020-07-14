@@ -27,7 +27,7 @@ namespace pqs { namespace impl{
       struct binary_op_semantic< Lhs, plus, Rhs>{
          //TODO here want to grab same dim if poss
          using result_unit = 
-            pqs::si::make_proper_si_unit<
+            pqs::si::make_normative_unit<
                std::conditional_t<
                   pqs::binary_op_v<
                      get_conversion_factor<Lhs>,

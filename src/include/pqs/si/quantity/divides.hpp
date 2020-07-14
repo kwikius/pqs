@@ -22,13 +22,13 @@ namespace pqs{ namespace impl {
 
       // type to convert Lhs to before calc
       using lhs_type = pqs::basic_quantity<
-         si::make_proper_si_unit<get_unit<Lhs> >,
+         si::make_normative_unit<get_unit<Lhs> >,
          get_numeric_type<Lhs>
       >;
 
       // type to convert Rhs to before calc
       using rhs_type = pqs::basic_quantity<
-         si::make_proper_si_unit<get_unit<Rhs> >,
+         si::make_normative_unit<get_unit<Rhs> >,
          get_numeric_type<Rhs>
       >;
 
@@ -46,7 +46,7 @@ namespace pqs{ namespace impl {
             get_conversion_factor<rhs_type>
          >;
 
-      using result_unit = si::proper_unit<
+      using result_unit = si::normative_unit<
             result_dimension,
             typename result_conversion_factor::exponent
          >;

@@ -6,10 +6,10 @@
 
 namespace pqs{ namespace si { namespace reciprocal_area_unit{
 
-   struct per_m2 : si::proper_unit<exp_length<-2>,exponent10<0> >{};
-   struct per_cm2 : si::proper_unit<exp_length<-2>, exponent10<4> >{};
-   struct per_mm2 : si::proper_unit<exp_length<-2>, exponent10<6> >{};
-   struct per_km2 : si::proper_unit<exp_length<-2>, exponent10<-6> >{};
+   struct per_m2 : si::normative_unit<exp_length<-2>,exponent10<0> >{};
+   struct per_cm2 : si::normative_unit<exp_length<-2>, exponent10<4> >{};
+   struct per_mm2 : si::normative_unit<exp_length<-2>, exponent10<6> >{};
+   struct per_km2 : si::normative_unit<exp_length<-2>, exponent10<-6> >{};
 
 #if 0
 // todo

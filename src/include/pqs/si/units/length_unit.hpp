@@ -15,11 +15,11 @@ namespace pqs{ namespace si { namespace length_unit{
 
    struct m : si::base_unit<base_length>{};
 
-   struct mm : si::proper_unit<exp_length<1>, exponent10<-3> >{};
+   struct mm : si::normative_unit<exp_length<1>, exponent10<-3> >{};
 
-   struct cm : si::proper_unit<exp_length<1>, exponent10<-2> >{};
+   struct cm : si::normative_unit<exp_length<1>, exponent10<-2> >{};
 
-   struct km : si::proper_unit<exp_length<1>, exponent10<3> >{};
+   struct km : si::normative_unit<exp_length<1>, exponent10<3> >{};
 
    struct ft : named<"ft"> ,
       conversion< 

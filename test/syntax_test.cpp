@@ -31,7 +31,7 @@ void custom_test2()
    {} ;
 
    basic_quantity< 
-      si::proper_unit<abstract_velocity,exponent10<0> >, 
+      si::normative_unit<abstract_velocity,exponent10<0> >, 
       double
    > v2;
 
@@ -46,7 +46,7 @@ void custom_test2()
   // static_assert(is_quantity_legacy<decltype(v2)>::value,"");
 
    using u = get_unit<decltype(v2)>;
-   static_assert(std::is_same_v<u, si::proper_unit<abstract_velocity,exponent10<0> > >,"");
+   static_assert(std::is_same_v<u, si::normative_unit<abstract_velocity,exponent10<0> > >,"");
    using s = get_measurement_system_legacy<u>::type;
    static_assert( std::is_same_v<s,si_measurement_system>,"");
    using cf = get_conversion_factor<u>;
@@ -91,7 +91,7 @@ void quantity_syntax_test()
 
    // construct a quantity by composing dimension
    auto qd = basic_quantity<
-      si::proper_unit<
+      si::normative_unit<
          decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
          exponent10<-3>
       >
@@ -106,7 +106,7 @@ void quantity_syntax_test()
 
    // construct a si quantity from raw ingredients
    auto qe = basic_quantity<
-      si::proper_unit<
+      si::normative_unit<
          dimension_list<
             exp_length<1>,
             exp_time<-1>,

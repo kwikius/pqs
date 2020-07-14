@@ -1,6 +1,7 @@
 #ifndef PQS_BITS_FIXED_STRING_STUFF_HPP_INCLUDED
 #define PQS_BITS_FIXED_STRING_STUFF_HPP_INCLUDED
 
+#include <pqs/bits/undefined_arg.hpp>
 #include <pqs/bits/charset.hpp>
 #include <pqs/bits/fixed_string.hpp>
 
@@ -234,6 +235,17 @@ namespace pqs{
             return signed_superscript_fraction<Exp,charset_ascii>();
       }
    }// detail
+
+   template <typename Op, typename CharSet>
+   inline constexpr auto op_output_symbol = pqs::undefined_arg<Op,CharSet>();
+
+   template <typename CharSet>
+   inline constexpr auto op_output_symbol<times, CharSet>
+     = detail::multiplication_dot<CharSet>;
+
+   template <typename CharSet>
+   inline constexpr auto op_output_symbol<divides, CharSet>
+     = detail::fraction_slash<CharSet>;
 
 }// pqs
 

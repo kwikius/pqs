@@ -1,7 +1,7 @@
 
 #include <pqs/type_templates/conversion_factor.hpp>
 
-#include <pqs/bits/unit_to_fixed_string.hpp>
+#include <pqs/bits/quantity_to_fixed_string.hpp>
 
 #include <pqs/imperial/units/length_unit.hpp>
 #include <pqs/imperial/units/speed_unit.hpp>
@@ -21,6 +21,7 @@
 
 #include <iostream>
 
+#if 0
 namespace {
 
    void check_prefixable()
@@ -65,6 +66,7 @@ namespace {
       std::cout << "( should be km^-2 )" << pqs::si::reciprocal_area_unit::per_km2::name<pqs::charset_utf8> <<'\n';
    }
 }
+#endif
 
 #if defined PQS_STANDALONE
 int errors =0;
@@ -74,7 +76,7 @@ void sandbox()
 #endif
 {
 
-   check_prefixable();
+  // check_prefixable();
    namespace fps = pqs::imperial;
    
    auto q1 = fps::speed::mi_per_hr<>{10};
