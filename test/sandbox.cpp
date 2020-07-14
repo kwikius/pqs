@@ -8,12 +8,17 @@
 
 #include <pqs/si/units/area_unit.hpp>
 #include <pqs/si/units/mass_unit.hpp>
+#include <pqs/si/units/reciprocal_length_unit.hpp>
+#include <pqs/si/units/reciprocal_mass_unit.hpp>
+#include <pqs/si/units/reciprocal_mass2_unit.hpp>
+#include <pqs/si/units/reciprocal_area_unit.hpp>
 #include <pqs/imperial/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/speed.hpp>
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/si/time.hpp>
 #include <pqs/si/speed.hpp>
+
 #include <iostream>
 
 namespace {
@@ -39,6 +44,25 @@ namespace {
 
       std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_utf8> <<'\n';
       std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_ascii> <<'\n';
+
+      std::cout << "( should be m^-1 )" << pqs::si::reciprocal_length_unit::per_m::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be mm^-1 )" << pqs::si::reciprocal_length_unit::per_mm::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be km^-1 )" << pqs::si::reciprocal_length_unit::per_km::name<pqs::charset_utf8> <<'\n';
+
+      std::cout << "( should be kg^-1 )" << pqs::si::reciprocal_mass_unit::per_kg::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be g^-1 )" << pqs::si::reciprocal_mass_unit::per_g::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be mg^-1 )" << pqs::si::reciprocal_mass_unit::per_mg::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be ug^-1 )" << pqs::si::reciprocal_mass_unit::per_ug::name<pqs::charset_utf8> <<'\n';
+
+      std::cout << "( should be kg^-2 )" << pqs::si::reciprocal_mass2_unit::per_kg2::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be g^-2 )" << pqs::si::reciprocal_mass2_unit::per_g2::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be mg^-2 )" << pqs::si::reciprocal_mass2_unit::per_mg2::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be ug^-2 )" << pqs::si::reciprocal_mass2_unit::per_ug2::name<pqs::charset_utf8> <<'\n';
+
+      std::cout << "( should be m^-2 )" << pqs::si::reciprocal_area_unit::per_m2::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be mm^-2 )" << pqs::si::reciprocal_area_unit::per_mm2::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be cm^-2 )" << pqs::si::reciprocal_area_unit::per_cm2::name<pqs::charset_utf8> <<'\n';
+      std::cout << "( should be km^-2 )" << pqs::si::reciprocal_area_unit::per_km2::name<pqs::charset_utf8> <<'\n';
    }
 }
 
