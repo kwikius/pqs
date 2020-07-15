@@ -16,6 +16,9 @@ namespace pqs{ namespace impl {
    template <typename Lhs, typename Op, typename Rhs>
    struct dimensionless_op_semantic;
 
+   template <typename Lhs, typename Op, typename Rhs>
+   struct scalar_op_semantic;
+
 }} 
 
 #endif // PQS_CONCEPTS_BINARY_OP_SEMANTIC_HPP_INCLUDED

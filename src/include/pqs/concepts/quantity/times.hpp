@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
 
 #include <pqs/concepts/quantity/definition.hpp>
+#include <pqs/concepts/dimensionless_quantity.hpp>
 #include <pqs/concepts/binary_op_semantic.hpp>
 #include <pqs/instance/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
@@ -13,10 +14,13 @@
    * for dimensioned and dimensionless results
    */
 
-namespace pqs{
+namespace pqs{ 
+   namespace impl{
 
-    namespace impl {
-
+      /**
+       * @brief default multiplication semantic for when
+       * the result is dimensioned
+       */ 
       template < quantity Lhs, quantity Rhs> 
       struct dimensioned_op_semantic< Lhs, times, Rhs>{
 
@@ -63,6 +67,11 @@ namespace pqs{
          }
       };
 
+      /**
+       * @brief default multiplication semantic for when
+       * the result is dimensionless
+       */ 
+
       template <quantity Lhs, quantity Rhs> 
       struct dimensionless_op_semantic<Lhs,times,Rhs>{
 
@@ -95,7 +104,61 @@ namespace pqs{
             dimensioned_op_semantic<Lhs,times,Rhs>,
             dimensionless_op_semantic<Lhs,times,Rhs>
         >{};
-    }// impl
+
+      template <quantity Lhs, dimensionless_quantity Rhs>
+      struct scalar_op_semantic<Lhs, times,Rhs>
+      {
+         using result = 
+            basic_quantity <
+               get_unit<Lhs>,
+               binary_op_t<
+                  get_numeric_type<Lhs>, times, Rhs
+               >
+            >;
+
+         static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         {
+            return result{get_numeric_value(lhs) * rhs};
+         }
+      };
+
+      template <dimensionless_quantity Lhs, quantity Rhs>
+      struct scalar_op_semantic<Lhs, times,Rhs>
+      {
+         using result = 
+            basic_quantity <
+               get_unit<Rhs>,
+               binary_op_t<
+                  Lhs,times,get_numeric_type<Rhs>
+               >
+            >;
+
+         static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         {
+            return result{lhs * get_numeric_value(rhs)};
+         }
+      };
+   }// impl
+
+   template <quantity Lhs, dimensionless_quantity Rhs>
+      requires
+         provide_operator_times<Lhs,Rhs>         
+   inline constexpr auto operator*( Lhs const & lhs, Rhs const & rhs)
+   {
+      return impl::scalar_op_semantic<
+         Lhs, times, Rhs
+      >::apply( lhs, rhs);
+   }
+
+   template <dimensionless_quantity Lhs, quantity Rhs>
+      requires
+         provide_operator_times<Lhs,Rhs>         
+   inline constexpr auto operator*( Lhs const & lhs, Rhs const & rhs)
+   {
+      return impl::scalar_op_semantic<
+         Lhs, times, Rhs
+      >::apply( lhs, rhs);
+   }
 
    template <quantity Lhs, quantity Rhs>
       requires
@@ -107,6 +170,8 @@ namespace pqs{
          Lhs, times, Rhs
       >::apply( lhs, rhs);
    }
+
+
 } // pqs
 
 #endif // PQS_CONCEPTS_QUANTITY_TIMES_QUANTITY_HPP_INCLUDED

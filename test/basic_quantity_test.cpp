@@ -6,7 +6,9 @@
 #include <pqs/si/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/time.hpp>
+#include <pqs/bits/quantity_output.hpp>
 
+#include <iomanip>
 #include <iostream>
 
 struct dummy_system{ 
@@ -192,6 +194,20 @@ namespace {
       QUAN_CHECK(( get_numeric_value(q7) == 0.02 ))
    }
 
+   void scalar_multiply_test()
+   {
+      auto q1 = pqs::si::length::m<>{10};
+      auto q2 = pqs::si::length::mm<>{10000};
+
+      auto q1a = q1 * 2.0;
+      QUAN_CHECK(( get_numeric_value(q1a) == 20 ))
+
+      auto q2a = 3.0 * q2;
+      QUAN_CHECK(( get_numeric_value(q2a) == 30000 ))
+      static_assert(std::is_same_v<decltype(q1),decltype(q1a)>);
+      static_assert(std::is_same_v<decltype(q2),decltype(q2a)>);
+   }
+
    using namespace pqs;
 
    // wiki example
@@ -214,6 +230,21 @@ namespace {
             get_numeric_value(q) * evaluate<get_conversion_factor<Q> >() 
       );
    }
+
+   void output_test()
+   {
+      auto constexpr q1 = si::length::m<>{100};
+      si::length::ft<> constexpr q2 = q1;
+
+      std::cout << std::setprecision(7);
+      std::cout << "****************************\n";
+      output<pqs::charset_utf8>( std::cout, q1);
+      std::cout << " == " ;
+      output< pqs::charset_utf8>( std::cout, q2);
+      std::cout  << '\n';
+      std::cout << "****************************\n";
+      
+   }
 }
 
 void basic_quantity_test()
@@ -224,4 +255,6 @@ void basic_quantity_test()
    conversion_factor_semantic_test();
    basic_quantity_multiply_test();
    basic_quantity_divide_test();
+   output_test();
+   scalar_multiply_test();
 }

@@ -228,10 +228,10 @@ namespace {
 
    void subtract_test_int_r_r()
    {
-      typedef exp_length<3> tl;
-      typedef exp_length<1,2> tr;
-      typedef binary_op<tl,divides,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<3>;
+      using tr = exp_length<1,2>;
+      using result_type = binary_op_t<tl,divides,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 5);
       static_assert(ratio::den == 2);
       static_assert(std::is_same_v<result_type,exp_length<5,2> >);
@@ -239,10 +239,10 @@ namespace {
 
    void subtract_test_r_int_r()
    {
-      typedef exp_length<1,2> tl;
-      typedef exp_length<3> tr;
-      typedef binary_op<tl,divides,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<1,2>;
+      using tr = exp_length<3>;
+      using result_type = binary_op_t<tl,divides,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == -5);
       static_assert(ratio::den == 2);
       static_assert( std::is_same_v<result_type,exp_length<-5,2> > );
@@ -250,10 +250,10 @@ namespace {
 
    void subtract_test_r_r_r()
    {
-      typedef exp_length<1,2> tl;
-      typedef exp_length<1,3> tr;
-      typedef binary_op<tl,divides,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<1,2>;
+      using tr = exp_length<1,3>;
+      using result_type = binary_op_t<tl,divides,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 1);
       static_assert(ratio::den == 6);
       static_assert(std::is_same_v<result_type,exp_length<1,6> >);
@@ -272,20 +272,19 @@ namespace {
 
    void int_negate_test()
    {
-      typedef exp_length<-5> tl;
-      typedef pqs::unary_op<pqs::meta::reciprocal,tl>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
-      // int x = ratio{};
-       static_assert(ratio::num == 5);
-       static_assert(ratio::den == 1);
-       static_assert(std::is_same_v<result_type,exp_length<5> >);
+      using tl = exp_length<-5>;
+      using result_type = pqs::unary_op_t<pqs::meta::reciprocal,tl>;
+      using ratio = pqs::get_exponent<result_type>;
+      static_assert(ratio::num == 5);
+      static_assert(ratio::den == 1);
+      static_assert(std::is_same_v<result_type,exp_length<5> >);
    }
 
    void r_negate_test()
    {
-      typedef exp_length<5,7> tl;
-      typedef pqs::unary_op<pqs::meta::reciprocal,tl>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<5,7>;
+      using result_type = pqs::unary_op_t<pqs::meta::reciprocal,tl>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == -5);
       static_assert(ratio::den == 7);
       static_assert(std::is_same_v<result_type,exp_length<-5,7> > );

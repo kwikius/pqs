@@ -68,13 +68,13 @@ namespace pqs{
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
-    template <quantity Lhs, quantity Rhs>
+    template <typename Lhs, typename Rhs>
     inline constexpr bool provide_operator_times = 
     impl::provide_operator_times_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
-    template <quantity Lhs, quantity Rhs>
+    template <typename Lhs, typename Rhs>
     inline constexpr bool provide_operator_divides = 
     impl::provide_operator_divides_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
