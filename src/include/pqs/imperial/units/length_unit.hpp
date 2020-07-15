@@ -6,7 +6,7 @@
 #include <pqs/base_quantity/length.hpp>
 #include <pqs/bits/named.hpp>
 
-namespace pqs{ namespace imperial { namespace length_unit{
+namespace pqs::imperial::length_unit{
 
    struct ft : pqs::base_unit<
       base_length,imperial_measurement_system
@@ -30,7 +30,7 @@ namespace pqs{ namespace imperial { namespace length_unit{
       decltype( yd{} * std::ratio<1760>{} ) 
    {};
 
-}}} // pqs::si::length_unit
+} // pqs::si::length_unit
 
 
 #endif // PQS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
