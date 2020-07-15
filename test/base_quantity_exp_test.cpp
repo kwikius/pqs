@@ -2,69 +2,114 @@
 #include "test.hpp"
 
 #include <pqs/bits/base_quantities.hpp>
-#include <pqs/base_quantity/length.hpp>
-#include <pqs/base_quantity/time.hpp>
-#include <pqs/base_quantity/mass.hpp>
 
 using pqs::exp_length;
 using pqs::exp_time;
 using pqs::exp_mass;
 using pqs::binary_op;
+using pqs::binary_op_t;
 using pqs::times;
 using pqs::divides;
 using pqs::to_power;
 
 namespace {
 
-   void same_id_test()
+  /**
+   * @brief Test is_base_quantity_exponent on exponents of all SI base_quantities
+   *
+   */
+   void is_base_quantity_exp_test()
    {
-      static_assert( not pqs::is_base_quantity_exponent<int> );
+       static_assert( not pqs::is_base_quantity_exponent<int> );
 
-      using tl = exp_length<2> ;
+       static_assert( not pqs::is_base_quantity_exponent<pqs::base_length> );
+
+       static_assert( pqs::is_base_quantity_exponent< exp_length<-1> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_length<1> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_length<2> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_length<-2,3> > );
+
+       static_assert( pqs::is_base_quantity_exponent< exp_mass<-1> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_mass<1> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_mass<2> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_mass<-2,3> > );
+
+       static_assert( pqs::is_base_quantity_exponent< exp_time<-1> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_time<1> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_time<2> > );
+       static_assert( pqs::is_base_quantity_exponent< exp_time<-2,3> > );
+
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<-1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<2> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<-2,3> > );
+
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<-1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<2> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<-2,3> > );
+
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<-1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<2> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<-2,3> > );
+
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<-1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<1> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<2> > );
+       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<-2,3> > );
+   }
+
+  /**
+   * @brief Check of_same_base_quantity functionality
+   */
+   void of_same_base_quantity_test()
+   {
+      
+      using tl = exp_length<-2> ;
       using tr = exp_length<3> ;
+      using tx = exp_length<3,2>;
 
-      static_assert( pqs::is_base_quantity_exponent<tl> );
-      static_assert( pqs::is_base_quantity_exponent<tr> );
+      using ty = exp_time<2>;
+
       static_assert( pqs::of_same_base_quantity<tl,tr> );
       static_assert( pqs::of_same_base_quantity<tr,tl> );
+      static_assert( pqs::of_same_base_quantity<tl,tx> );
+      static_assert( not pqs::of_same_base_quantity<tl,ty> ); 
+   }
 
+   /**
+    *  @brief test get_base_quantity functionality
+    */
+   void get_base_quantity_test()
+   {
+      using tl = exp_length<2> ;
       using base_type1 = pqs::get_base_quantity<tl> ;
       static_assert( pqs::is_base_quantity<base_type1>  );
       static_assert( std::is_same_v<base_type1,pqs::base_length> );
-
-      using tx = exp_length<3,2>;
-      static_assert(pqs::is_base_quantity_exponent<tx> );
-      static_assert( pqs::of_same_base_quantity<tl,tx> );
-
-      using ty = exp_time<2>;
-      static_assert( pqs::is_base_quantity_exponent<ty> );
-      static_assert( not pqs::of_same_base_quantity<tl,ty> ); 
-
-      using base_type1a = pqs::get_base_quantity<tl>;
-      static_assert( pqs::is_base_quantity<base_type1a> );
-      static_assert( std::is_same_v<base_type1,pqs::base_length> );
    }
 
+   /**
+    *  @brief add base_quantity_exponent tests
+    */ 
    void add_test_int_int_int()
    {
       using tl = exp_length<2>;
       using tr = exp_length<3>;
-
-      static_assert(pqs::impl::detail::is_std_ratio<std::ratio<5,1> >::value,"odd");
- 
-      using result_type = pqs::binary_op_t<tl,times,tr> ;
+      static_assert(pqs::impl::detail::is_std_ratio<std::ratio<5,1> >::value);
+      using result_type = binary_op_t<tl,times,tr> ;
       using ratio = pqs::get_exponent<result_type>;
 
       static_assert(ratio::num == 5);
       static_assert(ratio::den == 1);
-      static_assert( std::is_same_v<result_type,exp_length<5> > );
+      static_assert(std::is_same_v<result_type,exp_length<5> > );
    }
 
    void add_test_r_int_int()
    {
       using tl = exp_length<20,10>;
       using tr = exp_length<3>;
-      using result_type = pqs::binary_op_t<tl,times,tr>;
+      using result_type = binary_op_t<tl,times,tr>;
       using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 5);
       static_assert(ratio::den == 1);
@@ -75,7 +120,7 @@ namespace {
    {
       using tl = exp_length<3>;
       using tr = exp_length<20,10> ;
-      using result_type = pqs::binary_op_t<tl,times,tr>;
+      using result_type = binary_op_t<tl,times,tr>;
       using ratio = pqs::get_exponent<result_type> ;
       static_assert(ratio::num == 5);
       static_assert(ratio::den == 1);
@@ -86,45 +131,44 @@ namespace {
    {
       using tl = exp_length<1,2>;
       using tr = exp_length<10,20>;
-      using result_type = pqs::binary_op_t<tl,times,tr>;
+      using result_type = binary_op_t<tl,times,tr>;
       using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 1);
       static_assert(ratio::den == 1);
       static_assert(std::is_same_v<result_type,exp_length<1> >); 
-
    }
 
    void add_test_int_r_r()
    {
-      typedef exp_length<3> tl;
-      typedef exp_length<1,2> tr;
-      typedef binary_op<tl,times,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<3>;
+      using tr = exp_length<1,2>;
+      using result_type = binary_op_t<tl,times,tr>;
+      using ratio =  pqs::get_exponent<result_type>;
       static_assert(ratio::num == 7);
       static_assert(ratio::den == 2);
-      static_assert(std::is_same<result_type,exp_length<7,2> >::value); 
+      static_assert(std::is_same_v<result_type,exp_length<7,2> >); 
    }
 
    void add_test_r_int_r()
    {
-      typedef exp_length<1,2> tl;
-      typedef exp_length<3> tr;
-      typedef binary_op<tl,times,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<1,2>;
+      using tr = exp_length<3>;
+      using result_type = binary_op_t<tl,times,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 7);
       static_assert(ratio::den == 2);
-      static_assert( std::is_same<result_type,exp_length<7,2> >::value);
+      static_assert(std::is_same_v<result_type,exp_length<7,2> >);
    }
 
    void add_test_r_r_r()
    {
-      typedef exp_length<1,2> tl;
-      typedef exp_length<1,3> tr;
-      typedef binary_op<tl,times,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<1,2>;
+      using tr = exp_length<1,3>;
+      using result_type = binary_op_t<tl,times,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 5);
       static_assert(ratio::den == 6);
-      static_assert( std::is_same<result_type,exp_length<5,6> >::value); 
+      static_assert(std::is_same_v<result_type,exp_length<5,6> >); 
    }
 
    void add_test()
@@ -140,10 +184,10 @@ namespace {
 
    void subtract_test_int_int_int()
    {
-      typedef exp_length<2> tl;
-      typedef exp_length<3> tr;
-      typedef binary_op<tl,divides,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<2>;
+      using tr = exp_length<3>;
+      using result_type = binary_op_t<tl,divides,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == -1);
       static_assert(ratio::den == 1);
       static_assert(std::is_same_v<result_type,exp_length<-1> >) ;
@@ -151,10 +195,10 @@ namespace {
 
   void subtract_test_r_int_int()
    {
-      typedef exp_length<20,10> tl;
-      typedef exp_length<3> tr;
-      typedef binary_op<tl,divides,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<20,10>;
+      using tr = exp_length<3>;
+      using result_type = binary_op_t<tl,divides,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == -1);
       static_assert(ratio::den == 1);
       static_assert(std::is_same_v<result_type,exp_length<-1> >); 
@@ -162,10 +206,10 @@ namespace {
 
    void subtract_test_int_r_int()
    {
-      typedef exp_length<3> tl;
-      typedef exp_length<20,10> tr;
-      typedef binary_op<tl,divides,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<3>;
+      using tr = exp_length<20,10>;
+      using result_type = binary_op_t<tl,divides,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 1);
       static_assert(ratio::den == 1);
       static_assert(std::is_same_v<result_type,exp_length<1> >); 
@@ -173,10 +217,10 @@ namespace {
 
    void subtract_test_r_r_int()
    {
-      typedef exp_length<1,2> tl;
-      typedef exp_length<10,20> tr;
-      typedef binary_op<tl,divides,tr>::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_length<1,2>;
+      using tr = exp_length<10,20>;
+      using result_type = binary_op_t<tl,divides,tr>;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 0);
       static_assert(ratio::den == 1);
       static_assert(std::is_same_v<result_type,pqs::dimensionless>); 
@@ -286,7 +330,7 @@ namespace {
    void multiply_test_r_int()
    {
       typedef exp_mass<5,8> tl;
-      typedef pqs::binary_op_t<tl,pqs::to_power, std::ratio<16,5> > result_type;
+      typedef binary_op_t<tl,pqs::to_power, std::ratio<16,5> > result_type;
       using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 2);
       static_assert(ratio::den == 1);
@@ -445,7 +489,9 @@ namespace {
 
 void base_quantity_exp_test()
 {
-   same_id_test();
+   is_base_quantity_exp_test();
+   get_base_quantity_test();
+   of_same_base_quantity_test();
    add_test();
    subtract_test();
    negate_test();

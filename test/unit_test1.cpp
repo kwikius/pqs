@@ -61,13 +61,18 @@ namespace {
          decltype(pqs::abstract_time<3> * pqs::abstract_mass<2>) ,pqs::exponent10<0> >() );
       static_assert( pqs::si::is_prefixable<pqs::exp_mass<3>,pqs::exponent10<9> >() );
 
-      std::cout << "( should be ms )" << pqs::si::time_unit::ms::name<pqs::charset_utf8> <<'\n';
-      std::cout << "( should be s )" << pqs::si::time_unit::s::name<pqs::charset_utf8> <<'\n';
-      std::cout << "( should be mm^2 )" << pqs::si::area_unit::mm2::name<pqs::charset_utf8> <<'\n';
-      std::cout << "( should be mm2 )" << pqs::si::area_unit::mm2::name<pqs::charset_ascii> <<'\n';
-
-      std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_utf8> <<'\n';
-      std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_ascii> <<'\n';
+      static_assert( pqs::si::time_unit::ms::name<pqs::charset_utf8> == "ms");
+    //  std::cout << "( should be ms )" << pqs::si::time_unit::ms::name<pqs::charset_utf8> <<'\n';
+       static_assert(pqs::si::time_unit::s::name<pqs::charset_utf8> == "s");
+     // std::cout << "( should be s )" << pqs::si::time_unit::s::name<pqs::charset_utf8> <<'\n';
+      static_assert(pqs::si::area_unit::mm2::name<pqs::charset_utf8> == "mm²");
+    //  std::cout << "( should be mm^2 )" << pqs::si::area_unit::mm2::name<pqs::charset_utf8> <<'\n';
+      static_assert(pqs::si::area_unit::mm2::name<pqs::charset_ascii> == "mm2");
+    //  std::cout << "( should be mm2 )" << pqs::si::area_unit::mm2::name<pqs::charset_ascii> <<'\n';
+      static_assert(pqs::si::mass_unit::kg::name<pqs::charset_utf8> == "kg");
+     // std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_utf8> <<'\n';
+      static_assert(pqs::si::mass_unit::kg::name<pqs::charset_ascii> == "kg");
+     // std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_ascii> <<'\n';
 
       std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_utf8> <<'\n';
       std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_ascii> <<'\n';
