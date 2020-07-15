@@ -3,6 +3,7 @@
 
 #include <pqs/imperial/units/length_unit.hpp>
 #include <pqs/imperial/units/time_unit.hpp>
+#include <pqs/bits/unit_binary_op.hpp>
 
 namespace pqs{ namespace imperial { namespace speed_unit{
 

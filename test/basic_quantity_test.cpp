@@ -6,6 +6,7 @@
 #include <pqs/si/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/time.hpp>
+#include <pqs/imperial/speed.hpp>
 #include <pqs/bits/quantity_output.hpp>
 
 #include <iomanip>
@@ -206,6 +207,21 @@ namespace {
       QUAN_CHECK(( get_numeric_value(q2a) == 30000 ))
       static_assert(std::is_same_v<decltype(q1),decltype(q1a)>);
       static_assert(std::is_same_v<decltype(q2),decltype(q2a)>);
+
+      output<pqs::charset_utf8>(std::cout, q1) << '\n';
+      output<pqs::charset_utf8>(std::cout, q1a) << '\n';
+      output<pqs::charset_utf8>(std::cout, q2) << '\n';
+      output<pqs::charset_utf8>(std::cout, q2a) << '\n';
+
+      auto constexpr q3 = pqs::imperial::speed::mi_per_hr<>{60};
+      auto constexpr q3a = q3 * 4;
+      static_assert(get_numeric_value(q3a) == 240 );
+      auto constexpr q3b = 2 * q3a;
+      static_assert( get_numeric_value(q3b) == 480 );
+
+      output<pqs::charset_utf8>(std::cout, q3) << '\n';
+      output<pqs::charset_utf8>(std::cout, q3a) << '\n';
+      output<pqs::charset_utf8>(std::cout, q3b) << '\n';
    }
 
    using namespace pqs;
