@@ -14,9 +14,9 @@ namespace{
    {
       auto constexpr v0 = pqs::root<N>(100.0);
      auto v1 = pqs::root<N>(v);
-     std::cout << "pqs::root<" << N << ">( "<< v <<" ) = " << v1 <<'\n';
+    // std::cout << "pqs::root<" << N << ">( "<< v <<" ) = " << v1 <<'\n';
      auto v2 = std::pow(v, 1./N);
-     std::cout << "std::pow(" << v << ", 1./" << N << " = " << v2 <<'\n';
+    // std::cout << "std::pow(" << v << ", 1./" << N << " = " << v2 <<'\n';
    }
 
    void fun()

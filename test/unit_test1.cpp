@@ -54,7 +54,7 @@ namespace {
          double
       > q{123.45};
 
-      output<charset_utf8>(std::cout,q) <<'\n';
+     // output<charset_utf8>(std::cout,q) <<'\n';
    }
 
    void check_prefixable()
@@ -80,7 +80,8 @@ namespace {
      // std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_utf8> <<'\n';
       static_assert(pqs::si::mass_unit::kg::name<pqs::charset_ascii> == "kg");
      // std::cout << "( should be kg )" << pqs::si::mass_unit::kg::name<pqs::charset_ascii> <<'\n';
-
+#if 0
+TODO as tests
       std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_utf8> <<'\n';
       std::cout << "( should be g )" << pqs::si::mass_unit::g::name<pqs::charset_ascii> <<'\n';
 
@@ -102,6 +103,7 @@ namespace {
       std::cout << "( should be mm^-2 )" << pqs::si::reciprocal_area_unit::per_mm2::name<pqs::charset_utf8> <<'\n';
       std::cout << "( should be cm^-2 )" << pqs::si::reciprocal_area_unit::per_cm2::name<pqs::charset_utf8> <<'\n';
       std::cout << "( should be km^-2 )" << pqs::si::reciprocal_area_unit::per_km2::name<pqs::charset_utf8> <<'\n';
+#endif
    }
 }
 

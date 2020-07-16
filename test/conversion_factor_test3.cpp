@@ -59,34 +59,34 @@ namespace {
       using cf1 = conversion_factor< 
          std::ratio<1>, exponent10<3> 
       >;
-      std::cout<< "cf1 = " << cf1{} <<'\n';
+     // std::cout<< "cf1 = " << cf1{} <<'\n';
       using res1 = decltype( cf1{} * std::ratio<2>{} );
 
-      std::cout << "res1 = " << res1{} <<'\n';
+     // std::cout << "res1 = " << res1{} <<'\n';
       static_assert(is_conversion_factor<res1>);
       static_assert( std::is_same_v<res1::multiplier ,std::ratio<2> > );
       static_assert( std::is_same_v<res1::exponent , exponent10<3> > );
 
       using res2 = decltype( std::ratio<10>{} * res1{} );
-      std::cout << "res2 = " << res2{} <<'\n';
+   //   std::cout << "res2 = " << res2{} <<'\n';
       static_assert(is_conversion_factor<res2>);
       static_assert( std::is_same_v<res2::multiplier ,std::ratio<2> > );
       static_assert( std::is_same_v<res2::exponent , exponent10<4> > );
 
       using res3 = decltype( res1{} / std::ratio<2>{} );
-      std::cout << "res3 = " << res3{} <<'\n';
+     // std::cout << "res3 = " << res3{} <<'\n';
       static_assert(is_conversion_factor<res3>);
       static_assert( std::is_same_v<res3::multiplier ,std::ratio<1> > );
       static_assert( std::is_same_v<res3::exponent , exponent10<3> > );
 
       using res4 = decltype( std::ratio<2>{} / res3{} );
-      std::cout << "res4 = " << res4{} <<'\n';
+     // std::cout << "res4 = " << res4{} <<'\n';
       static_assert(is_conversion_factor<res4>);
       static_assert( std::is_same_v<res4::multiplier ,std::ratio<2> > );
       static_assert( std::is_same_v<res4::exponent , exponent10<-3> > );
 
       using res5 = decltype( res2{} / std::ratio<3>{} );
-      std::cout << "res5 = " << res5{} <<'\n';
+     // std::cout << "res5 = " << res5{} <<'\n';
       static_assert(is_conversion_factor<res5>);
       static_assert( std::is_same_v<res5::multiplier ,std::ratio<20,3> > );
       static_assert( std::is_same_v<res5::exponent , exponent10<3> > );
@@ -95,7 +95,7 @@ namespace {
    void rat_exp10_test()
    {
       using cf1 = decltype( std::ratio<123,456>{} ^ exponent10<-2,3>{} );
-      std::cout << "cf1 = " << cf1{} <<'\n';
+     // std::cout << "cf1 = " << cf1{} <<'\n';
       static_assert( std::is_same_v<cf1::multiplier ,std::ratio<205,76> > );
       static_assert( std::is_same_v<cf1::exponent , exponent10<-5,3> > );
    }
@@ -104,13 +104,13 @@ namespace {
    {
        using cf1 = decltype(std::ratio<23,11>{} ^ exponent10<6>{} );
 
-       std::cout << "cf1 = " << cf1{} <<'\n';
+      // std::cout << "cf1 = " << cf1{} <<'\n';
        static_assert(is_conversion_factor<cf1>);
        static_assert( std::is_same_v<cf1::multiplier ,std::ratio<23,11> > );
        static_assert( std::is_same_v<cf1::exponent , exponent10<6> > );
 
        using res1 = decltype( cf1{} ^ exponent10<1,2>{} );
-       std::cout << "res1 = " << res1{} <<'\n';
+     //  std::cout << "res1 = " << res1{} <<'\n';
        static_assert(is_conversion_factor<res1>);
        static_assert( std::is_same_v<res1::multiplier ,std::ratio<23,11> > );
        static_assert( std::is_same_v<res1::exponent , exponent10<3> > ); 
@@ -126,7 +126,7 @@ namespace {
 
       static_assert( v1 == v2 );  // both forms are equivalent
 
-      std::cout << std::setprecision(16) << " pi = " << v1 << '\n';
+    //  std::cout << std::setprecision(16) << " pi = " << v1 << '\n';
 
    }
    // pi = 3.14159265358979

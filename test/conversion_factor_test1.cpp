@@ -84,18 +84,8 @@ namespace {
           one
       >::type one_result_type;
       QUAN_CHECK( (std::is_same<one_result_type,one>::value ))
-
-     
-
    }
 
-   // intmax_t is 9223372036854775807 on my system
-   //             9223372036854775807
-   // e.g approx 10^19
-   // assume a max of 6 decimals for the fraction, so either part of the rational can be between 0 and 10^6
-   // then either part of rational can be muxed by 10^12
-   // so therefore one can work a range of exponents of 10^12
-   // e.g 1 km + 1 n.m. After that there may be issues
    void ratio_add_exp_test()
    {
       typedef pqs::detail::ll_conversion_factor<std::ratio<1,2>,std::ratio<3> > t1;

@@ -292,15 +292,15 @@ namespace {
 
    void negate_test()
    {
-       int_negate_test();
-       r_negate_test();
+      int_negate_test();
+      r_negate_test();
    }
 
    void multiply_test_int_int()
    {
-      typedef exp_mass<5> tl;
-      typedef pqs::binary_op<tl,pqs::to_power, std::ratio<4,2> >::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_mass<5> ;
+      using result_type = pqs::binary_op_t<tl,pqs::to_power, std::ratio<4,2> >;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 10);
       static_assert(ratio::den == 1);
       static_assert(std::is_same_v<result_type,exp_mass<10> >);
@@ -308,9 +308,9 @@ namespace {
 
    void multiply_test_int_r()
    {
-      typedef exp_mass<5> tl;
-      typedef pqs::binary_op<tl,pqs::to_power, std::ratio<3,2> >::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_mass<5> ;
+      using result_type = pqs::binary_op_t<tl,pqs::to_power, std::ratio<3,2> >;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 15);
       static_assert(ratio::den == 2);
       static_assert(std::is_same_v<result_type,exp_mass<15,2> >);
@@ -318,9 +318,9 @@ namespace {
 
    void multiply_test_r_r()
    {
-      typedef exp_mass<5,8> tl;
-      typedef pqs::binary_op<tl,pqs::to_power, std::ratio<3,2> >::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_mass<5,8> ;
+      using result_type = pqs::binary_op_t<tl,pqs::to_power, std::ratio<3,2> >;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 15);
       static_assert(ratio::den == 16);
       static_assert(std::is_same_v<result_type,exp_mass<15,16> > );
@@ -328,8 +328,8 @@ namespace {
 
    void multiply_test_r_int()
    {
-      typedef exp_mass<5,8> tl;
-      typedef binary_op_t<tl,pqs::to_power, std::ratio<16,5> > result_type;
+      using tl = exp_mass<5,8>;
+      using result_type = binary_op_t<tl,pqs::to_power, std::ratio<16,5> >;
       using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 2);
       static_assert(ratio::den == 1);
@@ -346,10 +346,9 @@ namespace {
 
    void divide_test_int_int()
    {
-      typedef exp_mass<5> tl;
-     // typedef pqs::binary_op<tl,pqs::divides, std::ratio<2,4> >::type result_type;
-      typedef pqs::binary_op<tl,pqs::to_power, std::ratio<4,2> >::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_mass<5>;
+      using result_type = pqs::binary_op_t<tl,pqs::to_power, std::ratio<4,2> >;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 10);
       static_assert(ratio::den == 1);
       static_assert( std::is_same_v<result_type,exp_mass<10> > );
@@ -357,10 +356,9 @@ namespace {
 
    void divide_test_int_r()
    {
-      typedef exp_mass<5> tl;
-      //typedef pqs::binary_op<tl,pqs::divides, std::ratio<2,3> >::type result_type;
-      typedef pqs::binary_op<tl,pqs::to_power, std::ratio<3,2> >::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_mass<5>;
+      using result_type = pqs::binary_op_t<tl,pqs::to_power, std::ratio<3,2> >;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 15);
       static_assert(ratio::den == 2);
       static_assert( std::is_same_v<result_type,exp_mass<15,2> >);
@@ -368,10 +366,9 @@ namespace {
 
    void divide_test_r_r()
    {
-      typedef exp_mass<5,8> tl;
-    //  typedef pqs::binary_op<tl,pqs::divides, std::ratio<2,3> >::type result_type;
-      typedef pqs::binary_op<tl,pqs::to_power, std::ratio<3,2> >::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_mass<5,8>;
+      using result_type = pqs::binary_op_t<tl,pqs::to_power, std::ratio<3,2> >;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == 15);
       static_assert(ratio::den == 16);
       static_assert(std::is_same_v<result_type,exp_mass<15,16> >);
@@ -379,10 +376,9 @@ namespace {
 
    void divide_test_r_int()
    {
-      typedef exp_mass<5,8> tl;
-     // typedef pqs::binary_op<tl,pqs::divides, std::ratio<-5,16> >::type result_type;
-      typedef pqs::binary_op<tl,pqs::to_power, std::ratio<-16,5> >::type result_type;
-      typedef pqs::get_exponent_legacy<result_type>::type ratio;
+      using tl = exp_mass<5,8>;
+      using result_type = pqs::binary_op_t<tl,pqs::to_power, std::ratio<-16,5> >;
+      using ratio = pqs::get_exponent<result_type>;
       static_assert(ratio::num == -2);
       static_assert(ratio::den == 1);
       static_assert(std::is_same_v<result_type,exp_mass<-2> >);
@@ -396,29 +392,26 @@ namespace {
       divide_test_r_r();
    }
 
-  void equal_to_int_int_test()
-  {
-      typedef exp_mass<5> tl;
-      typedef exp_mass<5> tr;
-      typedef pqs::binary_op<tl,pqs::equal_to,tr>::type result_type;
-      static_assert(result_type::value == true);
-  }
+   void equal_to_int_int_test()
+   {
+      using tl = exp_mass<5> ;
+      using tr = exp_mass<5>;
+      static_assert(pqs::binary_op_v<tl,pqs::equal_to,tr> == true);
+   }
 
-  void equal_to_int_r_test()
-  {
-      typedef exp_mass<5> tl;
-      typedef exp_mass<15,3> tr;
-      typedef pqs::binary_op<tl,pqs::equal_to,tr>::type result_type;
-      static_assert(result_type::value == true);
-  }
+   void equal_to_int_r_test()
+   {
+      using tl = exp_mass<5>;
+      using tr = exp_mass<15,3>;
+      static_assert(pqs::binary_op_v<tl,pqs::equal_to,tr> == true);
+   }
 
    void equal_to_r_r_test()
-  {
-      typedef exp_mass<100,20> tl;
-      typedef exp_mass<1000,200> tr;
-      typedef pqs::binary_op<tl,pqs::equal_to,tr>::type result_type;
-      static_assert(result_type::value == true);
-  }
+   {
+      using tl = exp_mass<100,20>;
+      using tr = exp_mass<1000,200>;
+      static_assert(pqs::binary_op_v<tl,pqs::equal_to,tr> == true);
+   }
 
    void equal_to_test()
    {
@@ -427,31 +420,26 @@ namespace {
       equal_to_r_r_test();
    }
 
+   void not_equal_to_int_int_test()
+   {
+      using tl = exp_mass<5>;
+      using tr = exp_mass<4> ;
+      static_assert( pqs::binary_op_v<tl,pqs::not_equal_to,tr> == true);
+   }
 
-  void not_equal_to_int_int_test()
-  {
-      typedef exp_mass<5> tl;
-      typedef exp_mass<4> tr;
-      typedef pqs::binary_op<tl,pqs::not_equal_to,tr>::type result_type;
-      static_assert(result_type::value == true);
-  }
-
-  void not_equal_to_int_r_test()
-  {
-      typedef exp_mass<5> tl;
-      typedef exp_mass<5,3> tr;
-      typedef pqs::binary_op<tl,pqs::not_equal_to,tr>::type result_type;
-      static_assert(result_type::value == true);
-  }
+   void not_equal_to_int_r_test()
+   {
+      using tl = exp_mass<5>;
+      using tr = exp_mass<5,3>;
+      static_assert( pqs::binary_op_v<tl,pqs::not_equal_to,tr> == true);
+   }
 
    void not_equal_to_r_r_test()
-  {
-      typedef exp_mass<100,500> tl;
-      typedef exp_mass<500,200> tr;
-      typedef pqs::binary_op<tl,pqs::not_equal_to,tr>::type result_type;
-      static_assert(result_type::value == true);
-  }
-
+   {
+      using tl = exp_mass<100,500>;
+      using tr = exp_mass<500,200>;
+      static_assert( pqs::binary_op_v<tl,pqs::not_equal_to,tr> == true);
+   }
 
    void not_equal_to_test()
    {
@@ -462,8 +450,8 @@ namespace {
 
    void is_zero_test_int()
    {
-      typedef exp_mass<0> zero;
-      typedef exp_mass<1> one;
+      using zero = exp_mass<0>;
+      using one = exp_mass<1> ;
       
       static_assert(pqs::base_quantity_exp_is_zero<zero>);
       static_assert(!pqs::base_quantity_exp_is_zero<one>);
@@ -471,8 +459,8 @@ namespace {
 
    void is_zero_test_r()
    {
-      typedef exp_mass<0,3> zero;
-      typedef exp_mass<1,1> one;
+      using zero = exp_mass<0,3> ;
+      using one = exp_mass<1,1>;
       
       static_assert(pqs::base_quantity_exp_is_zero<zero>);
       static_assert(!pqs::base_quantity_exp_is_zero<one>);
@@ -499,6 +487,5 @@ void base_quantity_exp_test()
    equal_to_test();
    not_equal_to_test();
    is_zero_test();
-
 }
 

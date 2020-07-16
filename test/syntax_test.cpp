@@ -17,7 +17,7 @@ void custom_test1()
 
    typedef imperial::length_unit::mi type1;
 
-    std::cout  << "imp miles name = " << imperial::length_unit::mi::name<charset_ascii> <<'\n';;
+   // std::cout  << "imp miles name = " << imperial::length_unit::mi::name<charset_ascii> <<'\n';;
 }
 
 void custom_test2()
@@ -36,7 +36,7 @@ void custom_test2()
    > v2;
 
    static_assert(is_dimension<abstract_velocity>,"");
-   std::cout << "##### " << abstract_velocity::name<charset_utf8> << " ####\n";
+  // std::cout << "##### " << abstract_velocity::name<charset_utf8> << " ####\n";
    static_assert(is_quantity<decltype(v2)>,"");
 
    static_assert(dimension<abstract_velocity>,"");
@@ -78,7 +78,7 @@ void quantity_syntax_test()
 
    using qbu = get_unit<decltype(qb)>;
 
-   std::cout << "----------------" << qbu::name<charset_utf8> << "-------\n";
+ //  std::cout << "----------------" << qbu::name<charset_utf8> << "-------\n";
 
    using qbcf = get_conversion_factor<qbu>;
 

@@ -83,8 +83,8 @@ namespace {
             imperial_measurement_system,charset_utf8
          >(acc);
 
-      std::cout << "acc_v1 dimension in S.I. = " << acc_str_si <<'\n';
-      std::cout << "acc_v1 dimension in f.p.s = " << acc_str_fps <<'\n';
+     // std::cout << "acc_v1 dimension in S.I. = " << acc_str_si <<'\n';
+     // std::cout << "acc_v1 dimension in f.p.s = " << acc_str_fps <<'\n';
 
       auto constexpr acc_v2 = abstract_length<> * abstract_time<-2>; // alternate form
 

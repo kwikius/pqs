@@ -23,26 +23,26 @@ void output_test()
 
    // base_dimension_exponent
    auto constexpr x = pqs::dimension_to_fixed_string<Qbe,ms,charset>();
-   std::cout << x <<'\n';
+  // std::cout << x <<'\n';
 
    // dimension_list
    using D = decltype(pqs::abstract_time<3> * pqs::abstract_length<-3> * pqs::abstract_current<-1>);
-   std::cout << pqs::dimension_to_fixed_string<D,ms,pqs::charset_utf8>() << '\n';
-   std::cout << pqs::dimension_to_fixed_string<D,ms,pqs::charset_ascii>() << '\n';
+//   std::cout << pqs::dimension_to_fixed_string<D,ms,pqs::charset_utf8>() << '\n';
+//   std::cout << pqs::dimension_to_fixed_string<D,ms,pqs::charset_ascii>() << '\n';
    // custom dimension
    struct cd : decltype(pqs::abstract_length<> / pqs::pow<2>(pqs::abstract_time<>) ){};
-   std::cout << pqs::dimension_to_fixed_string<cd,ms,pqs::charset_utf8>() << '\n';
-   std::cout << pqs::dimension_to_fixed_string<cd,ms,pqs::charset_ascii>() << '\n';
+//   std::cout << pqs::dimension_to_fixed_string<cd,ms,pqs::charset_utf8>() << '\n';
+//   std::cout << pqs::dimension_to_fixed_string<cd,ms,pqs::charset_ascii>() << '\n';
 
    using Q = pqs::si::speed::m_per_s<>;
-   std::cout <<  pqs::dimension_to_fixed_string<Q, pqs::charset_utf8>()  << '\n';
-   std::cout <<  pqs::dimension_to_fixed_string<Q, pqs::charset_ascii>()  << '\n';
+//   std::cout <<  pqs::dimension_to_fixed_string<Q, pqs::charset_utf8>()  << '\n';
+//   std::cout <<  pqs::dimension_to_fixed_string<Q, pqs::charset_ascii>()  << '\n';
 
    using L = pqs::si::length::ft<>;
-   std::cout <<  pqs::dimension_to_fixed_string<L, pqs::charset_utf8>()  << '\n';
-   std::cout <<  pqs::dimension_to_fixed_string<L, pqs::charset_ascii>()  << '\n';
+//   std::cout <<  pqs::dimension_to_fixed_string<L, pqs::charset_utf8>()  << '\n';
+//   std::cout <<  pqs::dimension_to_fixed_string<L, pqs::charset_ascii>()  << '\n';
 
    using L1 = pqs::imperial::length::ft<>;
-   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_utf8>()  << '\n';
-   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_ascii>()  << '\n';
+//   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_utf8>()  << '\n';
+//   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_ascii>()  << '\n';
 }
