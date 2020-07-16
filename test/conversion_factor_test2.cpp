@@ -19,7 +19,7 @@ namespace {
    template <typename M, typename E>
    std::ostream & operator << (std::ostream & os, conversion_factor<M,E> v)
    {
-      return os << typename decltype(v)::multiplier{} << " ^ " << typename decltype(v)::exponent{} ;
+      return os << typename decltype(v)::multiplier{} << " ^ " << typename decltype(v)::exponent::ratio{} ;
    }
 
    template <typename CFL, typename CFR>
@@ -334,7 +334,7 @@ namespace {
 
    void divide_test1()
    {
-     using cf1 = pqs::conversion_factor<
+      using cf1 = pqs::conversion_factor<
          std::ratio<997>,
          pqs::exponent10<-3>
       >;
@@ -354,6 +354,20 @@ namespace {
       auto v3 = evaluate<res>();
 
       QUAN_CHECK ( (abs(v3 - v1 / v2) < 1.e-6) )
+   }
+
+   void reciprocal_test()
+   {
+      using cf1 = pqs::conversion_factor<
+         std::ratio<997>,
+         pqs::exponent10<-3>
+      >;
+
+      using res = pqs::unary_op_t<pqs::meta::reciprocal,cf1>;
+
+      static_assert(std::is_same_v<res::multiplier,std::ratio<1000,997> >);
+      static_assert(std::is_same_v<res::exponent,pqs::exponent10<0> >);
+
    }
 }
 
@@ -380,4 +394,5 @@ void conversion_factor_test2()
    multiply_test3();
 
    divide_test1();
+   reciprocal_test();
 }

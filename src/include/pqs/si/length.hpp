@@ -5,17 +5,17 @@
 #include <pqs/si/units/length_unit.hpp>
 
 // si quantities length definition namespace 
-namespace pqs{ namespace si { namespace length{
+namespace pqs::si::length{
 
    template <typename ValueType = double>
-   using m = pqs::basic_quantity<pqs::si::length_unit::m,ValueType>;
+   using m = basic_quantity<length_unit::m,ValueType>;
 
    template <typename ValueType = double>
-   using mm = pqs::basic_quantity<pqs::si::length_unit::mm,ValueType>;
+   using mm = basic_quantity<length_unit::mm,ValueType>;
 
    template <typename ValueType = double>
-   using ft = pqs::basic_quantity<pqs::si::length_unit::ft,ValueType>;
+   using ft = basic_quantity<length_unit::ft,ValueType>;
 
-}}} // pqs::si::length
+} // pqs::si::length
 
 #endif // PQS_SI_LENGTH_HPP_INCLUDED

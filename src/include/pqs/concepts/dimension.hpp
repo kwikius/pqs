@@ -26,7 +26,7 @@ namespace pqs{
       template <pqs::dimension D>
       struct binary_op_impl<
          pqs::dimensionless, pqs::divides,D
-      > : D{};
+      > : unary_op<pqs::meta::reciprocal,D>{};
    
    } // impl
 

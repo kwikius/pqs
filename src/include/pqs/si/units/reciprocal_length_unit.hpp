@@ -14,6 +14,6 @@ namespace pqs{ namespace si { namespace reciprocal_length_unit{
 
    struct per_km : si::normative_unit<exp_length<-1>, exponent10<-3> >{};
 
-}}} // pqs::si::length_unit
+}}} // pqs::si::reciprocal_length_unit
 
 #endif //PQS_SI_UNITS_RECIPROCAL_LENGTH_UNIT_HPP_INCLUDED

@@ -3,6 +3,7 @@
 // test interaction with time.h
 #include <time.h>
 #include <pqs/si/length.hpp>
+#include <pqs/si/reciprocal_length.hpp>
 #include <pqs/si/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/time.hpp>
@@ -226,6 +227,33 @@ namespace {
 
    using namespace pqs;
 
+   void scalar_divide_test()
+   {
+      auto q1 = si::length::m<>{10};
+      auto q2 = 1. / q1;
+      QUAN_CHECK(( get_numeric_value(q2) == 1./10 ));
+      output<pqs::charset_utf8>(std::cout, q2) << '\n';
+
+      auto q3 = si::length::mm<>{10};
+      auto q4 = 1. / q3;
+      QUAN_CHECK(( get_numeric_value(q4) == 1./10 ));
+      output<charset_utf8>(std::cout, q4) << '\n';
+
+      auto q5 = q1 / 2.;
+      QUAN_CHECK(( get_numeric_value(q5) == 5 ));
+      output<charset_utf8>(std::cout, q5) << '\n';
+
+      auto q6 = q2 / 2.;
+      QUAN_CHECK(( get_numeric_value(q6) == 1./20 ));
+      output<charset_utf8>(std::cout << "q6 = ", q6) << '\n';
+
+      // test normative si
+      si::reciprocal_length::per_mm<> q7 = q4;
+      output<charset_utf8>(std::cout << "q7 = ", q7) << '\n';
+   }
+
+
+
    // wiki example
    void conversion_factor_semantic_test()
    {
@@ -259,7 +287,6 @@ namespace {
       output< pqs::charset_utf8>( std::cout, q2);
       std::cout  << '\n';
       std::cout << "****************************\n";
-      
    }
 }
 
@@ -273,4 +300,5 @@ void basic_quantity_test()
    basic_quantity_divide_test();
    output_test();
    scalar_multiply_test();
+   scalar_divide_test();
 }

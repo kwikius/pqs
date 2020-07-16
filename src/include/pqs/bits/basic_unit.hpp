@@ -70,9 +70,7 @@ namespace pqs{
       struct get_dimension_impl<T>{
          using type = typename T::dimension;
       };
-
    }
-
 }// pqs
 
 #endif // PQS_BASIC_UNIT_HPP_INCLUDED

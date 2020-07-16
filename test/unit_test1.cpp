@@ -16,7 +16,7 @@
 #include <pqs/imperial/time.hpp>
 #include <pqs/imperial/length.hpp>
 #include <pqs/imperial/speed.hpp>
-
+#include <pqs/bits/quantity_output.hpp>
 
 #include <iostream>
 
@@ -47,8 +47,15 @@ namespace {
       static_assert( is_conversion_factor<Cf> );
    }
 
+   void unit_binary_op_test()
+   {
+      pqs::basic_quantity<
+         decltype( si::mass_unit::g() * si::area_unit::mm2() / si::time_unit::min()),
+         double
+      > q{123.45};
 
-namespace {
+      output<charset_utf8>(std::cout,q) <<'\n';
+   }
 
    void check_prefixable()
    {
@@ -98,9 +105,6 @@ namespace {
    }
 }
 
-   
-}
-
 #if defined PQS_STANDALONE
 int errors =0;
 int main()
@@ -110,4 +114,5 @@ void unit_test()
 {
    unit_concept_test();
    check_prefixable();
+   unit_binary_op_test();
 }

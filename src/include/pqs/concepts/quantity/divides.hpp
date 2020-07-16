@@ -93,8 +93,91 @@ namespace pqs{
             dimensioned_op_semantic<Lhs,divides,Rhs>,
             dimensionless_op_semantic<Lhs,divides,Rhs>
          >{};
+
+      template < quantity Q, dimensionless_quantity V>
+      struct scalar_op_semantic<Q, divides,V>{
+
+         using result = 
+            basic_quantity <
+               get_unit<Q>,
+               binary_op_t<
+                  get_numeric_type<Q>, divides, V
+               >
+            >;
+
+         static 
+         constexpr auto apply(Q const & q, V const & v)
+         {
+            return result{get_numeric_value(q) / v};
+         }
+      };
+
+      template <dimensionless_quantity V, quantity Q>
+      struct scalar_op_semantic<V, divides,Q>{
+         using result_dimension = 
+            unary_op_t<
+               pqs::meta::reciprocal,
+               get_simple_dimension<Q>
+            >;
+         
+         using result_conversion_factor =
+            unary_op_t<
+               pqs::meta::reciprocal,
+               get_conversion_factor<Q>
+            >;
+
+         using result_numeric_type =
+            binary_op_t<V, divides, get_numeric_type<Q> >;
+
+         using result = 
+            basic_quantity<
+               basic_unit<
+                  get_measurement_system<Q>,
+                  result_dimension,
+                  result_conversion_factor
+               >,
+               result_numeric_type
+            >;
+
+         static 
+         constexpr auto apply(V const & v, Q const & q)
+         {
+            return result{v / get_numeric_value(q)};
+         }
+      };
    } // impl
    
+   /**
+    * @brief dimensionles_quantity / quantity
+    */
+   template <dimensionless_quantity V, quantity Q>
+      requires
+         provide_operator_divides<V,Q>         
+   inline constexpr 
+   auto operator/( V const & v, Q const & q)
+   {
+      return impl::scalar_op_semantic<
+         V, divides, Q
+      >::apply( v, q);
+   }
+
+     /**
+    * @brief quantity / dimensionles_quantity
+    */
+   template < quantity Q, dimensionless_quantity V>
+      requires
+         provide_operator_divides<Q,V>         
+   inline constexpr 
+   auto operator/( Q const & q, V const & v)
+   {
+      return impl::scalar_op_semantic<
+         Q, divides, V
+      >::apply(q,v);
+   }
+   
+   /**
+    * @brief quantity / quantity
+    */
    template <quantity Lhs, quantity Rhs>
       requires
          same_measurement_system<Lhs,Rhs> &&

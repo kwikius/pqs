@@ -95,55 +95,59 @@ namespace {
 
    void divide_dimensions_test()
    {
-      typedef pqs::dimension_list<
+      using lhs_dimension = pqs::dimension_list<
          pqs::exp_length<1>, 
          pqs::exp_time<-1>,
          pqs::exp_mass<2> ,
          pqs::exp_current<2> 
-      > lhs_dimension;
+      >;
 
-      typedef pqs::dimension_list<
+      using rhs_dimension = pqs::dimension_list<
          pqs::exp_mass<2>, 
          pqs::exp_time<1>,
          pqs::exp_length<3>, 
          pqs::exp_current<1> 
-      > rhs_dimension;
+      > ;
 
-      typedef pqs::binary_op<lhs_dimension,pqs::divides,rhs_dimension>::type result;
+      using result = pqs::binary_op_t<lhs_dimension,pqs::divides,rhs_dimension> ;
 
-      typedef sort<
+      using expected_result = sort<
          pqs::dimension_list<
             pqs::exp_length<-2>, 
             pqs::exp_time<-2>, 
             pqs::exp_current<1> 
          > 
-      >::type expected_result;
+      >::type ;
 
-      QUAN_CHECK( (std::is_same<result,expected_result>::value ))
+      static_assert(std::is_same_v<result,expected_result>);
 
-      typedef pqs::binary_op<lhs_dimension,pqs::divides,lhs_dimension>::type empty_result;
+      using empty_result = pqs::binary_op_t<lhs_dimension,pqs::divides,lhs_dimension>;
 
-      QUAN_CHECK( (std::is_same<empty_result,pqs::dimensionless>::value ))
+      static_assert(std::is_same_v<empty_result,pqs::dimensionless> );
 
-      typedef pqs::binary_op<pqs::dimension_list<>,pqs::divides,lhs_dimension>::type result2;
+      using result2 = pqs::binary_op_t<pqs::dimension_list<>,pqs::divides,lhs_dimension> ;
 
-      typedef sort<
+      using result2a = pqs::binary_op_t<pqs::dimensionless,pqs::divides,lhs_dimension> ;
+
+      using expected2 = sort<
          pqs::dimension_list<
             pqs::exp_length<-1>, 
             pqs::exp_time<1>,
             pqs::exp_mass<-2> ,
             pqs::exp_current<-2> 
          >
-      >::type expected2;
+      >::type ;
 
-      QUAN_CHECK( (std::is_same<result2,expected2>::value ))
+      static_assert(std::is_same_v<result2,result2a>);
 
-      QUAN_CHECK( ( std::is_same<result2,pqs::unary_op<pqs::meta::reciprocal,lhs_dimension>::type>::value) )
+      static_assert(std::is_same_v<result2,expected2> );
+
+      static_assert( std::is_same_v<result2,pqs::unary_op_t<pqs::meta::reciprocal,lhs_dimension> >) ;
+
    }
 
    void to_power_dimension_test1()
    {
-
       typedef pqs::dimension_list<
          pqs::exp_length<1>, 
          pqs::exp_time<-1>, 

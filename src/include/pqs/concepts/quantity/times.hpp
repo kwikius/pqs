@@ -58,7 +58,8 @@ namespace pqs{
                result_numeric_type
             >;
 
-         static constexpr auto apply( Lhs const & lhs, Rhs const & rhs)
+         static 
+         constexpr auto apply( Lhs const & lhs, Rhs const & rhs)
          {
             return result{
                get_numeric_value(lhs) * 
@@ -82,7 +83,8 @@ namespace pqs{
                get_conversion_factor<Rhs> 
             >;
 
-         static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         static 
+         constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
          {
             return ( 
                get_numeric_value(lhs) * 
@@ -91,6 +93,9 @@ namespace pqs{
          }
       };
 
+      /**
+       *  @brief combine the dimensined and dimensionless semantics
+       */
       template <quantity Lhs,quantity Rhs>
       struct binary_op_semantic<Lhs,times,Rhs> 
       :  std::conditional_t<
@@ -105,66 +110,89 @@ namespace pqs{
             dimensionless_op_semantic<Lhs,times,Rhs>
         >{};
 
-      template <quantity Lhs, dimensionless_quantity Rhs>
-      struct scalar_op_semantic<Lhs, times,Rhs>
+      /**
+       *  @brief multiplication by a scalar q * v
+       */
+      template <quantity Q, dimensionless_quantity V>
+      struct scalar_op_semantic<Q, times,V>
       {
          using result = 
             basic_quantity <
-               get_unit<Lhs>,
+               get_unit<Q>,
                binary_op_t<
-                  get_numeric_type<Lhs>, times, Rhs
+                  get_numeric_type<Q>, times, V
                >
             >;
 
-         static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         static 
+         constexpr auto apply(Q const & q, V const & v)
          {
-            return result{get_numeric_value(lhs) * rhs};
+            return result{get_numeric_value(q) * v};
          }
       };
 
-      template <dimensionless_quantity Lhs, quantity Rhs>
-      struct scalar_op_semantic<Lhs, times,Rhs>
+       /**
+       *  @brief multiplication by a scalar v * q
+       */
+
+      template <dimensionless_quantity V, quantity Q>
+      struct scalar_op_semantic<V, times,Q>
       {
          using result = 
             basic_quantity <
-               get_unit<Rhs>,
+               get_unit<Q>,
                binary_op_t<
-                  Lhs,times,get_numeric_type<Rhs>
+                  V, times, get_numeric_type<Q>
                >
             >;
 
-         static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         static 
+         constexpr auto apply(V const & v, Q const & q)
          {
-            return result{lhs * get_numeric_value(rhs)};
+            return result{v * get_numeric_value(q)};
          }
       };
    }// impl
 
-   template <quantity Lhs, dimensionless_quantity Rhs>
+   /**
+    * @brief quantity * dimensionles_quantity
+    */
+
+   template <quantity Q, dimensionless_quantity V>
       requires
-         provide_operator_times<Lhs,Rhs>         
-   inline constexpr auto operator*( Lhs const & lhs, Rhs const & rhs)
+         provide_operator_times<Q,V>         
+   inline constexpr 
+   auto operator*( Q const & q, V const & v)
    {
       return impl::scalar_op_semantic<
-         Lhs, times, Rhs
-      >::apply( lhs, rhs);
+         Q, times, V
+      >::apply( q, v);
    }
 
-   template <dimensionless_quantity Lhs, quantity Rhs>
+  /**
+    * @brief dimensionles_quantity * quantity
+    */
+
+   template <dimensionless_quantity V, quantity Q>
       requires
-         provide_operator_times<Lhs,Rhs>         
-   inline constexpr auto operator*( Lhs const & lhs, Rhs const & rhs)
+         provide_operator_times<V,Q>         
+   inline constexpr 
+   auto operator*( V const & v, Q const & q)
    {
       return impl::scalar_op_semantic<
-         Lhs, times, Rhs
-      >::apply( lhs, rhs);
+         V, times, Q
+      >::apply( v, q);
    }
 
+   /**
+    * @brief quantity * quantity
+    */
    template <quantity Lhs, quantity Rhs>
       requires
          same_measurement_system<Lhs,Rhs> &&
          provide_operator_times<Lhs,Rhs>         
-   inline constexpr auto operator*( Lhs const & lhs, Rhs const & rhs)
+   inline constexpr 
+   auto operator*( Lhs const & lhs, Rhs const & rhs)
    {
       return impl::binary_op_semantic<
          Lhs, times, Rhs

@@ -131,6 +131,21 @@ namespace pqs{
          >::type type;
       };
 
+      template <typename CF>
+         requires is_conversion_factor<CF>
+      struct unary_op_impl<
+         pqs::meta::reciprocal,
+         CF
+      > : binary_op<
+            conversion_factor<
+              std::ratio<1>, 
+              exponent10<0> 
+            >,
+            pqs::divides,
+            CF
+      >{};
+
+
       template <typename Lhs, typename Rhs>
       struct binary_op_impl<Lhs, pqs::times,Rhs,
          typename pqs::where_<
