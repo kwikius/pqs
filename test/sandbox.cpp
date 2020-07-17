@@ -1,25 +1,132 @@
 
-#include <pqs/type_templates/conversion_factor.hpp>
+#include <ratio>
+#include <pqs/math/fn_to_power.hpp>
 
-#include <pqs/bits/quantity_to_fixed_string.hpp>
+namespace pqs{
 
-#include <pqs/imperial/units/length_unit.hpp>
-#include <pqs/imperial/units/speed_unit.hpp>
+   template <typename Base,typename Exp>
+   struct ratio_pow;
 
-#include <pqs/si/units/area_unit.hpp>
-#include <pqs/si/units/mass_unit.hpp>
-#include <pqs/si/units/reciprocal_length_unit.hpp>
-#include <pqs/si/units/reciprocal_mass_unit.hpp>
-#include <pqs/si/units/reciprocal_mass2_unit.hpp>
-#include <pqs/si/units/reciprocal_area_unit.hpp>
-#include <pqs/imperial/time.hpp>
-#include <pqs/imperial/length.hpp>
-#include <pqs/imperial/speed.hpp>
-#include <pqs/bits/base_quantities.hpp>
-#include <pqs/si/time.hpp>
-#include <pqs/si/speed.hpp>
+   template <typename Base,int E>
+   struct ratio_root;
+
+   template <typename Base, typename Exp>
+   struct ratio_pow {
+      using type = 
+         typename ratio_root< 
+            typename ratio_pow<Base,std::ratio<Exp::num,1> >::type,
+            Exp::den
+         >::type;
+   };
+
+   template <intmax_t Bn, intmax_t Bd, intmax_t En> 
+      requires (En > 1)
+   struct ratio_pow<std::ratio<Bn,Bd>,std::ratio<En,1> >{
+      using base_type = typename std::ratio<Bn,Bd>::type;
+      using type = 
+         std::ratio_multiply<
+            base_type,
+            typename ratio_pow<base_type,std::ratio<En-1,1> >::type
+         >;
+   };
+
+   template <intmax_t Bn, intmax_t Bd, intmax_t En> 
+      requires (En < 0)
+   struct ratio_pow<std::ratio<Bn,Bd>,std::ratio<En,1> >{
+      using base_type = typename std::ratio<Bn,Bd>::type;
+      using type = 
+         std::ratio_divide<
+            std::ratio<1>,
+            typename ratio_pow<base_type,std::ratio<-En,1> >::type
+         >;
+   };
+
+   template <intmax_t Bn, intmax_t Bd, intmax_t D1> 
+   struct ratio_pow<std::ratio<Bn,Bd>,std::ratio<0,D1> >{
+      using type = std::ratio<1>;
+   };
+
+   template <intmax_t Bn, intmax_t Bd> 
+   struct ratio_pow<std::ratio<Bn,Bd>,std::ratio<1,1> >{
+      using type = typename std::ratio<Bn,Bd>::type;
+   };
+
+   template <intmax_t N, intmax_t D> 
+       requires ( N != 0 )
+   struct ratio_pow<std::ratio<1>,std::ratio<N,D> >{
+      using type = std::ratio<1>;
+   };
+
+   template <intmax_t N, intmax_t D> 
+   struct ratio_root<std::ratio<N,D>,0 >{
+      using type = std::ratio<1>;
+   };
+
+   template <intmax_t N, intmax_t D> 
+   struct ratio_root<std::ratio<N,D>,1 >{
+      using type = typename std::ratio<N,D>::type;
+   };
+
+   template <> 
+   struct ratio_root<std::ratio<4>,2 >{
+      using type = std::ratio<2>;
+   };
+
+   template <>
+   struct ratio_root<std::ratio<9>,2>{
+      using type = std::ratio<3>;
+   }; 
+
+   template <> 
+   struct ratio_root<std::ratio<16>,2 >{
+      using type = std::ratio<4>;
+   };
+
+   template <> 
+   struct ratio_root<std::ratio<25>,2 >{
+      using type = std::ratio<5>;
+   };
+
+   template <> 
+   struct ratio_root<std::ratio<36>,2 >{
+      using type = std::ratio<6>;
+   };
+
+   template <> 
+   struct ratio_root<std::ratio<49>,2 >{
+      using type = std::ratio<7>;
+   };
+
+   template <> 
+   struct ratio_root<std::ratio<64>,2 >{
+      using type = std::ratio<8>;
+   };
+
+   template <> 
+   struct ratio_root<std::ratio<81>,2 >{
+      using type = std::ratio<9>;
+   };
+
+   template <> 
+   struct ratio_root<std::ratio<100>,2 >{
+      using type = std::ratio<10>;
+   };
+
+   template <intmax_t D> 
+   struct ratio_root<std::ratio<1,D>,2 >{
+      using type = 
+         std::ratio_divide<
+            std::ratio<1>, 
+            typename ratio_root<std::ratio<D,1>,2>::type
+         >;
+   };
+}
 
 #include <iostream>
+
+namespace {
+   void bits_function();
+}
 
 #if defined PQS_STANDALONE
 int errors =0;
@@ -28,7 +135,25 @@ int main()
 void sandbox()
 #endif
 {
+   auto r2 = pqs::ratio_pow<std::ratio<1>,std::ratio<0,1> >::type();
+}
 
+template <typename Base, typename Exp>
+struct ratio_root1{
+   
+   static constexpr auto value = std::pow(
+      static_cast<double>(Base::num) / Base::den,
+      static_cast<double>( Exp::num) / Exp::den
+   );
+};
+
+
+
+
+namespace {
+#if 0
+void bits_function()
+{
   // check_prefixable();
    namespace fps = pqs::imperial;
    
@@ -127,4 +252,7 @@ void sandbox()
 //      decltype(cf3),
 //      pqs::charset_ascii
 //   >() << '\n';
+}
+#endif
+
 }
