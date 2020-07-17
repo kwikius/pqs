@@ -12,18 +12,18 @@ namespace pqs{
      order msb , , , lsb
    */
    template <uint16_t... Id>
-   struct universally_unique_id;
+   struct uuid;
 
    template <>
-   struct universally_unique_id<> {
-      typedef universally_unique_id type;
+   struct uuid<> {
+      typedef uuid type;
       static constexpr std::size_t num_elements = 0;
    };
 
    template <uint16_t Msb, uint16_t...Rest>
-   struct universally_unique_id<Msb,Rest...> : universally_unique_id<Rest... > {
-      typedef universally_unique_id type;
-      typedef universally_unique_id<Rest... >  ls_type;
+   struct uuid<Msb,Rest...> : uuid<Rest... > {
+      typedef uuid type;
+      typedef uuid<Rest... >  ls_type;
       static constexpr uint16_t msb = Msb;
       static constexpr std::size_t num_elements = sizeof...(Rest) + 1;
    };
@@ -31,7 +31,7 @@ namespace pqs{
    namespace detail{
 
       template <typename T>
-      struct is_uuid : std::is_base_of< pqs::universally_unique_id<> , T>{};
+      struct is_uuid : std::is_base_of< pqs::uuid<> , T>{};
 
       template <std::size_t I,typename T>
       struct at_uuid{
@@ -52,7 +52,7 @@ namespace pqs{
       >{};
 
       template <>
-      struct shorten_uuid<universally_unique_id<> > { typedef void type;};
+      struct shorten_uuid<uuid<> > { typedef void type;};
 
       //UUIDS UL UR must be same length
       template <typename UL, typename UR>
