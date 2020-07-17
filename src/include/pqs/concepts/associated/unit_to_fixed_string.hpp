@@ -1,8 +1,8 @@
 #ifndef PQS_BITS_UNIT_TO_FIXED_STRING_HPP_INCLUDED
 #define PQS_BITS_UNIT_TO_FIXED_STRING_HPP_INCLUDED
 
-#include <pqs/bits/dimension_to_fixed_string.hpp>
-#include <pqs/bits/unit_binary_op.hpp>
+#include <pqs/concepts/associated/dimension_to_fixed_string.hpp>
+#include <pqs/concepts/associated/unit_binary_op.hpp>
 
 namespace pqs{
 

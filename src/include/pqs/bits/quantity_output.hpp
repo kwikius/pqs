@@ -2,7 +2,7 @@
 #define PQS_BITS_QUANTITY_OUTPUT_HPP_INCLUDED
 
 #include <iostream>
-#include <pqs/bits/quantity_to_fixed_string.hpp>
+#include <pqs/concepts/associated/quantity_to_fixed_string.hpp>
 
 namespace pqs{
 

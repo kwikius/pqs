@@ -1,5 +1,5 @@
 
-#include <pqs/bits/quantity_to_fixed_string.hpp>
+#include <pqs/concepts/associated/quantity_to_fixed_string.hpp>
 #include <pqs/systems/si/speed.hpp>
 #include <pqs/systems/si/length.hpp>
 #include <pqs/systems/imperial/length.hpp>

@@ -1,7 +1,7 @@
 
 #include "test.hpp"
 
-#include <pqs/bits/unit_to_fixed_string.hpp>
+#include <pqs/concepts/associated/unit_to_fixed_string.hpp>
 #include <pqs/systems/si/units/area_unit.hpp>
 #include <pqs/systems/si/units/mass_unit.hpp>
 #include <pqs/systems/si/units/reciprocal_length_unit.hpp>

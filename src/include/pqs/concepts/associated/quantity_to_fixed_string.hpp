@@ -1,7 +1,7 @@
 #ifndef PQS_BITS_QUANTITY_TO_FIXED_STRING_HPP_INCLUDED
 #define PQS_BITS_QUANTITY_TO_FIXED_STRING_HPP_INCLUDED
 
-#include <pqs/bits/unit_to_fixed_string.hpp>
+#include <pqs/concepts/associated/unit_to_fixed_string.hpp>
 #include <pqs/concepts/quantity.hpp>
 
 namespace pqs{
