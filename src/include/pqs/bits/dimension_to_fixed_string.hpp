@@ -2,8 +2,7 @@
 #define PQS_BITS_DIMENSION_TO_FIXED_STRING_HPP_INCLUDED
 
 #include <pqs/concepts/dimension.hpp>
-
-#include <pqs/value_functions/get_base_unit_symbol.hpp>
+#include <pqs/concepts/associated/get_base_unit_symbol.hpp>
 #include <pqs/bits/fixed_string_charset_stuff.hpp>
 
 /**

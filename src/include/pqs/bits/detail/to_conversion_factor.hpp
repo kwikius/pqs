@@ -2,7 +2,7 @@
 #define PQS_BITS_DETAIL_TO_FROM_LL_CONVERSION_FACTOR_HPP_INCLUDED
 
 #include <pqs/bits/conversion_factor_fwd.hpp>
-#include <pqs/type_templates/exponent10_fwd.hpp>
+#include <pqs/bits/exponent10_fwd.hpp>
 
 namespace pqs { namespace detail {
 

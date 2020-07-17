@@ -2,7 +2,7 @@
 #define PQS_BITS_CONVERSION_FACTOR_TO_FIXED_STRING_HPP_INCLUDED
 
 #include <pqs/bits/conversion_factor_def.hpp>
-#include <pqs/type_templates/exponent10.hpp>
+#include <pqs/types/exponent10.hpp>
 #include <ratio>
 #include <pqs/bits/fixed_string_charset_stuff.hpp>
 

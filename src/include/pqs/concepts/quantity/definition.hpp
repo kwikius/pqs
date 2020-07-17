@@ -3,11 +3,11 @@
 
 #include <type_traits>
 #include <pqs/concepts/dimensionless_quantity.hpp>
-#include <pqs/type_functions/get_unit.hpp>
-#include <pqs/type_functions/get_dimension.hpp>
-#include <pqs/type_functions/get_numeric_type.hpp>
-#include <pqs/type_functions/get_conversion_factor.hpp>
-#include <pqs/type_functions/get_measurement_system.hpp>
+#include <pqs/concepts/associated/get_unit.hpp>
+#include <pqs/concepts/associated/get_dimension.hpp>
+#include <pqs/concepts/associated/get_numeric_type.hpp>
+#include <pqs/concepts/associated/get_conversion_factor.hpp>
+#include <pqs/concepts/associated/get_measurement_system.hpp>
 
 namespace pqs{
 

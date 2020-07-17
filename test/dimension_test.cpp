@@ -2,10 +2,10 @@
 #include "test.hpp"
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/meta/merge_dim.hpp>
-#include <pqs/bits/base_quantities.hpp>
+#include <pqs/types/base_quantities.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/meta/strip_cr.hpp>
-#include <pqs/si/units/length_unit.hpp>
+#include <pqs/systems/si/units/length_unit.hpp>
 
 namespace {
 

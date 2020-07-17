@@ -1,7 +1,7 @@
 #include "test.hpp"
 #include <pqs/concepts/dimension.hpp>
-#include <pqs/bits/base_quantities.hpp>
-#include <pqs/instance/basic_quantity.hpp>
+#include <pqs/types/base_quantities.hpp>
+#include <pqs/types/basic_quantity.hpp>
 
 struct my_rat{
   constexpr my_rat( int n , int d) : num{n},den{d} {}

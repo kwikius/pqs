@@ -1,7 +1,7 @@
 #ifndef PQS_BITS_NAMED_HPP_INCLUDED
 #define PQS_BITS_NAMED_HPP_INCLUDED
 
-#include <pqs/bits/fixed_string.hpp>
+#include <pqs/types/fixed_string.hpp>
 
 namespace pqs{
 

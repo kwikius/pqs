@@ -1,12 +1,12 @@
 
 #include "test.hpp"
 #include <type_traits>
-#include <pqs/bits/base_quantities.hpp>
+#include <pqs/types/base_quantities.hpp>
 #include <pqs/concepts/dimension.hpp>
-#include <pqs/instance/basic_quantity.hpp>
+#include <pqs/types/basic_quantity.hpp>
 #include <pqs/bits/dimension_to_fixed_string.hpp>
-#include <pqs/imperial/measurement_system.hpp>
-#include <pqs/si/measurement_system.hpp>
+#include <pqs/systems/imperial/measurement_system.hpp>
+#include <pqs/systems/si/measurement_system.hpp>
 
 using namespace pqs;
 

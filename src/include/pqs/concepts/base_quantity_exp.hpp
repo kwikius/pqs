@@ -13,7 +13,7 @@
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/types/dimensionless.hpp>
-#include <pqs/type_functions/get_base_quantity.hpp>
+#include <pqs/concepts/associated/get_base_quantity.hpp>
 
 namespace pqs{
 

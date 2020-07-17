@@ -1,6 +1,7 @@
 #ifndef PQS_CONVERSION_FACTOR_DEF_HPP_INCLUDED
 #define PQS_CONVERSION_FACTOR_DEF_HPP_INCLUDED
 
+#include <pqs/concepts/associated/get_exponent.hpp>
 #include <pqs/bits/conversion_factor_ops.hpp>
 #include <pqs/bits/conversion_factor_fwd.hpp>
 

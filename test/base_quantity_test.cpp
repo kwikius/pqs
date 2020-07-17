@@ -2,8 +2,8 @@
 #include "test.hpp"
 
 #include <pqs/concepts/base_quantity.hpp>
-#include <pqs/base_quantity/length.hpp>
-#include <pqs/base_quantity/time.hpp>
+#include <pqs/types/base_quantity/length.hpp>
+#include <pqs/types/base_quantity/time.hpp>
 #include <pqs/concepts/meta/totally_ordered.hpp>
 #include <pqs/concepts/meta/identity_function.hpp>
 

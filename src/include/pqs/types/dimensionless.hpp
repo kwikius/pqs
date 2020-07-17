@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <ratio>
 #include <pqs/bits/binary_op.hpp>
-#include <pqs/type_functions/get_exponent.hpp>
+#include <pqs/concepts/associated/get_exponent.hpp>
 
 /**
  *   An instantiable type for representing dimensionlessness

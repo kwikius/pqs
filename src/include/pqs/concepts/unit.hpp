@@ -4,10 +4,9 @@
 // pqs::unit concept
 
 #include <type_traits>
-#include <pqs/bits/where.hpp>
-#include <pqs/type_functions/get_measurement_system.hpp>
-#include <pqs/type_functions/get_dimension.hpp>
-#include <pqs/type_functions/get_conversion_factor.hpp>
+#include <pqs/concepts/associated/get_measurement_system.hpp>
+#include <pqs/concepts/associated/get_dimension.hpp>
+#include <pqs/concepts/associated/get_conversion_factor.hpp>
 
 namespace pqs{
 

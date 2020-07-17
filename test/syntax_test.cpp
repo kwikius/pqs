@@ -1,9 +1,9 @@
 
 #include "test.hpp"
 
-#include <pqs/si/length.hpp>
-#include <pqs/si/speed.hpp>
-#include <pqs/imperial/units/length_unit.hpp>
+#include <pqs/systems/si/length.hpp>
+#include <pqs/systems/si/speed.hpp>
+#include <pqs/systems/imperial/units/length_unit.hpp>
 
 #include <iostream>
 

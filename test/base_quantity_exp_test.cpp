@@ -1,7 +1,7 @@
 
 #include "test.hpp"
 
-#include <pqs/bits/base_quantities.hpp>
+#include <pqs/types/base_quantities.hpp>
 
 using pqs::exp_length;
 using pqs::exp_time;

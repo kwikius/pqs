@@ -3,9 +3,9 @@
 
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/concepts/binary_op_semantic.hpp>
-#include <pqs/instance/basic_quantity_fwd.hpp>
+#include <pqs/bits/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
-#include <pqs/bits/basic_unit.hpp>
+#include <pqs/types/basic_unit.hpp>
 #include <pqs/meta/min.hpp>
 #include <pqs/bits/implicit_cast.hpp>
 

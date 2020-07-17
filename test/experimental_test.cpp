@@ -2,7 +2,7 @@
 
 #include <type_traits>
 #include <pqs/concepts/dimension.hpp>
-#include <pqs/bits/base_quantities.hpp>
+#include <pqs/types/base_quantities.hpp>
 
 using pqs::dimension_list;
 using pqs::exp_length;

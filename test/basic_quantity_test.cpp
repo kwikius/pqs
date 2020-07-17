@@ -2,12 +2,12 @@
 
 // test interaction with time.h
 #include <time.h>
-#include <pqs/si/length.hpp>
-#include <pqs/si/reciprocal_length.hpp>
-#include <pqs/si/time.hpp>
-#include <pqs/imperial/length.hpp>
-#include <pqs/imperial/time.hpp>
-#include <pqs/imperial/speed.hpp>
+#include <pqs/systems/si/length.hpp>
+#include <pqs/systems/si/reciprocal_length.hpp>
+#include <pqs/systems/si/time.hpp>
+#include <pqs/systems/imperial/length.hpp>
+#include <pqs/systems/imperial/time.hpp>
+#include <pqs/systems/imperial/speed.hpp>
 #include <pqs/bits/quantity_output.hpp>
 
 #include <iomanip>

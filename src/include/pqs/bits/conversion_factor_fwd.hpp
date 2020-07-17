@@ -2,9 +2,6 @@
 #define PQS_BITS_CONVERSION_FACTOR_FWD_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/bits/std_ratio.hpp>
-#include <pqs/type_templates/exponent10_fwd.hpp>
-#include <pqs/type_functions/get_exponent.hpp>
 
 namespace pqs{
 

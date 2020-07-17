@@ -1,16 +1,16 @@
 
 #include <pqs/bits/base_quantities.hpp>
-#include <pqs/bits/basic_unit.hpp>
-#include <pqs/type_templates/conversion_factor.hpp>
+#include <pqs/types/basic_unit.hpp>
+#include <pqs/types/conversion_factor.hpp>
 #include <pqs/bits/binary_op.hpp>
-#include <pqs/si/unit.hpp>
+#include <pqs/systems/si/unit.hpp>
 
 // test interaction with time.h
 #include <time.h>
-#include <pqs/si/length.hpp>
-#include <pqs/si/time.hpp>
-#include <pqs/imperial/length.hpp>
-#include <pqs/imperial/time.hpp>
+#include <pqs/systems/si/length.hpp>
+#include <pqs/systems/si/time.hpp>
+#include <pqs/systems/imperial/length.hpp>
+#include <pqs/systems/imperial/time.hpp>
 
 #include <iostream>
 

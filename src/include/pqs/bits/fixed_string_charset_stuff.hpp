@@ -2,8 +2,8 @@
 #define PQS_BITS_FIXED_STRING_STUFF_HPP_INCLUDED
 
 #include <pqs/bits/undefined_arg.hpp>
-#include <pqs/bits/charset.hpp>
-#include <pqs/bits/fixed_string.hpp>
+#include <pqs/types/charset.hpp>
+#include <pqs/types/fixed_string.hpp>
 
 // Copyright (c) Andy Little 2020
 
