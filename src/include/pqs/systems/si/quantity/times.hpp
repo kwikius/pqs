@@ -18,7 +18,7 @@ namespace pqs{ namespace impl {
       requires si::are_in_si_measurement_system<Lhs,Rhs>
         && ( si::is_normative_unit<get_unit<Lhs>  > ||
            si::is_normative_unit<get_unit<Rhs> > )
-   struct dimensioned_op_semantic< Lhs, times, Rhs>{
+   struct dimensioned_out_semantic< Lhs, times, Rhs>{
 
       // type to convert Lhs to before calc
       using lhs_type = basic_quantity<

@@ -17,7 +17,7 @@ namespace pqs{
    namespace impl {
 
       template <quantity Lhs, quantity Rhs> 
-      struct dimensioned_op_semantic< Lhs, divides, Rhs>{
+      struct dimensioned_out_semantic< Lhs, divides, Rhs>{
 
          using result_dimension = 
             binary_op_t<
@@ -64,7 +64,7 @@ namespace pqs{
       };
 
       template <quantity Lhs, quantity Rhs> 
-      struct dimensionless_op_semantic<Lhs,divides,Rhs>{
+      struct dimensionless_out_semantic<Lhs,divides,Rhs>{
 
          using result_conversion_factor =
             binary_op_t<
@@ -92,12 +92,12 @@ namespace pqs{
                   get_simple_dimension<Rhs>
                >
             >,
-            dimensioned_op_semantic<Lhs,divides,Rhs>,
-            dimensionless_op_semantic<Lhs,divides,Rhs>
+            dimensioned_out_semantic<Lhs,divides,Rhs>,
+            dimensionless_out_semantic<Lhs,divides,Rhs>
          >{};
 
       template < quantity Q, dimensionless_quantity V>
-      struct scalar_op_semantic<Q, divides,V>{
+      struct dimensionless_in_semantic<Q, divides,V>{
 
          using result = 
             basic_quantity <
@@ -115,7 +115,7 @@ namespace pqs{
       };
 
       template <dimensionless_quantity V, quantity Q>
-      struct scalar_op_semantic<V, divides,Q>{
+      struct dimensionless_in_semantic<V, divides,Q>{
          using result_dimension = 
             unary_op_t<
                pqs::meta::reciprocal,
@@ -158,7 +158,7 @@ namespace pqs{
    inline constexpr 
    auto operator/( V const & v, Q const & q)
    {
-      return impl::scalar_op_semantic<
+      return impl::dimensionless_in_semantic<
          V, divides, Q
       >::apply( v, q);
    }
@@ -172,7 +172,7 @@ namespace pqs{
    inline constexpr 
    auto operator/( Q const & q, V const & v)
    {
-      return impl::scalar_op_semantic<
+      return impl::dimensionless_in_semantic<
          Q, divides, V
       >::apply(q,v);
    }

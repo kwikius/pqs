@@ -18,7 +18,7 @@ namespace pqs{ namespace impl {
       requires si::are_in_si_measurement_system<Lhs,Rhs>
         && ( si::is_normative_unit<get_unit<Lhs>  > ||
            si::is_normative_unit<get_unit<Rhs> > )
-   struct dimensioned_op_semantic< Lhs, divides, Rhs>{
+   struct dimensioned_out_semantic< Lhs, divides, Rhs>{
 
       // type to convert Lhs to before calc
       using lhs_type = pqs::basic_quantity<
@@ -78,7 +78,7 @@ namespace pqs{ namespace impl {
 
    template <dimensionless_quantity V, quantity Q>
    requires si::is_normative_unit<get_unit<Q> >
-   struct scalar_op_semantic<V, divides,Q>{
+   struct dimensionless_in_semantic<V, divides,Q>{
 
       using result_dimension = 
          unary_op_t<

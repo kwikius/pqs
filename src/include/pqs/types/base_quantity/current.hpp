@@ -7,11 +7,11 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/meta/eval_if.hpp>
 
-/**
- * @brief implement current as a model of base_quantity
-*/
-
 namespace pqs{ 
+
+   /**
+    * @brief implement current as a model of base_quantity
+   */
 
    /**
     * @brief current base_quantity definition
@@ -26,7 +26,7 @@ namespace pqs{
     * @brief declare the exp_current base_quantity exponent as a variadic template
     * The integer and rational variants are implemented as specialisations
     * to shorten error messages on the usual integer exponents
-    * N.B This way of implementing is not essential
+    * N.B This way of implementing is not essential.
     */
    template <int... N>
    struct exp_current;
@@ -53,11 +53,11 @@ namespace pqs{
    template <int N>
    struct exp_current<N,1> : exp_current<N>{};
 
-   /**
-    * @brief Fulfill base_quantity_exponent requirements
-    */
    namespace impl{
 
+      /**
+       * @brief Fulfill base_quantity_exponent requirements
+       */
       template <int N>
       constexpr inline bool is_base_quantity_exp_impl< pqs::exp_current<N> > = true;
 
