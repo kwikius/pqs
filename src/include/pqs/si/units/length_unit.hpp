@@ -7,13 +7,6 @@
 
 namespace pqs{ namespace si { namespace length_unit{
 
-   template <typename ConversionFactor>
-   struct conversion : 
-   pqs::si::unit_conversion<
-      decltype(abstract_length<>),
-      ConversionFactor
-   >{};
-
    struct m : si::base_unit<base_length>{};
 
    struct mm : si::normative_unit<exp_length<1>, exponent10<-3> >{};
@@ -21,6 +14,15 @@ namespace pqs{ namespace si { namespace length_unit{
    struct cm : si::normative_unit<exp_length<1>, exponent10<-2> >{};
 
    struct km : si::normative_unit<exp_length<1>, exponent10<3> >{};
+
+// ------- unit conversions from other systems  -------- 
+
+   template <typename ConversionFactor>
+   struct conversion : 
+   pqs::si::unit_conversion<
+      decltype(abstract_length<>),
+      ConversionFactor
+   >{};
 
    struct ft : named<"ft"> ,
       conversion< 

@@ -71,6 +71,46 @@ namespace pqs{ namespace impl {
          };
       }
    };
+
+   /**
+   *  @brief customise si to return si normative_quantity
+   */
+
+   template <dimensionless_quantity V, quantity Q>
+   requires si::is_normative_unit<get_unit<Q> >
+   struct scalar_op_semantic<V, divides,Q>{
+
+      using result_dimension = 
+         unary_op_t<
+            pqs::meta::reciprocal,
+            get_simple_dimension<Q>
+         >;
+      
+      using result_conversion_factor =
+         unary_op_t<
+            pqs::meta::reciprocal,
+            get_conversion_factor<Q>
+         >;
+
+      using result_numeric_type =
+         binary_op_t<V, divides, get_numeric_type<Q> >;
+
+      using result = 
+         basic_quantity<
+            si::normative_unit<
+               result_dimension,
+               typename result_conversion_factor::exponent
+            >,
+            result_numeric_type
+         >;
+
+      static 
+      constexpr auto apply(V const & v, Q const & q)
+      {
+         return result{v / get_numeric_value(q)};
+      }
+   };
+
 }} // pqs::impl
 
 #endif // PQS_CONCEPTS_QUANTITY_DIVIDES_QUANTITY_HPP_INCLUDED

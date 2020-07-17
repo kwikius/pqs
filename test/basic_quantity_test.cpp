@@ -63,37 +63,35 @@ using namespace pqs;
 namespace {
 
    /**
-     *  @brief test pqs::quantity requirements
+     *  @brief test quantity requirements
      */
    void basic_quantity_concept_test()
    {
-      pqs::basic_quantity<
-         pqs::basic_unit<
+      basic_quantity<
+         basic_unit<
             dummy_system,
-            decltype(pqs::abstract_length<> / pqs::abstract_time<> ),
-            decltype( std::ratio<30,2>{} ^ pqs::exponent10<3>{})
+            decltype(abstract_length<> / abstract_time<> ),
+            decltype( std::ratio<30,2>{} ^ exponent10<3>{})
          >, double
       > constexpr q{20.0};
 
       using Q = decltype(q);
 
-      static_assert( pqs::quantity<Q> );
+      static_assert( quantity<Q> );
 
-      using U = pqs::get_unit<Q>;
+      using U = get_unit<Q>;
 
-      static_assert( ! pqs::si::is_normative_unit<U> );
+      static_assert( ! si::is_normative_unit<U> );
          
-      using D = pqs::get_dimension<Q>;
+      using D = get_dimension<Q>;
 
-      using V = pqs::get_numeric_type<Q>;
+      using V = get_numeric_type<Q>;
 
-      using Cf = pqs::get_conversion_factor<Q>;
+      using Cf = get_conversion_factor<Q>;
 
-      using Sm = pqs::get_measurement_system<Q>;
+      using Sm = get_measurement_system<Q>;
 
       auto constexpr v = get_numeric_value(q);
-     
-//      std::cout << " qs numeric value = " << v << '\n';
 
       static_assert( v == 20.0 );
 
@@ -104,30 +102,43 @@ namespace {
 
    void basic_quantity_add_test()
    {
-      auto q1 = pqs::si::length::m<>{1};
-      static_assert( pqs::si::is_normative_unit<pqs::get_unit<decltype(q1)> > );
+      auto q1 = si::length::m<>{1};
+      QUAN_CHECK(( get_numeric_value(q1) == 1))
+      static_assert( si::is_normative_unit<get_unit<decltype(q1)> > );
 
-      auto q2 = pqs::si::length::mm<>{321};
-      static_assert( pqs::si::is_normative_unit<pqs::get_unit<decltype(q1)> > );
+      auto q1a = q1 + q1;
+      // addition of exact same types does not change type
+      static_assert(std::is_same_v<decltype(q1a),decltype(q1)>);
+      QUAN_CHECK(( get_numeric_value(q1a) == 2))
+
+      auto q2 = si::length::mm<>{321};
+      static_assert( si::is_normative_unit<get_unit<decltype(q1)> > );
 
       auto q3 = q1 + q2;
+     // int x = q2;
+      static_assert( si::is_normative_unit<get_unit<decltype(q3)> > );
+
+      //#######################################################################
+      // the mm usit is derived from normative_unit so not same as deduced normative unit
+      // This must be accepted,  else we cant derive units in si
+      // static_assert(std::is_same_v<decltype(q3),decltype(q2)>);
+      //#################################################################
+
       QUAN_CHECK(( get_numeric_value(q3) == 1321))
 
-     // std::cout << "q3 numeric value = " << get_numeric_value(q3) << '\n';
-
-      auto q4 = pqs::si::length::ft<>{6};
+      auto q4 = si::length::ft<>{6};
       auto q5 = q1 + q4;
-      static_assert( pqs::si::is_normative_unit<pqs::get_unit<decltype(q5)> > );
+      static_assert( si::is_normative_unit<get_unit<decltype(q5)> > );
      // std::cout << "q5 numeric value = " << get_numeric_value(q5) << '\n';
 
-      using Cf5 = pqs::get_conversion_factor<decltype(q5)>;
+      using Cf5 = get_conversion_factor<decltype(q5)>;
 
       static_assert( std::is_same_v< 
-         Cf5, pqs::conversion_factor<std::ratio<1>,pqs::exponent10<-1> >
+         Cf5, conversion_factor<std::ratio<1>,exponent10<-1> >
       > );
 
-      auto q6 = pqs::imperial::length::ft<>{1};
-      auto q7 = pqs::imperial::length::yd<>{2};
+      auto q6 = imperial::length::ft<>{1};
+      auto q7 = imperial::length::yd<>{2};
       auto q8 = q6 + q7;
       QUAN_CHECK((get_numeric_value(q8) == 7))
      // std::cout << " imp numeric value = " << get_numeric_value(q8) << '\n';
@@ -135,68 +146,68 @@ namespace {
 
    void basic_quantity_imperial_test()
    {
-      auto constexpr q1 = pqs::imperial::time::s<>{10};
-      pqs::imperial::time::min<> q2 = q1;
+      auto constexpr q1 = imperial::time::s<>{10};
+      imperial::time::min<> q2 = q1;
      // std::cout << get_numeric_value(q2) <<'\n';
       QUAN_CHECK(( get_numeric_value(q2) == 10./(60) ))
-      pqs::imperial::time::hr<> q3 = q1;
+      imperial::time::hr<> q3 = q1;
      // std::cout << get_numeric_value(q3) <<'\n';
       QUAN_CHECK(( get_numeric_value(q3) == 10./(60*60) ))
    }
 
    void basic_quantity_multiply_test()
    {
-      auto q1 = pqs::si::length::m<>{10};
-      auto q2 = pqs::si::length::mm<>{321};
+      auto q1 = si::length::m<>{10};
+      auto q2 = si::length::mm<>{321};
 
-      using U1 = pqs::get_unit<decltype(q1)>;
+      using U1 = get_unit<decltype(q1)>;
 
-      static_assert( pqs::si::is_normative_unit<U1> );
+      static_assert( si::is_normative_unit<U1> );
 
       auto q3 = q1 * q2;
       QUAN_CHECK( (get_numeric_value(q3) == 3210))
      // std::cout << "result of mux = "  << get_numeric_value(q3) <<'\n';
 
-      pqs::basic_quantity<
-         pqs::si::normative_unit<
-            pqs::exp_length<-1>,
-            pqs::exponent10<-1>
+      basic_quantity<
+         si::normative_unit<
+            exp_length<-1>,
+            exponent10<-1>
          >
       > q4{2};
       auto v1 = q1 * q4;
       QUAN_CHECK( (v1 == 2.))
      // std::cout << "result of dimless mux = "  << v1 <<'\n'; 
 
-      pqs::si::length::ft<> q5 = q1;
-      using U5 = pqs::get_unit<decltype(q5)>;
-      static_assert( not pqs::si::is_normative_unit<U5> );
+      si::length::ft<> q5 = q1;
+      using U5 = get_unit<decltype(q5)>;
+      static_assert( not si::is_normative_unit<U5> );
 
       auto q6 = q5 * q2; 
-      static_assert( pqs::si::is_normative_unit<pqs::get_unit<decltype(q6)> > );
+      static_assert( si::is_normative_unit<get_unit<decltype(q6)> > );
      // std::cout << "result of mux1 = "  << get_numeric_value(q6) <<'\n';  
    }
 
    void basic_quantity_divide_test()
    {
       // dimensionless
-      auto q1 = pqs::si::length::m<>{10};
-      auto q2 = pqs::si::length::mm<>{10000};
+      auto q1 = si::length::m<>{10};
+      auto q2 = si::length::mm<>{10000};
       auto v1 =  q1 / q2;
       QUAN_CHECK(( v1 == 1 ))
      // std::cout << "result of div = "  << v1 <<'\n';
 
-      auto q4 = pqs::si::time::s<>{5};
+      auto q4 = si::time::s<>{5};
 
       auto q5 = q1 / q4;
       QUAN_CHECK(( get_numeric_value(q5) == 2 ))
       //std::cout << "result of div1 = "  << get_numeric_value(q5) <<'\n';
 
-      pqs::si::time::min<> q6 = q4;
+      si::time::min<> q6 = q4;
      // std::cout << "q6 cf = " << get_conversion_factor<decltype(q6)>() << '\n';
-      static_assert(not pqs::si::is_normative_unit<pqs::get_unit<decltype(q6)> > );
+      static_assert(not si::is_normative_unit<get_unit<decltype(q6)> > );
 
       auto q7 = q1 / q6;
-      static_assert( pqs::si::is_normative_unit<pqs::get_unit<decltype(q7)> > );
+      static_assert( si::is_normative_unit<get_unit<decltype(q7)> > );
     //  std::cout << "q7 cf = " << get_conversion_factor<decltype(q7)>() << '\n';
      // std::cout << "q7 = "  << get_numeric_value(q7) <<'\n';
       QUAN_CHECK(( get_numeric_value(q7) == 0.02 ))
@@ -204,41 +215,40 @@ namespace {
 
    void scalar_multiply_test()
    {
-      auto q1 = pqs::si::length::m<>{10};
-      auto q2 = pqs::si::length::mm<>{10000};
+      auto constexpr q1 = si::length::m<>{10};
+      static_assert(unit_to_fixed_string<charset_ascii>(q1) == "m" );
+      static_assert(unit_to_fixed_string<charset_utf8>(q1) == "m" );
 
-      auto q1a = q1 * 2.0;
+      auto q2 = si::length::mm<>{10000};
+      QUAN_CHECK( ( unit_to_fixed_string<charset_ascii>(q2) == "mm" ))
+      QUAN_CHECK( ( unit_to_fixed_string<charset_utf8>(q2) == "mm" ))
+
+      auto constexpr q1a = q1 * 2.0;
+      static_assert(std::is_same_v<decltype(q1a),decltype(q1)>);
       QUAN_CHECK(( get_numeric_value(q1a) == 20 ))
 
       auto q2a = 3.0 * q2;
+      static_assert(std::is_same_v<decltype(q2a),decltype(q2)>);
       QUAN_CHECK(( get_numeric_value(q2a) == 30000 ))
-      static_assert(std::is_same_v<decltype(q1),decltype(q1a)>);
-      static_assert(std::is_same_v<decltype(q2),decltype(q2a)>);
 
-//      output<pqs::charset_utf8>(std::cout, q1) << '\n';
-//      output<pqs::charset_utf8>(std::cout, q1a) << '\n';
-//      output<pqs::charset_utf8>(std::cout, q2) << '\n';
-//      output<pqs::charset_utf8>(std::cout, q2a) << '\n';
+      auto constexpr q3 = imperial::speed::mi_per_hr<>{60};
+      QUAN_CHECK( ( unit_to_fixed_string<charset_ascii>(q3) == "mi/hr" ))
 
-      auto constexpr q3 = pqs::imperial::speed::mi_per_hr<>{60};
       auto constexpr q3a = q3 * 4;
+      static_assert(std::is_same_v<decltype(q3a),decltype(q3)>);
       static_assert(get_numeric_value(q3a) == 240 );
-      auto constexpr q3b = 2 * q3a;
-      static_assert( get_numeric_value(q3b) == 480 );
-//
-//      output<pqs::charset_utf8>(std::cout, q3) << '\n';
-//      output<pqs::charset_utf8>(std::cout, q3a) << '\n';
-//      output<pqs::charset_utf8>(std::cout, q3b) << '\n';
-   }
 
-   using namespace pqs;
+      auto constexpr q3b = 2 * q3a;
+      static_assert(std::is_same_v<decltype(q3b),decltype(q3)>);
+      static_assert( get_numeric_value(q3b) == 480 );
+   }
 
    void scalar_divide_test()
    {
       auto q1 = si::length::m<>{10};
       auto q2 = 1. / q1;
       QUAN_CHECK(( get_numeric_value(q2) == 1./10 ));
-  //    output<pqs::charset_utf8>(std::cout << "q2 = ", q2) << '\n';
+  //    output<charset_utf8>(std::cout << "q2 = ", q2) << '\n';
 
       auto q3 = si::length::mm<>{10};
       auto q4 = 1. / q3;
@@ -255,7 +265,7 @@ namespace {
 
       // test normative si
       si::reciprocal_length::per_mm<> q7 = q4;
-     // output<charset_utf8>(std::cout << "q7 = ", q7) << '\n';
+    //  output<charset_utf8>(std::cout << "q7 = ", q7) << '\n';
    }
 
    // wiki example
@@ -284,8 +294,8 @@ namespace {
       auto constexpr q1 = si::length::m<>{100};
       si::length::ft<> constexpr q2 = q1;
 
-     // output<pqs::charset_utf8>( std::cout << std::setprecision(7), q1);
-     // output< pqs::charset_utf8>( std::cout << " == ", q2) << '\n';
+     // output<charset_utf8>( std::cout << std::setprecision(7), q1);
+     // output< charset_utf8>( std::cout << " == ", q2) << '\n';
    }
 }
 
