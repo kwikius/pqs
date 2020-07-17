@@ -1,8 +1,8 @@
 #ifndef PQS_CONCEPTS_QUANTITY_PLUS_HPP_INCLUDED
 #define PQS_CONCEPTS_QUANTITY_PLUS_HPP_INCLUDED
 
+#include <pqs/concepts/associated/binary_op_semantic.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
-#include <pqs/concepts/binary_op_semantic.hpp>
 #include <pqs/bits/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
@@ -10,13 +10,7 @@
 #include <pqs/bits/implicit_cast.hpp>
 
    /**
-    * @brief The default add op where both Lhs and Rhs 
-    * are in any same measurement system.
-    * Addition of same quantities results in same quantity
-    * else returns a basic_quantity with basic unit
-    * of simple dimension  and conversion factor of smallest
-    * N.B. These are low level operations. We rely on the 
-    * top level operator + for requirements checking
+    * @brief The default quantity add semantic
    */
 
 namespace pqs{

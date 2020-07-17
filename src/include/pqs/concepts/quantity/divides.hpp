@@ -1,15 +1,15 @@
 #ifndef PQS_CONCEPTS_QUANTITY_DIVIDES_HPP_INCLUDED
 #define PQS_CONCEPTS_QUANTITY_DIVIDES_HPP_INCLUDED
 
+#include <pqs/concepts/associated/binary_op_semantic.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
-#include <pqs/concepts/binary_op_semantic.hpp>
 #include <pqs/bits/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
 
    /**
-   * @brief default quantity divide semantic
+   * @brief default quantity divide semantics
    */
 
 namespace pqs{
@@ -53,7 +53,8 @@ namespace pqs{
                result_numeric_type
             >;
 
-         static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         static constexpr 
+         auto apply(Lhs const & lhs, Rhs const & rhs)
          {
             return result{
                get_numeric_value(lhs) / 
@@ -72,7 +73,8 @@ namespace pqs{
                get_conversion_factor<Rhs> 
             >;
 
-         static constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         static constexpr 
+         auto apply(Lhs const & lhs, Rhs const & rhs)
          {
             return ( get_numeric_value(lhs) / 
                get_numeric_value(rhs) ) * 
@@ -105,8 +107,8 @@ namespace pqs{
                >
             >;
 
-         static 
-         constexpr auto apply(Q const & q, V const & v)
+         static constexpr 
+         auto apply(Q const & q, V const & v)
          {
             return result{get_numeric_value(q) / v};
          }
@@ -139,8 +141,8 @@ namespace pqs{
                result_numeric_type
             >;
 
-         static 
-         constexpr auto apply(V const & v, Q const & q)
+         static constexpr
+         auto apply(V const & v, Q const & q)
          {
             return result{v / get_numeric_value(q)};
          }

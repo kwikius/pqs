@@ -1,7 +1,7 @@
 #ifndef PQS_CONCEPTS_DIMENSION_HPP_INCLUDED
 #define PQS_CONCEPTS_DIMENSION_HPP_INCLUDED
 
-#include <pqs/types/dimension_list.hpp>
+#include <pqs/concepts/associated/dimension_list.hpp>
 #include <pqs/concepts/associated/dimensionally_equivalent.hpp>
 
 namespace pqs{ 

@@ -1,9 +1,9 @@
 #ifndef PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
 #define PQS_CONCEPTS_QUANTITY_TIMES_HPP_INCLUDED
 
+#include <pqs/concepts/associated/binary_op_semantic.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/concepts/dimensionless_quantity.hpp>
-#include <pqs/concepts/binary_op_semantic.hpp>
 #include <pqs/bits/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
@@ -11,7 +11,7 @@
 
    /**
    * @brief default quantity multiplication semantics
-   * for dimensioned and dimensionless results
+   * for dimensioned, dimensionless and scalar ops
    */
 
 namespace pqs{ 
