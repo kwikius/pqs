@@ -53,13 +53,6 @@ namespace pqs{
       std::remove_cvref_t<Rhs>
    >;
 
-// ########TODO remove legacy ##############
-   template <typename Lhs, typename Rhs>
-   struct of_same_base_quantity_legacy : std::bool_constant<
-      pqs::of_same_base_quantity<Lhs,Rhs>
-   >{};
-//##########################################
-
    namespace impl{
 
       template <typename T>

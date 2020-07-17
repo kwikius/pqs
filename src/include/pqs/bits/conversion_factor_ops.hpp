@@ -96,7 +96,6 @@ namespace pqs{
       >{};
    }
 
-
    template <typename T> 
        requires pqs::is_conversion_factor<T>
    using normalise = typename impl::conversion_factor_normalise<std::remove_cvref_t<T> >::type;
@@ -104,14 +103,9 @@ namespace pqs{
    namespace impl{
 
       template <typename Lhs, typename Rhs>
-      struct binary_op_impl<Lhs, pqs::divides,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-      >{
+        requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
+      struct binary_op_impl< Lhs, pqs::divides, Rhs>{
+
          typedef typename pqs::detail::to_ll_conversion_factor<Lhs>::type ll_lhs_type;
          typedef typename pqs::detail::to_ll_conversion_factor<Rhs>::type ll_rhs_type;
 
@@ -147,14 +141,9 @@ namespace pqs{
 
 
       template <typename Lhs, typename Rhs>
-      struct binary_op_impl<Lhs, pqs::times,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-      >{
+         requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
+      struct binary_op_impl< Lhs, pqs::times, Rhs>{
+
          typedef typename pqs::detail::to_ll_conversion_factor<Lhs>::type ll_lhs_type;
          typedef typename pqs::detail::to_ll_conversion_factor<Rhs>::type ll_rhs_type;
 
@@ -175,15 +164,10 @@ namespace pqs{
       };
 
       template <typename Lhs, typename Rhs>
+         requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
       struct binary_op_impl<
-         Lhs, pqs::plus,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-        > : pqs::detail::to_conversion_factor<
+         Lhs, pqs::plus, Rhs
+      > : pqs::detail::to_conversion_factor<
                typename pqs::detail::ll_conversion_factor_add<
                   typename pqs::detail::to_ll_conversion_factor<Lhs>::type,
                   typename pqs::detail::to_ll_conversion_factor<Rhs>::type
@@ -193,85 +177,55 @@ namespace pqs{
       // TODO conv_factor minus
 
       template <typename Lhs, typename Rhs>
+      requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
       struct binary_op_impl<
-         Lhs, pqs::less,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-        > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
+         Lhs, pqs::less,Rhs
+      > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
             typename pqs::detail::to_ll_conversion_factor<Lhs>::type,
             typename pqs::detail::to_ll_conversion_factor<Rhs>::type
         >::value < 0)>{};
 
       template <typename Lhs, typename Rhs>
+            requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
       struct binary_op_impl<
-         Lhs, pqs::less_equal,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-        > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
+         Lhs, pqs::less_equal,Rhs
+      > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
             typename pqs::detail::to_ll_conversion_factor<Lhs>::type,
             typename pqs::detail::to_ll_conversion_factor<Rhs>::type
          >::value <= 0)>{};
 
       template <typename Lhs, typename Rhs>
+            requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
       struct binary_op_impl<
-         Lhs, pqs::equal_to,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-        > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
+         Lhs, pqs::equal_to,Rhs
+      > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
             typename pqs::detail::to_ll_conversion_factor<Lhs>::type,
             typename pqs::detail::to_ll_conversion_factor<Rhs>::type
          >::value == 0)>{};
 
       template <typename Lhs, typename Rhs>
+         requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
       struct binary_op_impl<
-         Lhs, pqs::not_equal_to,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-        > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
+         Lhs, pqs::not_equal_to,Rhs
+      > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
             typename pqs::detail::to_ll_conversion_factor<Lhs>::type,
             typename pqs::detail::to_ll_conversion_factor<Rhs>::type
          >::value != 0)>{};
 
       template <typename Lhs, typename Rhs>
+         requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
       struct binary_op_impl<
-         Lhs, pqs::greater_equal,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
+         Lhs, pqs::greater_equal,Rhs
       > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
           typename pqs::detail::to_ll_conversion_factor<Lhs>::type,
           typename pqs::detail::to_ll_conversion_factor<Rhs>::type
       >::value >= 0)>{};
 
       template <typename Lhs, typename Rhs>
+         requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
       struct binary_op_impl<
-         Lhs, pqs::greater,Rhs,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::is_conversion_factor_legacy<Lhs>,
-               pqs::is_conversion_factor_legacy<Rhs>
-            >
-         >::type
-       > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
+         Lhs, pqs::greater,Rhs
+      > : std::integral_constant<bool, (pqs::detail::ll_conversion_factor_compare<
          typename pqs::detail::to_ll_conversion_factor<Lhs>::type,
          typename pqs::detail::to_ll_conversion_factor<Rhs>::type
       >::value > 0)>{};

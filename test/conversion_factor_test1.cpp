@@ -16,9 +16,9 @@ namespace {
          int,int
       > conversion_factor1;
 
-      QUAN_CHECK((pqs::is_conversion_factor_legacy<conversion_factor>::value));
+      static_assert(pqs::is_conversion_factor<conversion_factor>);
 
-      QUAN_CHECK((pqs::is_conversion_factor_legacy<conversion_factor1>::value == false));
+      static_assert(pqs::is_conversion_factor<conversion_factor1> == false);
    }
 
    void conversion_factor_lt_10_test()
