@@ -3,7 +3,7 @@
 #include "test.hpp"
 #include <cmath>
 #include <pqs/bits/meta/to_power.hpp>
-#include <pqs/math/root.hpp>
+#include <pqs/bits/math/root.hpp>
 #include <iostream>
 
 namespace{

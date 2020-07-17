@@ -9,7 +9,7 @@
 #include <pqs/bits/meta/not.hpp>
 #include <type_traits>
 #include <limits>
-#include <pqs/math/fn_to_power.hpp>
+#include <pqs/bits/math/fn_to_power.hpp>
 #include <pqs/bits/meta/identity.hpp>
 
 namespace pqs{ namespace impl{

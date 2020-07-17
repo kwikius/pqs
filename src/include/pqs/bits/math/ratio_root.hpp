@@ -5,7 +5,7 @@
 //#include <ratio>
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
-#include <pqs/math/fn_to_power_impl.hpp>
+#include <pqs/bits/math/fn_to_power_impl.hpp>
 
 //#error TODO
 //This is pretty unstable

@@ -1,8 +1,8 @@
 #ifndef PQS_MATH_FN_TO_POWER_HPP_INCLUDED
 #define PQS_MATH_FN_TO_POWER_HPP_INCLUDED
 
-#include <pqs/math/fn_to_power_impl.hpp>
-#include <pqs/math/root.hpp>
+#include <pqs/bits/math/fn_to_power_impl.hpp>
+#include <pqs/bits/math/root.hpp>
 
 namespace pqs{
 

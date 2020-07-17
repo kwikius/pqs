@@ -3,7 +3,7 @@
 
 #include <limits>
 #include <cmath>
-#include <pqs/math/fn_to_power_impl.hpp>
+#include <pqs/bits/math/fn_to_power_impl.hpp>
 
 namespace pqs{ namespace impl{
 
