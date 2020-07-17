@@ -5,21 +5,21 @@
 #include <pqs/concepts/quantity/plus.hpp>
 #include <pqs/systems/si/unit.hpp>
 
-/**
- * @brief. Implement a custom + semantic for the 
- * si measurement system.
- *
- * if the quantities are the same then
- *    the result is the same as both
- * else if one or both quantities is a proper si_quantity then
- *    get finest grained and convert it to a proper si quantity
- * else
- *    get finest grained 
- *   
-*/
+
 namespace pqs { namespace impl{
 
-   
+      /**
+    * @brief. Implement a custom + semantic for the 
+    * si measurement system.
+    *
+    * if the quantities are the same then
+    *    the result is the same as both
+    * else if one or both quantities is a proper si_quantity then
+    *    get finest grained and convert it to a proper si quantity
+    * else
+    *    get finest grained 
+    *   
+   */
       template < quantity Lhs, quantity Rhs> 
          requires ( pqs::si::is_normative_unit<get_unit<Lhs> > ||
               pqs::si::is_normative_unit<get_unit<Rhs> > )

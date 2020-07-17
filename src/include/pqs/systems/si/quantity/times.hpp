@@ -5,15 +5,16 @@
 #include <pqs/concepts/quantity/times.hpp>
 #include <pqs/systems/si/unit.hpp>
 
+
+namespace pqs{ namespace impl {
+
+
    /**
    * @brief si quantity multiplication semantic. 
    * If one or other of inputs is a proper_quantity
    * quantities are converted to proper_quantites quantities  before
    * multiply and reult is a proper quantity
    */
-
-namespace pqs{ namespace impl {
-
    template <quantity Lhs, quantity Rhs> 
       requires si::are_in_si_measurement_system<Lhs,Rhs>
         && ( si::is_normative_unit<get_unit<Lhs>  > ||

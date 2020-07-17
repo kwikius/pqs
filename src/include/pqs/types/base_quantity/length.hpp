@@ -8,13 +8,11 @@
 #include <pqs/types/base_quantity/uuids.hpp>
 #include <pqs/concepts/base_quantity_exponent.hpp>
 
-/**
- * @brief implement length as a model of base_quantity
-*/
-
 namespace pqs{ 
 
-   // base quantities are required to be model of meta::identity_function 
+   /**
+    * @brief length base_quantity definition - implement base_length as a model of base_quantity
+   */
    struct base_length : pqs::base_quantity_of<
       pqs::newtonian_universe::length_uuid
    >{

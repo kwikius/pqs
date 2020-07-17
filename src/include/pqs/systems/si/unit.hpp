@@ -7,17 +7,17 @@
 
 namespace pqs{ namespace si{
 
-   /**
-    * @brief derive si_unit_base from basic_unit_base
-    *  to make si::normative_unit a model of pqs::unit
-    */
       namespace impl{
+         /**
+          * @brief derive si_unit_base from basic_unit_base
+          *  to make si::normative_unit a model of pqs::unit
+          */
          struct si_unit_base : pqs::impl::basic_unit_base{};
       }
 
       /**
-        * @brief works out if a dimension and Exp10 exp combo is prefixable
-        *  with an si prefix
+        * @brief Is a dimension and exponent10 combo prefixable
+        *  with an si prefix?
       */
       template <dimension D , typename Exp> 
       inline constexpr bool is_prefixable()
@@ -41,7 +41,12 @@ namespace pqs{ namespace si{
             return false;
          }
       }
-       
+
+      /**
+       *  Get unit name + prefix of dimension, exponent10 combo, 
+       *  where the combo is prefixable
+       *
+       */       
       template <dimension D , typename Exp, typename CharSet> 
          requires is_prefixable<D,Exp>()
       inline constexpr 
@@ -63,7 +68,10 @@ namespace pqs{ namespace si{
                      static_cast<int>(extent::num),CharSet
                   >;
       }
-
+      
+      /**
+       *  @brief normative si unit, by defualt has no name
+       */
       template <
          dimension D, 
          typename Exp = exponent10<0> 
@@ -78,6 +86,9 @@ namespace pqs{ namespace si{
 
       };
 
+      /**
+       *  @brief normative si unit, include a member name where it is possible
+       */
       template <
          dimension D, 
          typename Exp
@@ -96,15 +107,15 @@ namespace pqs{ namespace si{
 
       };
 
+      /**
+        * @brief make a si base unit from a base_quantity
+        */
       template <base_quantity Qb>
       struct base_unit : normative_unit<
           typename make_base_quantity_exp<Qb,std::ratio<1> >::type,
           exponent10<0>
       >{
          using type = base_unit;
-//         template <typename CharSet>
-//         static constexpr auto name
-//            = get_base_unit_symbol<Qb,si_measurement_system,CharSet>;
       };
 
       namespace impl{

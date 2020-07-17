@@ -9,17 +9,11 @@
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
 
-   /**
-   * @brief default quantity multiplication semantics
-   * for dimensioned, dimensionless and scalar ops
-   */
-
 namespace pqs{ 
    namespace impl{
 
       /**
-       * @brief default multiplication semantic for when
-       * the result is dimensioned
+       * @brief default multiplication semantic for dimensioned result
        */ 
       template < quantity Lhs, quantity Rhs> 
       struct dimensioned_out_semantic< Lhs, times, Rhs>{
@@ -58,8 +52,11 @@ namespace pqs{
                result_numeric_type
             >;
 
-         static 
-         constexpr auto apply( Lhs const & lhs, Rhs const & rhs)
+         /**
+          * @brief implement default dimensioned_out semantic
+           */
+         static constexpr 
+         auto apply( Lhs const & lhs, Rhs const & rhs)
          {
             return result{
                get_numeric_value(lhs) * 
@@ -69,10 +66,8 @@ namespace pqs{
       };
 
       /**
-       * @brief default multiplication semantic for when
-       * the result is dimensionless
+       * @brief default multiplication semantic for dimensionless result
        */ 
-
       template <quantity Lhs, quantity Rhs> 
       struct dimensionless_out_semantic<Lhs,times,Rhs>{
 
@@ -82,9 +77,11 @@ namespace pqs{
                times,
                get_conversion_factor<Rhs> 
             >;
-
-         static 
-         constexpr auto apply(Lhs const & lhs, Rhs const & rhs)
+         /**
+          *  @brief implement default dimensionless_out semantic
+          */
+         static constexpr 
+         auto apply(Lhs const & lhs, Rhs const & rhs)
          {
             return ( 
                get_numeric_value(lhs) * 
@@ -94,7 +91,7 @@ namespace pqs{
       };
 
       /**
-       *  @brief combine the dimensined and dimensionless semantics
+       *  @brief combine the dimensioned_out and dimensionless_out semantics
        */
       template <quantity Lhs,quantity Rhs>
       struct binary_op_semantic<Lhs,times,Rhs> 
@@ -111,7 +108,7 @@ namespace pqs{
         >{};
 
       /**
-       *  @brief multiplication by a scalar q * v
+       *  @brief default semantic for by multiply by dimensionless q * v
        */
       template <quantity Q, dimensionless_quantity V>
       struct dimensionless_in_semantic<Q, times,V>
@@ -124,17 +121,19 @@ namespace pqs{
                >
             >;
 
-         static 
-         constexpr auto apply(Q const & q, V const & v)
+         /**
+          * @brief implement default dimensionless_in semantic q * v
+          */
+         static constexpr 
+         auto apply(Q const & q, V const & v)
          {
             return result{get_numeric_value(q) * v};
          }
       };
 
        /**
-       *  @brief multiplication by a scalar v * q
+       *  @brief default semantic multiplication by dimensionless v * q
        */
-
       template <dimensionless_quantity V, quantity Q>
       struct dimensionless_in_semantic<V, times,Q>
       {
@@ -146,6 +145,9 @@ namespace pqs{
                >
             >;
 
+         /**
+          * @brief implement default dimensionless_in semantic v * q
+          */
          static 
          constexpr auto apply(V const & v, Q const & q)
          {
@@ -155,7 +157,7 @@ namespace pqs{
    }// impl
 
    /**
-    * @brief quantity * dimensionles_quantity
+    * @brief interface op quantity * dimensionless_quantity
     */
 
    template <quantity Q, dimensionless_quantity V>
@@ -170,7 +172,7 @@ namespace pqs{
    }
 
   /**
-    * @brief dimensionles_quantity * quantity
+    * @brief interface op dimensionless_quantity * quantity
     */
 
    template <dimensionless_quantity V, quantity Q>
@@ -185,7 +187,7 @@ namespace pqs{
    }
 
    /**
-    * @brief quantity * quantity
+    * @brief interface op quantity * quantity
     */
    template <quantity Lhs, quantity Rhs>
       requires
@@ -198,8 +200,6 @@ namespace pqs{
          Lhs, times, Rhs
       >::apply( lhs, rhs);
    }
-
-
 } // pqs
 
 #endif // PQS_CONCEPTS_QUANTITY_TIMES_QUANTITY_HPP_INCLUDED

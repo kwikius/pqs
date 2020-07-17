@@ -7,12 +7,10 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/meta/eval_if.hpp>
 
-/**
- * @brief implement time as a model of base_quantity
-*/
-
 namespace pqs{ 
-
+   /**
+    * @brief implement time as a model of base_quantity
+   */
     struct base_time : pqs::base_quantity_of<pqs::newtonian_universe::time_uuid>{
        typedef base_time type;
     };

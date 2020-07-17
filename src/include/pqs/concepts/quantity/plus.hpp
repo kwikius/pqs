@@ -9,14 +9,14 @@
 #include <pqs/bits/meta/min.hpp>
 #include <pqs/bits/implicit_cast.hpp>
 
-   /**
-    * @brief The default quantity add semantic
-   */
+
 
 namespace pqs{
 
    namespace impl{
-
+   /**
+    * @brief The default quantity add semantic
+   */
       template < quantity Lhs, quantity Rhs> 
       struct binary_op_semantic< Lhs, plus, Rhs>{
 
@@ -72,6 +72,9 @@ namespace pqs{
                result_numeric_type
             >;
 
+         /**
+          * @brief Implement the default quantity add semantic
+         */
          static constexpr auto apply( Lhs const & lhs, Rhs const & rhs)
          {
             return result{
@@ -81,7 +84,9 @@ namespace pqs{
          }
       };
 
-      // optimise for same quantities
+      /**
+        * @brief optimise default add semantic for quantities of exact same type
+        */
       template <quantity Q> 
       struct binary_op_semantic< Q, plus, Q>{
          static constexpr Q apply( Q const & lhs, Q const & rhs)
@@ -92,6 +97,9 @@ namespace pqs{
 
    }//impl
 
+   /**
+     * @ brief quantity add operator interface
+    */
    template <quantity Lhs, quantity Rhs>
       requires  
          same_measurement_system<Lhs,Rhs> &&

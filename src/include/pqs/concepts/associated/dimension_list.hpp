@@ -18,9 +18,15 @@
 namespace pqs{
 
    namespace detail {
+      /**
+       * @brief base class for detecting a dimension_list
+      */
       struct dimension_list_base{};
    }
 
+   /**
+    * @brief dimension_list definition
+   */
    template <base_quantity_exponent ...D>
    struct dimension_list : pqs::detail::dimension_list_base{
       typedef dimension_list type;

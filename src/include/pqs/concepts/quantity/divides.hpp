@@ -8,10 +8,6 @@
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
 
-   /**
-   * @brief default quantity divide semantics
-   */
-
 namespace pqs{
 
    namespace impl {

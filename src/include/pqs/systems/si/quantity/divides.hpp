@@ -5,15 +5,14 @@
 #include <pqs/concepts/quantity/divides.hpp>
 #include <pqs/systems/si/unit.hpp>
 
+namespace pqs{ namespace impl {
+
    /**
    * @brief custom si quantity dimensioned divide semantic
    * in si, if one or both is a proper si quantity
    * then convert both to proper si before calc
    *  result is also a proper si quantity
    */
-
-namespace pqs{ namespace impl {
-
    template <quantity Lhs, quantity Rhs> 
       requires si::are_in_si_measurement_system<Lhs,Rhs>
         && ( si::is_normative_unit<get_unit<Lhs>  > ||

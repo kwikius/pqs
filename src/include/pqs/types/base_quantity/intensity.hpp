@@ -7,12 +7,11 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/meta/eval_if.hpp>
 
-/**
- * @brief implement intensity as a model of base_quantity
-*/
-
 namespace pqs{ 
 
+   /**
+    * @brief intensity base_quantity definition - implement intensity as a model of base_quantity
+   */
     struct base_intensity : pqs::base_quantity_of<
       pqs::newtonian_universe::intensity_uuid
     >{

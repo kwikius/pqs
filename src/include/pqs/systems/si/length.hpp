@@ -4,7 +4,9 @@
 #include <pqs/systems/si/basic_si_quantity.hpp>
 #include <pqs/systems/si/units/length_unit.hpp>
 
-// si quantities length definition namespace 
+/**
+   si::quantity length definition namespace 
+*/
 namespace pqs::si::length{
 
    template <typename ValueType = double>
