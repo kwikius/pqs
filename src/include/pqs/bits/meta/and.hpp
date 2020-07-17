@@ -17,12 +17,6 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-#ifndef QUAN_AVR_NO_CPP_STDLIB
-#include <type_traits>
-#else
-#include <quan/std/tr1/integral_constant.hpp>
-#endif
-
 #include <pqs/bits/meta/eval_if.hpp>
 
 namespace pqs{namespace meta{

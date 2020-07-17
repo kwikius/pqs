@@ -2,10 +2,9 @@
 #define PQS_BASIC_UNIT_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/unit.hpp>
 #include <pqs/bits/basic_unit_base.hpp>
-
+#include <pqs/bits/std_ratio.hpp>
 /**
  *  basic_unit  model of unit: encapsulates quantity system, dimension and conversion factor
  *  but without the numeric value.

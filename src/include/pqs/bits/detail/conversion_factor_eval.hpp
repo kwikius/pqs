@@ -2,8 +2,8 @@
 #define PQS_BITS_CONVERSION_FACTOR_EVAL_HPP_INCLUDED1
 
 #include <type_traits>
+#include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/bits/math/powerof10.hpp>
-#include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/meta/narrowest_runtime_type.hpp>
 #include <pqs/bits/meta/integer_max.hpp>
 #include <pqs/bits/detail/conversion_factor_normalise.hpp>

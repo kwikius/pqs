@@ -4,7 +4,7 @@
 #include <pqs/concepts/associated/binary_op_semantic.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/bits/basic_quantity_fwd.hpp>
-#include <pqs/bits/binary_op.hpp>
+#include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
 #include <pqs/bits/implicit_cast.hpp>

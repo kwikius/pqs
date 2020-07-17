@@ -2,7 +2,7 @@
 #define PQS_UNIVERSALLY_UNIQUE_ID_HPP_INCLUDED
 
 #include <cstdint>
-#include <pqs/bits/binary_op.hpp>
+#include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/bits/meta/and.hpp>
 #include <pqs/bits/where.hpp>
 

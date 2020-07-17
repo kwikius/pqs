@@ -8,7 +8,7 @@
 #include <pqs/bits/evaluate_conversion_factor.hpp>
 #include <pqs/bits/conversion_factor_ops.hpp>
 #include <pqs/bits/conversion_factor_def.hpp>
-#include <pqs/types/exponent10.hpp>
 #include <pqs/bits/conversion_factor_to_fixed_string.hpp>
+#include <pqs/types/exponent10.hpp>
 
 #endif // PQS_TYPE_TEMPLATES_CONVERSION_FACTOR_HPP_INCLUDED

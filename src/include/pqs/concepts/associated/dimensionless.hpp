@@ -3,7 +3,7 @@
 
 #include <type_traits>
 #include <ratio>
-#include <pqs/bits/binary_op.hpp>
+#include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/concepts/associated/get_exponent.hpp>
 
 /**

@@ -5,7 +5,7 @@
 #include <pqs/bits/detail/to_ll_conversion_factor.hpp>
 #include <pqs/bits/detail/to_conversion_factor.hpp>
 #include <pqs/bits/detail/conversion_factor_normalise.hpp>
-#include <pqs/bits/binary_op.hpp>
+#include <pqs/concepts/associated/binary_op.hpp>
 
 namespace pqs{
 

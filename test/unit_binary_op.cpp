@@ -2,7 +2,7 @@
 #include <pqs/bits/base_quantities.hpp>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/types/conversion_factor.hpp>
-#include <pqs/bits/binary_op.hpp>
+#include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/systems/si/unit.hpp>
 
 // test interaction with time.h

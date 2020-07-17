@@ -4,8 +4,8 @@
 #include <pqs/concepts/base_quantity.hpp>
 #include <pqs/concepts/base_quantity_exponent.hpp>
 #include <pqs/concepts/measurement_system.hpp>
-#include <pqs/types/conversion_factor.hpp>
 #include <pqs/concepts/associated/get_base_unit_symbol.hpp>
+#include <pqs/types/conversion_factor.hpp>
 #include <pqs/types/basic_unit.hpp>
 
 namespace pqs{

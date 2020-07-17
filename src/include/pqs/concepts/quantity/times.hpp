@@ -5,7 +5,7 @@
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/concepts/dimensionless_quantity.hpp>
 #include <pqs/bits/basic_quantity_fwd.hpp>
-#include <pqs/bits/binary_op.hpp>
+#include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
 

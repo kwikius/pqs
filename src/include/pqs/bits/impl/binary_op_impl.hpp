@@ -32,7 +32,6 @@
 #include <type_traits>
 #include <pqs/bits/config.hpp>
 #include <pqs/bits/undefined_arg.hpp>
-#include <pqs/bits/where.hpp>
 #include <pqs/bits/meta/is_any_type.hpp>
 #include <pqs/bits/meta/binary_op_tags.hpp>
 #include <pqs/bits/meta/binary_operator_types.hpp>
