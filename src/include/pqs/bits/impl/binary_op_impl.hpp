@@ -33,13 +33,13 @@
 #include <pqs/bits/config.hpp>
 #include <pqs/bits/undefined_arg.hpp>
 #include <pqs/bits/where.hpp>
-#include <pqs/meta/is_any_type.hpp>
-#include <pqs/meta/binary_op_tags.hpp>
-#include <pqs/meta/binary_operator_types.hpp>
-#include <pqs/meta/is_runtime_type.hpp>
-#include <pqs/meta/or.hpp>
-#include <pqs/meta/and.hpp>
-#include <pqs/meta/not.hpp>
+#include <pqs/bits/meta/is_any_type.hpp>
+#include <pqs/bits/meta/binary_op_tags.hpp>
+#include <pqs/bits/meta/binary_operator_types.hpp>
+#include <pqs/bits/meta/is_runtime_type.hpp>
+#include <pqs/bits/meta/or.hpp>
+#include <pqs/bits/meta/and.hpp>
+#include <pqs/bits/meta/not.hpp>
 
 namespace pqs{ 
 

@@ -4,8 +4,8 @@
 #include <type_traits>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/detail/ll_conversion_factor.hpp>
-#include <pqs/meta/eval_if.hpp>
-#include <pqs/meta/to_power.hpp>
+#include <pqs/bits/meta/eval_if.hpp>
+#include <pqs/bits/meta/to_power.hpp>
 
 namespace pqs{ namespace detail{
 

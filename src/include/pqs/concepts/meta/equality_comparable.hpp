@@ -3,7 +3,7 @@
 
 #include <type_traits>
 #include <pqs/bits/binary_op.hpp>
-#include <pqs/meta/strip_cr.hpp>
+#include <pqs/bits/meta/strip_cr.hpp>
 #include <pqs/concepts/meta/bool_constant.hpp>
 /*
    are 2 meta types equality comparable at compile time?

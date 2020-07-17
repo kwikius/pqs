@@ -5,7 +5,7 @@
 #include <pqs/types/base_quantity/uuids.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>
 #include <pqs/bits/std_ratio.hpp>
-#include <pqs/meta/eval_if.hpp>
+#include <pqs/bits/meta/eval_if.hpp>
 
 /**
  * @brief implement temperature as a model of base_quantity

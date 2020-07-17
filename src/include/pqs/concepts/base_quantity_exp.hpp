@@ -2,11 +2,11 @@
 #define PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/meta/strip_cr.hpp>
+#include <pqs/bits/meta/strip_cr.hpp>
 #include <pqs/bits/where.hpp>
-#include <pqs/meta/eval_if.hpp>
-#include <pqs/meta/not.hpp>
-#include <pqs/meta/and.hpp>
+#include <pqs/bits/meta/eval_if.hpp>
+#include <pqs/bits/meta/not.hpp>
+#include <pqs/bits/meta/and.hpp>
 #include <pqs/bits/undefined_arg.hpp>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/unary_op.hpp>

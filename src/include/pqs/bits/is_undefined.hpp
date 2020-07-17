@@ -2,7 +2,7 @@
 #define PQS_BITS_IS_UNDEFINED_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/meta/not.hpp>
+#include <pqs/bits/meta/not.hpp>
 
 namespace pqs{
 

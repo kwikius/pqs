@@ -1,6 +1,6 @@
 
 #include "test.hpp"
-#include <pqs/meta/strip_cr.hpp>
+#include <pqs/bits/meta/strip_cr.hpp>
 #include <pqs/types/base_quantities.hpp>
 #include <pqs/concepts/dimension.hpp>
 #include <pqs/types/basic_quantity.hpp>

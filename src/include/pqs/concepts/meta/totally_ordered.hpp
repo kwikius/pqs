@@ -3,7 +3,7 @@
 
 #include <pqs/concepts/meta/less_than_comparable.hpp>
 #include <pqs/concepts/meta/equality_comparable.hpp>
-#include <pqs/meta/and.hpp>
+#include <pqs/bits/meta/and.hpp>
 /*
    are 2 meta types less_than comparable at compile time?
    The notion is false by default so needs implementation

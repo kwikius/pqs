@@ -1,11 +1,11 @@
 #ifndef PQS_META_MERGE_SORT_HPP_INCLUDED
 #define PQS_META_MERGE_SORT_HPP_INCLUDED
 
-#include <pqs/meta/eval_if.hpp>
-#include <pqs/meta/type_list.hpp>
-#include <pqs/meta/split_list.hpp>
-#include <pqs/meta/join_list.hpp>
-#include <pqs/meta/type_list_alias.hpp>
+#include <pqs/bits/meta/eval_if.hpp>
+#include <pqs/bits/meta/type_list.hpp>
+#include <pqs/bits/meta/split_list.hpp>
+#include <pqs/bits/meta/join_list.hpp>
+#include <pqs/bits/meta/type_list_alias.hpp>
 
 namespace pqs{ namespace meta{
 

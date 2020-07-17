@@ -3,9 +3,9 @@
 
 #include <type_traits>
 #include <pqs/bits/where.hpp>
-#include <pqs/meta/not.hpp>
+#include <pqs/bits/meta/not.hpp>
 #include <pqs/bits/undefined_arg.hpp>
-#include <pqs/meta/is_narrowing_conversion.hpp>
+#include <pqs/bits/meta/is_narrowing_conversion.hpp>
 #include <pqs/bits/ll_config.hpp>
 #include <pqs/bits/constrain.hpp>
 #include <limits>

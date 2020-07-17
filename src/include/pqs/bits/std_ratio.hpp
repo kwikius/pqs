@@ -3,7 +3,7 @@
 
 #include <ratio>
 #include <pqs/bits/where.hpp>
-#include <pqs/meta/and.hpp>
+#include <pqs/bits/meta/and.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
 

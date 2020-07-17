@@ -5,10 +5,10 @@
 #include <cstdint>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/undefined_arg.hpp>
-#include <pqs/meta/eval_if.hpp>
+#include <pqs/bits/meta/eval_if.hpp>
 #include <pqs/bits/config.hpp>
-#include <pqs/meta/identity.hpp>
-#include <pqs/meta/integer_max.hpp>
+#include <pqs/bits/meta/identity.hpp>
+#include <pqs/bits/meta/integer_max.hpp>
 
 namespace pqs{ 
    namespace meta{

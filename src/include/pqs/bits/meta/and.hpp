@@ -1,8 +1,7 @@
-#ifndef PQS_META_IS_RUNTIME_TYPE_HPP_INCLUDED
-#define PQS_META_IS_RUNTIME_TYPE_HPP_INCLUDED
-
- /*
- Copyright (c) 2006 - 2013 Andy Little 
+#ifndef PQS_META_AND_HPP_INCLUDED
+#define PQS_META_AND_HPP_INCLUDED
+/*
+ Copyright (c) 2006-2013 Andy Little 
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -17,23 +16,27 @@
  You should have received a copy of the GNU General Public License
  along with this program. If not, see <http://www.gnu.org/licenses/>
 */
- 
 
+#ifndef QUAN_AVR_NO_CPP_STDLIB
 #include <type_traits>
-#include <pqs/meta/strip_cr.hpp>
-
-namespace pqs{ namespace meta{
-
-   namespace impl{
-      template <typename T, typename Where = void>
-      struct is_runtime_type_impl : std::true_type{}; 
-   }
-
-   template <typename T>
-   struct is_runtime_type : impl::is_runtime_type_impl<
-      std::remove_cvref_t<T>
-   >{};
-      
-}} //pqs::meta
-
+#else
+#include <quan/std/tr1/integral_constant.hpp>
 #endif
+
+#include <pqs/bits/meta/eval_if.hpp>
+
+namespace pqs{namespace meta{
+   
+   template<typename Lhs, typename... Args > struct and_ : eval_if<
+      Lhs, and_<Args...>, std::false_type
+   >::type {};
+     
+   template<typename C1, typename C2>
+   struct and_<C1,C2>: eval_if<
+      C1,C2,
+      std::false_type
+   >::type{};
+
+}} // pqs::meta
+
+#endif  // PQS_META_AND_HPP_INCLUDED

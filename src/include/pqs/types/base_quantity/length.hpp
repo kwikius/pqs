@@ -2,7 +2,7 @@
 #define PQS_BASE_QUANTITIES_LENGTH_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/meta/eval_if.hpp>
+#include <pqs/bits/meta/eval_if.hpp>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/base_quantity_of.hpp>
 #include <pqs/types/base_quantity/uuids.hpp>

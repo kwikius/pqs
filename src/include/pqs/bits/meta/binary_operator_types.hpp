@@ -26,9 +26,9 @@
     might need to be specialised
 */
 
-//#include <pqs/meta/binary_operator_parameters.hpp>
+//#include <pqs/bits/meta/binary_operator_parameters.hpp>
 #include <type_traits>
-#include <pqs/meta/binary_op_tags.hpp>
+#include <pqs/bits/meta/binary_op_tags.hpp>
 
 namespace pqs { namespace meta{
 

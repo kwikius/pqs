@@ -2,7 +2,7 @@
 #define PQS_TYPE_FUNCTIONS_GET_MEASUREMENT_SYSTEM_HPP_INCLUDED
 
 #include <pqs/bits/undefined.hpp>
-#include <pqs/meta/strip_cr.hpp>
+#include <pqs/bits/meta/strip_cr.hpp>
 #include <pqs/concepts/measurement_system.hpp>
 
 namespace pqs{

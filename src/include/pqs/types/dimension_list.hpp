@@ -2,15 +2,15 @@
 #define PQS_CONCEPTS_BASE_QUANTITY_EXP_LIST_HPP_INCLUDED2
 
 #include <type_traits>
-#include <pqs/meta/and.hpp>
-#include <pqs/meta/not.hpp>
-#include <pqs/meta/or.hpp>
+#include <pqs/bits/meta/and.hpp>
+#include <pqs/bits/meta/not.hpp>
+#include <pqs/bits/meta/or.hpp>
 #include <pqs/bits/where.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/bits/unary_op.hpp>
-#include <pqs/meta/merge_dim.hpp>
-#include <pqs/meta/transform.hpp>
-#include <pqs/meta/fold.hpp>
+#include <pqs/bits/meta/merge_dim.hpp>
+#include <pqs/bits/meta/transform.hpp>
+#include <pqs/bits/meta/fold.hpp>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/associated/get_simple_dimension.hpp>
 #include <pqs/concepts/base_quantity_exp.hpp>

@@ -2,9 +2,9 @@
 #define PQS_CONCEPTS_META_TYPE_FUNCTION_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/meta/detail/yes_no_type.hpp>
-#include <pqs/meta/detail/has_type_member.hpp>
-#include <pqs/meta/strip_cr.hpp>
+#include <pqs/bits/meta/detail/yes_no_type.hpp>
+#include <pqs/bits/meta/detail/has_type_member.hpp>
+#include <pqs/bits/meta/strip_cr.hpp>
 
 namespace pqs{ namespace meta{ 
 

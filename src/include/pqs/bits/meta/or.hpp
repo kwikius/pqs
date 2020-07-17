@@ -1,7 +1,7 @@
-#ifndef PQS_META_AND_HPP_INCLUDED
-#define PQS_META_AND_HPP_INCLUDED
+#ifndef PQS_META_OR_HPP_INCLUDED
+#define PQS_META_OR_HPP_INCLUDED
 /*
- Copyright (c) 2006-2013 Andy Little 
+ Copyright (c) 2006-2019 Andy Little 
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -17,26 +17,21 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>
 */
 
-#ifndef QUAN_AVR_NO_CPP_STDLIB
+
 #include <type_traits>
-#else
-#include <quan/std/tr1/integral_constant.hpp>
-#endif
+#include <pqs/bits/meta/eval_if.hpp>
 
-#include <pqs/meta/eval_if.hpp>
+namespace pqs{ namespace meta{
 
-namespace pqs{namespace meta{
-   
-   template<typename Lhs, typename... Args > struct and_ : eval_if<
-      Lhs, and_<Args...>, std::false_type
-   >::type {};
-     
+   template <typename Lhs,typename ... Args> struct or_ : eval_if< Lhs, std::true_type, or_<Args...> >::type{};
+
    template<typename C1, typename C2>
-   struct and_<C1,C2>: eval_if<
-      C1,C2,
-      std::false_type
+   struct or_<C1,C2>: eval_if<
+      C1,
+      std::true_type,
+      C2
    >::type{};
 
-}} // pqs::meta
+}}
 
-#endif  // PQS_META_AND_HPP_INCLUDED
+#endif

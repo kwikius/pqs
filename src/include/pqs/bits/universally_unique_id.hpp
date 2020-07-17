@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <pqs/bits/binary_op.hpp>
-#include <pqs/meta/and.hpp>
+#include <pqs/bits/meta/and.hpp>
 #include <pqs/bits/where.hpp>
 
 namespace pqs{

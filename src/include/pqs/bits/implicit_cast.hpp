@@ -18,7 +18,7 @@
  along with this program. If not, see http://www.gnu.org/licenses./
  */
 
-#include <pqs/meta/identity.hpp>
+#include <pqs/bits/meta/identity.hpp>
 #include <type_traits>
 
 namespace pqs{

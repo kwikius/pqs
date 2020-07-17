@@ -6,7 +6,7 @@
 #include <pqs/bits/basic_quantity_fwd.hpp>
 #include <pqs/bits/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
-#include <pqs/meta/min.hpp>
+#include <pqs/bits/meta/min.hpp>
 
    /**
    * @brief default quantity divide semantic

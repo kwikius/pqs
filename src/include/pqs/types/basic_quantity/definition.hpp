@@ -3,7 +3,7 @@
 
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/bits/scaled_value.hpp>
-#include <pqs/meta/is_narrowing_conversion.hpp>
+#include <pqs/bits/meta/is_narrowing_conversion.hpp>
 
 namespace pqs{
 

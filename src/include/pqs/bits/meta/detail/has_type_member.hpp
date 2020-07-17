@@ -7,8 +7,8 @@
   David Vandevoorde and Nicolia M.Josuttis
    section 15.2.2 determining C++ class types.
 */
-#include <pqs/meta/detail/yes_no_type.hpp>
-#include <pqs/meta/detail/cat.hpp>
+#include <pqs/bits/meta/detail/yes_no_type.hpp>
+#include <pqs/bits/meta/detail/cat.hpp>
 
 #define PQS_MACRO_HAS_TYPE_MEMBER(name) \
 template<typename T> \

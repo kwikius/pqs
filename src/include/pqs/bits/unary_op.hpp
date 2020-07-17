@@ -1,9 +1,9 @@
 #ifndef PQS_UNARY_OP_HPP_INCLUDED
 #define PQS_UNARY_OP_HPP_INCLUDED
 
-#include <pqs/meta/unary_op_tags.hpp>
+#include <pqs/bits/meta/unary_op_tags.hpp>
 #include <pqs/bits/undefined.hpp>
-#include <pqs/meta/strip_cr.hpp>
+#include <pqs/bits/meta/strip_cr.hpp>
 
 namespace pqs{
 

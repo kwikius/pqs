@@ -4,13 +4,13 @@
 #include <pqs/bits/config.hpp>
 #include <pqs/bits/undefined.hpp>
 #include <pqs/bits/where.hpp>
-#include <pqs/meta/and.hpp>
-#include <pqs/meta/or.hpp>
-#include <pqs/meta/not.hpp>
+#include <pqs/bits/meta/and.hpp>
+#include <pqs/bits/meta/or.hpp>
+#include <pqs/bits/meta/not.hpp>
 #include <type_traits>
 #include <limits>
 #include <pqs/math/fn_to_power.hpp>
-#include <pqs/meta/identity.hpp>
+#include <pqs/bits/meta/identity.hpp>
 
 namespace pqs{ namespace impl{
 

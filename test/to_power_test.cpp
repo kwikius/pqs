@@ -2,7 +2,7 @@
 
 #include "test.hpp"
 #include <cmath>
-#include <pqs/meta/to_power.hpp>
+#include <pqs/bits/meta/to_power.hpp>
 #include <pqs/math/root.hpp>
 #include <iostream>
 
