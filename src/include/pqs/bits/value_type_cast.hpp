@@ -1,6 +1,0 @@
-#ifndef PQS_BITS_VALUE_TYPE_CAST_HPP_INCLUDED
-#define PQS_BITS_VALUE_TYPE_CAST_HPP_INCLUDED
-
-#include <pqs/bits/undefined_arg.hpp>
-
-#endif // PQS_BITS_VALUE_TYPE_CAST_HPP_INCLUDED

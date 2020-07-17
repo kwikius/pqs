@@ -1,7 +1,7 @@
 #ifndef PQS_BASE_UUIDS_HPP_INCLUDED
 #define PQS_BASE_UUIDS_HPP_INCLUDED
 
-#include <pqs/bits/universally_unique_id.hpp>
+#include <pqs/types/uuid.hpp>
 
 namespace pqs{ 
 
