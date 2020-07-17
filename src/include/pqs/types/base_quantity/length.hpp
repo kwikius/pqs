@@ -6,7 +6,7 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/base_quantity_of.hpp>
 #include <pqs/types/base_quantity/uuids.hpp>
-#include <pqs/concepts/base_quantity_exp.hpp>
+#include <pqs/concepts/base_quantity_exponent.hpp>
 
 /**
  * @brief implement length as a model of base_quantity
