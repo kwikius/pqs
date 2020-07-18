@@ -12,11 +12,11 @@ namespace pqs{ namespace imperial { namespace time_unit{
    >{};
 
    struct min : named<"min">,
-      decltype( s{} * std::ratio<60>{} )
+      decltype( s() * std::ratio<60>() )
    {};
 
    struct hr : named<"hr">,
-      decltype( min{} * std::ratio<60>{} ) 
+      decltype( min() * std::ratio<60>() ) 
    {};
 
 }}} // pqs::si::time_unit

@@ -10,12 +10,16 @@
 
 
 namespace pqs{ 
-/**
- * @brief implement substance as a model of base_quantity
-*/
+   /**
+    * @addtogroup base_quantity_model
+    * @{ **/
+   /**
+    * @brief implement substance as a model of base_quantity
+   */
     struct base_substance : pqs::impl::base_quantity_of<pqs::newtonian_universe::substance_uuid>{
        typedef base_substance type;
     };
+    /** @} */
 
    template <int... N>
    struct exp_substance;

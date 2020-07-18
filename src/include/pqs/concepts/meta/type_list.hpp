@@ -4,12 +4,6 @@
 #include <type_traits>
 #include <cstdint>
 
-namespace pqs { namespace concepts { namespace meta{
-
-   struct type_list;
-
-}}}
-
 namespace pqs{ namespace meta{
 
   namespace impl{

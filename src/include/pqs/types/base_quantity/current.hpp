@@ -10,6 +10,9 @@
 namespace pqs{ 
 
    /**
+    * @addtogroup base_quantity_model
+    * @{ **/
+   /**
     * @brief current base_quantity definition - implement current as a model of base_quantity
    */
    struct base_current : pqs::impl::base_quantity_of<
@@ -17,6 +20,7 @@ namespace pqs{
    >{
       using type = base_current;
    };
+   /** @} */
 
    /**
     * @brief declare the base_quantity exponent as a variadic template

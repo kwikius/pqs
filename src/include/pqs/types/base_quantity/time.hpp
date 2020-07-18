@@ -8,12 +8,17 @@
 #include <pqs/bits/meta/eval_if.hpp>
 
 namespace pqs{ 
+
+   /**
+    * @addtogroup base_quantity_model
+    * @{ **/
    /**
     * @brief implement time as a model of base_quantity
    */
-    struct base_time : pqs::impl::base_quantity_of<pqs::newtonian_universe::time_uuid>{
-       typedef base_time type;
-    };
+   struct base_time : pqs::impl::base_quantity_of<pqs::newtonian_universe::time_uuid>{
+      typedef base_time type;
+   };
+   /** @} */
 
    template <int... N>
    struct exp_time;

@@ -10,6 +10,9 @@
 namespace pqs{ 
 
    /**
+    * @addtogroup base_quantity_model
+    * @{ **/
+   /**
     * @brief intensity base_quantity definition - implement intensity as a model of base_quantity
    */
     struct base_intensity : pqs::impl::base_quantity_of<
@@ -17,6 +20,7 @@ namespace pqs{
     >{
        using type = base_intensity;
     };
+    /** @} */
 
    template <int... N>
    struct exp_intensity;

@@ -9,13 +9,17 @@
 namespace pqs{
 
 /**
- *  @defgroup base_quantity_concept concept base_quantity
+ *  @defgroup base_quantity_concept    base_quantity concept
+ */
+/**
+*  @defgroup base_quantity_concept_impl base_quantity concept_impl
+*/
+/**
+ * @defgroup base_quantity_model        base_quantity model_of
  */
 
    namespace impl{
-     /**
-      *  @defgroup base_quantity_concept_impl base_quantity concept impl
-      */
+
 
       /**
       * @addtogroup base_quantity_concept_impl

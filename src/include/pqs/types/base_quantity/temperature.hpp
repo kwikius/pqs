@@ -7,15 +7,17 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/meta/eval_if.hpp>
 
-
-
 namespace pqs{ 
-/**
- * @brief implement temperature as a model of base_quantity
-*/
-    struct base_temperature : pqs::impl::base_quantity_of<pqs::newtonian_universe::temperature_uuid>{
-       typedef base_temperature type;
-    };
+   /**
+    * @addtogroup base_quantity_model
+    * @{ **/
+   /**
+    * @brief implement temperature as a model of base_quantity
+   */
+   struct base_temperature : pqs::impl::base_quantity_of<pqs::newtonian_universe::temperature_uuid>{
+    typedef base_temperature type;
+   };
+   /** @} */
 
    template <int... N>
    struct exp_temperature;

@@ -11,12 +11,16 @@
 
 namespace pqs{ 
 
-/**
- * @brief implement mass as a model of base_quantity
-*/
+   /**
+    * @addtogroup base_quantity_model
+    * @{ */
+   /**
+    * @brief implement mass as a model of base_quantity
+   */
     struct base_mass : pqs::impl::base_quantity_of<pqs::newtonian_universe::mass_uuid>{
        typedef base_mass type;
     };
+    /** @} */
 
    template <int... N>
    struct exp_mass;

@@ -13,7 +13,7 @@ namespace pqs::imperial::length_unit{
    >{};
 
    struct yd : 
-      decltype( ft{} * std::ratio<3>{} )
+      decltype( ft() * std::ratio<3>() )
    {
      /**
       * @brief demonstrate alternative name customisation
@@ -27,7 +27,7 @@ namespace pqs::imperial::length_unit{
    };
 
    struct mi : named<"mi">,
-      decltype( yd{} * std::ratio<1760>{} ) 
+      decltype( yd() * std::ratio<1760>() ) 
    {};
 
 } // pqs::si::length_unit

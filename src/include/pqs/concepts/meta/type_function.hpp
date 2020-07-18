@@ -23,6 +23,9 @@ namespace pqs{ namespace meta{
 
    }// impl
 
+   /**
+    *  @brief A type_function has a member ::type
+    */
    template <typename T>
    struct is_type_function : impl::is_type_function_impl< std::remove_cvref_t<T> >{};
 

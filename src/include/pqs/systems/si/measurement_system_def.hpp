@@ -1,13 +1,13 @@
 #ifndef PQS_BITS_SI_QUANTITY_SYSTEM_DEF_HPP_INCLUDED
 #define PQS_BITS_SI_QUANTITY_SYSTEM_DEF_HPP_INCLUDED
 
+#include <pqs/concepts/measurement_system.hpp>
+#include <pqs/concepts/associated/get_base_unit_symbol.hpp>
+#include <pqs/concepts/quantity.hpp>
+#include <pqs/systems/si/get_base_unit_prefix_offset.hpp>
 #include <pqs/types/base_quantities.hpp>
 #include <pqs/types/fixed_string.hpp>
-#include <pqs/concepts/measurement_system.hpp>
-#include <pqs/concepts/quantity.hpp>
 #include <pqs/types/conversion_factor.hpp>
-#include <pqs/concepts/associated/get_base_unit_symbol.hpp>
-#include <pqs/systems/si/get_base_unit_prefix_offset.hpp>
 
 namespace pqs{ 
 
@@ -24,7 +24,6 @@ namespace pqs{
          pqs::si_measurement_system
       > : std::true_type{};
    }
-
 }
 
 namespace pqs{

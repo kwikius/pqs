@@ -39,7 +39,6 @@ namespace pqs{
 
    /**
     * @brief interface : output a dimension as a fixed_string - object form
-    *
     */
    template < 
       pqs::measurement_system Ms, 
@@ -132,11 +131,6 @@ namespace pqs{
 
       /**
        * @brief Custom dimension to fixed_string implementation
-       * 
-       * TODO
-       * - reordering of base_quantities in the output
-       * - use division op raher than negative power
-       * - detact and prefer user provided name string
       */
       template <typename D,pqs::measurement_system Ms,typename CharSet>
          requires pqs::is_custom_dimension<D>
@@ -155,44 +149,6 @@ namespace pqs{
 
    }// detail
 
-#if 0
-   /**
-    * @brief oveload for unit
-    */
-   template <unit U,typename CharSet>
-   inline constexpr auto
-   dimension_to_fixed_string()
-   {
-      return dimension_to_fixed_string<
-         pqs::get_dimension<U>,
-         pqs::get_measurement_system<U>,
-         CharSet
-      >();  
-   }
-
-   /**
-    *  @brief overload for quantity
-   */
-   template <quantity Q,typename CharSet>
-   inline constexpr auto
-   dimension_to_fixed_string()
-   {
-      return dimension_to_fixed_string<
-         pqs::get_unit<Q>,
-         CharSet
-      >();  
-   }
-
-   /*
-    *  generic object form
-    */
-   template <typename CharSet, typename T>
-   inline constexpr auto
-   dimension_to_fixed_string(T)
-   {
-      return dimension_to_fixed_string<T,CharSet>();
-   }
-#endif
 } // pqs
 
 #endif // PQS_BITS_DIMENSION_TO_FIXED_STRING_HPP_INCLUDED

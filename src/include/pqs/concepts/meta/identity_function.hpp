@@ -21,6 +21,9 @@ namespace pqs{ namespace meta{
 
    }
 
+   /**
+    * @brief identity function has a member ::type referring to itself
+    */
    template <typename T>
    struct is_identity_function : impl::is_identity_function_impl<
       std::remove_cvref_t<T>

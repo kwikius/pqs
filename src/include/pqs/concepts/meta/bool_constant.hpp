@@ -3,14 +3,7 @@
 
 #include <type_traits>
 
-/*
-   is T a valid compile time bool constant?
-   implementeation : is there a static 'value' member that is convertible to bool at compile time?
-   SFINAE is used to detect the memeber so if it isnt there is not a bool constant, howvere if it is there
-   either value --> true or value --> false is ok
-*/
-
-namespace pqs{ namespace meta{
+namespace pqs::meta{
 
    namespace impl{
 
@@ -24,11 +17,16 @@ namespace pqs{ namespace meta{
 
    }// impl
 
+/**
+ *  @brief Is T a valid compile time bool constant?
+ *
+ *  implementeation : is there a static 'value' member that is convertible to bool at compile time?
+ *  SFINAE is used to detect the memeber so if it isnt there is not a bool constant, however
+ *  if it is there  either value --> true or value --> false is ok
+*/
    template <typename T>
    struct is_bool_constant : impl::is_bool_constant_impl<T>{};
 
-}}//pqs::meta
-
-
+}//pqs::meta
 
 #endif // PQS_CONCEPTS_META_BOOL_FUN_HPP_INCLUDED
