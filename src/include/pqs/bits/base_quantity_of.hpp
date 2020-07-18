@@ -28,9 +28,8 @@ namespace pqs{
       * requires Id to be meta_totally ordered
       */
       template <typename Id>
+        requires pqs::meta::totally_ordered<Id,Id>
       struct base_quantity_of : pqs::impl::base_quantity_base_class{
-         static_assert(pqs::meta::are_totally_ordered<Id,Id>::value, 
-         "base_quantity_of requires Id to be totally ordered at compile time");
          using identifier = Id;
          using type = base_quantity_of;
       };

@@ -15,21 +15,23 @@
 */
 namespace pqs{ namespace meta{
 
-   namespace impl {
-
-      template <typename TL, typename TR, typename Where = void>
-      struct are_totally_ordered_impl :  pqs::meta::and_<
-          pqs::meta::are_equality_comparable<TL,TR>,
-          pqs::meta::are_less_than_comparable<TL,TR>   
-      >{};
-
-   }
-
-   template <typename TL, typename TR>
-   struct are_totally_ordered : impl::are_totally_ordered_impl<TL,TR>{};
+//   namespace impl {
+//
+//      template <typename TL, typename TR, typename Where = void>
+//      struct are_totally_ordered_impl :  pqs::meta::and_<
+//          pqs::meta::are_equality_comparable<TL,TR>,
+//          pqs::meta::are_less_than_comparable<TL,TR>   
+//      >{};
+//
+//   }
+//
+//   template <typename TL, typename TR>
+//   struct are_totally_ordered : impl::are_totally_ordered_impl<TL,TR>{};
 
    template <typename TL,typename TR>
-   concept totally_ordered = are_totally_ordered<TL,TR>::value;
+   concept totally_ordered = 
+      pqs::meta::equality_comparable<TL,TR> && 
+      pqs::meta::less_than_comparable<TL,TR>;
 
 }}
 

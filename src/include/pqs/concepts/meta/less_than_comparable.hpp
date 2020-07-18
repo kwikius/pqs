@@ -5,15 +5,6 @@
 #include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/concepts/meta/bool_constant.hpp>
 
-/*
-   are 2 meta types less_than comparable at compile time?
-   The notion is false by default so needs implementation
-   for a type.
-   The pqs compile time op is achieved by defining a specialisation of
-   quan::meta::impl::binary_op_impl<TL,equal_to,TR>
-   which rhas a true false value for those types you want to
-   model
-*/
 namespace pqs{ namespace meta{
 
    namespace impl {
@@ -25,15 +16,21 @@ namespace pqs{ namespace meta{
 
    }
 
-   template <typename TL, typename TR>
-   struct are_less_than_comparable : impl::are_less_than_comparable_impl<
+   /**
+   * @brief Are 2 meta types less than comparable at compile time?
+   *
+   * The notion is false by default so needs implementation
+   * for a pair of types.
+   * The pqs compile time op is achieved by defining a specialisation of
+   * pqs::meta::impl::binary_op_impl<TL,less,TR>
+   * which rhas a true false value for those types you want to
+   * model.
+   */
+   template <typename TL,typename TR>
+   concept less_than_comparable = impl::are_less_than_comparable_impl<
       std::remove_cvref_t<TL>,
       std::remove_cvref_t<TR>
-   >{};
-
-   template <typename TL,typename TR>
-   concept less_than_comparable = are_less_than_comparable<TL,TR>::value;
-
+   >::value;
 
 }}
 

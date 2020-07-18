@@ -29,16 +29,6 @@ namespace {
 
      static_assert(  not pqs::meta::is_bool_constant<pqs::undefined >::value);
 
-     static_assert( pqs::meta::bool_constant<yes_type<true> >);
-     static_assert( pqs::meta::bool_constant<yes_type<false> >);
-     static_assert( not pqs::meta::bool_constant<no_type<true> >);
-     static_assert( not pqs::meta::bool_constant<no_type<false> >);
-
-     static_assert( pqs::meta::bool_constant<std::integral_constant<int,1> >);
-     static_assert( pqs::meta::bool_constant<std::integral_constant<int,0> >);
-     static_assert( pqs::meta::bool_constant<std::integral_constant<bool,true> >);
-     static_assert( pqs::meta::bool_constant<std::integral_constant<bool,false> >);
-
    }
 
    struct type_function_no {};
@@ -85,9 +75,9 @@ namespace{
 
    void test_meta_equality_comparable()
    {
-     static_assert( pqs::meta::are_equality_comparable<int, int>::value == false);
-     static_assert( pqs::meta::are_equality_comparable<my::type<1>, my::type<2> >::value == true);
-     static_assert( pqs::meta::are_equality_comparable<my::type<-1>, my::type<-1> >::value == true);
+//     static_assert( pqs::meta::are_equality_comparable<int, int>::value == false);
+//     static_assert( pqs::meta::are_equality_comparable<my::type<1>, my::type<2> >::value == true);
+//     static_assert( pqs::meta::are_equality_comparable<my::type<-1>, my::type<-1> >::value == true);
 
      static_assert( pqs::meta::equality_comparable<int,int> == false);
      static_assert( pqs::meta::equality_comparable<my::type<1>, my::type<2> > == true);
@@ -97,9 +87,9 @@ namespace{
 
    void test_meta_less_than_comparable()
    {
-     static_assert( pqs::meta::are_less_than_comparable<int, int>::value == false);
-     static_assert( pqs::meta::are_less_than_comparable<my::type<1>, my::type<2>>::value == true);
-     static_assert( pqs::meta::are_less_than_comparable<my::type<-1>, my::type<-1>>::value == true);
+//     static_assert( pqs::meta::are_less_than_comparable<int, int>::value == false);
+//     static_assert( pqs::meta::are_less_than_comparable<my::type<1>, my::type<2>>::value == true);
+//     static_assert( pqs::meta::are_less_than_comparable<my::type<-1>, my::type<-1>>::value == true);
 
      static_assert( pqs::meta::less_than_comparable<int,int> == false);
      static_assert( pqs::meta::less_than_comparable<my::type<1>, my::type<2> > == true);
@@ -108,10 +98,6 @@ namespace{
 
    void test_meta_totally_ordered()
    {
-     static_assert( pqs::meta::are_totally_ordered<int, int>::value == false);
-     static_assert( pqs::meta::are_totally_ordered<my::type<1>, my::type<2>>::value == true);
-     static_assert( pqs::meta::are_totally_ordered<my::type<-1>, my::type<-1>>::value == true);
-
      static_assert( pqs::meta::totally_ordered<int,int> == false);
      static_assert( pqs::meta::totally_ordered<my::type<1>, my::type<2> > == true);
      static_assert( pqs::meta::totally_ordered<my::type<-1>, my::type<-1> > == true);
