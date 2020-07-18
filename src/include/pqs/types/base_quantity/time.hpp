@@ -11,7 +11,7 @@ namespace pqs{
    /**
     * @brief implement time as a model of base_quantity
    */
-    struct base_time : pqs::base_quantity_of<pqs::newtonian_universe::time_uuid>{
+    struct base_time : pqs::impl::base_quantity_of<pqs::newtonian_universe::time_uuid>{
        typedef base_time type;
     };
 

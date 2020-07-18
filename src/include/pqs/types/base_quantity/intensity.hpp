@@ -12,7 +12,7 @@ namespace pqs{
    /**
     * @brief intensity base_quantity definition - implement intensity as a model of base_quantity
    */
-    struct base_intensity : pqs::base_quantity_of<
+    struct base_intensity : pqs::impl::base_quantity_of<
       pqs::newtonian_universe::intensity_uuid
     >{
        using type = base_intensity;

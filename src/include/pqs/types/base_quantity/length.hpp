@@ -13,7 +13,7 @@ namespace pqs{
    /**
     * @brief length base_quantity definition - implement base_length as a model of base_quantity
    */
-   struct base_length : pqs::base_quantity_of<
+   struct base_length : pqs::impl::base_quantity_of<
       pqs::newtonian_universe::length_uuid
    >{
       typedef base_length type;

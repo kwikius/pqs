@@ -13,7 +13,7 @@ namespace pqs{
 /**
  * @brief implement substance as a model of base_quantity
 */
-    struct base_substance : pqs::base_quantity_of<pqs::newtonian_universe::substance_uuid>{
+    struct base_substance : pqs::impl::base_quantity_of<pqs::newtonian_universe::substance_uuid>{
        typedef base_substance type;
     };
 

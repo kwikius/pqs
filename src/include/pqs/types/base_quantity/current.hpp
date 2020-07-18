@@ -12,7 +12,7 @@ namespace pqs{
    /**
     * @brief current base_quantity definition - implement current as a model of base_quantity
    */
-   struct base_current : pqs::base_quantity_of<
+   struct base_current : pqs::impl::base_quantity_of<
       pqs::newtonian_universe::current_uuid
    >{
       using type = base_current;
@@ -50,7 +50,7 @@ namespace pqs{
    };
 
    /**
-     * Use this form to squash explicit denom
+     * Use this form to squash explicit denom when used as a type_function
      */
    template <int N>
    struct exp_current<N,1> : exp_current<N>{};

@@ -13,7 +13,7 @@ namespace pqs{
 /**
  * @brief implement temperature as a model of base_quantity
 */
-    struct base_temperature : pqs::base_quantity_of<pqs::newtonian_universe::temperature_uuid>{
+    struct base_temperature : pqs::impl::base_quantity_of<pqs::newtonian_universe::temperature_uuid>{
        typedef base_temperature type;
     };
 

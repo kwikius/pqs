@@ -8,9 +8,9 @@
 
 namespace pqs{
 
-   /*
-     order msb , , , lsb
-   */
+   /**
+    * @brief a variadic uuid class
+    */
    template <uint16_t... Id>
    struct uuid;
 
@@ -31,7 +31,7 @@ namespace pqs{
    namespace detail{
 
       template <typename T>
-      struct is_uuid : std::is_base_of< pqs::uuid<> , T>{};
+      inline constexpr bool is_uuid = std::is_base_of_v< pqs::uuid<> , T>;
 
       template <std::size_t I,typename T>
       struct at_uuid{
@@ -65,51 +65,39 @@ namespace pqs{
             compare_uuid<typename UL::ls_type, typename UR::ls_type>,
          std::integral_constant<int, 0>
       >{};
-
-      template <typename UL, typename UR>
-      struct less_uuid : std::integral_constant<
-         bool, 
-         (compare_uuid<
-            typename shorten_uuid<UL>::type,typename shorten_uuid<UR>::type
-         >::type::value < 0)
-      >{};
-
-      template <typename UL, typename UR>
-      struct equal_to_uuid : std::integral_constant<
-         bool, 
-         (compare_uuid<
-            typename shorten_uuid<UL>::type,typename shorten_uuid<UR>::type
-         >::type::value == 0)
-      >{};
    }
 
   namespace impl {
 
       template <typename TL, typename TR >
+         requires  
+            pqs::detail::is_uuid<TL> &&
+            pqs::detail::is_uuid<TR>
       struct binary_op_impl<
          TL,
          pqs::less,
-         TR,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::detail::is_uuid<TL>,
-               pqs::detail::is_uuid<TR>
-            >
-         >::type
-       > : pqs::detail::less_uuid<TL,TR>{};
+         TR
+       > : std::bool_constant<
+         (pqs::detail::compare_uuid<
+            typename pqs::detail::shorten_uuid<TL>::type,
+            typename pqs::detail::shorten_uuid<TR>::type
+         >::type::value < 0)
+      >{};
 
       template <typename TL, typename TR >
+         requires  
+            pqs::detail::is_uuid<TL> &&
+            pqs::detail::is_uuid<TR>
       struct binary_op_impl<
          TL,
          pqs::equal_to,
-         TR,
-         typename pqs::where_<
-            pqs::meta::and_<
-               pqs::detail::is_uuid<TL>,
-               pqs::detail::is_uuid<TR>
-            >
-         >::type
-       > : pqs::detail::equal_to_uuid<TL,TR>{};
+         TR
+       > : std::bool_constant<
+         (pqs::detail::compare_uuid<
+            typename pqs::detail::shorten_uuid<TL>::type,
+            typename pqs::detail::shorten_uuid<TR>::type
+         >::type::value == 0)
+      >{};
 
   }// impl
 }
