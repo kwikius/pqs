@@ -15,15 +15,10 @@ namespace pqs{
    }
 
    template <typename T>
-   struct get_conversion_factor_legacy 
-   : impl::get_conversion_factor_impl<
-      std::remove_cvref_t<T>
-   >{};
-
-   template <typename T>
-   using get_conversion_factor 
-      = typename get_conversion_factor_legacy<T>::type;
-
+   using get_conversion_factor = 
+      impl::get_conversion_factor_impl<
+         std::remove_cvref_t<T>
+      >::type;
 }
 
 #endif // PQS_TYPE_FUNCTIONS_GET_CONVERSION_FACTOR_HPP_INCLUDED

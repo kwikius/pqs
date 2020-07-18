@@ -36,18 +36,13 @@ void custom_test2()
    > v2;
 
    static_assert(is_dimension<abstract_velocity>,"");
-  // std::cout << "##### " << abstract_velocity::name<charset_utf8> << " ####\n";
    static_assert(is_quantity<decltype(v2)>,"");
-
    static_assert(dimension<abstract_velocity>,"");
-   static_assert(quantity<decltype(v2)>,"");
 
-   static_assert(is_dimension<abstract_velocity>,"");
-  // static_assert(is_quantity_legacy<decltype(v2)>::value,"");
 
    using u = get_unit<decltype(v2)>;
    static_assert(std::is_same_v<u, si::normative_unit<abstract_velocity,exponent10<0> > >,"");
-   using s = get_measurement_system_legacy<u>::type;
+   using s = get_measurement_system<u>;
    static_assert( std::is_same_v<s,si_measurement_system>,"");
    using cf = get_conversion_factor<u>;
    static_assert(std::is_same_v< cf, conversion_factor<std::ratio<1>,exponent10<0> > >,"");

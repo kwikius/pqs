@@ -12,10 +12,10 @@ namespace pqs{
    }
 
    template <typename T>
-   struct get_unit_legacy : impl::get_unit_impl< std::remove_cvref_t<T> >{};
-
-   template <typename T>
-   using get_unit = typename get_unit_legacy<T>::type;
+   using get_unit = 
+      impl::get_unit_impl<
+         std::remove_cvref_t<T>
+      >::type;
 }
 
 #endif // PQS_TYPE_FUNCTIONS_GET_UNIT_HPP_INCLUDED

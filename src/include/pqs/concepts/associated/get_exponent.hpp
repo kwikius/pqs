@@ -17,11 +17,6 @@ namespace pqs{
       typename std::remove_cvref<T>::type
    >::type;
 
-   template <typename T>
-   struct get_exponent_legacy {
-      using type = get_exponent<T>;
-   };
-
 }
 
 #endif // PQS_TYPE_FUNCTIONS_GET_EXPONENT_HPP_INCLUDED

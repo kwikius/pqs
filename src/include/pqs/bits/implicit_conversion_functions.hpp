@@ -21,87 +21,62 @@ namespace pqs{
    struct warn_narrowing_conversion{
 
        template <typename Tout, typename Tin>
+          requires ! meta::is_narrowing_conversion<Tin,Tout>
        constexpr static 
-       typename pqs::where_<
-         pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
-         Tout
-       >::type
-       apply( Tin const & v)
+       auto apply( Tin const & v)
        { return static_cast<Tout>(v);}
 
        template <typename Tout, typename Tin>
+         requires  meta::is_narrowing_conversion<Tin,Tout>
        constexpr static 
-       typename pqs::where_<
-         pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
-         Tout
-       >::type
-       apply( Tin const & v)
+       auto apply( Tin const & v)
        { return Tout{v};}
    };
 
    struct no_conversion{
 
        template <typename Tout, typename Tin>
+         requires std::is_same_v<Tout,Tin>
        constexpr static 
-       typename pqs::where_<
-         std::is_same<Tout,Tin>,
-         Tout
-       >::type
-       apply( Tin const & v)
+       auto apply( Tin const & v)
        { return v;}
 
        template <typename Tout, typename Tin>
+         requires ! std::is_same_v<Tout,Tin>
        constexpr static 
-       typename pqs::where_<
-         pqs::meta::not_<std::is_same<Tout,Tin> >,
-         pqs::invalid_conversion<Tin,Tout,no_conversion>
-       >::type
-       apply( Tin const & v)
+       auto apply( Tin const & v)
        { return pqs::invalid_conversion<Tin,Tout,no_conversion>{};}
        
    };
 
    struct no_narrowing_conversion{
 
-
        template <typename Tout, typename Tin>
+         requires ! meta::is_narrowing_conversion<Tin,Tout>
        constexpr static 
-       typename pqs::where_<
-         pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
-         Tout
-       >::type
-       apply( Tin const & v)
+       auto apply( Tin const & v)
        { return static_cast<Tout>(v);}
 
        template <typename Tout, typename Tin>
+         requires meta::is_narrowing_conversion<Tin,Tout>
        constexpr static 
-       typename pqs::where_<
-         pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
-         pqs::invalid_conversion<Tin,Tout,no_narrowing_conversion>
-       >::type
-       apply( Tin const & v)
+       auto apply( Tin const & v)
        { return pqs::invalid_conversion<Tin,Tout,no_narrowing_conversion>{};}
    };
 
    struct range_checked_conversion{
 
       template <typename Tout, typename Tin>
+         requires ! meta::is_narrowing_conversion<Tin,Tout>
       constexpr static 
-      typename pqs::where_<
-      pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
-      Tout
-      >::type
-      apply( Tin const & v)
+      auto apply( Tin const & v)
       { return static_cast<Tout>(v);}
 
 #if ! defined PQS_NO_EXCEPTIONS
       template <typename Tout, typename Tin>
+         requires meta::is_narrowing_conversion<Tin,Tout>
       constexpr static 
-      typename pqs::where_<
-      pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
-      Tout
-      >::type
-      apply( Tin const & v)
+      auto apply( Tin const & v)
       { 
 
          if ( ( v >= static_cast<Tin>(std::numeric_limits<Tout>::lowest()))
@@ -126,21 +101,15 @@ namespace pqs{
    struct saturating_conversion{
 
       template <typename Tout, typename Tin>
+        requires ! meta::is_narrowing_conversion<Tin,Tout>
       constexpr static 
-      typename pqs::where_<
-         pqs::meta::not_< pqs::meta::is_narrowing_conversion_legacy<Tin,Tout> >,
-         Tout
-      >::type
-      apply( Tin const & v)
+      auto apply( Tin const & v)
       { return static_cast<Tout>(v);}
 
       template <typename Tout, typename Tin>
+         requires meta::is_narrowing_conversion<Tin,Tout>
       constexpr static 
-      typename pqs::where_<
-         pqs::meta::is_narrowing_conversion_legacy<Tin,Tout>,
-         Tout
-      >::type
-      apply( Tin const & v)
+      auto apply( Tin const & v)
       { 
          return static_cast<Tout>(
             pqs::constrain(v, 

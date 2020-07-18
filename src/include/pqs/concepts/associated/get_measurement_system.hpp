@@ -11,18 +11,13 @@ namespace pqs{
 
       template <typename T, typename Where = void>
       struct get_measurement_system_impl : pqs::undefined{};
-
    }
 
    template <typename T>
-   struct get_measurement_system_legacy 
-   : impl::get_measurement_system_impl<
-      std::remove_cvref_t<T>
-   >{};
-
-   template <typename T>
-   using get_measurement_system 
-      = typename get_measurement_system_legacy<T>::type;
+   using get_measurement_system = 
+      typename impl::get_measurement_system_impl<
+         std::remove_cvref_t<T>
+      >::type;
 
 }
 

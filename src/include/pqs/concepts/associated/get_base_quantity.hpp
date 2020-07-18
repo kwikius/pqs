@@ -16,11 +16,6 @@ namespace pqs{
    using get_base_quantity = typename impl::get_base_quantity_impl<
       std::remove_cvref_t<T>
    >::type;
-
-   template <typename T>
-   struct get_base_quantity_legacy : pqs::impl::get_base_quantity_impl<
-      std::remove_cvref_t<T>
-   >{};
 }
 
 #endif // PQS_TYPE_FUNCTIONS_GET_BASE_QUANTITY_HPP_INCLUDED
