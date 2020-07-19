@@ -1,6 +1,7 @@
 #ifndef PQS_IMPERIAL_SPEED_HPP_INCLUDED
 #define PQS_IMPERIAL_SPEED_HPP_INCLUDED
 
+#include <pqs/types/basic_quantity.hpp>
 #include <pqs/systems/imperial/units/speed_unit.hpp>
 
 namespace pqs{ namespace imperial { namespace speed{

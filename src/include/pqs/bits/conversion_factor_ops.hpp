@@ -6,6 +6,7 @@
 #include <pqs/bits/detail/to_conversion_factor.hpp>
 #include <pqs/bits/detail/conversion_factor_normalise.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
+#include <pqs/bits/ratio_pow.hpp>
 
 namespace pqs{
 
@@ -161,6 +162,30 @@ namespace pqs{
                >
             >::type
          >::type type;
+      };
+
+
+      template <typename Lhs, typename Rhs>
+         requires is_conversion_factor<Lhs> && is_ratio<Rhs>
+      struct binary_op_impl<
+         Lhs,to_power, Rhs
+      > {
+           using exponent = std::ratio_multiply<
+               typename Lhs::exponent::ratio,
+               Rhs
+           >;
+           using type = pqs::normalise<
+               pqs::conversion_factor<
+                  pqs::ratio_pow<
+                     typename Lhs::multiplier,
+                     Rhs
+                  >,
+                  pqs::exponent10<
+                     exponent::num, exponent::den
+                  >
+               >
+            >;    
+                  
       };
 
       template <typename Lhs, typename Rhs>

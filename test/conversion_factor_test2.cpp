@@ -3,6 +3,8 @@
 
 #include <pqs/types/conversion_factor.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
+#include <pqs/bits/std_ratio.hpp>
+#include <pqs/bits/ratio_pow.hpp>
 
 #include <iostream>
 
@@ -367,7 +369,62 @@ namespace {
 
       static_assert(std::is_same_v<res::multiplier,std::ratio<1000,997> >);
       static_assert(std::is_same_v<res::exponent,pqs::exponent10<0> >);
+   }
 
+   void ratio_pow_test()
+   {
+      using r1 = pqs::ratio_pow<std::ratio<2>,std::ratio<1,2> >;
+      using r2 = pqs::conversion_factor<r1,pqs::exponent10<0> >;
+      static_assert(pqs::evaluate<r2>() == std::pow(2,1./2));
+      static_assert(std::abs(pqs::evaluate<r2>() * pqs::evaluate<r2>()- 2.0) < 1.e-12);
+
+      using r3 = pqs::ratio_pow<std::ratio<2,1>,std::ratio<3> >;
+      static_assert( (r3::num == 8) && r3::den == 1);
+
+      using r4 = pqs::ratio_pow<std::ratio<100,1>,std::ratio<0> >;
+      static_assert( (r4::num == 1) && r4::den == 1);
+
+      using r5 = pqs::ratio_pow<std::ratio<23,7>,std::ratio<1> >;
+      static_assert( (r5::num == 23) && r5::den == 7);
+      
+      using r6 = pqs::ratio_pow<std::ratio<1760*1760,1>,std::ratio<1,2> >;
+      static_assert( (r6::num == 1760) && r6::den == 1);
+
+      using r7 = pqs::ratio_pow<std::ratio<100,1>,std::ratio<1,2> >;
+      static_assert( (r7::num == 10) && r7::den == 1);
+
+      using r8 = pqs::ratio_pow<std::ratio<1,100>,std::ratio<1,2> >;
+      static_assert( (r8::num == 1) && r8::den == 10);
+      
+      using r9 = pqs::ratio_pow<std::ratio<4,1>,std::ratio<-1> >;
+      static_assert( (r9::num == 1) && r9::den == 4);
+
+      using r10 = pqs::ratio_pow<std::ratio<27,1>,std::ratio<1,3> >;
+      static_assert( (r10::num == 3) && r10::den == 1);
+   }
+
+   void conv_factor_pow_test()
+   {
+      using r1 = pqs::binary_op_t<
+         pqs::conversion_factor<
+            std::ratio<2,1>,
+            pqs::exponent10<3>
+         >, 
+         pqs::to_power,
+         std::ratio<3>
+      >;
+
+      static_assert( std::is_same_v<r1::multiplier,std::ratio<8> >);
+      static_assert( std::is_same_v<r1::exponent,pqs::exponent10<9> >);
+
+      using r2 = pqs::binary_op_t<
+         r1, 
+         pqs::to_power,
+         std::ratio<1,3>
+      >;
+
+      static_assert( std::is_same_v<r2::multiplier,std::ratio<2> >);
+      static_assert( std::is_same_v<r2::exponent,pqs::exponent10<3> >);
    }
 }
 
@@ -395,4 +452,6 @@ void conversion_factor_test2()
 
    divide_test1();
    reciprocal_test();
+   ratio_pow_test();
+   conv_factor_pow_test();
 }
