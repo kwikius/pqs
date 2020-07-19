@@ -21,7 +21,7 @@ namespace pqs{
    inline constexpr
    auto pow( Q const & q)
    {
-       
+       // TODO 
    }
 
 }
