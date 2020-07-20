@@ -271,12 +271,18 @@ namespace {
 
    void pow_test()
    {
-      si::length::m<> q1{1};
+      si::length::m<> q1{10};
       auto q2 = pqs::pow<2,1>(q1);
-      QUAN_CHECK( get_numeric_value(q2) == 1. )
+      QUAN_CHECK( get_numeric_value(q2) == 100. )
 
       si::area::m2<> q3 = q2;
-      QUAN_CHECK(get_numeric_value(q3) == 1. )
+      QUAN_CHECK(get_numeric_value(q3) == 100. )
+
+      auto q4 = pqs::pow<1,2>(q2);
+
+      q1 = q4;
+
+      QUAN_CHECK(get_numeric_value(q1) == 10. )
    }
 
    // wiki example

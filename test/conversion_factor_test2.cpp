@@ -397,8 +397,7 @@ namespace {
       static_assert( (r7::num == 10) && r7::den == 1);
 
       using r8 = pqs::ratio_pow<std::ratio<1,100>,std::ratio<1,2> >;
-      static_assert( (r8::num == 1) && r8::den == 10);
-      
+
       using r9 = pqs::ratio_pow<std::ratio<4,1>,std::ratio<-1> >;
       static_assert( (r9::num == 1) && r9::den == 4);
 
