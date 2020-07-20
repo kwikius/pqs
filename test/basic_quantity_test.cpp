@@ -3,6 +3,7 @@
 // test interaction with time.h
 #include <time.h>
 #include <pqs/systems/si/length.hpp>
+#include <pqs/systems/si/area.hpp>
 #include <pqs/systems/si/reciprocal_length.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/imperial/length.hpp>
@@ -268,6 +269,16 @@ namespace {
     //  output<charset_utf8>(std::cout << "q7 = ", q7) << '\n';
    }
 
+   void pow_test()
+   {
+      si::length::m<> q1{1};
+      auto q2 = pqs::pow<2,1>(q1);
+      QUAN_CHECK( get_numeric_value(q2) == 1. )
+
+      si::area::m2<> q3 = q2;
+      QUAN_CHECK(get_numeric_value(q3) == 1. )
+   }
+
    // wiki example
    void conversion_factor_semantic_test()
    {
@@ -294,6 +305,8 @@ namespace {
       auto constexpr q1 = si::length::m<>{100};
       si::length::ft<> constexpr q2 = q1;
 
+
+
      // output<charset_utf8>( std::cout << std::setprecision(7), q1);
      // output< charset_utf8>( std::cout << " == ", q2) << '\n';
    }
@@ -310,4 +323,5 @@ void basic_quantity_test()
    output_test();
    scalar_multiply_test();
    scalar_divide_test();
+   pow_test();
 }

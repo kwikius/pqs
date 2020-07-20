@@ -99,12 +99,16 @@ namespace pqs{
 
    template <typename T> 
        requires pqs::is_conversion_factor<T>
-   using normalise = typename impl::conversion_factor_normalise<std::remove_cvref_t<T> >::type;
+   using normalise = 
+      typename impl::conversion_factor_normalise<
+         std::remove_cvref_t<T> 
+      >::type;
 
    namespace impl{
 
       template <typename Lhs, typename Rhs>
-        requires is_conversion_factor<Lhs> && is_conversion_factor<Rhs>
+         requires is_conversion_factor<Lhs> && 
+            is_conversion_factor<Rhs>
       struct binary_op_impl< Lhs, pqs::divides, Rhs>{
 
          typedef typename pqs::detail::to_ll_conversion_factor<Lhs>::type ll_lhs_type;
@@ -175,10 +179,10 @@ namespace pqs{
                Rhs
            >;
            using type = pqs::normalise<
-               pqs::conversion_factor<
+              pqs::conversion_factor<
                   pqs::ratio_pow<
                      typename Lhs::multiplier,
-                     Rhs
+                     typename Rhs::type
                   >,
                   pqs::exponent10<
                      exponent::num, exponent::den

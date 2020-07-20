@@ -7,6 +7,7 @@
 #include <pqs/bits/ratio_pow.hpp>
 
 #include <iostream>
+#include <iomanip>
 
 using namespace pqs;
 
@@ -21,7 +22,7 @@ namespace {
    template <typename M, typename E>
    std::ostream & operator << (std::ostream & os, conversion_factor<M,E> v)
    {
-      return os << typename decltype(v)::multiplier{} << " ^ " << typename decltype(v)::exponent::ratio{} ;
+      return os << typename decltype(v)::multiplier{} << " * 10 ^ " << typename decltype(v)::exponent::ratio{} ;
    }
 
    template <typename CFL, typename CFR>
@@ -374,7 +375,9 @@ namespace {
    void ratio_pow_test()
    {
       using r1 = pqs::ratio_pow<std::ratio<2>,std::ratio<1,2> >;
+   //   int x = r1();
       using r2 = pqs::conversion_factor<r1,pqs::exponent10<0> >;
+    //  int x = r2::multiplier();
       static_assert(pqs::evaluate<r2>() == std::pow(2,1./2));
       static_assert(std::abs(pqs::evaluate<r2>() * pqs::evaluate<r2>()- 2.0) < 1.e-12);
 
@@ -413,7 +416,6 @@ namespace {
          pqs::to_power,
          std::ratio<3>
       >;
-
       static_assert( std::is_same_v<r1::multiplier,std::ratio<8> >);
       static_assert( std::is_same_v<r1::exponent,pqs::exponent10<9> >);
 
@@ -422,13 +424,63 @@ namespace {
          pqs::to_power,
          std::ratio<1,3>
       >;
-
       static_assert( std::is_same_v<r2::multiplier,std::ratio<2> >);
       static_assert( std::is_same_v<r2::exponent,pqs::exponent10<3> >);
+
+      using r3 = pqs::binary_op_t<
+         pqs::conversion_factor<
+            std::ratio<1>,
+            pqs::exponent10<3>
+         >, 
+         pqs::to_power,
+         std::ratio<3>
+      >;
+      static_assert( std::is_same_v<r3::multiplier,std::ratio<1> >);
+      static_assert( std::is_same_v<r3::exponent,pqs::exponent10<9> >);
+
+      using r4 = pqs::binary_op_t<
+         pqs::conversion_factor<
+            std::ratio<1,4>,
+            pqs::exponent10<3>
+         >, 
+         pqs::to_power,
+         std::ratio<-3>
+      >;
+      static_assert( std::is_same_v<r4::multiplier,std::ratio<32,5> >);
+      static_assert( std::is_same_v<r4::exponent,pqs::exponent10<-8> >);
+
+      using r5 = pqs::binary_op_t<
+         pqs::conversion_factor<
+            std::ratio<4>,
+            pqs::exponent10<3>
+         >, 
+         pqs::to_power,
+         std::ratio<-3>
+      >;
+
+      static_assert( std::is_same_v<r5::multiplier,std::ratio<25,16> >);
+      static_assert( std::is_same_v<r5::exponent,pqs::exponent10<-11> >);
+
+      using r6 = pqs::binary_op_t<
+         pqs::conversion_factor<
+            std::ratio<2>,
+            pqs::exponent10<3>
+         >, 
+         pqs::to_power,
+         std::ratio<1,2>
+      >;
+      // root2 cause multiply overflow in rational arithmetic, if we try to square it again
+      // so we can try evaluating it and check result v std::pow
+      static_assert( abs( evaluate<r6>() - std::pow(2000,1./2)) < 1.e-9); 
+      static_assert(std::is_same_v<r6::exponent,pqs::exponent10<3,2> >);
    }
 }
-
+#if defined PQS_STANDALONE
+int errors =0;
+int main()
+#else
 void conversion_factor_test2()
+#endif
 {
    compare_test1();
    compare_test2();

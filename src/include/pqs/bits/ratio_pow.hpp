@@ -38,18 +38,20 @@ namespace pqs{
       constexpr auto to_rational()
       {
          int constexpr max_digits = std::numeric_limits<intmax_t>::digits10 ;
-         long double constexpr v_in = Number::value ;
+         long double constexpr number_value = Number::value ;
 
-         int constexpr digits = get_digits10(v_in);
+         int constexpr digits = get_digits10(number_value);
+         static_assert(max_digits > digits);
          int constexpr max_fractdigits = max_digits - digits;
-         int constexpr fractdigits = std::min(get_fractdigits10(v_in),max_fractdigits);
+         // chop of smallest fraction
+         int constexpr fractdigits = std::min(get_fractdigits10(number_value),max_fractdigits);
          intmax_t constexpr pow10digits10 = static_cast<intmax_t>(std::pow(10,fractdigits));
-         intmax_t constexpr nume = static_cast<intmax_t>(v_in * pow10digits10 + 0.5);
-         return std::ratio<nume,pow10digits10>{};
+         intmax_t constexpr nume = static_cast<intmax_t>(number_value * pow10digits10 + 0.5);
+         return typename std::ratio<nume,pow10digits10>::type{};
       }
 
       template <typename R, int N>
-      struct rational_root{
+      struct float_rational_root{
          static constexpr double value = 
             std::pow(static_cast<double>(R::num)/R::den,1./N);
       };
@@ -60,7 +62,7 @@ namespace pqs{
       template <typename Base,int Exp>
       struct ratio_root_impl {
          using type = decltype(detail::to_rational<
-            detail::rational_root<Base,Exp> 
+            detail::float_rational_root<Base,Exp> 
          >());
       };
 
@@ -103,12 +105,6 @@ namespace pqs{
       template <intmax_t Bn, intmax_t Bd> 
       struct ratio_pow_impl<std::ratio<Bn,Bd>,std::ratio<1,1> >{
          using type = typename std::ratio<Bn,Bd>::type;
-      };
-
-      template <intmax_t N, intmax_t D> 
-          requires ( N != 0 )
-      struct ratio_pow_impl<std::ratio<1>,std::ratio<N,D> >{
-         using type = std::ratio<1>;
       };
 
       template <intmax_t N, intmax_t D> 
