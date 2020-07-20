@@ -4,6 +4,7 @@
 #include <time.h>
 #include <pqs/systems/si/length.hpp>
 #include <pqs/systems/si/area.hpp>
+#include <pqs/systems/si/speed.hpp>
 #include <pqs/systems/si/reciprocal_length.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/imperial/length.hpp>
@@ -266,16 +267,19 @@ namespace {
 
       // test normative si
       si::reciprocal_length::per_mm<> q7 = q4;
-    //  output<charset_utf8>(std::cout << "q7 = ", q7) << '\n';
+     // output<charset_utf8>(std::cout << "q7 = ", q7) << '\n';
    }
 
    void pow_test()
    {
       si::length::m<> q1{10};
       auto q2 = pqs::pow<2,1>(q1);
+
+     // output<charset_utf8>(std::cout << "anon area = ", q2) << '\n';
       QUAN_CHECK( get_numeric_value(q2) == 100. )
 
       si::area::m2<> q3 = q2;
+     // output<charset_utf8>(std::cout << "area = ", q3) << '\n';
       QUAN_CHECK(get_numeric_value(q3) == 100. )
 
       auto q4 = pqs::pow<1,2>(q2);
@@ -311,14 +315,19 @@ namespace {
       auto constexpr q1 = si::length::m<>{100};
       si::length::ft<> constexpr q2 = q1;
 
-
-
+      auto constexpr q3 = si::speed::m_per_s<>{100};
+    
      // output<charset_utf8>( std::cout << std::setprecision(7), q1);
-     // output< charset_utf8>( std::cout << " == ", q2) << '\n';
+     // output< charset_utf8>( std::cout << " speed = ", q3) << '\n';
    }
 }
 
+#if defined PQS_STANDALONE
+int errors =0;
+int main()
+#else
 void basic_quantity_test()
+#endif
 {
    basic_quantity_concept_test();
    basic_quantity_add_test();

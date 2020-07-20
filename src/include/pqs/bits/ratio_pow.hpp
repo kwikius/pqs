@@ -56,69 +56,40 @@ namespace pqs{
             std::pow(static_cast<double>(R::num)/R::den,1./N);
       };
 
-      template <typename Base,typename Exp>
-      struct ratio_pow_impl;
-
       template <typename Base,int Exp>
       struct ratio_root_impl {
+         static_assert(Base::num >= 0);
          using type = decltype(detail::to_rational<
             detail::float_rational_root<Base,Exp> 
          >());
       };
 
-      template <typename Base,int Exp>
-         requires Exp == 0
-      struct ratio_root_impl<Base,Exp> {
+      template <typename Base>
+      struct ratio_root_impl<Base,0> {
          using type = std::ratio<1>;
       };
 
-      template <typename Base,int Exp>
-         requires Exp == 1
-      struct ratio_root_impl<Base,Exp> {
+      template <typename Base>
+      struct ratio_root_impl<Base,1> {
          using type = typename Base::type;
       };
 
-      template <typename Base,int Exp>
-         requires Base::num == 1 && Base::denom == 1 && Exp > 1
-      struct ratio_root_impl<Base,Exp> {
+      template <int Exp>
+      struct ratio_root_impl<std::ratio<1>,Exp> {
           using type = std::ratio<1>;
       };
 
-      template <typename Base,int Exp>
-         requires Base::num == 1 && Base::denom != 1 && Exp > 1
-      struct ratio_root_impl<Base,Exp> {
-          using type = 
-            std::ratio_divide<
-               std::ratio<1>, 
-               typename ratio_root_impl<
-                  std::ratio<Base::den,1>,Exp
-               >::type
-            >;
-      };
-/*
-      template <intmax_t N, intmax_t D> 
-      struct ratio_root_impl<std::ratio<N,D>,0 >{
-         using type = std::ratio<1>;
-      };
-
-      template <intmax_t N, intmax_t D> 
-      struct ratio_root_impl<std::ratio<N,D>,1 >{
-         using type = typename std::ratio<N,D>::type;
-      };
-
-      template <intmax_t D> 
-      struct ratio_root_impl<std::ratio<1,D>,2 >{
+      template <int D,int Exp>
+         requires D != 1 && Exp > 1
+      struct ratio_root_impl<std::ratio<1,D> ,Exp> {
          using type = 
             std::ratio_divide<
                std::ratio<1>, 
                typename ratio_root_impl<
-                  std::ratio<D,1>,2
+                  std::ratio<D,1>,Exp
                >::type
             >;
       };
-
-
-*/
 
       template <typename Base, typename Exp>
       struct ratio_pow_impl {
@@ -160,8 +131,6 @@ namespace pqs{
       struct ratio_pow_impl<std::ratio<Bn,Bd>,std::ratio<1,1> >{
          using type = typename std::ratio<Bn,Bd>::type;
       };
-
-
 
    } //detail
 
