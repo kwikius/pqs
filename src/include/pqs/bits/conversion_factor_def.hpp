@@ -7,24 +7,25 @@
 
 namespace pqs{ 
 
-   // TODO constrain exponent and multiplier
-
    template <typename Multiplier, typename  Exponent>
-      requires pqs::is_ratio<Multiplier> && pqs::is_exponent10<Exponent>
+      requires 
+         pqs::is_ratio<Multiplier> && 
+         pqs::is_exponent10<Exponent>
    struct conversion_factor{
       
-      typedef typename Multiplier::type multiplier;
-      typedef typename Exponent::type exponent;
-     // TODO make 0 special case?
-      static_assert(Multiplier::num != 0, "conversion_factor : only non-zero ratios values allowed");
-      typedef conversion_factor<multiplier,exponent> type;
+      using multiplier = typename Multiplier::type;
+      using exponent = typename Exponent::type;
+
+      static_assert(Multiplier::num != 0, 
+         "conversion_factor : only non-zero ratios values allowed");
+      using type = conversion_factor<multiplier,exponent>;
 
       template <
          intmax_t N1, intmax_t D1
       > 
       constexpr
       friend
-      auto operator * ( conversion_factor, std::ratio<N1,D1> )
+      auto operator * ( conversion_factor, std::ratio<N1,D1>)
       {
          return pqs::normalise<
             pqs::conversion_factor<
@@ -39,7 +40,7 @@ namespace pqs{
       > 
       constexpr
       friend
-      auto operator * ( std::ratio<N1,D1>, conversion_factor )
+      auto operator * ( std::ratio<N1,D1>, conversion_factor)
       {
          return pqs::normalise<
             pqs::conversion_factor<
