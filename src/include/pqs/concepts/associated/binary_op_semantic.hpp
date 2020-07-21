@@ -29,7 +29,7 @@ namespace pqs{ namespace impl {
     * @brief default semantic for when of Lhs or Rhs is a dimensionless_quantity
     */
    template <typename Lhs, typename Op, typename Rhs>
-   struct dimensionless_in_semantic : undefined{};;
+   struct dimensionless_in_semantic : undefined{};
 
 }} 
 

@@ -69,7 +69,6 @@ namespace pqs{
       friend
       auto operator / ( std::ratio<N1,D1>,conversion_factor )
       {
-         
          return pqs::normalise<
             pqs::conversion_factor<
                std::ratio_divide<std::ratio<N1,D1>,multiplier>,
@@ -80,8 +79,6 @@ namespace pqs{
             >
          >{};
       }
-
-      
    }; // conversion_factor
 
    namespace impl{

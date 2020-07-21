@@ -121,7 +121,7 @@ namespace {
       static_assert( si::is_normative_unit<get_unit<decltype(q3)> > );
 
       //#######################################################################
-      // the mm usit is derived from normative_unit so not same as deduced normative unit
+      // the mm unit is derived from normative_unit so not same as deduced normative unit
       // This must be accepted,  else we cant derive units in si
       // static_assert(std::is_same_v<decltype(q3),decltype(q2)>);
       //#################################################################
@@ -272,17 +272,22 @@ namespace {
 
    void pow_test()
    {
-      si::length::m<> q1{10};
+      si::length::mm<> q1{10};
       auto q2 = pqs::pow<2,1>(q1);
 
      // output<charset_utf8>(std::cout << "anon area = ", q2) << '\n';
       QUAN_CHECK( get_numeric_value(q2) == 100. )
 
-      si::area::m2<> q3 = q2;
+      si::area::mm2<> q3 = q2;
      // output<charset_utf8>(std::cout << "area = ", q3) << '\n';
       QUAN_CHECK(get_numeric_value(q3) == 100. )
 
       auto q4 = pqs::pow<1,2>(q2);
+      // will fail I think
+      static_assert(si::is_normative_unit<get_unit<decltype(q2)> > );
+
+      output<charset_utf8>(std::cout << "area = ", q2) << '\n';
+      output<charset_utf8>(std::cout << "area = ", q3) << '\n';
 
       q1 = q4;
 

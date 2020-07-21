@@ -5,5 +5,6 @@
 #include <pqs/systems/si/quantity/plus.hpp>
 #include <pqs/systems/si/quantity/times.hpp>
 #include <pqs/systems/si/quantity/divides.hpp>
+#include <pqs/systems/si/quantity/pow.hpp>
 
 #endif // PQS_SI_MEASUREMENT_SYSTEM_HPP_INCLUDED

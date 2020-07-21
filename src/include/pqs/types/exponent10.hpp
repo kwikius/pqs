@@ -48,6 +48,15 @@ namespace pqs{
        }
 
    };
+
+   /*
+      binary_op<exponent10,plus,exponent10>
+      binary_op<exponent10,minus,exponent10>
+      unary_op<negate,exponent10>
+      binary_op<exponent10,times,ratio>
+      comp ops
+   */
+   
 }
 
 #endif // PQS_TYPE_TEMPLATES_EXPONENT10_HPP_INCLUDED

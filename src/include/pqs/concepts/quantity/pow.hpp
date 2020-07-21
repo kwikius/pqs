@@ -3,7 +3,6 @@
 
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/bits/basic_quantity_fwd.hpp>
-#include <pqs/bits/basic_quantity_fwd.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
 
@@ -37,7 +36,6 @@ namespace pqs{
       return result{
          std::pow(get_numeric_value(q),static_cast<double>(N)/D)
       };
-
    }
 
    template <int N, int D, quantity Q>
