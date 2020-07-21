@@ -9,16 +9,16 @@ namespace {
    {
 
       typedef pqs::conversion_factor<
-         std::ratio<1,2>,std::ratio<1>
+         std::ratio<1,2>,pqs::exponent10<1>
       > conversion_factor;
 
-      typedef pqs::conversion_factor<
-         int,int
-      > conversion_factor1;
+//      typedef pqs::conversion_factor<
+//         int,int
+//      > conversion_factor1;
 
       static_assert(pqs::is_conversion_factor<conversion_factor>);
 
-      static_assert(pqs::is_conversion_factor<conversion_factor1> == false);
+     // static_assert(pqs::is_conversion_factor<conversion_factor1> == false);
    }
 
    void conversion_factor_lt_10_test()

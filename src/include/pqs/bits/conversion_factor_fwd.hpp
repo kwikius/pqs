@@ -2,10 +2,13 @@
 #define PQS_BITS_CONVERSION_FACTOR_FWD_HPP_INCLUDED
 
 #include <type_traits>
+#include <pqs/bits/std_ratio.hpp>
+#include <pqs/bits/exponent10_fwd.hpp>
 
 namespace pqs{
 
    template <typename Multiplier, typename  Exponent>
+      requires pqs::is_ratio<Multiplier> && pqs::is_exponent10<Exponent>
    struct conversion_factor;
 
    namespace impl{

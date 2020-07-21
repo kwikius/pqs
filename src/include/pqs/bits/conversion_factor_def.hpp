@@ -10,7 +10,9 @@ namespace pqs{
    // TODO constrain exponent and multiplier
 
    template <typename Multiplier, typename  Exponent>
+      requires pqs::is_ratio<Multiplier> && pqs::is_exponent10<Exponent>
    struct conversion_factor{
+      
       typedef typename Multiplier::type multiplier;
       typedef typename Exponent::type exponent;
      // TODO make 0 special case?

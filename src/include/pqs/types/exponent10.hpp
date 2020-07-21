@@ -2,6 +2,7 @@
 #define PQS_TYPE_TEMPLATES_EXPONENT10_HPP_INCLUDED
 
 #include <ratio>
+#include <pqs/bits/exponent10_fwd.hpp>
 #include <pqs/bits/conversion_factor_def.hpp>
 #include <pqs/bits/conversion_factor_ops.hpp>
 

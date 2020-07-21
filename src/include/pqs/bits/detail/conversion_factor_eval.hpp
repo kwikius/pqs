@@ -13,6 +13,13 @@ namespace pqs{
 
    namespace detail{
 
+      /**
+      * @brief typefunction : while the mux denominator is divisible by 10
+      *  multiply the mux by 10 and subtract 1 from the exp
+      *  (type function)
+      * @param llconversionfactor
+      * @return llconversionfactor 
+      */
       template <typename LLConvFactor>
       struct ll_remove_fractions_of10 :  pqs::meta::eval_if<
          std::integral_constant<bool,( LLConvFactor::multiplier::den %10 == 0)>,
@@ -25,6 +32,11 @@ namespace pqs{
          LLConvFactor
        >{};
 
+      /**
+       * @brief Evaluate a llconversion factor which has been found to be evaluable to an integral type.
+       * The member::type is the integer type of the result, the smallest integer it will fit into.
+       * apply() performs the evaluation
+       */
       template <typename LLConvFactor>
       struct ll_eval_integral_conv_factor{
 
@@ -51,6 +63,9 @@ namespace pqs{
          }
       };
 
+      /**
+      * @brief Evaluate a llconversion factor that must be resolved to floating point result
+      */
       template <typename LLConvFactor>
       struct ll_eval_float_conv_factor{
          typedef pqs::real_type type;
@@ -61,31 +76,38 @@ namespace pqs{
          }
       };
 
+      /**
+        * @brief evaluate a llconversion factor. The member type has the type of the result
+        * apply does the evaluation
+        */
       template <typename LLConvFactor>
       struct ll_conversion_factor_eval{
-      //NB assume convfactor is already normalised?
-      typedef typename pqs::detail::ll_conversion_factor_normalise<LLConvFactor>::type normalised_type;
-      typedef typename pqs::detail::ll_remove_fractions_of10<normalised_type>::type reduced_type; 
+         //NB assume convfactor is already normalised?
+         typedef typename pqs::detail::ll_conversion_factor_normalise<LLConvFactor>::type normalised_type;
+         typedef typename pqs::detail::ll_remove_fractions_of10<normalised_type>::type reduced_type; 
 
-      typedef typename pqs::meta::narrowest_runtime_type<typename reduced_type::multiplier>::type mux_rt_type;
-      typedef typename pqs::powerof10<typename reduced_type::exponent>::type exp_rt_type;
-      typedef typename std::common_type<mux_rt_type,exp_rt_type>::type un_promoted_rt_type;
-      typedef typename pqs::meta::eval_if<
-         std::is_integral<un_promoted_rt_type>,
-            pqs::meta::identity<detail::ll_eval_integral_conv_factor<reduced_type> >,
-         pqs::meta::identity<detail::ll_eval_float_conv_factor<reduced_type> >
-      >::type eval_type;
-      typedef typename eval_type::type type;
+         typedef typename pqs::meta::narrowest_runtime_type<typename reduced_type::multiplier>::type mux_rt_type;
+         typedef typename pqs::powerof10<typename reduced_type::exponent>::type exp_rt_type;
+         typedef typename std::common_type<mux_rt_type,exp_rt_type>::type un_promoted_rt_type;
+         typedef typename pqs::meta::eval_if<
+            std::is_integral<un_promoted_rt_type>,
+               pqs::meta::identity<detail::ll_eval_integral_conv_factor<reduced_type> >,
+            pqs::meta::identity<detail::ll_eval_float_conv_factor<reduced_type> >
+         >::type eval_type;
+         typedef typename eval_type::type type;
 
-      constexpr type operator()() const
-      {
-         return eval_type::apply();
-      }
-      
-   };
+         constexpr type operator()() const
+         {
+            return eval_type::apply();
+         }
+      };
 
    }//detail
 
+ /**
+  * @brief evaluate a conversion factor. The member type has the type of the result
+  * static apply() does the evaluation
+  */
    template <typename ConversionFactor>
    struct conversion_factor_eval : 
       pqs::detail::ll_conversion_factor_eval<
