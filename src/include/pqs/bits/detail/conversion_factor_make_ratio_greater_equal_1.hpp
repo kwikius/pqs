@@ -7,41 +7,41 @@
 namespace pqs{
 
    namespace detail{
-      // input RatioExp must always be positive
-      template <typename RatioExp>
+      // input LLConversionFactor must always be positive
+      template <typename LLConversionFactor>
          struct ll_conversion_factor_abs_make_ratio_greater_equal_1{
 
-         static_assert(std::ratio_greater<typename RatioExp::multiplier,std::ratio<0,1> >::value);
+         static_assert(std::ratio_greater<typename LLConversionFactor::multiplier,std::ratio<0,1> >::value);
 
          typedef typename meta::eval_if<
-            std::ratio_greater_equal<typename RatioExp::multiplier,std::ratio<1> >,
-            RatioExp,
+            std::ratio_greater_equal<typename LLConversionFactor::multiplier,std::ratio<1> >,
+            LLConversionFactor,
             ll_conversion_factor_abs_make_ratio_greater_equal_1<
                pqs::detail::ll_conversion_factor< 
-                  std::ratio_multiply<typename RatioExp::multiplier,std::ratio<10,1> >,
-                  std::ratio_subtract<typename RatioExp::exponent,std::ratio<1> >
+                  std::ratio_multiply<typename LLConversionFactor::multiplier,std::ratio<10,1> >,
+                  std::ratio_subtract<typename LLConversionFactor::exponent,std::ratio<1> >
                >
             >
          >::type type;            
       };
 
-      // input  RatioExp is non zero
-      template <typename RatioExp>
+      // input  LLConversionFactor is non zero
+      template <typename LLConversionFactor>
       struct ll_conversion_factor_non_zero_make_ratio_greater_equal_1{
 
-         static_assert(std::ratio_not_equal<typename RatioExp::multiplier,std::ratio<0,1> >::value);
+         static_assert(std::ratio_not_equal<typename LLConversionFactor::multiplier,std::ratio<0,1> >::value);
 
          typedef std::ratio_less< 
-            typename RatioExp::multiplier,std::ratio<0,1> 
+            typename LLConversionFactor::multiplier,std::ratio<0,1> 
          > is_negative;
 
          typedef typename meta::eval_if<
             is_negative,
             pqs::detail::ll_conversion_factor<
-               std::ratio_multiply<typename RatioExp::multiplier,std::ratio<-1> >, 
-               typename RatioExp::exponent
+               std::ratio_multiply<typename LLConversionFactor::multiplier,std::ratio<-1> >, 
+               typename LLConversionFactor::exponent
             >,
-            RatioExp
+            LLConversionFactor
          >::type abs_type_in;
 
          typedef typename ll_conversion_factor_abs_make_ratio_greater_equal_1<abs_type_in>::type abs_type_out;
@@ -57,13 +57,13 @@ namespace pqs{
         
       };
 
-      template <typename RatioExp>
+      template <typename LLConversionFactor>
       struct ll_conversion_factor_make_ratio_greater_equal_1{
           // remove zero case
           typedef typename meta::eval_if<
-            std::ratio_equal<typename RatioExp::multiplier,std::ratio<0,1> >,
+            std::ratio_equal<typename LLConversionFactor::multiplier,std::ratio<0,1> >,
                pqs::detail::ll_conversion_factor< std::ratio<0,1>,std::ratio<0> >,
-            ll_conversion_factor_non_zero_make_ratio_greater_equal_1<RatioExp>
+            ll_conversion_factor_non_zero_make_ratio_greater_equal_1<LLConversionFactor>
           >::type type;      
       };
 

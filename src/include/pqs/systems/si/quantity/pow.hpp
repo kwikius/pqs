@@ -20,6 +20,14 @@ namespace pqs{
 
       using exp_in = typename get_conversion_factor<Q>::exponent::ratio;
       using exp_out = std::ratio_multiply<exp_in,exp10>;
+
+      /* using exp_out = pqs::binary_op_t<
+         typename get_conversion_factor<Q>::exponent,
+         pqs::times,
+         typename std::ratio<N,D>::type
+         >;
+      */
+         
       using result =
          pqs::basic_quantity<
             si::normative_unit<
