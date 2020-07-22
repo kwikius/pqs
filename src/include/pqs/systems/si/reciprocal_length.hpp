@@ -18,6 +18,6 @@ namespace pqs::si::reciprocal_length{
    template <typename ValueType = double>
    using per_km = basic_quantity<reciprocal_length_unit::per_km,ValueType>;
    
-}
+} // pqs::si::reciprocal_length
 
 #endif // PQS_SI_RECIPROCAL_LENGTH_HPP_INCLUDED

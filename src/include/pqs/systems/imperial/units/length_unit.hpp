@@ -23,8 +23,17 @@ namespace pqs::imperial::length_unit{
          std::is_same_v<CharSet,charset_utf8> 
             ? "\u04b7\u0503" 
             : "yd"; // default to ascii
-
    };
+
+   /**
+    * @brief Si meter is a unit conversion in this system.
+    *
+    * Expressing the si base units in term of imperial base units
+    * can be used for converting a quantity between measurement systems    
+    */
+   struct m : named<"m"> ,
+      decltype( ft() * std::ratio<1250,381>())
+   {};
 
    struct mi : named<"mi">,
       decltype( yd() * std::ratio<1760>() ) 

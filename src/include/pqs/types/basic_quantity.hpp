@@ -3,5 +3,6 @@
 
 #include <pqs/types/basic_quantity/definition.hpp>
 #include <pqs/concepts/quantity/plus.hpp>
+#include <pqs/concepts/quantity/minus.hpp>
 #include <pqs/concepts/quantity/times.hpp>
 #endif

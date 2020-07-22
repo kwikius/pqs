@@ -1,5 +1,5 @@
-#ifndef PQS_CONCEPTS_QUANTITY_PLUS_HPP_INCLUDED
-#define PQS_CONCEPTS_QUANTITY_PLUS_HPP_INCLUDED
+#ifndef PQS_CONCEPTS_QUANTITY_MINUS_HPP_INCLUDED
+#define PQS_CONCEPTS_QUANTITY_MINUS_HPP_INCLUDED
 
 #include <pqs/concepts/associated/binary_op_semantic.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
@@ -13,10 +13,10 @@ namespace pqs{
 
    namespace impl{
    /**
-    * @brief The default quantity add semantic
+    * @brief The default quantity subtract semantic
    */
       template < quantity Lhs, quantity Rhs> 
-      struct binary_op_semantic< Lhs, plus, Rhs>{
+      struct binary_op_semantic< Lhs, minus, Rhs>{
 
          using result_dimension = std::conditional_t<
             std::is_same_v< 
@@ -51,7 +51,7 @@ namespace pqs{
             std::remove_cvref_t<
                decltype(
                   std::declval< get_numeric_type<Lhs> >()
-                     * evaluate< lhs_conversion_factor >() +
+                     * evaluate< lhs_conversion_factor >() -
                   std::declval< get_numeric_type<Rhs> >()
                      * evaluate< rhs_conversion_factor >()
                )
@@ -76,7 +76,7 @@ namespace pqs{
          static constexpr auto apply( Lhs const & lhs, Rhs const & rhs)
          {
             return result{
-               get_numeric_value(implicit_cast<result>(lhs)) + 
+               get_numeric_value(implicit_cast<result>(lhs)) - 
                get_numeric_value(implicit_cast<result>(rhs))
             };
          }
@@ -86,30 +86,30 @@ namespace pqs{
         * @brief optimise default add semantic for quantities of exact same type
         */
       template <quantity Q> 
-      struct binary_op_semantic< Q, plus, Q>{
+      struct binary_op_semantic< Q, minus, Q>{
          static constexpr Q apply( Q const & lhs, Q const & rhs)
          {
-            return Q{ get_numeric_value(lhs) + get_numeric_value(rhs) };
+            return Q{ get_numeric_value(lhs) - get_numeric_value(rhs) };
          }
       };
 
    }//impl
 
    /**
-     * @ brief quantity add operator interface
+     * @ brief quantity subtract operator interface
     */
    template <quantity Lhs, quantity Rhs>
       requires  
          same_measurement_system<Lhs,Rhs> &&
          dimensionally_equivalent<Lhs,Rhs> &&
-         provide_operator_plus<Lhs,Rhs>
+         provide_operator_minus<Lhs,Rhs>
    inline constexpr 
-   auto operator+( Lhs const & lhs, Rhs const & rhs)
+   auto operator-( Lhs const & lhs, Rhs const & rhs)
    {
       return impl::binary_op_semantic<
-         Lhs, plus, Rhs
+         Lhs, minus, Rhs
       >::apply( lhs, rhs);
    }  
 } //pqs
 
-#endif // PQS_CONCEPTS_QUANTITY_PLUS_QUANTITY_HPP_INCLUDED
+#endif // PQS_CONCEPTS_QUANTITY_MINUS_QUANTITY_HPP_INCLUDED

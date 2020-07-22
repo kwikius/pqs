@@ -7,8 +7,6 @@
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/bits/meta/eval_if.hpp>
 
-
-
 namespace pqs{ 
 
    /**

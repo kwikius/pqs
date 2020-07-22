@@ -7,11 +7,8 @@
 namespace pqs{ namespace si { namespace reciprocal_length_unit{
 
    struct per_m : si::normative_unit<exp_length<-1>, exponent10<0> >{};
-
    struct per_mm : si::normative_unit<exp_length<-1>, exponent10<3> >{};
-
    struct per_cm : si::normative_unit<exp_length<-1>, exponent10<2> >{};
-
    struct per_km : si::normative_unit<exp_length<-1>, exponent10<-3> >{};
 
 }}} // pqs::si::reciprocal_length_unit
