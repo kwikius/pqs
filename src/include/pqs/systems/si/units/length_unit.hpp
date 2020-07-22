@@ -1,8 +1,8 @@
 #ifndef PQS_SI_UNITS_LENGTH_UNIT_HPP_INCLUDED
 #define PQS_SI_UNITS_LENGTH_UNIT_HPP_INCLUDED
 
-#include <pqs/types/base_quantity/length.hpp>
 #include <pqs/systems/si/unit.hpp>
+#include <pqs/types/base_quantity/length.hpp>
 #include <pqs/bits/named.hpp>
 
 /**

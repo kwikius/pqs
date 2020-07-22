@@ -1,9 +1,9 @@
 #ifndef PQS_SI_UNITS_SPEED_UNIT_HPP_INCLUDED
 #define PQS_SI_UNITS_SPEED_UNIT_HPP_INCLUDED
 
+#include <pqs/systems/si/unit.hpp>
 #include <pqs/types/base_quantity/length.hpp>
 #include <pqs/types/base_quantity/time.hpp>
-#include <pqs/systems/si/unit.hpp>
 
 namespace pqs{ namespace si { namespace speed_unit{
 

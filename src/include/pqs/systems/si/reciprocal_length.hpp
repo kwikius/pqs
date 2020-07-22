@@ -1,7 +1,7 @@
 #ifndef PQS_SI_RECIPROCAL_LENGTH_HPP_INCLUDED
 #define PQS_SI_RECIPROCAL_LENGTH_HPP_INCLUDED
 
-#include <pqs/systems/si/basic_si_quantity.hpp>
+#include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/reciprocal_length_unit.hpp>
 
 namespace pqs::si::reciprocal_length{

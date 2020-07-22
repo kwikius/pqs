@@ -1,12 +1,12 @@
 #ifndef PQS_SI_AREA_HPP_INCLUDED
 #define PQS_SI_AREA_HPP_INCLUDED
 
-#include <pqs/systems/si/basic_si_quantity.hpp>
+#include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/area_unit.hpp>
 
 /**
-   si::quantity area definition namespace 
-*/
+ *  si::quantity area definition namespace 
+ */
 namespace pqs::si::area{
 
    template <typename ValueType = double>

@@ -1,8 +1,8 @@
 #ifndef PQS_SI_UNITS_RECIPROCAL_MASS_UNIT_HPP_INCLUDED
 #define PQS_SI_UNITS_RECIPROCAL_MASS_UNIT_HPP_INCLUDED
 
-#include <pqs/types/base_quantity/mass.hpp>
 #include <pqs/systems/si/unit.hpp>
+#include <pqs/types/base_quantity/mass.hpp>
 
 namespace pqs{ namespace si { namespace reciprocal_mass_unit{
 

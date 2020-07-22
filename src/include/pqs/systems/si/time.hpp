@@ -1,7 +1,7 @@
 #ifndef PQS_SI_TIME_HPP_INCLUDED
 #define PQS_SI_TIME_HPP_INCLUDED
 
-#include <pqs/systems/si/basic_si_quantity.hpp>
+#include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/time_unit.hpp>
 
 // si quantities time definition namespace 

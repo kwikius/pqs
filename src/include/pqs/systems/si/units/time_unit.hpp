@@ -1,8 +1,8 @@
 #ifndef PQS_SI_UNITS_TIME_UNIT_HPP_INCLUDED
 #define PQS_SI_UNITS_TIME_UNIT_HPP_INCLUDED
 
-#include <pqs/types/base_quantity/time.hpp>
 #include <pqs/systems/si/unit.hpp>
+#include <pqs/types/base_quantity/time.hpp>
 #include <pqs/bits/named.hpp>
 
 namespace pqs{ namespace si { namespace time_unit{
