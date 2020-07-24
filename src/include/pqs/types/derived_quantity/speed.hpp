@@ -6,7 +6,7 @@
 
 namespace pqs{
    
-   constexpr inline auto abstract_speed_v = abstract_length<> / abstract_time<>;
+   constexpr inline auto abstract_speed_v = abstract_length_v / abstract_time_v;
 
    using abstract_speed_t = std::remove_cvref_t<decltype(abstract_speed_v)>;
 }

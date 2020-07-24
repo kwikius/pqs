@@ -6,7 +6,7 @@
 
 namespace pqs{
   
-   constexpr inline auto abstract_force_v = abstract_mass<> * abstract_acceleration_v;
+   constexpr inline auto abstract_force_v = abstract_mass_v * abstract_acceleration_v;
    using abstract_force_t = std::remove_cvref_t<decltype(abstract_force_v)>;
 }
 

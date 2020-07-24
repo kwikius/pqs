@@ -14,7 +14,7 @@ namespace pqs{ namespace si { namespace time_unit{
    template <conversion_factor CF>
    struct conversion : 
    pqs::si::unit_conversion<
-      decltype(abstract_time<>),
+      abstract_time_t,
       decltype(CF)
    >{};
 

@@ -57,12 +57,9 @@ namespace pqs{
 
    }// impl
 
-   template <int N = 1 , int D = 1>
-   inline constexpr auto abstract_substance = std::conditional_t<
-      (D == 1),
-      exp_substance<N>,
-      exp_substance<N,D>
-   >{};
+   using abstract_substance_t = exp_substance<1>;
+
+   inline constexpr auto abstract_substance_v = abstract_substance_t{};
 
 }
 

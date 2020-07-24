@@ -56,15 +56,9 @@ namespace pqs{
 
    }// impl
 
-   template <int N = 1, int D = 1>
-   inline constexpr auto abstract_mass = exp_mass<N,D>{};
+   using abstract_mass_t = exp_mass<1>;
 
-   template <int N = 1 , int D = 1>
-   inline constexpr auto abstract_mass = std::conditional_t<
-      (D == 1),
-      exp_mass<N>,
-      exp_mass<N,D>
-   >{};
+   inline constexpr auto abstract_mass_v = abstract_mass_t{};
 
 }
 

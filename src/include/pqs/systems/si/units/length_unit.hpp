@@ -35,7 +35,7 @@ namespace pqs::si::length_unit{
    template <conversion_factor CF>
    struct conversion : 
       pqs::si::unit_conversion<
-         decltype(abstract_length<>),
+         abstract_length_t,
          decltype(CF)
       >{};
 

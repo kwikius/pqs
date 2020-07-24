@@ -6,7 +6,7 @@
 
 namespace pqs{
   
-   constexpr inline auto abstract_momentum_v = abstract_mass<> * abstract_speed_v;
+   constexpr inline auto abstract_momentum_v = abstract_mass_v * abstract_speed_v;
    using abstract_momentum_t = std::remove_cvref_t<decltype(abstract_momentum_v)>;
 }
 

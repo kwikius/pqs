@@ -55,12 +55,8 @@ namespace pqs{
 
    }// impl
 
-   template <int N = 1 , int D = 1>
-   inline constexpr auto abstract_temperature = std::conditional_t<
-      (D == 1),
-      exp_temperature<N>,
-      exp_temperature<N,D>
-   >{};
+   using abstract_temperature_t = exp_temperature<1>;
+   inline constexpr auto abstract_temperature_v = abstract_temperature_t{};
 
 }
 

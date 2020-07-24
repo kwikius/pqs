@@ -5,7 +5,7 @@
 
 namespace pqs{
    
-   constexpr inline auto abstract_volume_v = abstract_length<3>;
+   constexpr inline auto abstract_volume_v = pow<3>(abstract_length_v);
 
    using abstract_volume_t = std::remove_cvref_t<decltype(abstract_volume_v)>;
 }

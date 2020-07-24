@@ -29,7 +29,7 @@ namespace {
    void unit_concept_test()
    {
       using U = si::normative_unit< 
-         decltype( abstract_length<> * abstract_time<2> ),
+         decltype( abstract_length_v * pow<2>(abstract_time_v) ),
          exponent10<1>
       >;
 
@@ -73,7 +73,7 @@ namespace {
       static_assert( pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<0> >());
       static_assert( not pqs::si::is_prefixable<pqs::exp_time<3>,pqs::exponent10<2> >() );
       static_assert( not pqs::si::is_prefixable<
-         decltype(pqs::abstract_time<3> * pqs::abstract_mass<2>) ,pqs::exponent10<0> >() );
+         decltype(pqs::pow<3>(pqs::abstract_time_v) * pqs::pow<2>(pqs::abstract_mass_v)) ,pqs::exponent10<0> >() );
       static_assert( pqs::si::is_prefixable<pqs::exp_mass<3>,pqs::exponent10<9> >() );
 
       static_assert( pqs::si::time_unit::ms::name<pqs::charset_utf8> == "ms");

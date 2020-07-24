@@ -59,9 +59,9 @@ inline constexpr void testd()
 
 namespace {
 
-   struct my_abstract_acceleration : decltype( pqs::abstract_length<> / pqs::abstract_time<> ) {} ;
+   struct my_abstract_acceleration : decltype( pqs::abstract_length_v / pqs::pow<2>(pqs::abstract_time_v) ) {} ;
 
-   struct my_abstract_time : decltype( pqs::abstract_time<> ) {};
+   struct my_abstract_time : pqs::abstract_time_t {};
 
    struct si_sys{};
 
@@ -94,7 +94,7 @@ void sandbox()
    print<my_rat(1,3) * my_exp10(3,4)>();
 
 //   testd<pqs::abstract_length<> >();                                    // base quantity exp
-   testd<pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<> >();  // dimension_list
+   testd<pqs::abstract_length_v / pqs::abstract_time_v * pqs::abstract_mass_v >();  // dimension_list
 
    testd<my_abstract_acceleration{}>();                                           // custom dimension_list     
    testd<my_abstract_time{}>(); 
@@ -103,7 +103,7 @@ void sandbox()
    using t = unit1<
       si_sys,
      // my_abstract_acceleration{},
-      pqs::abstract_length<> / pqs::abstract_time<> * pqs::abstract_mass<>,
+      pqs::abstract_length_v / pqs::abstract_time_v * pqs::abstract_mass_v,
       my_rat(1,1) * my_exp10(0,1)
    >;
       

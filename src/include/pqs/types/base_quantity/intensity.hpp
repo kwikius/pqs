@@ -58,12 +58,9 @@ namespace pqs{
 
    }// impl
 
-   template <int N = 1 , int D = 1>
-   inline constexpr auto abstract_intensity = std::conditional_t<
-      (D == 1),
-      exp_intensity<N>,
-      exp_intensity<N,D>
-   >{};
+   using abstract_intensity_t = exp_intensity<1>;
+   
+   inline constexpr auto abstract_intensity_v = abstract_intensity_t{};
 }
 
 #endif //PQS_BASE_QUANTITIES_INTENSITY_HPP_INCLUDED

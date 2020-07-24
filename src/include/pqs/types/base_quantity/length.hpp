@@ -60,12 +60,8 @@ namespace pqs{
 
    }// impl
 
-   template <int N =1, int D = 1>
-   inline constexpr auto abstract_length = std::conditional_t<
-      (D == 1),
-      exp_length<N>,
-      exp_length<N,D>
-   >{};
+   using abstract_length_t = exp_length<1>;
+   inline constexpr auto abstract_length_v  = abstract_length_t{};
 
 }
 

@@ -74,7 +74,7 @@ namespace {
       basic_quantity<
          basic_unit<
             dummy_system,
-            decltype(abstract_length<> / abstract_time<> ),
+            decltype(abstract_length_v / abstract_time_v ),
             decltype( std::ratio<30,2>{} ^ exponent10<3>{})
          >, double
       > constexpr q{20.0};

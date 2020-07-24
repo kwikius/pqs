@@ -76,16 +76,16 @@ namespace pqs{
 
    }// impl
 
-   /**
-     *  @brief an inline constant of type exp_current for use in runtime expressions
-     */
-   template <int N = 1 , int D = 1>
-   inline constexpr auto abstract_current = std::conditional_t<
-      (D == 1),
-      exp_current<N>,
-      exp_current<N,D>
-   >{};
+  /**
+   * @brief helpful common named dimension typedef
+   */
+   using abstract_current_t = exp_current<1>;
 
+  /**
+   *  @brief an inline constant for use in runtime expressions
+   */
+   inline constexpr auto abstract_current_v = abstract_current_t{};
+   
 }
 
 #endif //PQS_BASE_QUANTITIES_CURRENT_HPP_INCLUDED

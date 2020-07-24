@@ -5,7 +5,7 @@
 
 namespace pqs{
    
-   constexpr inline auto abstract_area_v = abstract_length<2>;
+   constexpr inline auto abstract_area_v = pow<2>(abstract_length_v);
 
    using abstract_area_t = std::remove_cvref_t<decltype(abstract_area_v)>;
 }

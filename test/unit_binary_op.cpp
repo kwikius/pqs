@@ -106,13 +106,13 @@ namespace {
    {
       using L = basic_unit<
          si_measurement_system,
-         decltype(abstract_length<> ),
+         abstract_length_t,
          decltype(std::ratio<1>{} ^ exponent10<0>{})
       >;
 
       using T = basic_unit<
          si_measurement_system,
-         decltype(abstract_time<> ),
+         abstract_time_t,
          decltype(std::ratio<1>{} ^ exponent10<0>{})
       >;
          
@@ -126,14 +126,14 @@ namespace {
    void si_unit_div_test()
    {
       using L = si::normative_unit<
-         decltype(abstract_length<> ),
+         abstract_length_t,
          exponent10<-6>
       >;
 
       // has to be assumed non-normative?
       using T = basic_unit<
          si_measurement_system,
-         decltype(abstract_time<> ),
+         abstract_time_t,
          decltype(std::ratio<1>{} ^ exponent10<-2>{})
       >;
          

@@ -26,7 +26,7 @@ void custom_test2()
    struct  abstract_velocity : 
       named<"abstract_velocity"> ,
       decltype( 
-         abstract_length<> / abstract_time<>
+         abstract_length_v / abstract_time_v
       ) 
    {} ;
 
@@ -87,14 +87,14 @@ void quantity_syntax_test()
    // construct a quantity by composing dimension
    auto qd = basic_quantity<
       si::normative_unit<
-         decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
+         decltype( abstract_mass_v * abstract_length_v / pow<2>(abstract_time_v) ),
          exponent10<-3>
       >
    >{20.0};
 
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
-         decltype( abstract_mass<> * abstract_length<> / abstract_time<2> ),
+         decltype( abstract_mass_v * abstract_length_v / pow<2>(abstract_time_v) ),
          decltype( std::ratio<383,100>{} ^ exponent10<-3>{} )
       >
    >{20.0};

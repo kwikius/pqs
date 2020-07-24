@@ -26,11 +26,11 @@ void output_test()
   // std::cout << x <<'\n';
 
    // dimension_list
-   using D = decltype(pqs::abstract_time<3> * pqs::abstract_length<-3> * pqs::abstract_current<-1>);
+   using D = decltype( pqs::pow<3>(pqs::abstract_time_v) * pow<-3>(pqs::abstract_length_v) * pqs::pow<-1>(pqs::abstract_current_v));
 //   std::cout << pqs::dimension_to_fixed_string<D,ms,pqs::charset_utf8>() << '\n';
 //   std::cout << pqs::dimension_to_fixed_string<D,ms,pqs::charset_ascii>() << '\n';
    // custom dimension
-   struct cd : decltype(pqs::abstract_length<> / pqs::pow<2>(pqs::abstract_time<>) ){};
+   struct cd : decltype(pqs::abstract_length_v / pqs::pow<2>(pqs::abstract_time_v) ){};
 //   std::cout << pqs::dimension_to_fixed_string<cd,ms,pqs::charset_utf8>() << '\n';
 //   std::cout << pqs::dimension_to_fixed_string<cd,ms,pqs::charset_ascii>() << '\n';
 
