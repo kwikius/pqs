@@ -6,6 +6,7 @@
 #include <pqs/systems/si/area.hpp>
 #include <pqs/systems/si/speed.hpp>
 #include <pqs/systems/si/force.hpp>
+#include <pqs/systems/si/pressure.hpp>
 #include <pqs/systems/si/reciprocal_length.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/imperial/length.hpp>
@@ -328,6 +329,13 @@ namespace {
 
       auto constexpr q4 = si::force::N<>{20.345};
       // output< charset_utf8>( std::cout << " force = ", q4) << '\n';
+   }
+
+   void quantity_sizeof_test()
+   {
+      static_assert(sizeof(si::force::N<int>) == sizeof(int));
+      static_assert(sizeof(si::pressure::Pa<float>) == sizeof(float));
+      static_assert(sizeof(si::force::N<double>) == sizeof(double));
    }
 }
 

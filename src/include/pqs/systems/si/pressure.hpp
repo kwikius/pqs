@@ -7,7 +7,7 @@
 namespace pqs{ namespace si { namespace pressure{
 
    template <typename ValueType = double>
-   using N = pqs::basic_quantity<pqs::si::pressure_unit::N,ValueType>;
+   using Pa = pqs::basic_quantity<pqs::si::pressure_unit::Pa,ValueType>;
 
 }}} // pqs::si::pressure
 

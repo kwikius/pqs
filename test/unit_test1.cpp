@@ -12,6 +12,8 @@
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/si/speed.hpp>
 #include <pqs/systems/si/length.hpp>
+#include <pqs/systems/si/force.hpp>
+#include <pqs/systems/si/pressure.hpp>
 
 #include <pqs/systems/imperial/time.hpp>
 #include <pqs/systems/imperial/length.hpp>
@@ -45,6 +47,12 @@ namespace {
 
       using Cf = get_conversion_factor< U >;
       static_assert( is_conversion_factor<Cf> );
+   }
+
+   void unit_sizeof_test()
+   {
+      static_assert(sizeof(si::force_unit::N) == 1);
+      static_assert(sizeof(si::length_unit::m) == 1);
    }
 
    void unit_binary_op_test()
@@ -117,4 +125,5 @@ void unit_test()
    unit_concept_test();
    check_prefixable();
    unit_binary_op_test();
+   unit_sizeof_test();
 }

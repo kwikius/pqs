@@ -5,9 +5,9 @@
 #include <pqs/types/derived_quantity/pressure.hpp>
 #include <pqs/bits/named.hpp>
 
-namespace pqs{ namespace si { namespace force_unit{
+namespace pqs{ namespace si { namespace pressure_unit{
 
-   struct N : named<"Pa">, pqs::si::normative_unit<
+   struct Pa : named<"Pa">, pqs::si::normative_unit<
       abstract_pressure_t
    >{};
 
