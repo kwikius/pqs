@@ -22,6 +22,7 @@ void binary_op_test();
 void sandbox();
 void output_test();
 void basic_quantity_test();
+void unit_binary_op_test();
 void unit_test();
 
 int errors = 0;
@@ -59,6 +60,7 @@ int main()
    quantity_syntax_test();
  
    experimental_test();
+   unit_binary_op_test();
 
    sandbox();
 

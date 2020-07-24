@@ -1,11 +1,4 @@
 
-#include <pqs/bits/base_quantities.hpp>
-#include <pqs/types/basic_unit.hpp>
-#include <pqs/types/conversion_factor.hpp>
-#include <pqs/concepts/associated/binary_op.hpp>
-#include <pqs/systems/si/unit.hpp>
-
-// test interaction with time.h
 #include <time.h>
 #include <pqs/systems/si/length.hpp>
 #include <pqs/systems/si/time.hpp>
@@ -14,6 +7,7 @@
 
 #include <iostream>
 
+#if 0
 namespace pqs{
 
    namespace impl{
@@ -102,6 +96,7 @@ namespace pqs{
       return pqs::binary_op_t< Lhs, pqs::divides, Rhs>{};
    }
 }   
+#endif
 
 using namespace pqs;
 
@@ -121,11 +116,11 @@ namespace {
          decltype(std::ratio<1>{} ^ exponent10<0>{})
       >;
          
-      using R = binary_op_t<L, divides,T>;
+    //  using R = binary_op_t<L, divides,T>;
 
-      R constexpr r = L{} / T{};
+      auto constexpr r = L{} / T{};
        
-      static_assert(pqs::is_basic_unit<R>);
+      static_assert(pqs::is_basic_unit<decltype(r)>);
    }
 
    void si_unit_div_test()
@@ -135,18 +130,21 @@ namespace {
          exponent10<-6>
       >;
 
+      // has to be assumed non-normative?
       using T = basic_unit<
          si_measurement_system,
          decltype(abstract_time<> ),
          decltype(std::ratio<1>{} ^ exponent10<-2>{})
       >;
          
-      using  R = binary_op_t<L, divides,T>;
+     // using R = binary_op_t<L, divides,T>;
 
-      R constexpr r = L{} / T{};
+      auto constexpr r = L{} / T{};
 
-      static_assert(is_basic_unit<R>);
-      static_assert(si::is_normative_unit<R>);
+      static_assert(is_basic_unit<decltype(r)>);
+
+      // should fail unless both normative units?
+      static_assert(not si::is_normative_unit<decltype(r)>);
    }
 
 }
@@ -155,7 +153,7 @@ namespace {
 int errors =0;
 int main()
 #else
-void sandbox()
+void unit_binary_op_test()
 #endif
 {
     unit_div_test();

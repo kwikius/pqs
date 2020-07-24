@@ -25,6 +25,7 @@ OBJECTS = \
    scaled_value_test.o \
    binary_op_test.o \
    unit_test1.o \
+   unit_binary_op.o \
    sandbox.o
 
 .PHONY : all test gcc7_cpp11 gcc9_cpp17 gcc9_concepts_cpp2a clean 
