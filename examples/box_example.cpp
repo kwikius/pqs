@@ -59,14 +59,15 @@ int main()
 
   const auto fill_time = si::time::s<>{200.0};      // time since starting fill
   const auto measured_mass = si::mass::kg<>{20.0};  // measured mass at fill_time
-/*
-  std::cout << "mp-units box example...\n";
+
+  std::cout << "pqs box example...\n";
   std::cout << "fill height at " << fill_time << " = " << box.fill_level(measured_mass) << " ("
             << (box.fill_level(measured_mass) / box.height) * 100 << "% full)\n";
+
   std::cout << "spare_capacity at " << fill_time << " = " << box.spare_capacity(measured_mass) << '\n';
   std::cout << "input flow rate after " << fill_time << " = " << measured_mass / fill_time << '\n';
   std::cout << "float rise rate = " << box.fill_level(measured_mass) / fill_time << '\n';
   const auto fill_time_left = (box.height / box.fill_level(measured_mass) - 1) * fill_time;
   std::cout << "box full E.T.A. at current flow rate = " << fill_time_left << '\n';
-*/
+
 }

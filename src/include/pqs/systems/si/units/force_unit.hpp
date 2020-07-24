@@ -7,6 +7,13 @@
 
 namespace pqs{ namespace si { namespace force_unit{
 
+  /**
+   * @todo . Probably needs to be derived from a particular type 
+   * such as named_normative_unit?
+   * rather than adhoc name as here, then can have prefixes added. 
+   * The logic extending is_prefixable.
+   * Alternatively dump the complexity and allow user to name as they wish?
+   */
    struct N : named<"N">, pqs::si::normative_unit<
      abstract_force_t
    >{};

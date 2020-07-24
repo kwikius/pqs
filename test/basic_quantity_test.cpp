@@ -5,6 +5,7 @@
 #include <pqs/systems/si/length.hpp>
 #include <pqs/systems/si/area.hpp>
 #include <pqs/systems/si/speed.hpp>
+#include <pqs/systems/si/force.hpp>
 #include <pqs/systems/si/reciprocal_length.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/imperial/length.hpp>
@@ -324,6 +325,9 @@ namespace {
     
      // output<charset_utf8>( std::cout << std::setprecision(7), q1);
      // output< charset_utf8>( std::cout << " speed = ", q3) << '\n';
+
+      auto constexpr q4 = si::force::N<>{20.345};
+      // output< charset_utf8>( std::cout << " force = ", q4) << '\n';
    }
 }
 

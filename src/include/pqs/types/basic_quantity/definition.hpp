@@ -1,9 +1,13 @@
 #ifndef PQS_INSTANCE_BASIC_QUANTITY_DEFINITION_HPP_INCLUDED
 #define PQS_INSTANCE_BASIC_QUANTITY_DEFINITION_HPP_INCLUDED
 
+#include <pqs/bits/config.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/bits/scaled_value.hpp>
 #include <pqs/bits/meta/is_narrowing_conversion.hpp>
+#if defined PQS_BASIC_QUANTITY_FRIEND_OSTREAM_SUPPORT
+#include <pqs/bits/quantity_output.hpp>
+#endif
 
 namespace pqs{
 
@@ -39,6 +43,13 @@ namespace pqs{
       {
          return q.numeric_value();
       }
+#if defined PQS_BASIC_QUANTITY_FRIEND_OSTREAM_SUPPORT
+
+     friend inline std::ostream & operator << (std::ostream & os, basic_quantity const & q)
+     {
+        return pqs::output<pqs::default_charset>(os,q);
+     }
+#endif
 
     private:
       using scaled_value_type = scaled_value<
