@@ -5,19 +5,26 @@
 #include <pqs/systems/si/unit.hpp>
 #include <pqs/bits/named.hpp>
 
-namespace pqs{ namespace si { namespace force_unit{
+/**
+  force unit namespace
+*/
+namespace pqs::si::force_unit{
 
   /**
-   * @todo . Probably needs to be derived from a particular type 
-   * such as named_normative_unit?
-   * rather than adhoc name as here, then can have prefixes added. 
-   * The logic extending is_prefixable.
-   * Alternatively dump the complexity and allow user to name as they wish?
+   * @brief SI named unit demo
    */
-   struct N : named<"N">, pqs::si::normative_unit<
-     abstract_force_t
-   >{};
+   struct N : named_si_unit<"N", abstract_force_t>{};
 
-}}} // pqs::si::speed_unit
+  /**
+   * @brief  prefixed named unit demo : mN
+   */
+   struct mN : decltype( N() ^ exponent10<-3>() ){};
+
+  /**
+   * @brief  prefixed named unit demo : kN
+   */
+   struct kN : decltype( N() ^ exponent10< 3>() ){};
+
+} // pqs::si::force_unit
 
 #endif // PQS_SI_UNITS_FORCE_UNIT_HPP_INCLUDED

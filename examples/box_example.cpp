@@ -25,7 +25,7 @@ struct Box {
 
   constexpr Box(const si::length::m<>& l, const si::length::m<>& w, const si::length::m<>& h) : length{l}, width{w}, height{h} {}
 
-  constexpr si::force::N<> filled_weight() const
+  constexpr si::force::kN<> filled_weight() const
   {
     const si::volume::m3<> volume = length * width * height;
     const si::mass::kg<> mass = contents.density * volume;
@@ -55,6 +55,9 @@ int main()
 {
   auto box = Box(si::length::mm<>{1000.0}, si::length::mm<>{500.0},si::length::mm<>{200.0});
   box.set_contents_density(si::density::kg_per_m3<>{1000.0});
+
+
+ std::cout << "filled weight = " << box.filled_weight() <<'\n';
 
   const auto fill_time = si::time::s<>{200.0};      // time since starting fill
   const auto measured_mass = si::mass::kg<>{20.0};  // measured mass at fill_time

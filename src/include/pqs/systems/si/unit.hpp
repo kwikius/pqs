@@ -15,9 +15,19 @@ namespace pqs{ namespace si{
          struct si_unit_base : pqs::impl::basic_unit_base{};
       }
 
+      template <typename Exp>
+      inline constexpr bool is_prefixable_exponent()
+      {
+         using unit_exp = typename Exp::ratio;
+         return (unit_exp::den == 1 ) && 
+                (unit_symbol_prefix<
+                static_cast<int>(unit_exp::num),charset_ascii
+             > != basic_fixed_string("")); 
+      }
+
       /**
         * @brief Is a dimension and exponent10 combo prefixable
-        *  with an si prefix?
+        *  with an si prefix for base_quantity_exponents?
       */
       template <dimension D , typename Exp> 
       inline constexpr bool is_prefixable()
@@ -83,7 +93,6 @@ namespace pqs{ namespace si{
          using dimension = std::remove_cvref_t<D>;
          using conversion_factor = 
             pqs::conversion_factor<std::ratio<1>,Exp>;
-
       };
 
       /**
@@ -117,6 +126,46 @@ namespace pqs{ namespace si{
       >{
          using type = base_unit;
       };
+
+      /**
+       * @brief Named unit with a prefix create from named_unit() ^ exponent10<N>
+       */
+      template <
+         basic_fixed_string Name,
+         dimension D,
+         typename Exp
+       > requires 
+            !is_base_quantity_exponent<D> && 
+            is_prefixable_exponent<Exp>()
+       struct prefixed_named_si_unit : normative_unit<D,Exp >{
+           template <typename CharSet>
+           static constexpr auto name = 
+               unit_symbol_prefix<
+                  Exp::ratio::num,CharSet
+               > + Name;
+       };
+
+      /**
+       * @brief Named unit without a prefix
+       */
+      template <
+         basic_fixed_string Name,
+         dimension D
+       > requires 
+            !is_base_quantity_exponent<D>
+       struct named_si_unit : normative_unit<D,exponent10<0> >{
+
+           template <typename CharSet>
+           static constexpr auto name = Name;
+
+           template <typename U, int N>
+              requires std::is_base_of_v<named_si_unit,U>
+           friend inline constexpr 
+           auto operator ^( U, exponent10<N> )
+           {
+              return prefixed_named_si_unit<Name,D,exponent10<N> >{};
+           }
+       };
 
       namespace impl{
 
