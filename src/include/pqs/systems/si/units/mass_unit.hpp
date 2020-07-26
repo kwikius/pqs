@@ -7,7 +7,12 @@
 namespace pqs{ namespace si { namespace mass_unit{
 
    struct kg : si::base_unit<base_mass>{};
-   struct g : si::normative_unit<exp_mass<1>, exponent10<-3> >{};
+
+   struct g : si::normative_unit<abstract_mass_t, exponent10<-3> >{};
+
+   struct mg : si::normative_unit<abstract_mass_t, exponent10<-6> >{};
+
+   struct ug : si::normative_unit<abstract_mass_t, exponent10<-9> >{};
 
 }}} // pqs::si::mass_unit
 

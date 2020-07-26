@@ -18,12 +18,12 @@ namespace pqs::si::force_unit{
   /**
    * @brief  prefixed named unit demo : mN
    */
-   struct mN : decltype( N() ^ exponent10<-3>() ){};
+   struct mN : named_si_unit<"mN", abstract_force_t, exponent10<-3> >{};
 
   /**
    * @brief  prefixed named unit demo : kN
    */
-   struct kN : decltype( N() ^ exponent10< 3>() ){};
+   struct kN : named_si_unit<"kN", abstract_force_t, exponent10<3> >{};
 
 } // pqs::si::force_unit
 

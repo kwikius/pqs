@@ -8,7 +8,6 @@ namespace pqs{ namespace si { namespace density_unit{
 
    struct kg_per_m3  : si::normative_unit<abstract_density_t, exponent10< 0> >{};
 
-
 }}} // pqs::si::density_unit
 
 #endif //PQS_SI_UNITS_DENSITY_UNIT_HPP_INCLUDED

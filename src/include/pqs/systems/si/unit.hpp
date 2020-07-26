@@ -81,6 +81,7 @@ namespace pqs{ namespace si{
       
       /**
        *  @brief normative si unit, by defualt has no name
+       * because it is not possible
        */
       template <
          dimension D, 
@@ -96,7 +97,8 @@ namespace pqs{ namespace si{
       };
 
       /**
-       *  @brief normative si unit, include a member name where it is possible
+       *  @brief normative si unit, includes an automated member ::name 
+       *  
        */
       template <
          dimension D, 
@@ -113,7 +115,6 @@ namespace pqs{ namespace si{
 
          template <typename CharSet>
          static constexpr auto name = get_prefixed_unit_name<D,Exp,CharSet>();
-
       };
 
       /**
@@ -128,43 +129,18 @@ namespace pqs{ namespace si{
       };
 
       /**
-       * @brief Named unit with a prefix create from named_unit() ^ exponent10<N>
+       * @brief Named si unit 
        */
       template <
          basic_fixed_string Name,
          dimension D,
-         typename Exp
-       > requires 
-            !is_base_quantity_exponent<D> && 
-            is_prefixable_exponent<Exp>()
-       struct prefixed_named_si_unit : normative_unit<D,Exp >{
-           template <typename CharSet>
-           static constexpr auto name = 
-               unit_symbol_prefix<
-                  Exp::ratio::num,CharSet
-               > + Name;
-       };
-
-      /**
-       * @brief Named unit without a prefix
-       */
-      template <
-         basic_fixed_string Name,
-         dimension D
+         typename Exp = exponent10<0>
        > requires 
             !is_base_quantity_exponent<D>
-       struct named_si_unit : normative_unit<D,exponent10<0> >{
+       struct named_si_unit : normative_unit<D,Exp>{
 
            template <typename CharSet>
            static constexpr auto name = Name;
-
-           template <typename U, int N>
-              requires std::is_base_of_v<named_si_unit,U>
-           friend inline constexpr 
-           auto operator ^( U, exponent10<N> )
-           {
-              return prefixed_named_si_unit<Name,D,exponent10<N> >{};
-           }
        };
 
       namespace impl{

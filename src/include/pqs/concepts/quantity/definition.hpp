@@ -51,6 +51,8 @@ namespace pqs{
       struct provide_operator_times_impl :std::true_type{};
       template <typename Lhs, typename Rhs>
       struct provide_operator_divides_impl : std::true_type{};
+      template <typename Lhs, typename Rhs>
+      struct provide_operator_cmp_impl : std::true_type{};
 
     }
   
@@ -77,6 +79,12 @@ namespace pqs{
     template <typename Lhs, typename Rhs>
     inline constexpr bool provide_operator_divides = 
     impl::provide_operator_divides_impl<
+       std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
+    >::value;
+
+    template <typename Lhs, typename Rhs>
+    inline constexpr bool provide_operator_cmp = 
+    impl::provide_operator_cmp_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 

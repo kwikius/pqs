@@ -1,5 +1,4 @@
 
-
 #include <pqs/systems/si/acceleration.hpp>
 #include <pqs/systems/si/density.hpp>
 #include <pqs/systems/si/force.hpp>
@@ -44,7 +43,7 @@ struct Box {
 
   constexpr void set_contents_density(const si::density::kg_per_m3<>& density_in)
   {
-    //assert(density_in > air_density);
+    assert(density_in > air_density);
     contents.density = density_in;
   }
 };
@@ -56,8 +55,7 @@ int main()
   auto box = Box(si::length::mm<>{1000.0}, si::length::mm<>{500.0},si::length::mm<>{200.0});
   box.set_contents_density(si::density::kg_per_m3<>{1000.0});
 
-
- std::cout << "filled weight = " << box.filled_weight() <<'\n';
+  std::cout << "filled weight = " << box.filled_weight() <<'\n';
 
   const auto fill_time = si::time::s<>{200.0};      // time since starting fill
   const auto measured_mass = si::mass::kg<>{20.0};  // measured mass at fill_time

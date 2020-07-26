@@ -12,21 +12,13 @@ namespace pqs::si::length_unit{
 
 
    /**
-    * @brief local derivation from base unit with op to compose derived units
+    * @brief local derivation from base unit
     */
-   struct m : si::base_unit<base_length>{
+   struct m : si::base_unit<base_length>{};
 
-      template <int N>
-      friend constexpr 
-      auto operator^(m, exponent10<N> )
-      {
-         return si::normative_unit<exp_length<1>, exponent10<-3> >{};
-      }
-   };
-
-   struct mm : decltype( m() ^ exponent10<-3>() ){}; 
-   struct cm : decltype( m() ^ exponent10<-2>() ){};
-   struct km : decltype( m() ^ exponent10< 3>() ){};
+   struct mm : si::normative_unit<abstract_length_t, exponent10<-3> >{};
+   struct cm : si::normative_unit<abstract_length_t, exponent10<-2> >{};
+   struct km : si::normative_unit<abstract_length_t, exponent10< 3> >{};
 
    /**
     * @brief  length unit conversions from other measurement systems

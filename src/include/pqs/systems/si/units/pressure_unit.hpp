@@ -7,9 +7,9 @@
 
 namespace pqs{ namespace si { namespace pressure_unit{
 
-   struct Pa : named<"Pa">, pqs::si::normative_unit<
-      abstract_pressure_t
-   >{};
+   struct Pa : named_si_unit<"Pa", abstract_pressure_t >{};
+   struct kPa : named_si_unit<"kPa", abstract_pressure_t ,exponent10<3> >{};
+   struct MPa : named_si_unit<"MPa", abstract_pressure_t ,exponent10<6> >{};
 
 }}} // pqs::si::speed_unit
 

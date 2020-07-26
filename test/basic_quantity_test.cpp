@@ -296,6 +296,82 @@ namespace {
       QUAN_CHECK(get_numeric_value(q1) == 10. )
    }
 
+   void comparison_test1()
+   {
+      imperial::length::ft<> constexpr a{10};
+      imperial::length::yd<> constexpr b{10};
+
+      static_assert(a < b);
+      static_assert(not (b < a) )
+;
+      static_assert(a <= b);
+      static_assert(not (b <= a));
+
+      static_assert( not (a == b));
+      static_assert( not (b == a));
+
+      static_assert( a != b );
+      static_assert( b != a );
+
+      static_assert( b >= a );
+      static_assert( not (a >= b) );
+
+      static_assert( b > a);
+      static_assert( not (a > b) );
+
+      static_assert ( not (a < a));
+      static_assert ( not (a > a));
+      static_assert ( a == a);
+      static_assert ( not (a != a) );
+      static_assert ( a <= a);
+      static_assert ( a >= a);
+
+      static_assert ( not ( b < b));
+      static_assert ( not (b > b));
+      static_assert ( not (b != b) );
+      static_assert ( b == b);
+      static_assert ( b <= b);
+      static_assert ( b >= b);
+   }
+
+   void comparison_test2()
+   {
+      si::pressure::MPa<> constexpr a{10.01};
+      si::pressure::MPa<> constexpr b{10.011};
+
+      static_assert(a < b);
+      static_assert(not (b < a) )
+;
+      static_assert(a <= b);
+      static_assert(not (b <= a));
+
+      static_assert( not (a == b));
+      static_assert( not (b == a));
+
+      static_assert( a != b );
+      static_assert( b != a );
+
+      static_assert( b >= a );
+      static_assert( not (a >= b) );
+
+      static_assert( b > a);
+      static_assert( not (a > b) );
+
+      static_assert ( not (a < a));
+      static_assert ( not (a > a));
+      static_assert ( a == a);
+      static_assert ( not (a != a) );
+      static_assert ( a <= a);
+      static_assert ( a >= a);
+
+      static_assert ( not ( b < b));
+      static_assert ( not (b > b));
+      static_assert ( not (b != b) );
+      static_assert ( b == b);
+      static_assert ( b <= b);
+      static_assert ( b >= b);
+   }
+
    // wiki example
    void conversion_factor_semantic_test()
    {
@@ -356,4 +432,6 @@ void basic_quantity_test()
    scalar_multiply_test();
    scalar_divide_test();
    pow_test();
+   comparison_test1();
+   comparison_test2();
 }

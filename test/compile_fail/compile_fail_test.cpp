@@ -53,6 +53,7 @@ int main()
    QUAN_CHECK( compile_fail_test("scaled_value_narrowing_conversion_test.cpp",compile_info) )
    QUAN_CHECK( compile_fail_test("add_quantity_in_different_unit_system_test.cpp",compile_info) )
    QUAN_CHECK( compile_fail_test("add_quantities_not_dimensionally_equivalent.cpp",compile_info) )
+   QUAN_CHECK( compile_fail_test("compare_quantities_not_dimensionally_equivalent.cpp",compile_info) )
    QUAN_CHECK( compile_fail_test("implicit_cast_quantity.cpp",compile_info) )
    QUAN_CHECK( compile_fail_test("invalid_dimensionally_equivalent.cpp",compile_info) )
 
