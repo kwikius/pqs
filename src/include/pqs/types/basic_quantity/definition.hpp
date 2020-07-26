@@ -34,6 +34,93 @@ namespace pqs{
          >{get_numeric_value(q)}}
       {}
 
+      /**
+         @todo  *=, /=,
+        */
+
+      template <dimensionless_quantity V>
+         requires 
+            std::is_assignable_v<
+               value_type&,
+               decltype(std::declval<value_type>() * std::declval<V>())
+            >
+            && ! meta::is_narrowing_conversion<
+               decltype(std::declval<value_type>() * std::declval<V>()),
+               value_type
+               >
+      constexpr 
+      basic_quantity & operator *= (V const & v)
+      {
+          this->m_scaled_value.set_numeric_value( 
+              this->numeric_value() * v
+          );
+          return *this;
+      }
+
+      template <dimensionless_quantity V>
+         requires 
+            std::is_assignable_v<
+               value_type&,
+               decltype(std::declval<value_type>() / std::declval<V>())
+            >
+            && ! meta::is_narrowing_conversion<
+               decltype(std::declval<value_type>() / std::declval<V>()),
+               value_type
+               >
+      constexpr 
+      basic_quantity & operator /= (V const & v)
+      {
+          this->m_scaled_value.set_numeric_value( 
+              this->numeric_value() / v
+          );
+          return *this;
+      }
+      
+      template <quantity Q>
+      requires 
+         dimensionally_equivalent<basic_quantity,Q> &&
+         std::is_assignable_v<value_type&,get_numeric_type<Q> > &&
+         !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
+      constexpr
+      basic_quantity & operator+=( Q const & q)
+      {
+          this->m_scaled_value.set_numeric_value( 
+              this->numeric_value() + implicit_cast<basic_quantity>(q).numeric_value()
+          );
+          return *this;
+      }
+
+      template <quantity Q>
+      requires 
+         dimensionally_equivalent<basic_quantity,Q> &&
+         std::is_assignable_v<value_type&, get_numeric_type<Q> > &&
+         !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
+      constexpr
+      basic_quantity & operator-=( Q const & q)
+      {
+          this->m_scaled_value.set_numeric_value( 
+              this->numeric_value() - implicit_cast<basic_quantity>(q).numeric_value()
+          );
+          return *this;
+      }
+
+      basic_quantity & operator++()
+      {
+          this->m_scaled_value.set_numeric_value( 
+              this->numeric_value() + implicit_cast<value_type>(1)
+          );
+          return *this;
+      }
+
+      basic_quantity & operator--()
+      {
+          this->m_scaled_value.set_numeric_value( 
+              this->numeric_value() - implicit_cast<value_type>(1)
+          );
+          return *this;
+      }
+
+
       constexpr value_type numeric_value() const 
       { return m_scaled_value.numeric_value(); }
 

@@ -45,6 +45,8 @@ namespace pqs{
       scaled_value(scaled_value<ConversionFactorR,ValueTypeR> const & in)
       :m_numeric_value{scale_from<ConversionFactorR,ValueTypeR>(in.numeric_value(),pqs::default_conversion{})}{}
 
+      void set_numeric_value(value_type const & v){ m_numeric_value = v;}
+
       constexpr ValueType numeric_value()const { return m_numeric_value;}
       private:
          ValueType m_numeric_value;

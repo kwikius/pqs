@@ -393,6 +393,33 @@ namespace {
       );
    }
 
+   void plus_eq_test()
+   {
+      si::force::mN<> f{20.0};
+      f += si::force::N<>{1.0};
+      QUAN_CHECK( (get_numeric_value(f) == 1020.0) );
+
+      f-= si::force::mN<>{1.0};
+      QUAN_CHECK( (get_numeric_value(f) == 1019.0) );
+
+      ++f;
+      QUAN_CHECK( (get_numeric_value(f) == 1020.0) );
+
+      --f;
+      QUAN_CHECK( (get_numeric_value(f) == 1019.0) );   
+   }
+
+   void times_eq_test()
+   {
+      si::force::mN<> f{20.0};
+
+      f *= 2;
+      QUAN_CHECK( (get_numeric_value(f) == 40.0) );
+
+      f /= 2.0;
+      QUAN_CHECK( (get_numeric_value(f) == 20.0) );
+   }
+
    void output_test()
    {
       auto constexpr q1 = si::length::m<>{100};
@@ -434,4 +461,6 @@ void basic_quantity_test()
    pow_test();
    comparison_test1();
    comparison_test2();
+   plus_eq_test();
+   times_eq_test();
 }
