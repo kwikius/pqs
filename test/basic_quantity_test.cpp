@@ -116,10 +116,9 @@ namespace {
       QUAN_CHECK(( get_numeric_value(q1a) == 2))
 
       auto q2 = si::length::mm<>{321};
-      static_assert( si::is_normative_unit<get_unit<decltype(q1)> > );
+      static_assert( si::is_normative_unit<get_unit<decltype(q2)> > );
 
       auto q3 = q1 + q2;
-     // int x = q2;
       static_assert( si::is_normative_unit<get_unit<decltype(q3)> > );
 
       //#######################################################################

@@ -1,9 +1,12 @@
 
 PQS_ROOT ?= ../src/include
 
-CXXFLAGS = -fmax-errors=1
+CXX      = g++-9
+CXXFLAGS = -fmax-errors=1 -std=c++2a -fconcepts -I$(PQS_ROOT) -Wno-stringop-overflow
+BUILD_DIR = build
+OUT_DIR = bin
 
-OBJECTS = \
+OBJECTS = $(patsubst %,$(BUILD_DIR)/% , \
    output_test.o \
    dimension_test3.o \
    basic_quantity_test.o \
@@ -26,33 +29,25 @@ OBJECTS = \
    binary_op_test.o \
    unit_test1.o \
    unit_binary_op.o \
-   sandbox.o
+   sandbox.o )
 
-.PHONY : all test gcc7_cpp11 gcc9_cpp17 gcc9_concepts_cpp2a clean 
+.PHONY : all gcc9_concepts_cpp2a clean 
 
-all : gcc7_cpp11
+all : $(OUT_DIR)/test.exe
 
-gcc7_cpp11 : CXX      = g++-7
-gcc7_cpp11 : CXXFLAGS += -std=c++11 -I${PQS_ROOT}
-gcc7_cpp11 : test.exe
+gcc9_concepts_cpp2a : all
 
-gcc9_cpp17 : CXX      = g++-9
-gcc9_cpp17 : CXXFLAGS += --std=c++17 -I${PQS_ROOT}
-gcc9_cpp17 : test.exe
-
-gcc9_concepts_cpp2a : CXX      = g++-9
-gcc9_concepts_cpp2a : CXXFLAGS += -std=c++2a -fconcepts -I${PQS_ROOT} -Wno-stringop-overflow
-gcc9_concepts_cpp2a : test.exe
-
-test.exe : $(OBJECTS)
+$(OUT_DIR)/test.exe :  $(OBJECTS)
+	@mkdir -p $(OUT_DIR)
 	$(CXX) $(CXXFLAGS) -O3 -o $@  $(OBJECTS)
 	@echo .......................
 	./$@
 	@echo ....... OK ............
 
-%.o : %.cpp 
+$(BUILD_DIR)/%.o : %.cpp 
+	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -O3 -c $< -o $@
 
 clean :
-	rm -rf *.o exposition/*.o
-	rm -rf *.exe
+	rm -rf $(BUILD_DIR)
+	rm -rf $(OUT_DIR)
