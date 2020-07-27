@@ -4,6 +4,8 @@
 #include <type_traits>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/systems/si/quantity/measurement_system_def.hpp>
+#include <pqs/systems/si/quantity/base_unit_symbols.hpp>
+#include <pqs/systems/si/quantity/unit_symbol_prefix.hpp>
 
 namespace pqs{ namespace si{
 
@@ -15,6 +17,9 @@ namespace pqs{ namespace si{
          struct si_unit_base : pqs::impl::basic_unit_base{};
       }
 
+     /**
+      * @brief can Exp be prefixed?
+      */
       template <typename Exp>
       inline constexpr bool is_prefixable_exponent()
       {
@@ -80,7 +85,7 @@ namespace pqs{ namespace si{
       }
       
       /**
-       *  @brief normative si unit, by defualt has no name
+       *  @brief normative si unit, by default has no name
        * because it is not possible
        */
       template <
