@@ -21,6 +21,7 @@ namespace pqs{
       constexpr basic_quantity() : m_scaled_value{value_type{}}{}
 
       constexpr basic_quantity( basic_quantity const & ) = default;
+      constexpr basic_quantity& operator =( basic_quantity const & ) = default;
 
       template <quantity Q>
       constexpr basic_quantity( Q const & q)
@@ -75,6 +76,21 @@ namespace pqs{
           );
           return *this;
       }
+
+      template <quantity Q>
+      requires 
+         dimensionally_equivalent<basic_quantity,Q> &&
+         same_measurement_system<basic_quantity,Q>  &&
+         std::is_assignable_v<value_type&,get_numeric_type<Q> > &&
+         !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
+      constexpr
+      basic_quantity & operator=( Q const & q)
+      {
+         this->m_scaled_value.set_numeric_value( 
+             implicit_cast<basic_quantity>(q).numeric_value()
+         );
+         return *this;
+      }
       
       template <quantity Q>
       requires 
@@ -85,10 +101,10 @@ namespace pqs{
       constexpr
       basic_quantity & operator+=( Q const & q)
       {
-          this->m_scaled_value.set_numeric_value( 
-              this->numeric_value() + implicit_cast<basic_quantity>(q).numeric_value()
-          );
-          return *this;
+         this->m_scaled_value.set_numeric_value( 
+           this->numeric_value() + implicit_cast<basic_quantity>(q).numeric_value()
+         );
+         return *this;
       }
 
       template <quantity Q>

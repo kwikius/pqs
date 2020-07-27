@@ -5,4 +5,7 @@
 #include <pqs/concepts/quantity/plus.hpp>
 #include <pqs/concepts/quantity/minus.hpp>
 #include <pqs/concepts/quantity/times.hpp>
+#include <pqs/concepts/quantity/divides.hpp>
+#include <pqs/concepts/quantity/pow.hpp>
+#include <pqs/concepts/quantity/compare.hpp>
 #endif
