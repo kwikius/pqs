@@ -372,6 +372,17 @@ namespace {
       static_assert ( b >= b);
    }
 
+   void equals_test()
+   {
+      si::length::mm<>  x{2000};
+
+      si::length::m<> constexpr y{10};
+
+      x = y;
+
+      QUAN_CHECK((  get_numeric_value(x) == 10'000.0 ))
+   }
+
    // wiki example
    void conversion_factor_semantic_test()
    {
@@ -463,4 +474,5 @@ void basic_quantity_test()
    comparison_test2();
    plus_eq_test();
    times_eq_test();
+   equals_test();
 }

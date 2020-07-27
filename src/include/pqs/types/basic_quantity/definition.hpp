@@ -35,10 +35,6 @@ namespace pqs{
          >{get_numeric_value(q)}}
       {}
 
-      /**
-         @todo  *=, /=,
-        */
-
       template <dimensionless_quantity V>
          requires 
             std::is_assignable_v<
@@ -77,47 +73,18 @@ namespace pqs{
           return *this;
       }
 
-      template <quantity Q>
-      requires 
-         dimensionally_equivalent<basic_quantity,Q> &&
-         same_measurement_system<basic_quantity,Q>  &&
-         std::is_assignable_v<value_type&,get_numeric_type<Q> > &&
-         !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
-      constexpr
-      basic_quantity & operator=( Q const & q)
-      {
-         this->m_scaled_value.set_numeric_value( 
-             implicit_cast<basic_quantity>(q).numeric_value()
-         );
-         return *this;
-      }
-      
-      template <quantity Q>
-      requires 
-         dimensionally_equivalent<basic_quantity,Q> &&
-         same_measurement_system<basic_quantity,Q>  &&
-         std::is_assignable_v<value_type&,get_numeric_type<Q> > &&
-         !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
-      constexpr
-      basic_quantity & operator+=( Q const & q)
-      {
-         this->m_scaled_value.set_numeric_value( 
-           this->numeric_value() + implicit_cast<basic_quantity>(q).numeric_value()
-         );
-         return *this;
-      }
-
-      template <quantity Q>
-      requires 
-         dimensionally_equivalent<basic_quantity,Q> &&
-         same_measurement_system<basic_quantity,Q>  &&
-         std::is_assignable_v<value_type&, get_numeric_type<Q> > &&
-         !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
-      constexpr
-      basic_quantity & operator-=( Q const & q)
+      basic_quantity & operator += (basic_quantity const & q)
       {
           this->m_scaled_value.set_numeric_value( 
-              this->numeric_value() - implicit_cast<basic_quantity>(q).numeric_value()
+              this->numeric_value() + q.numeric_value()
+          );
+          return *this;
+      }
+
+      basic_quantity & operator -= (basic_quantity const & q)
+      {
+          this->m_scaled_value.set_numeric_value( 
+              this->numeric_value() - q.numeric_value()
           );
           return *this;
       }
@@ -162,7 +129,6 @@ namespace pqs{
       > ;
       scaled_value_type m_scaled_value;
    };
-
 
    // fulfill requirements for basic_quantity to be a model of pqs::quantity
    namespace impl{
