@@ -442,13 +442,19 @@ namespace {
      // output< charset_utf8>( std::cout << " speed = ", q3) << '\n';
 
       auto constexpr q4 = si::force::uN<>{20.345};
-      output<charset_utf8>( std::cout << " force = ", q4) << '\n';
+      output<charset_utf8>( std::cout << "force4 = ", q4) << '\n';
+
+      auto constexpr q5 = si::force::N<>{20.345};
+      output<charset_utf8>( std::cout << "force5 = ", q5) << '\n';
+
+      auto constexpr q6 = si::pressure::kPa<>{10};
+      output<charset_utf8>( std::cout << "pressure6 = ", q6) << '\n';
    }
 
    void quantity_sizeof_test()
    {
       static_assert(sizeof(si::force::N<int>) == sizeof(int));
-      static_assert(sizeof(si::pressure::Pa<float>) == sizeof(float));
+      static_assert(sizeof(si::pressure::MPa<float>) == sizeof(float));
       static_assert(sizeof(si::force::N<double>) == sizeof(double));
    }
 }

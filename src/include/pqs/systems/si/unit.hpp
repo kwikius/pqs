@@ -6,33 +6,47 @@
 #include <pqs/systems/si/quantity/measurement_system_def.hpp>
 #include <pqs/systems/si/quantity/base_unit_symbols.hpp>
 #include <pqs/systems/si/quantity/unit_symbol_prefix.hpp>
+#include <pqs/concepts/associated/get_derived_quantity_symbol.hpp>
 
-namespace pqs{ namespace si{
+namespace pqs::si{
 
       namespace impl{
          /**
           * @brief derive si_unit_base from basic_unit_base
-          *  to make si::normative_unit a model of pqs::unit
+          *  a detector base class to make si::normative_unit a model of pqs::unit
           */
          struct si_unit_base : pqs::impl::basic_unit_base{};
       }
 
      /**
-      * @brief can Exp be prefixed?
+      * @brief return true if Exp can be prefixed.
+      * N.B doesnt take into account extent
       */
       template <typename Exp>
       inline constexpr bool is_prefixable_exponent()
       {
          using unit_exp = typename Exp::ratio;
          return (unit_exp::den == 1 ) && 
+                ((unit_exp::num == 0 ) ||
                 (unit_symbol_prefix<
                 static_cast<int>(unit_exp::num),charset_ascii
-             > != basic_fixed_string("")); 
+             > != basic_fixed_string(""))); 
       }
 
-      /**
-        * @brief Is a dimension and exponent10 combo prefixable
-        *  with an si prefix for base_quantity_exponents?
+     /**
+      * @brief return true if D is a named dimension
+      */
+      template <dimension D>
+      inline constexpr bool is_named_dimension()
+      {
+         return get_derived_quantity_symbol<
+            D,si_measurement_system,charset_utf8
+         > != basic_fixed_string("");
+      }
+
+     /**
+      * @brief Is a dimension and exponent10 combo prefixable
+      *  with an si prefix for base_quantity_exponents?
       */
       template <dimension D , typename Exp> 
       inline constexpr bool is_prefixable()
@@ -60,7 +74,7 @@ namespace pqs{ namespace si{
       /**
        *  Get unit name + prefix of dimension, exponent10 combo, 
        *  where the combo is prefixable
-       *
+       *  For base_dimension_exponents
        */       
       template <dimension D , typename Exp, typename CharSet> 
          requires is_prefixable<D,Exp>()
@@ -86,7 +100,6 @@ namespace pqs{ namespace si{
       
       /**
        *  @brief normative si unit, by default has no name
-       * because it is not possible
        */
       template <
          dimension D, 
@@ -103,7 +116,8 @@ namespace pqs{ namespace si{
 
       /**
        *  @brief normative si unit, includes an automated member ::name 
-       *  
+       *  This version is from a base_dimension exponent
+       *  so long as exp is prefixable
        */
       template <
          dimension D, 
@@ -122,6 +136,44 @@ namespace pqs{ namespace si{
          static constexpr auto name = get_prefixed_unit_name<D,Exp,CharSet>();
       };
 
+      namespace detail{
+      
+        /**
+          * @brief Add prefix to named unit
+         */
+         template <dimension D, typename Exp, typename CharSet>
+         inline auto constexpr 
+         prefix_named_unit()
+         {
+            return unit_symbol_prefix<Exp::ratio::num,CharSet> +
+               get_derived_quantity_symbol<D,si_measurement_system,CharSet>;
+         }
+      }
+
+      /**
+       *  @brief normative si unit, includes an automated member ::name 
+       *  This version is from a named dimension aka derived quantity
+       *  so long as the exp is prefixable
+       */
+      template <
+         dimension D, 
+         typename Exp
+      >
+         requires
+            is_named_dimension<D>() &&
+            is_prefixable_exponent<Exp>()
+      struct normative_unit<D,Exp> : pqs::si::impl::si_unit_base{
+
+         using type = normative_unit;
+         using quantity_system = si_measurement_system;
+         using dimension = std::remove_cvref_t<D>;
+         using conversion_factor = 
+            pqs::conversion_factor<std::ratio<1>,Exp>;
+
+         template <typename CharSet>
+         static constexpr auto name = detail::prefix_named_unit<D,Exp,CharSet>();
+      };
+
       /**
         * @brief make a si base unit from a base_quantity
         */
@@ -133,23 +185,11 @@ namespace pqs{ namespace si{
          using type = base_unit;
       };
 
-      /**
-       * @brief Named si unit 
-       */
-      template <
-         basic_fixed_string Name,
-         dimension D,
-         typename Exp = exponent10<0>
-       > requires 
-            !is_base_quantity_exponent<D>
-       struct named_si_unit : normative_unit<D,Exp>{
-
-           template <typename CharSet>
-           static constexpr auto name = Name;
-       };
-
       namespace impl{
 
+     /**
+      * @brief is_normative_unit impl
+      */
          template <typename U>
          struct is_normative_unit_impl 
          :  std::is_base_of<
@@ -157,6 +197,9 @@ namespace pqs{ namespace si{
                U
             >{};
 
+     /**
+      * @brief make_normative_unit impl
+      */
          template <pqs::unit U>
          struct make_normative_unit_impl 
          : pqs::si::normative_unit< 
@@ -167,39 +210,39 @@ namespace pqs{ namespace si{
          >{};
       }
 
+     /**
+      * @brief is_normative_unit interface
+      */
       template <typename  U>
       constexpr inline bool is_normative_unit = 
       pqs::si::impl::is_normative_unit_impl<
          std::remove_cvref_t<U> 
       >::value;
 
+     /**
+      * @brief make_normative_unit interface
+      */
       template <typename  U>
       using make_normative_unit = 
       typename impl::make_normative_unit_impl<
          std::remove_cvref_t<U>
       >::type;
    
-   } // si
+     /**
+      * @brief non si units that can work with si units in the si system
+      */
+      template <
+         dimension D, 
+         typename ConversionFactor
+      >
+      struct unit_conversion : pqs::basic_unit<
+         pqs::si_measurement_system, 
+         D, 
+         ConversionFactor
+      >{
+         using type = unit_conversion;
+      };
 
-namespace si{
-
-   template <
-      dimension D, 
-      typename ConversionFactor
-   >
-   struct unit_conversion : pqs::basic_unit<
-      pqs::si_measurement_system, 
-      D, 
-      ConversionFactor
-   >{
-      using type = unit_conversion;
-   };
-
-}}// pqs::si
-
-namespace pqs{
-
-}
-
+}// pqs::si
 
 #endif // PQS_SI_UNIT_HPP_INCLUDED
