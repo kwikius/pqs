@@ -4,6 +4,6 @@
 
 int main()
 {
-   // dimensionally equivaelent is undefined except for ints
-   bool constexpr x = pqs::dimensionally_equivalent<int,int>;
+   // dimensionally equivalent is false for ints
+   static_assert ( pqs::dimensionally_equivalent<int,int> ); 
 }

@@ -6,8 +6,8 @@
 
 namespace pqs{
   
-   constexpr inline auto abstract_force_v = abstract_mass_v * abstract_acceleration_v;
-   using abstract_force_t = std::remove_cvref_t<decltype(abstract_force_v)>;
+   struct abstract_force_t : decltype(abstract_mass_v * abstract_acceleration_v){};
+   constexpr inline auto abstract_force_v = abstract_force_t{};
 }
 
 #endif // PQS_DERIVED_QUANTITY_FORCE_UNIT_HPP_INCLUDED

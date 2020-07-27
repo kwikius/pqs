@@ -21,7 +21,7 @@ namespace pqs{
    concept measurement_system = is_measurement_system<T>;
 
    template < typename TL, typename TR>
-   inline constexpr auto same_measurement_system = undefined_arg<TR,TR>{};
+   inline constexpr auto same_measurement_system = false;//undefined_arg<TR,TR>{};
 
    template <
       measurement_system SL,

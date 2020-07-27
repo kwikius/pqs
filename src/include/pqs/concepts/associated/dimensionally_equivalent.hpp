@@ -10,7 +10,7 @@ namespace pqs{
     *  (Invoking the default will cause compile fail)
     */
    template <typename Qx , typename Qy>
-   inline constexpr bool dimensionally_equivalent = undefined_arg<Qx,Qy>{};
+   inline constexpr bool dimensionally_equivalent = false;//undefined_arg<Qx,Qy>{};
 
 }
 

@@ -25,8 +25,8 @@ namespace pqs{
       template <quantity Q>
       constexpr basic_quantity( Q const & q)
          requires
-            std::is_same_v< get_dimension<unit>,get_dimension<Q> > &&
-            std::is_same_v<get_measurement_system<unit>,get_measurement_system<Q> > &&
+            dimensionally_equivalent<basic_quantity,Q> &&
+            same_measurement_system<basic_quantity,Q>  &&
             ! pqs::meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
       :  m_scaled_value{scaled_value<
             get_conversion_factor<Q>,
@@ -79,6 +79,7 @@ namespace pqs{
       template <quantity Q>
       requires 
          dimensionally_equivalent<basic_quantity,Q> &&
+         same_measurement_system<basic_quantity,Q>  &&
          std::is_assignable_v<value_type&,get_numeric_type<Q> > &&
          !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
       constexpr
@@ -93,6 +94,7 @@ namespace pqs{
       template <quantity Q>
       requires 
          dimensionally_equivalent<basic_quantity,Q> &&
+         same_measurement_system<basic_quantity,Q>  &&
          std::is_assignable_v<value_type&, get_numeric_type<Q> > &&
          !meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
       constexpr
@@ -104,7 +106,7 @@ namespace pqs{
           return *this;
       }
 
-      basic_quantity & operator++()
+      constexpr basic_quantity & operator++()
       {
           this->m_scaled_value.set_numeric_value( 
               this->numeric_value() + implicit_cast<value_type>(1)
@@ -112,14 +114,13 @@ namespace pqs{
           return *this;
       }
 
-      basic_quantity & operator--()
+      constexpr basic_quantity & operator--()
       {
           this->m_scaled_value.set_numeric_value( 
               this->numeric_value() - implicit_cast<value_type>(1)
           );
           return *this;
       }
-
 
       constexpr value_type numeric_value() const 
       { return m_scaled_value.numeric_value(); }

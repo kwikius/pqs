@@ -15,7 +15,8 @@ namespace pqs{ namespace si { namespace force{
    template <typename ValueType = double>
    using kN = pqs::basic_quantity<pqs::si::force_unit::kN,ValueType>;
 
-  
+   template <typename ValueType = double>
+   using uN = pqs::basic_quantity<pqs::si::force_unit::uN,ValueType>;
 
 }}} // pqs::si::speed
 

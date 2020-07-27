@@ -430,8 +430,8 @@ namespace {
      // output<charset_utf8>( std::cout << std::setprecision(7), q1);
      // output< charset_utf8>( std::cout << " speed = ", q3) << '\n';
 
-      auto constexpr q4 = si::force::N<>{20.345};
-      // output< charset_utf8>( std::cout << " force = ", q4) << '\n';
+      auto constexpr q4 = si::force::uN<>{20.345};
+      output<charset_utf8>( std::cout << " force = ", q4) << '\n';
    }
 
    void quantity_sizeof_test()
