@@ -7,6 +7,8 @@
 #include <pqs/systems/si/speed.hpp>
 #include <pqs/systems/si/force.hpp>
 #include <pqs/systems/si/pressure.hpp>
+#include <pqs/systems/si/torque.hpp>
+#include <pqs/systems/si/energy.hpp>
 #include <pqs/systems/si/reciprocal_length.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/imperial/length.hpp>
@@ -448,6 +450,23 @@ namespace {
 
       auto constexpr q6 = si::pressure::kPa<>{10};
       output<charset_utf8>( std::cout << "pressure6 = ", q6) << '\n';
+
+      auto constexpr q7 = si::torque::N_m<>{10};
+      static_assert(pqs::si::is_normative_unit<get_unit<decltype(q7)> >);
+      output<charset_utf8>( std::cout << "torque7 = ", q7) << '\n';
+
+      auto constexpr q8 = si::torque::mN_m<>{10};
+      static_assert(pqs::si::is_normative_unit<get_unit<decltype(q8)> >);
+      output<charset_utf8>( std::cout << "torque8 = ", q8) << '\n';
+
+      auto constexpr q9 = si::energy::J<>{10};
+      static_assert(pqs::si::is_normative_unit<get_unit<decltype(q9)> >);
+      output<charset_utf8>( std::cout << "energy9 = ", q9) << '\n';
+
+      auto constexpr q10 = si::energy::kJ<>{10};
+      static_assert(pqs::si::is_normative_unit<get_unit<decltype(q10)> >);
+      output<charset_utf8>( std::cout << "energy10 = ", q10) << '\n';
+
    }
 
    void quantity_sizeof_test()

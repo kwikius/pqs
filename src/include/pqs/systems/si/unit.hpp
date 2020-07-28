@@ -7,6 +7,7 @@
 #include <pqs/systems/si/quantity/base_unit_symbols.hpp>
 #include <pqs/systems/si/quantity/unit_symbol_prefix.hpp>
 #include <pqs/concepts/associated/get_derived_quantity_symbol.hpp>
+#include <pqs/concepts/associated/unit_binary_op.hpp>
 
 namespace pqs::si{
 
@@ -218,6 +219,22 @@ namespace pqs::si{
       pqs::si::impl::is_normative_unit_impl<
          std::remove_cvref_t<U> 
       >::value;
+
+      namespace impl{
+
+        /**
+         * @brief A unit_binary_op is a normative unit 
+         *        if both operands are
+         */
+         template <unit U>
+            requires is_unit_binary_op<U>
+         struct is_normative_unit_impl<
+            U 
+         > : std::bool_constant<
+               is_normative_unit<typename U::lhs_unit> &&
+               is_normative_unit<typename U::rhs_unit>
+         >{};
+      }
 
      /**
       * @brief make_normative_unit interface

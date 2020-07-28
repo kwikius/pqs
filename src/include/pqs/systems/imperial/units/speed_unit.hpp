@@ -5,7 +5,7 @@
 #include <pqs/systems/imperial/units/time_unit.hpp>
 #include <pqs/concepts/associated/unit_binary_op.hpp>
 
-namespace pqs{ namespace imperial { namespace speed_unit{
+namespace pqs::imperial::speed_unit{
 
    struct ft_per_s : 
       decltype( length_unit::ft() / time_unit::s() )
@@ -19,7 +19,6 @@ namespace pqs{ namespace imperial { namespace speed_unit{
       decltype( length_unit::mi() / time_unit::hr() ) 
    {};
 
-}}} // pqs::si::length_unit
-
+} // pqs::imperaial::speed_unit
 
 #endif // PQS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED

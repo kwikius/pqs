@@ -1,5 +1,5 @@
-#ifndef PQS_BITS_UNIT_TO_FIXED_STRING_HPP_INCLUDED
-#define PQS_BITS_UNIT_TO_FIXED_STRING_HPP_INCLUDED
+#ifndef PQS_CONCEPTS_ASSOCIATED_UNIT_TO_FIXED_STRING_HPP_INCLUDED
+#define PQS_CONCEPTS_ASSOCIATED_UNIT_TO_FIXED_STRING_HPP_INCLUDED
 
 #include <pqs/concepts/associated/dimension_to_fixed_string.hpp>
 #include <pqs/concepts/associated/unit_binary_op.hpp>
@@ -75,4 +75,4 @@ namespace pqs{
 
 }
 
-#endif // PQS_BITS_UNIT_TO_FIXED_STRING_HPP_INCLUDED
+#endif // PQS_CONCEPTS_ASSOCIATED_UNIT_TO_FIXED_STRING_HPP_INCLUDED

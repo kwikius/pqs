@@ -1,5 +1,5 @@
-#ifndef PQS_SI_LENGTH_HPP_INCLUDED
-#define PQS_SI_LENGTH_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_SI_LENGTH_HPP_INCLUDED
+#define PQS_SYSTEMS_SI_LENGTH_HPP_INCLUDED
 
 #include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/length_unit.hpp>
@@ -20,4 +20,4 @@ namespace pqs::si::length{
 
 } // pqs::si::length
 
-#endif // PQS_SI_LENGTH_HPP_INCLUDED
+#endif // PQS_SYSTEMS_SI_LENGTH_HPP_INCLUDED
