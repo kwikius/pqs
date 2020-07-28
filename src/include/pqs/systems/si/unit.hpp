@@ -8,6 +8,7 @@
 #include <pqs/systems/si/quantity/unit_symbol_prefix.hpp>
 #include <pqs/concepts/associated/get_derived_quantity_symbol.hpp>
 #include <pqs/concepts/associated/unit_binary_op.hpp>
+#include <pqs/systems/si/quantity/quantity_macro.hpp>
 
 namespace pqs::si{
 

@@ -4,20 +4,13 @@
 #include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/reciprocal_length_unit.hpp>
 
-namespace pqs::si::reciprocal_length{
+namespace pqs::si{
 
-   template <typename ValueType = double>
-   using per_m = basic_quantity<reciprocal_length_unit::per_m,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(reciprocal_length,per_m)
+   PQS_SI_QUANTITY_LITERAL(reciprocal_length,per_mm)
+   PQS_SI_QUANTITY_LITERAL(reciprocal_length,per_cm)
+   PQS_SI_QUANTITY_LITERAL(reciprocal_length,per_km)
 
-   template <typename ValueType = double>
-   using per_mm = basic_quantity<reciprocal_length_unit::per_mm,ValueType>;
-
-   template <typename ValueType = double>
-   using per_cm = basic_quantity<reciprocal_length_unit::per_cm,ValueType>;
-
-   template <typename ValueType = double>
-   using per_km = basic_quantity<reciprocal_length_unit::per_km,ValueType>;
-   
-} // pqs::si::reciprocal_length
+} // pqs::si
 
 #endif // PQS_SI_RECIPROCAL_LENGTH_HPP_INCLUDED

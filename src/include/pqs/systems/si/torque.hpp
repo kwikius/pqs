@@ -3,13 +3,10 @@
 
 #include <pqs/systems/si/units/torque_unit.hpp>
 
-namespace pqs::si::torque{
+namespace pqs::si{
 
-   template <typename ValueType = double>
-   using N_m = pqs::basic_quantity<pqs::si::torque_unit::N_m,ValueType>;
-
-   template <typename ValueType = double>
-   using mN_m = pqs::basic_quantity<pqs::si::torque_unit::mN_m,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(torque,N_m)
+   PQS_SI_QUANTITY_LITERAL(torque,mN_m)
 
 } //pqs::si::torque
 

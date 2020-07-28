@@ -4,11 +4,10 @@
 #include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/momentum_unit.hpp>
 
-namespace pqs{ namespace si { namespace momentum{
+namespace pqs::si{ 
 
-   template <typename ValueType = double>
-   using kg_m_per_s = pqs::basic_quantity<pqs::si::momentum_unit::kg_m_per_s,ValueType>;
+    PQS_SI_QUANTITY_LITERAL(momentum,kg_m_per_s)
 
-}}} // pqs::si::momentum
+} // pqs::si
 
 #endif // PQS_SI_MOMENTUM_HPP_INCLUDED

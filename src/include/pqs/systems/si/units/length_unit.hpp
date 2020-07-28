@@ -15,7 +15,6 @@ namespace pqs::si::length_unit{
     * @brief local derivation from base unit
     */
    struct m : si::base_unit<base_length>{};
-
    struct mm : si::normative_unit<abstract_length_t, exponent10<-3> >{};
    struct cm : si::normative_unit<abstract_length_t, exponent10<-2> >{};
    struct km : si::normative_unit<abstract_length_t, exponent10< 3> >{};
@@ -24,7 +23,6 @@ namespace pqs::si::length_unit{
     * @brief  length unit conversions from other measurement systems
     * can use NTTP conversion_factor
     */
-
    struct ft : named<"ft"> ,
       pqs::si::unit_conversion< 
          abstract_length_t,

@@ -7,14 +7,11 @@
 /**
    si::quantity mass definition namespace 
 */
-namespace pqs::si::mass{
+namespace pqs::si{
 
-   template <typename ValueType = double>
-   using kg = basic_quantity<mass_unit::kg,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(mass,kg)
+   PQS_SI_QUANTITY_LITERAL(mass,g)
 
-   template <typename ValueType = double>
-   using g = basic_quantity<mass_unit::g,ValueType>;
-
-} // pqs::si::mass
+} // pqs::si
 
 #endif // PQS_SI_MASS_HPP_INCLUDED

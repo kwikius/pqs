@@ -7,19 +7,18 @@
 /**
    si::quantity length definition namespace 
 */
-namespace pqs::si::length{
+namespace pqs::si{
+   
+   /**
+      @brief Macro for typedefs in namespace length e.g si::length::m<> x{}
+      and literals using pqs::si::literals eg 1.0q_m, 1q_mm etc
+   */
+   PQS_SI_QUANTITY_LITERAL(length,m)
+   PQS_SI_QUANTITY_LITERAL(length,mm)
+   PQS_SI_QUANTITY_LITERAL(length,cm)
+   PQS_SI_QUANTITY_LITERAL(length,km)
+   PQS_SI_QUANTITY_LITERAL(length,ft)
 
-   template <typename ValueType = double>
-   using m = basic_quantity<length_unit::m,ValueType>;
-
-   template <typename ValueType = double>
-   using mm = basic_quantity<length_unit::mm,ValueType>;
-
-// conversions ----
-
-   template <typename ValueType = double>
-   using ft = basic_quantity<length_unit::ft,ValueType>;
-
-} // pqs::si::length
+} // pqs::si
 
 #endif // PQS_SYSTEMS_SI_LENGTH_HPP_INCLUDED

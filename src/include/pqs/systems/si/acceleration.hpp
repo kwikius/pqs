@@ -4,11 +4,10 @@
 #include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/acceleration_unit.hpp>
 
-namespace pqs{ namespace si { namespace acceleration{
+namespace pqs::si {
 
-   template <typename ValueType = double>
-   using m_per_s2 = pqs::basic_quantity<pqs::si::acceleration_unit::m_per_s2,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(acceleration,m_per_s2)
 
-}}} // pqs::si::acceleration
+} // pqs::si
 
 #endif // PQS_SI_ACCELERATION_HPP_INCLUDED

@@ -4,11 +4,10 @@
 #include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/speed_unit.hpp>
 
-namespace pqs{ namespace si { namespace speed{
+namespace pqs::si {
 
-   template <typename ValueType = double>
-   using m_per_s = pqs::basic_quantity<pqs::si::speed_unit::m_per_s,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(speed,m_per_s)
 
-}}} // pqs::si::speed
+} // pqs::si
 
 #endif // PQS_SI_SPEED_HPP_INCLUDED

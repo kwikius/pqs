@@ -7,17 +7,12 @@
 /**
  *  si::quantity area definition namespace 
  */
-namespace pqs::si::area{
+namespace pqs::si {
 
-   template <typename ValueType = double>
-   using m2 = basic_quantity<area_unit::m2,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(area,m2)
+   PQS_SI_QUANTITY_LITERAL(area,mm2)
+   PQS_SI_QUANTITY_LITERAL(area,cm2)
 
-   template <typename ValueType = double>
-   using mm2 = basic_quantity<area_unit::mm2,ValueType>;
-
-   template <typename ValueType = double>
-   using cm2 = basic_quantity<area_unit::cm2,ValueType>;
-
-} // pqs::si::area
+} // pqs::si
 
 #endif // PQS_SYSTEMS_SI_AREA_HPP_INCLUDED

@@ -4,8 +4,6 @@
 
 using namespace pqs;
 
-#include <iostream>
-
 int main()
 {
    std::cout << "PQS wiki example\n";

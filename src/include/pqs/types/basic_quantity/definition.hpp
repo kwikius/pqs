@@ -73,7 +73,17 @@ namespace pqs{
           return *this;
       }
 
-      basic_quantity & operator += (basic_quantity const & q)
+      constexpr auto operator+() 
+      {
+         return basic_quantity{this->numeric_value()};
+      }
+   
+      constexpr auto operator-() 
+      { 
+         return basic_quantity{-this->numeric_value()};
+      }
+
+      constexpr basic_quantity & operator += (basic_quantity const & q)
       {
           this->m_scaled_value.set_numeric_value( 
               this->numeric_value() + q.numeric_value()
@@ -81,7 +91,7 @@ namespace pqs{
           return *this;
       }
 
-      basic_quantity & operator -= (basic_quantity const & q)
+      constexpr basic_quantity & operator -= (basic_quantity const & q)
       {
           this->m_scaled_value.set_numeric_value( 
               this->numeric_value() - q.numeric_value()

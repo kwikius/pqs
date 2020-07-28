@@ -7,16 +7,11 @@
 /**
  *  si::quantity volume definition namespace 
  */
-namespace pqs::si::volume{
+namespace pqs::si{
 
-   template <typename ValueType = double>
-   using m3 = basic_quantity<volume_unit::m3,ValueType>;
-
-   template <typename ValueType = double>
-   using mm3 = basic_quantity<volume_unit::mm3,ValueType>;
-
-   template <typename ValueType = double>
-   using cm3 = basic_quantity<volume_unit::cm3,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(volume,m3)
+   PQS_SI_QUANTITY_LITERAL(volume,mm3)
+   PQS_SI_QUANTITY_LITERAL(volume,cm3)
 
 } // pqs::si::volume
 

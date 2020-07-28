@@ -5,17 +5,12 @@
 #include <pqs/systems/si/units/time_unit.hpp>
 
 // si quantities time definition namespace 
-namespace pqs{ namespace si { namespace time{
+namespace pqs::si { 
 
-   template <typename ValueType = double>
-   using s = pqs::basic_quantity<pqs::si::time_unit::s,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(time,s)
+   PQS_SI_QUANTITY_LITERAL(time,ms)
+   PQS_SI_QUANTITY_LITERAL(time,min)
 
-   template <typename ValueType = double>
-   using ms = pqs::basic_quantity<pqs::si::time_unit::ms,ValueType>;
-
-   template <typename ValueType = double>
-   using min = pqs::basic_quantity<pqs::si::time_unit::min,ValueType>;
-
-}}} // pqs::si::time
+} // pqs::si
 
 #endif // PQS_SI_TIME_HPP_INCLUDED

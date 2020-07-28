@@ -3,7 +3,7 @@
 
 PQS_ROOT ?= ../src/include
 CXX      = g++-9
-CXXFLAGS = -fmax-errors=1 -std=c++2a -fconcepts -I$(PQS_ROOT) -Wno-stringop-overflow
+CXXFLAGS = -fmax-errors=1 -std=c++2a -fconcepts -I$(PQS_ROOT) -Wno-stringop-overflow -Wno-literal-suffix
 BUILD_DIR = build
 BIN_DIR = bin
 

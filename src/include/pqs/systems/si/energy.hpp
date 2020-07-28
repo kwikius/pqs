@@ -3,16 +3,11 @@
 
 #include <pqs/systems/si/units/energy_unit.hpp>
 
-namespace pqs::si::energy{
+namespace pqs::si{
 
-   template <typename ValueType = double>
-   using J = pqs::basic_quantity<pqs::si::energy_unit::J,ValueType>;
-
-   template <typename ValueType = double>
-   using mJ = pqs::basic_quantity<pqs::si::energy_unit::mJ,ValueType>;
-
-   template <typename ValueType = double>
-   using kJ = pqs::basic_quantity<pqs::si::energy_unit::kJ,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(energy,J)
+   PQS_SI_QUANTITY_LITERAL(energy,mJ)
+   PQS_SI_QUANTITY_LITERAL(energy,kJ)
 
 } //pqs::si::energy
 

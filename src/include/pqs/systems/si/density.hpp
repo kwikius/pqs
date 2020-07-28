@@ -4,11 +4,10 @@
 #include <pqs/systems/si/quantity.hpp>
 #include <pqs/systems/si/units/density_unit.hpp>
 
-namespace pqs{ namespace si { namespace density{
+namespace pqs::si { 
 
-   template <typename ValueType = double>
-   using kg_per_m3 = pqs::basic_quantity<pqs::si::density_unit::kg_per_m3,ValueType>;
+   PQS_SI_QUANTITY_LITERAL(density,kg_per_m3)
 
-}}} // pqs::si::density
+}// pqs::si
 
 #endif // PQS_SI_DENSITY_HPP_INCLUDED
