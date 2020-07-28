@@ -19,3 +19,6 @@ script:
     - cd ./compile_fail
     - make
     - make clean
+    - cd /home/travis/build/kwikius/pqs/examples
+    - make
+    - make clean

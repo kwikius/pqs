@@ -4,7 +4,7 @@ PQS_ROOT ?= ../src/include
 CXX      = g++-9
 CXXFLAGS = -fmax-errors=1 -std=c++2a -fconcepts -I$(PQS_ROOT) -Wno-stringop-overflow
 BUILD_DIR = build
-OUT_DIR = bin
+BIN_DIR = bin
 
 OBJECTS = $(patsubst %,$(BUILD_DIR)/% , \
    output_test.o \
@@ -29,16 +29,17 @@ OBJECTS = $(patsubst %,$(BUILD_DIR)/% , \
    binary_op_test.o \
    unit_test1.o \
    unit_binary_op.o \
-   sandbox.o )
+   sandbox.o \
+)
 
 .PHONY : all gcc9_concepts_cpp2a clean 
 
-all : $(OUT_DIR)/test.exe
+all : $(BIN_DIR)/test.exe
 
 gcc9_concepts_cpp2a : all
 
-$(OUT_DIR)/test.exe :  $(OBJECTS)
-	@mkdir -p $(OUT_DIR)
+$(BIN_DIR)/test.exe :  $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) -O3 -o $@  $(OBJECTS)
 	@echo .......................
 	./$@
@@ -50,4 +51,4 @@ $(BUILD_DIR)/%.o : %.cpp
 
 clean :
 	rm -rf $(BUILD_DIR)
-	rm -rf $(OUT_DIR)
+	rm -rf $(BIN_DIR)

@@ -220,6 +220,12 @@ namespace pqs::si{
          std::remove_cvref_t<U> 
       >::value;
 
+      template <quantity Q>
+      constexpr inline bool is_normative_quantity( Q const & q)
+      {
+         return is_normative_unit<get_unit<Q> >;
+      }
+
       namespace impl{
 
         /**
@@ -250,12 +256,12 @@ namespace pqs::si{
       */
       template <
          dimension D, 
-         typename ConversionFactor
+         conversion_factor CF
       >
       struct unit_conversion : pqs::basic_unit<
          pqs::si_measurement_system, 
          D, 
-         ConversionFactor
+         decltype(CF)
       >{
          using type = unit_conversion;
       };

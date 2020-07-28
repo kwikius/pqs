@@ -24,15 +24,10 @@ namespace pqs::si::length_unit{
     * @brief  length unit conversions from other measurement systems
     * can use NTTP conversion_factor
     */
-   template <conversion_factor CF>
-   struct conversion : 
-      pqs::si::unit_conversion<
-         abstract_length_t,
-         decltype(CF)
-      >{};
 
    struct ft : named<"ft"> ,
-      conversion< 
+      pqs::si::unit_conversion< 
+         abstract_length_t,
          std::ratio<381,125>() ^ exponent10<-1>() 
       >
    {};

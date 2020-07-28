@@ -31,6 +31,14 @@ namespace pqs::si::force_unit{
    struct kN : normative_unit<abstract_force_t, exponent10< 3> >{};
    struct uN : normative_unit<abstract_force_t, exponent10<-6> > {};
 
+// unit conversions ----------------
+
+   struct kgf : named<"kgf"> , 
+      si::unit_conversion<
+         abstract_force_t,
+         std::ratio<196133,20000>() ^ exponent10<0>()
+      >{};
+
 } // pqs::si::force_unit
 
 #endif // PQS_SI_UNITS_FORCE_UNIT_HPP_INCLUDED

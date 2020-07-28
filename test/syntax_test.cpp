@@ -95,7 +95,7 @@ void quantity_syntax_test()
    auto constexpr qx = basic_quantity<
       si::unit_conversion<
          decltype( abstract_mass_v * abstract_length_v / pow<2>(abstract_time_v) ),
-         decltype( std::ratio<383,100>{} ^ exponent10<-3>{} )
+         std::ratio<383,100>{} ^ exponent10<-3>{} 
       >
    >{20.0};
 
@@ -127,7 +127,7 @@ void quantity_syntax_test()
          conversion_factor<
             std::ratio<100,394>,
             exponent10<-6>
-         >
+         >{}
       >,
       double
    >{};

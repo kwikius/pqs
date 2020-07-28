@@ -11,15 +11,9 @@ namespace pqs{ namespace si { namespace time_unit{
 
    struct ms : si::normative_unit<exp_time<1>, exponent10<-3> >{};
 
-   template <conversion_factor CF>
-   struct conversion : 
-   pqs::si::unit_conversion<
-      abstract_time_t,
-      decltype(CF)
-   >{};
-
    struct min : named<"min"> ,
-      conversion< 
+      pqs::si::unit_conversion< 
+         abstract_time_t,
          std::ratio<1,60>() ^ exponent10<0>()
       >
    {};

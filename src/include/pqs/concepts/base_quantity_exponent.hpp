@@ -17,25 +17,60 @@
 
 namespace pqs{
 
-   namespace impl{
+/**
+ *  @defgroup base_quantity_exponent_concept    base_quantity_exponent concept
+ */
 
+/**
+ *  @defgroup base_quantity_exponent_concept_impl    base_quantity_exponent concept_impl
+ */
+
+/**
+ *  @defgroup base_quantity_exponent_model    base_quantity_exponent model_of
+ */
+
+/**
+ *  @defgroup named_dimension  named dimension
+ */
+
+   namespace impl{
+      
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <typename T>
       inline constexpr bool is_base_quantity_exp_impl = false;
+     /** @} */
 
    } // impl
 
+  /**
+   * @addtogroup base_quantity_exponent_concept
+   * @{ **/
    template <typename T>
    inline constexpr bool is_base_quantity_exponent = 
       impl::is_base_quantity_exp_impl< std::remove_cvref_t<T> >;
+  /** @} */
 
+  /**
+   * @addtogroup base_quantity_exponent_concept
+   * @{ **/
    template <typename T>
    concept base_quantity_exponent = is_base_quantity_exponent<T>;
+  /** @} */
 
    namespace impl{
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <typename Lhs, typename Rhs>
       inline constexpr auto of_same_base_quantity_impl = pqs::undefined_arg<Lhs,Rhs>{};
+     /** @} */
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <base_quantity_exponent Lhs, base_quantity_exponent Rhs>
       inline constexpr bool of_same_base_quantity_impl<
          Lhs,Rhs
@@ -44,42 +79,72 @@ namespace pqs{
           pqs::equal_to,
           get_base_quantity<Rhs>
        >;
+     /** @} */
 
    } // impl
 
+  /**
+   * @addtogroup base_quantity_exponent_concept
+   * @{ **/
    template <typename Lhs, typename Rhs>
    inline constexpr bool of_same_base_quantity = pqs::impl::of_same_base_quantity_impl<
       std::remove_cvref_t<Lhs>,
       std::remove_cvref_t<Rhs>
    >;
+  /** @} */
 
    namespace impl{
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <typename T>
       inline constexpr auto base_quantity_exp_is_zero_impl = pqs::undefined_arg<T>{};
+     /** @} */
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <base_quantity_exponent T>
       inline constexpr bool base_quantity_exp_is_zero_impl<
          T 
        > = std::ratio_equal_v<get_exponent<T>, std::ratio<0> >;
+     /** @} */
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <>
       inline constexpr bool base_quantity_exp_is_zero_impl<pqs::dimensionless> = true;
+     /** @} */
 
    } //impl
 
+  /**
+   * @addtogroup base_quantity_exponent_concept
+   * @{ **/
    template <typename T>
    inline constexpr bool base_quantity_exp_is_zero = impl::base_quantity_exp_is_zero_impl<
       std::remove_cvref_t<T>
    >;
+   /** @} */
 
    namespace impl{
-      // customise per UUID
+
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
+     /**
+      * @brief  customise per UUID
+      */
       template <typename UUID,typename Ratio,typename Where = void>
       struct make_base_quantity_exp_impl : pqs::undefined_arg<UUID>{};
-
+     /** @} */
    } //impl
 
+  /**
+   * @addtogroup base_quantity_exponent_concept
+   * @{ **/
    template <pqs::base_quantity Qb, typename Ratio>
    struct make_base_quantity_exp : pqs::meta::eval_if<
       std::bool_constant<(Ratio::num == 0)>,
@@ -88,14 +153,26 @@ namespace pqs{
          get_base_quantity_id<Qb>, typename Ratio::type
       >
    >{};
+     /** @} */
 
    namespace detail{
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
+
+      /**
+      * @ brief convenience detect base class 
+      */
       struct base_quantity_exp_base_class{}; 
+     /** @} */
    }
 
    namespace impl{
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <typename T>
       struct get_base_quantity_impl<
          T,
@@ -103,22 +180,34 @@ namespace pqs{
             std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>
          >::type
       > : T::base_type {};
+     /** @} */
    }
 
    namespace impl{
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
         template <typename T>
         inline constexpr bool is_custom_base_quantity_exp_impl 
             = std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
               ! pqs::is_base_quantity_exponent<T>;
+     /** @} */
    }//impl
 
+  /**
+   * @addtogroup base_quantity_exponent_concept
+   * @{ **/
    template <typename T>
    inline constexpr bool is_custom_base_quantity_exp 
       = impl::is_custom_base_quantity_exp_impl<std::remove_cvref_t<T> >;
+  /** @} */
 
    namespace impl{
 
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
       template <typename T>
          requires std::is_base_of_v<
             pqs::detail::base_quantity_exp_base_class,T
@@ -126,13 +215,17 @@ namespace pqs{
       struct get_exponent_impl<T> {
          using type = typename T::exponent;
       };
+     /** @} */
 
    }//impl
 
    namespace impl{
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
 
-/*
-    Lhs * Rhs  where Lhs,Rhs are of same base quantity
+/**
+ *  @brief Lhs * Rhs  where Lhs,Rhs are of same base quantity
 */
       template <
          pqs::base_quantity_exponent Lhs,
@@ -147,10 +240,15 @@ namespace pqs{
                   get_exponent<Rhs>
          >
       >{};
+     /** @} */
 
-/*
-   Lhs / Rhs  where Lhs,Rhs are of same base quantity
-*/
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
+
+     /**
+      * @brief   Lhs / Rhs  where Lhs,Rhs are of same base quantity
+      */
       template <
          pqs::base_quantity_exponent Lhs,
          pqs::base_quantity_exponent Rhs
@@ -164,10 +262,14 @@ namespace pqs{
                   get_exponent<Rhs>
          >
       >{};
+     /** @} */
 
-/*
-      rational power
-*/
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
+     /**
+      * @brief rational power
+      */
       template <
          pqs::base_quantity_exponent Qbe,
          typename R
@@ -183,10 +285,15 @@ namespace pqs{
             typename R::type
          >
       >{};
+     /** @} */
 
-/*
-      reciprocal
-*/
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
+
+     /**
+       * @brief    reciprocal
+      */
       template <pqs::base_quantity_exponent T>
       struct unary_op_impl<
          pqs::meta::reciprocal,
@@ -198,10 +305,15 @@ namespace pqs{
             get_exponent<T>
          >::type
       >{};
+     /** @} */
 
-/* 
-      equality
-*/
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
+
+     /** 
+       * @brief     equality
+      */
       template <
          pqs::base_quantity_exponent Lhs, 
          pqs::base_quantity_exponent Rhs
@@ -213,10 +325,15 @@ namespace pqs{
             pqs::equal_to,
             get_exponent<Rhs>
       >{};
+     /** @} */
 
-/*
-   inequality
-*/
+     /**
+      * @addtogroup base_quantity_exponent_concept_impl
+      * @{ **/
+
+     /**
+       * @brief  inequality
+      */
       template <
          pqs::base_quantity_exponent Lhs, 
          pqs::base_quantity_exponent Rhs
@@ -228,6 +345,7 @@ namespace pqs{
             pqs::not_equal_to,
             get_exponent<Rhs>
       >{}; 
+     /** @} */
    } //impl
 }
 

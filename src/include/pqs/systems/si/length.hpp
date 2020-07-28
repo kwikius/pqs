@@ -15,6 +15,8 @@ namespace pqs::si::length{
    template <typename ValueType = double>
    using mm = basic_quantity<length_unit::mm,ValueType>;
 
+// conversions ----
+
    template <typename ValueType = double>
    using ft = basic_quantity<length_unit::ft,ValueType>;
 
