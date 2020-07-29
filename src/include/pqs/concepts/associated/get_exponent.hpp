@@ -1,8 +1,8 @@
 #ifndef PQS_TYPE_FUNCTIONS_GET_EXPONENT_HPP_INCLUDED
 #define PQS_TYPE_FUNCTIONS_GET_EXPONENT_HPP_INCLUDED
 
-#include <pqs/bits/undefined_arg.hpp>
 #include <type_traits>
+#include <pqs/bits/undefined_arg.hpp>
 
 namespace pqs{
 

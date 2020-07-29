@@ -8,10 +8,16 @@ namespace pqs{
 
    namespace impl{
 
+     /**
+      *  @brief get base_quantity from a base_quantity_exponent - impl default
+      */
       template <typename T, typename Where = void>
       struct get_base_quantity_impl : pqs::undefined{};
    }
 
+     /**
+      *  @brief get base_quantity from a base_quantity_exponent - interface
+      */
    template <typename T>
    using get_base_quantity = typename impl::get_base_quantity_impl<
       std::remove_cvref_t<T>

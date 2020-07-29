@@ -1,8 +1,8 @@
 #ifndef PQS_TYPE_FUNCTIONS_GET_MEASUREMENT_SYSTEM_HPP_INCLUDED
 #define PQS_TYPE_FUNCTIONS_GET_MEASUREMENT_SYSTEM_HPP_INCLUDED
 
+#include <type_traits>
 #include <pqs/bits/undefined.hpp>
-#include <pqs/bits/meta/strip_cr.hpp>
 #include <pqs/concepts/measurement_system.hpp>
 
 namespace pqs{

@@ -1,8 +1,8 @@
 #ifndef PQS_TYPE_FUNCTIONS_GET_CONVERSION_FACTOR_HPP_INCLUDED
 #define PQS_TYPE_FUNCTIONS_GET_CONVERSION_FACTOR_HPP_INCLUDED
 
+#include <type_traits>
 #include <pqs/bits/undefined.hpp>
-#include <pqs/bits/meta/strip_cr.hpp>
 #include <pqs/types/conversion_factor.hpp>
 
 namespace pqs{

@@ -5,13 +5,13 @@
 #include <pqs/concepts/associated/get_base_unit_symbol.hpp>
 #include <pqs/bits/fixed_string_charset_stuff.hpp>
 
-/**
- * @ brief encode a dimension to a fixed_string
- */
 namespace pqs{
 
    namespace detail {
 
+     /**
+      * @ brief encode a dimension to a fixed_string - impl
+      */
       template <
          typename D,
          pqs::measurement_system Ms,

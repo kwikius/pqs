@@ -34,6 +34,10 @@ namespace pqs{
       static constexpr uint32_t num_elements = sizeof...(D);
    };
 
+  /**
+   * @ brief empty dimension_list specialisation
+   */
+
    template <> struct dimension_list<>{
       typedef dimension_list type;
       typedef type simple_dimension;
@@ -42,20 +46,31 @@ namespace pqs{
 
    namespace impl {
 
+     /**
+      * @brief simple dimension_list default impl
+      */
       template <typename D>
       struct is_simple_dimension_list_impl : std::false_type{};
 
+     /**
+      * @brief simple dimension_list specialisation impl
+      */
       template <base_quantity_exponent ... D >
       struct is_simple_dimension_list_impl<pqs::dimension_list<D...> > 
       : std::true_type{};
    }
 
+  /**
+   * @brief simple dimension_list nterface
+   */
    template <typename D>
    inline constexpr bool is_simple_dimension_list 
       = impl::is_simple_dimension_list_impl< std::remove_cvref_t<D> >::value;
 
    namespace impl{
-
+     /**
+      * @brief custom dimension_list impl
+      */
       template <typename T>
       inline constexpr bool is_custom_dimension_list_impl =
          std::is_base_of_v<pqs::detail::dimension_list_base,T> &&
@@ -64,12 +79,18 @@ namespace pqs{
 
    }
 
+  /**
+   * @brief custom dimension_list interface
+   */
    template<typename T>
    inline constexpr bool is_custom_dimension_list =
       impl::is_custom_dimension_list_impl<std::remove_cvref_t<T> >;
 
    namespace impl {
 
+     /**
+      * @brief custom dimension impl
+      */
       template <typename D>
       inline constexpr bool is_custom_dimension_impl  =
          is_custom_dimension_list<D> || 
@@ -77,6 +98,9 @@ namespace pqs{
       ;
    }
 
+  /**
+   * @brief custom dimension interface
+   */
    template <typename D>
    inline constexpr bool is_custom_dimension =
       impl::is_custom_dimension_impl<typename std::remove_cvref_t<D> >;
@@ -87,30 +111,51 @@ namespace pqs{ namespace meta{
 
    namespace impl{
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - get_num_elements impl
+      */
       template <typename ... D>
       struct get_num_elements_impl<
          pqs::dimension_list<D...>
       > : std::integral_constant<uint32_t, (sizeof...(D) )>{};
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - push_back on empty list impl
+      */
       template <typename T>
       struct push_back_impl<pqs::dimension_list<>,T >{
          typedef pqs::dimension_list<T> type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - 
+      *  empty list push back dimensionless nop impl
+      */
       template <>
       struct push_back_impl<pqs::dimension_list<>,pqs::dimensionless >{
          typedef pqs::dimension_list<> type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - push_back impl
+      */
       template <typename ... L, typename T>
       struct push_back_impl<pqs::dimension_list<L...>,T >{
          typedef pqs::dimension_list<L...,T> type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - push_back dimensionless nop impl
+      */
+
       template <typename ... L>
       struct push_back_impl<pqs::dimension_list<L...>,dimensionless >{
          typedef pqs::dimension_list<L...> type;
       };
+
+     /**
+      * @brief fulfil dimensionlist type_list requirements - pop-front impl
+      */
 
       template <typename Front, typename ... List>
       struct pop_front_impl<pqs::dimension_list<Front,List...> >
@@ -118,36 +163,55 @@ namespace pqs{ namespace meta{
          typedef pqs::dimension_list<List...> type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - pop_front on empty list impl
+      * @todo Could return empty list?
+      */
       template <>
       struct pop_front_impl<pqs::dimension_list<> >
       {
          typedef pqs::undefined type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - push-front impl
+      */
       template <typename...L, typename T>
       struct push_front_impl<pqs::dimension_list<L...> , T>
       {
-          typedef pqs::dimension_list<T,L...> type;
+         typedef pqs::dimension_list<T,L...> type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - push-front dimensionless impl
+      */
       template <typename...L>
       struct push_front_impl<pqs::dimension_list<L...> , dimensionless>
       {
-          typedef pqs::dimension_list<L...> type;
+         typedef pqs::dimension_list<L...> type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - front impl
+      */
       template < typename Front, typename... List> 
       struct front_impl<pqs::dimension_list<Front,List...> >
       {
          typedef Front type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - front single element impl
+      */
       template < typename Front> 
       struct front_impl<pqs::dimension_list<Front> >
       {
          typedef Front type;
       };
 
+     /**
+      * @brief fulfil dimensionlist type_list requirements - front empty list impl
+      */
       template <>
       struct front_impl<pqs::dimension_list<> >
       {

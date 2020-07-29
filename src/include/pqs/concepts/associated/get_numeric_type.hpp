@@ -1,6 +1,9 @@
 #ifndef PQS_TYPE_FUNCTIONS_GET_NUMERIC_TYPE_HPP_INCLUDED
 #define PQS_TYPE_FUNCTIONS_GET_NUMERIC_TYPE_HPP_INCLUDED
 
+#include <type_traits>
+#include <pqs/bits/undefined.hpp>
+
 namespace pqs{
 
    namespace impl{
