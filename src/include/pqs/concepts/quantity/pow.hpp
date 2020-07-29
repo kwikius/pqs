@@ -2,7 +2,7 @@
 #define PQS_CONCEPTS_QUANTITY_POW_HPP_INCLUDED
 
 #include <pqs/concepts/quantity/definition.hpp>
-#include <pqs/bits/basic_quantity_fwd.hpp>
+#include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
 
@@ -16,7 +16,7 @@ namespace pqs{
       using exp10 = typename std::ratio<N,D>::type;
       // TODO 
       using result =
-         pqs::basic_quantity<
+         pqs::make_quantity<
             pqs::basic_unit<
                get_measurement_system<Q>,
                binary_op_t<

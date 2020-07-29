@@ -2,8 +2,8 @@
 #define PQS_INSTANCE_BASIC_QUANTITY_DEFINITION_HPP_INCLUDED
 
 #include <pqs/bits/config.hpp>
-#include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/bits/scaled_value.hpp>
+#include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/bits/meta/is_narrowing_conversion.hpp>
 #if defined PQS_BASIC_QUANTITY_FRIEND_OSTREAM_SUPPORT
 #include <pqs/bits/quantity_output.hpp>

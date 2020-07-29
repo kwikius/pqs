@@ -4,7 +4,7 @@
 #include <pqs/concepts/associated/binary_op_semantic.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/concepts/dimensionless_quantity.hpp>
-#include <pqs/bits/basic_quantity_fwd.hpp>
+#include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
@@ -47,7 +47,7 @@ namespace pqs{
             >;
 
          using result = 
-            pqs::basic_quantity <
+            pqs::make_quantity <
                result_unit,
                result_numeric_type
             >;
@@ -114,7 +114,7 @@ namespace pqs{
       struct dimensionless_in_semantic<Q, times,V>
       {
          using result = 
-            basic_quantity <
+            make_quantity <
                get_unit<Q>,
                binary_op_t<
                   get_numeric_type<Q>, times, V
@@ -138,7 +138,7 @@ namespace pqs{
       struct dimensionless_in_semantic<V, times,Q>
       {
          using result = 
-            basic_quantity <
+            make_quantity <
                get_unit<Q>,
                binary_op_t<
                   V, times, get_numeric_type<Q>

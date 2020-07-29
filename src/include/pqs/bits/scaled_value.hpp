@@ -2,7 +2,7 @@
 #define PQS_BITS_SCALED_VALUE_HPP_INCLUDED
 
 #include <pqs/bits/config.hpp>
-#include <pqs/concepts/quantity.hpp>
+#include <pqs/concepts/dimensionless_quantity.hpp>
 #include <pqs/types/conversion_factor.hpp>
 
 namespace pqs{

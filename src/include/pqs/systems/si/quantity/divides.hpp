@@ -20,13 +20,13 @@ namespace pqs{ namespace impl {
    struct dimensioned_out_semantic< Lhs, divides, Rhs>{
 
       // type to convert Lhs to before calc
-      using lhs_type = pqs::basic_quantity<
+      using lhs_type = pqs::make_quantity<
          si::make_normative_unit<get_unit<Lhs> >,
          get_numeric_type<Lhs>
       >;
 
       // type to convert Rhs to before calc
-      using rhs_type = pqs::basic_quantity<
+      using rhs_type = pqs::make_quantity<
          si::make_normative_unit<get_unit<Rhs> >,
          get_numeric_type<Rhs>
       >;
@@ -57,7 +57,7 @@ namespace pqs{ namespace impl {
             get_numeric_type<Rhs>
          >;
 
-      using result = pqs::basic_quantity <
+      using result = pqs::make_quantity <
          result_unit,
          result_numeric_type
       >;
@@ -95,7 +95,7 @@ namespace pqs{ namespace impl {
          binary_op_t<V, divides, get_numeric_type<Q> >;
 
       using result = 
-         basic_quantity<
+         make_quantity<
             si::normative_unit<
                result_dimension,
                typename result_conversion_factor::exponent

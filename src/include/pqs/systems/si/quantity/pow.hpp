@@ -29,7 +29,7 @@ namespace pqs{
       */
          
       using result =
-         pqs::basic_quantity<
+         pqs::make_quantity<
             si::normative_unit<
                binary_op_t<
                   get_simple_dimension<Q>,

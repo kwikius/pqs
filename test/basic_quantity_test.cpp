@@ -14,7 +14,7 @@
 #include <pqs/systems/imperial/length.hpp>
 #include <pqs/systems/imperial/time.hpp>
 #include <pqs/systems/imperial/speed.hpp>
-#include <pqs/bits/quantity_output.hpp>
+//#include <pqs/bits/quantity_output.hpp>
 
 #include <iomanip>
 #include <iostream>

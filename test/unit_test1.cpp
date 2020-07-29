@@ -57,7 +57,7 @@ namespace {
 
    void unit_binary_op_test()
    {
-      pqs::basic_quantity<
+      pqs::make_quantity<
          decltype( si::mass_unit::g() * si::area_unit::mm2() / si::time_unit::min()),
          double
       > q{123.45};

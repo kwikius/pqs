@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <pqs/types/base_quantities.hpp>
 #include <pqs/concepts/dimension.hpp>
-#include <pqs/types/basic_quantity.hpp>
+#include <pqs/concepts/quantity.hpp>
 #include <pqs/concepts/associated/dimension_to_fixed_string.hpp>
 #include <pqs/systems/imperial/measurement_system.hpp>
 #include <pqs/systems/si/quantity/measurement_system.hpp>

@@ -1,5 +1,5 @@
-#ifndef PQS_INSTANCE_BASIC_QUANTITY_FWD_HPP_INCLUDED
-#define PQS_INSTANCE_BASIC_QUANTITY_FWD_HPP_INCLUDED
+#ifndef PQS_TYPES_BASIC_QUANTITY_FWD_HPP_INCLUDED
+#define PQS_TYPES_BASIC_QUANTITY_FWD_HPP_INCLUDED
 
 #include <pqs/concepts/unit.hpp>
 #include <pqs/concepts/dimensionless_quantity.hpp>
@@ -11,4 +11,4 @@ namespace pqs{
 
 }
 
-#endif // PQS_INSTANCE_BASIC_QUANTITY_FWD_HPP_INCLUDED
+#endif // PQS_TYPES_BASIC_QUANTITY_FWD_HPP_INCLUDED

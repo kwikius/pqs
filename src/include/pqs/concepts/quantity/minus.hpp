@@ -3,7 +3,7 @@
 
 #include <pqs/concepts/associated/binary_op_semantic.hpp>
 #include <pqs/concepts/quantity/definition.hpp>
-#include <pqs/bits/basic_quantity_fwd.hpp>
+#include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
@@ -65,7 +65,7 @@ namespace pqs{
             >;
 
          using result = 
-            basic_quantity<
+            make_quantity<
                result_unit,
                result_numeric_type
             >;

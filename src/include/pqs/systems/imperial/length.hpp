@@ -1,20 +1,20 @@
 #ifndef PQS_IMPERIAL_LENGTH_HPP_INCLUDED
 #define PQS_IMPERIAL_LENGTH_HPP_INCLUDED
 
-#include <pqs/types/basic_quantity.hpp>
+#include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/systems/imperial/units/length_unit.hpp>
 
-namespace pqs{ namespace imperial { namespace length{
+namespace pqs::imperial::length{
 
    template <typename ValueType = double>
-   using ft = pqs::basic_quantity<pqs::imperial::length_unit::ft,ValueType>;
+   using ft = pqs::make_quantity<pqs::imperial::length_unit::ft,ValueType>;
 
    template <typename ValueType = double>
-   using yd = pqs::basic_quantity<pqs::imperial::length_unit::yd,ValueType>;
+   using yd = pqs::make_quantity<pqs::imperial::length_unit::yd,ValueType>;
 
    template <typename ValueType = double>
-   using mi = pqs::basic_quantity<pqs::imperial::length_unit::mi,ValueType>;
+   using mi = pqs::make_quantity<pqs::imperial::length_unit::mi,ValueType>;
 
-}}} // pqs::imperial::length
+} // pqs::imperial::length
 
-#endif // PQS_SI_LENGTH_HPP_INCLUDED
+#endif // PQS_IMPERIAL_LENGTH_HPP_INCLUDED

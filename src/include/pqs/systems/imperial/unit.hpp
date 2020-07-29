@@ -1,6 +1,7 @@
 #ifndef PQS_IMPERIAL_UNIT_HPP_INCLUDED
 #define PQS_IMPERIAL_UNIT_HPP_INCLUDED
 
+#include <pqs/concepts/quantity.hpp>
 #include <pqs/types/basic_unit.hpp>
 #include <pqs/types/base_unit.hpp>
 #include <pqs/systems/imperial/measurement_system.hpp>

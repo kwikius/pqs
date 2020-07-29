@@ -24,5 +24,4 @@ namespace pqs{
 
 }
 
-
 #endif // PQS_TYPE_TEMPLATES_BASE_UNIT_HPP_INCLUDED

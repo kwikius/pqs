@@ -62,7 +62,7 @@ namespace pqs { namespace impl{
                      * evaluate< rhs_conversion_factor >()
                )
             >;
-         using result = basic_quantity<
+         using result = make_quantity<
             result_unit,
             result_numeric_type
          >;
