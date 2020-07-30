@@ -2,11 +2,10 @@
 #define PQS_BASE_QUANTITIES_LENGTH_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/bits/meta/eval_if.hpp>
-#include <pqs/bits/std_ratio.hpp>
+#include <ratio>
 #include <pqs/bits/base_quantity_of.hpp>
 #include <pqs/types/base_quantity/uuids.hpp>
-#include <pqs/concepts/base_quantity_exponent.hpp>
+#include <pqs/concepts/associated/base_quantity_exponent_base_class.hpp>
 
 namespace pqs{ 
 
