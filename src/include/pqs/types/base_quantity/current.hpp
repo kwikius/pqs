@@ -10,12 +10,8 @@
 namespace pqs{ 
 
    /**
-    * @addtogroup base_quantity_model
-    * @{ **/
-
-   /**
-    * @brief current base_quantity definition - implement current as a model of base_quantity
-   */
+   * @addtogroup base_quantity_model
+   * @{ **/
    struct base_current : pqs::impl::base_quantity_of<
       pqs::newtonian_universe::current_uuid
    >{
@@ -26,15 +22,7 @@ namespace pqs{
   /**
    * @addtogroup base_quantity_exponent_model
    * @{ **/
-
-   /**
-    * @brief declare the base_quantity exponent as a variadic template
-    * The integer and rational variants are implemented as specialisations
-    * to shorten error messages on the usual integer exponents
-    * N.B This way of implementing is not essential.
-    */
-   template <int... N>
-   struct exp_current;
+   template <int... N> struct exp_current;
   /** @} */
 
   /**
@@ -114,18 +102,12 @@ namespace pqs{
   /**
    * @addtogroup named_dimension
    * @{ **/
-  /**
-   * @brief helpful common named dimension typedef
-   */
    using abstract_current_t = exp_current<1>;
   /** @} */
 
   /**
    * @addtogroup named_dimension
    * @{ **/
-  /**
-   *  @brief an inline constant for use in runtime expressions
-   */
    inline constexpr auto abstract_current_v = abstract_current_t{};
   /** @} */
    

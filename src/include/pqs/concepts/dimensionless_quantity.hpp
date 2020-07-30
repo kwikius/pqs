@@ -8,22 +8,19 @@ namespace pqs{
    namespace impl{
 
       template <typename T>
-      struct is_dimensionless_quantity_impl : std::false_type{};
+      inline constexpr bool is_dimensionless_quantity_impl = false;
 
       template <typename T>
          requires std::is_arithmetic_v<T>
-      struct is_dimensionless_quantity_impl<T> : std::true_type{};
+      inline constexpr bool is_dimensionless_quantity_impl<T> = true;
 
-   }
-
-   template <typename T>
-   constexpr inline bool is_dimensionless_quantity = 
-   impl::is_dimensionless_quantity_impl<
-      std::remove_cvref_t<T>
-   >::value;
+   } // impl
 
    template <typename T>
-   concept dimensionless_quantity = is_dimensionless_quantity<T>;
+   concept dimensionless_quantity = 
+      impl::is_dimensionless_quantity_impl<
+         std::remove_cvref_t<T>
+      >;
 
 } //pqs
 

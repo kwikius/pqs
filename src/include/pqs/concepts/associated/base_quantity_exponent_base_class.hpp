@@ -2,6 +2,7 @@
 #define PQS_CONCEPTS_ASSOCIATED_BASE_QUANTITY_EXPONENT_BASE_CLASS_HPP_INCLUDED
 
 #include <pqs/concepts/base_quantity_exponent.hpp>
+#include <pqs/concepts/associated/get_simple_dimension.hpp>
 
 namespace pqs{
 
@@ -25,6 +26,15 @@ namespace pqs{
          requires std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T>
       struct get_base_quantity_impl< T > : T::base_type {};
      /** @} */
+
+     /**
+      * @todo addtogroup dimension_concept
+      */
+      template <typename T>
+         requires std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T>
+      struct get_simple_dimension_impl<T>{
+         typedef typename T::simple_dimension type;
+      };
    }
 
    namespace impl{

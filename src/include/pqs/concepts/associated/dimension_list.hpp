@@ -1,8 +1,11 @@
-#ifndef PQS_CONCEPTS_BASE_QUANTITY_EXP_LIST_HPP_INCLUDED2
-#define PQS_CONCEPTS_BASE_QUANTITY_EXP_LIST_HPP_INCLUDED2
+#ifndef PQS_CONCEPTS_ASSOCIATED_DIMENSION_LIST_DEFINITION_HPP_INCLUDED
+#define PQS_CONCEPTS_ASSOCIATED_DIMENSION_LIST_DEFINITION_HPP_INCLUDED
 
 #include <type_traits>
+#include <pqs/concepts/meta/type_list.hpp>
 #include <pqs/concepts/base_quantity_exponent.hpp>
+#include <pqs/concepts/associated/is_simple_dimension_list.hpp>
+#include <pqs/concepts/associated/is_custom_dimension_list.hpp>
 #include <pqs/concepts/associated/get_simple_dimension.hpp>
 #include <pqs/concepts/associated/dimensionless.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
@@ -22,10 +25,10 @@ namespace pqs{
        * @brief base class for detecting a dimension_list
       */
       struct dimension_list_base{};
-   }
+   }// detail
 
-   /**
-    * @brief dimension_list definition
+  /**
+   * @brief dimension_list definition
    */
    template <base_quantity_exponent ...D>
    struct dimension_list : pqs::detail::dimension_list_base{
@@ -37,7 +40,6 @@ namespace pqs{
   /**
    * @ brief empty dimension_list specialisation
    */
-
    template <> struct dimension_list<>{
       typedef dimension_list type;
       typedef type simple_dimension;
@@ -47,69 +49,29 @@ namespace pqs{
    namespace impl {
 
      /**
-      * @brief simple dimension_list default impl
-      */
-      template <typename D>
-      struct is_simple_dimension_list_impl : std::false_type{};
-
-     /**
       * @brief simple dimension_list specialisation impl
       */
       template <base_quantity_exponent ... D >
       struct is_simple_dimension_list_impl<pqs::dimension_list<D...> > 
       : std::true_type{};
-   }
 
-  /**
-   * @brief simple dimension_list nterface
-   */
-   template <typename D>
-   inline constexpr bool is_simple_dimension_list 
-      = impl::is_simple_dimension_list_impl< std::remove_cvref_t<D> >::value;
-
-   namespace impl{
      /**
       * @brief custom dimension_list impl
       */
       template <typename T>
-      inline constexpr bool is_custom_dimension_list_impl =
-         std::is_base_of_v<pqs::detail::dimension_list_base,T> &&
+         requires std::is_base_of_v<pqs::detail::dimension_list_base,T> &&
          ! is_simple_dimension_list<T>
-         ;
+      inline constexpr bool is_custom_dimension_list_impl<T> = true;
 
-   }
+      template <typename T>
+         requires std::is_base_of_v<pqs::detail::dimension_list_base,T>
+      struct get_simple_dimension_impl<T>{
+         typedef typename T::simple_dimension type;
+      };
 
-  /**
-   * @brief custom dimension_list interface
-   */
-   template<typename T>
-   inline constexpr bool is_custom_dimension_list =
-      impl::is_custom_dimension_list_impl<std::remove_cvref_t<T> >;
+   } // impl
 
-   namespace impl {
-
-     /**
-      * @brief custom dimension impl
-      */
-      template <typename D>
-      inline constexpr bool is_custom_dimension_impl  =
-         is_custom_dimension_list<D> || 
-         is_custom_base_quantity_exp<D>
-      ;
-   }
-
-  /**
-   * @brief custom dimension interface
-   */
-   template <typename D>
-   inline constexpr bool is_custom_dimension =
-      impl::is_custom_dimension_impl<typename std::remove_cvref_t<D> >;
-
-}// pqs
-
-namespace pqs{ namespace meta{
-
-   namespace impl{
+   namespace meta{ namespace impl{
 
      /**
       * @brief fulfil dimensionlist type_list requirements - get_num_elements impl
@@ -235,37 +197,11 @@ namespace pqs{ namespace meta{
       {
          typedef pqs::dimensionless type;
       };
-   }// impl
 
-}}//pqs::meta
+   }}// meta::impl
 
-namespace pqs{
-
-   namespace impl{
-
-      template <typename T>
-      inline constexpr bool is_dimension_impl =
-        is_base_quantity_exponent<T> || 
-        is_simple_dimension_list<T> ||
-        is_custom_dimension<T>;
- 
-   } // impl
-
-   template <typename T>
-   inline constexpr bool is_dimension = 
-      impl::is_dimension_impl< std::remove_cvref_t<T> >;
-
-   template <typename T>
-   concept dimension = is_dimension<T>;
-
-   namespace impl{
-
-      template <pqs::dimension D>
-      struct get_simple_dimension_impl<D>{
-         typedef typename D::simple_dimension type;
-      };
-   }
-
+   
+   
    namespace impl{
 
       template <
@@ -307,53 +243,31 @@ namespace pqs{
          struct extract_single_element_list<pqs::dimension_list<> >{
             typedef dimensionless type;
          };
+
+         template<typename Ratio>
+         struct base_quantity_exp_to_power_impl{
+            template <typename BaseQExp>
+            struct apply : pqs::binary_op<BaseQExp,struct pqs::to_power,Ratio>{};
+         };
+
+         struct push_back_not_zero{
+            
+            template <typename List, typename Elem>
+            struct apply : pqs::meta::eval_if_c<
+               pqs::base_quantity_exp_is_zero<Elem>,
+               List,
+               pqs::meta::push_back<List,Elem>
+            >{};
+         };
+
       }
 
       //base_exp_list * base_exp_list
       template <base_quantity_exponent... Lhs,base_quantity_exponent... Rhs>
       struct binary_op_impl <
          dimension_list<Lhs...>,pqs::times,dimension_list<Rhs...>
-
       > : pqs::impl::detail::extract_single_element_list<
             typename pqs::meta::merge_dim< dimension_list<Lhs...>,times,dimension_list<Rhs...> >::type
-      >{ };
-
-      // derived_dim * derived_dim
-      template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires 
-            pqs::is_custom_dimension<Lhs> &&
-            pqs::is_custom_dimension<Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::times,Rhs
-      > : pqs::binary_op<
-         get_simple_dimension<Lhs>,
-         pqs::times, 
-         get_simple_dimension<Rhs>
-      >{};
-
-      template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires
-            pqs::is_custom_dimension<Lhs> &&
-            ! pqs::is_custom_dimension<Rhs> 
-      struct binary_op_impl <
-         Lhs,pqs::times,Rhs
-      > : pqs::binary_op<
-         get_simple_dimension<Lhs>,
-         pqs::times,
-         Rhs
-       >{};
-
-      // derived_dim * dim
-      template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires
-            ! is_custom_dimension<Lhs> &&
-            is_custom_dimension<Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::times,Rhs
-       > : pqs::binary_op<
-         Lhs,
-         pqs::times,
-         get_simple_dimension<Rhs>
       >{};
 
 //divide
@@ -368,7 +282,7 @@ namespace pqs{
           pqs::meta::detail::base_quantity_exp_sort_fun
       >{};
 
-         // add to a dimension_list
+      // add to a dimension_list
       template <
          pqs::base_quantity_exponent... Lhs, 
          pqs::base_quantity_exponent Rhs
@@ -408,63 +322,13 @@ namespace pqs{
             >::type
          >{};
 
-      // derived_dim / derived_dim
-      template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires 
-            pqs::is_custom_dimension<Lhs> &&
-            pqs::is_custom_dimension<Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::divides,Rhs
+      template <pqs::base_quantity_exponent... D>
+      struct unary_op_impl <
+         pqs::meta::reciprocal,dimension_list<D...>
       > : pqs::binary_op<
-         get_simple_dimension<Lhs>,
-         pqs::divides, 
-         get_simple_dimension<Rhs>
+         dimension_list<D...>,
+         struct pqs::to_power,std::ratio<-1> 
       >{};
-
-      // dim / derived_dim
-      template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires 
-            pqs::is_custom_dimension<Lhs> &&
-            ! pqs::is_custom_dimension<Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::divides,Rhs
-       > : pqs::binary_op<
-         get_simple_dimension<Lhs>,
-         pqs::divides,
-         Rhs
-       >{};
-
-      // derived_dim / dim
-      template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires
-            ! pqs::is_custom_dimension<Lhs> &&
-              is_custom_dimension<Rhs>
-      struct binary_op_impl <
-         Lhs,pqs::divides,Rhs
-       > : pqs::binary_op<
-         Lhs,
-         pqs::divides,
-         get_simple_dimension<Rhs>
-      >{};
-
-      namespace detail{
-
-         template<typename Ratio>
-         struct to_power_impl{
-            template <typename BaseQExp>
-            struct apply : pqs::binary_op<BaseQExp,struct pqs::to_power,Ratio>{};
-         };
-
-         struct push_back_not_zero{
-            
-            template <typename List, typename Elem>
-            struct apply : pqs::meta::eval_if_c<
-               pqs::base_quantity_exp_is_zero<Elem>,
-               List,
-               pqs::meta::push_back<List,Elem>
-            >{};
-         };
-      }
 
       template <pqs::base_quantity_exponent... Lhs, typename Rhs>
          requires pqs::is_ratio<Rhs>
@@ -477,32 +341,10 @@ namespace pqs{
                pqs::meta::detail::base_quantity_exp_sort_fun
             >::type,
             pqs::dimension_list<>, 
-            detail::to_power_impl<Rhs>
+            detail::base_quantity_exp_to_power_impl<Rhs>
          >::type,
          pqs::dimension_list<>,
          detail::push_back_not_zero
-      >{};
-
-      template <pqs::dimension Lhs, typename Rhs>
-         requires 
-            pqs::is_custom_dimension<Lhs> &&
-            pqs::is_ratio<Rhs>
-      struct binary_op_impl <
-         Lhs,
-         struct pqs::to_power,
-         Rhs
-      > : pqs::binary_op<
-            get_simple_dimension<Lhs>,
-            struct pqs::to_power,
-            Rhs
-      >{};
-      
-      template <pqs::base_quantity_exponent... D>
-      struct unary_op_impl <
-         pqs::meta::reciprocal,dimension_list<D...>
-      > : pqs::binary_op<
-         dimension_list<D...>,
-         struct pqs::to_power,std::ratio<-1> 
       >{};
 
       template <
@@ -532,40 +374,9 @@ namespace pqs{
             dimension_list<Rhs...>
          >
       > {};
-   } // impl
 
-   template <pqs::dimension Lhs, pqs::dimension Rhs>
-   inline
-   constexpr
-   auto
-   operator * ( Lhs , Rhs ) 
-   {
-      return pqs::binary_op_t<Lhs,pqs::times,Rhs>{};
-   }
+   } //impl
 
-   template <pqs::dimension Lhs, pqs::dimension Rhs>
-   inline constexpr
-   auto operator / ( Lhs , Rhs ) 
-   {
-      return typename pqs::binary_op_t<Lhs,pqs::divides,Rhs>{};
-   }
+} //pqs
 
-   template <int N, int D, pqs::dimension Dim>
-      requires ( D != 0)
-   inline constexpr
-   auto  pow( Dim )
-   {
-       return pqs::binary_op_t<Dim,struct pqs::to_power,std::ratio<N,D> >{};
-   }
-
-   template <int N, pqs::dimension Dim>
-   inline constexpr
-   auto  pow( Dim )
-   {
-      return pqs::binary_op_t<Dim,struct pqs::to_power,std::ratio<N,1> >{};
-   }
-
-}// pqs
-
-
-#endif // PQS_CONCEPTS_BASE_QUANTITY_EXP_LIST_HPP_INCLUDED
+#endif // PQS_CONCEPTS_ASSOCIATED_DIMENSION_LIST_DEFINITION_HPP_INCLUDED
