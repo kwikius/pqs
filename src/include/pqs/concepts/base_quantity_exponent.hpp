@@ -2,11 +2,7 @@
 #define PQS_CONCEPTS_BASE_QUANTITY_EXP_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/bits/meta/strip_cr.hpp>
-#include <pqs/bits/where.hpp>
-#include <pqs/bits/meta/eval_if.hpp>
-#include <pqs/bits/meta/not.hpp>
-#include <pqs/bits/meta/and.hpp>
+
 #include <pqs/bits/undefined_arg.hpp>
 #include <pqs/bits/std_ratio.hpp>
 #include <pqs/concepts/associated/unary_op.hpp>
@@ -174,12 +170,8 @@ namespace pqs{
       * @addtogroup base_quantity_exponent_concept_impl
       * @{ **/
       template <typename T>
-      struct get_base_quantity_impl<
-         T,
-         typename pqs::where_<
-            std::is_base_of<pqs::detail::base_quantity_exp_base_class,T>
-         >::type
-      > : T::base_type {};
+         requires std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T>
+      struct get_base_quantity_impl< T > : T::base_type {};
      /** @} */
    }
 
