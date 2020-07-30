@@ -47,7 +47,7 @@ namespace {
    {
       typedef pqs::base_length base_length;
 
-      static_assert(pqs::is_base_quantity<base_length>);
+      static_assert(pqs::base_quantity<base_length>);
       static_assert(pqs::meta::is_identity_function<base_length>::value);
 
       static_assert(pqs::binary_op_v<base_length,pqs::equal_to, base_length>);

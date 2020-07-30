@@ -49,13 +49,13 @@ namespace {
    template <typename T>
    constexpr bool is_dimension(T t)
    {
-      return pqs::is_dimension<T>;
+      return pqs::dimension<T>;
    }
 
    template <typename T> 
    constexpr bool is_base_quantity_exponent(T t)
    {
-      return pqs::is_base_quantity_exponent<T>;
+      return pqs::base_quantity_exponent<T>;
    }
 
    template <typename T> 

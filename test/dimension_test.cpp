@@ -40,7 +40,7 @@ namespace {
 
        QUAN_CHECK(( std::is_same_v<dimension,pqs::exp_length<1> > ))
        QUAN_CHECK(( pqs::is_base_quantity_exponent<dimension> ))
-       QUAN_CHECK(( pqs::is_base_quantity<pqs::get_base_quantity<dimension> > ))
+       QUAN_CHECK(( pqs::base_quantity<pqs::get_base_quantity<dimension> > ))
        QUAN_CHECK(( std::is_same_v<pqs::get_base_quantity<dimension>,pqs::base_length> ))
        QUAN_CHECK(( std::is_same_v<pqs::get_simple_dimension<dimension>,dimension> ))
 

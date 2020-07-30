@@ -36,26 +36,15 @@ namespace pqs{
   /**
    * @addtogroup base_quantity_concept
    * @{ **/
-
-   /**
-   * @brief is_base quantity interface - removes top level cvref for @ref base_quantity_concept_impl layer to see unqualified type
-   */
-   template <typename T>
-   inline constexpr bool is_base_quantity = 
-      impl::is_base_quantity_impl< 
-         std::remove_cvref_t<T> 
-      >;
-   /** @} */
-
-  /**
-   * @addtogroup base_quantity_concept
-   * @{ **/
    
    /**
    *  @brief base_quantity concept definition
    */
    template <typename T>
-   concept base_quantity = is_base_quantity<T>;
+   concept base_quantity = 
+      impl::is_base_quantity_impl< 
+         std::remove_cvref_t<T> 
+      >;
    /** @} */
 
 } // pqs

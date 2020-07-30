@@ -15,49 +15,49 @@ using pqs::to_power;
 namespace {
 
   /**
-   * @brief Test is_base_quantity_exponent on exponents of all SI base_quantities
+   * @brief Test base_quantity_exponent on exponents of all SI base_quantities
    *
    */
    void is_base_quantity_exp_test()
    {
-       static_assert( not pqs::is_base_quantity_exponent<int> );
+       static_assert( not pqs::base_quantity_exponent<int> );
 
-       static_assert( not pqs::is_base_quantity_exponent<pqs::base_length> );
+       static_assert( not pqs::base_quantity_exponent<pqs::base_length> );
 
-       static_assert( pqs::is_base_quantity_exponent< exp_length<-1> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_length<1> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_length<2> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_length<-2,3> > );
+       static_assert( pqs::base_quantity_exponent< exp_length<-1> > );
+       static_assert( pqs::base_quantity_exponent< exp_length<1> > );
+       static_assert( pqs::base_quantity_exponent< exp_length<2> > );
+       static_assert( pqs::base_quantity_exponent< exp_length<-2,3> > );
 
-       static_assert( pqs::is_base_quantity_exponent< exp_mass<-1> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_mass<1> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_mass<2> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_mass<-2,3> > );
+       static_assert( pqs::base_quantity_exponent< exp_mass<-1> > );
+       static_assert( pqs::base_quantity_exponent< exp_mass<1> > );
+       static_assert( pqs::base_quantity_exponent< exp_mass<2> > );
+       static_assert( pqs::base_quantity_exponent< exp_mass<-2,3> > );
 
-       static_assert( pqs::is_base_quantity_exponent< exp_time<-1> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_time<1> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_time<2> > );
-       static_assert( pqs::is_base_quantity_exponent< exp_time<-2,3> > );
+       static_assert( pqs::base_quantity_exponent< exp_time<-1> > );
+       static_assert( pqs::base_quantity_exponent< exp_time<1> > );
+       static_assert( pqs::base_quantity_exponent< exp_time<2> > );
+       static_assert( pqs::base_quantity_exponent< exp_time<-2,3> > );
 
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<-1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<2> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_current<-2,3> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_current<-1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_current<1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_current<2> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_current<-2,3> > );
 
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<-1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<2> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_temperature<-2,3> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_temperature<-1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_temperature<1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_temperature<2> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_temperature<-2,3> > );
 
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<-1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<2> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_substance<-2,3> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_substance<-1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_substance<1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_substance<2> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_substance<-2,3> > );
 
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<-1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<1> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<2> > );
-       static_assert( pqs::is_base_quantity_exponent< pqs::exp_intensity<-2,3> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_intensity<-1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_intensity<1> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_intensity<2> > );
+       static_assert( pqs::base_quantity_exponent< pqs::exp_intensity<-2,3> > );
    }
 
   /**
@@ -85,7 +85,7 @@ namespace {
    {
       using tl = exp_length<2> ;
       using base_type1 = pqs::get_base_quantity<tl> ;
-      static_assert( pqs::is_base_quantity<base_type1>  );
+      static_assert( pqs::base_quantity<base_type1>  );
       static_assert( std::is_same_v<base_type1,pqs::base_length> );
    }
 

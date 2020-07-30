@@ -44,7 +44,8 @@ namespace pqs{
    * @addtogroup base_quantity_exponent_concept
    * @{ **/
    template <typename T>
-   concept base_quantity_exponent = is_base_quantity_exponent<T>;
+   concept base_quantity_exponent = 
+      impl::is_base_quantity_exp_impl< std::remove_cvref_t<T> >;
   /** @} */
 
 } // pqs
