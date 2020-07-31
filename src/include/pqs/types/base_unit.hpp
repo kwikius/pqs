@@ -6,13 +6,13 @@
 #include <pqs/concepts/measurement_system.hpp>
 #include <pqs/concepts/associated/get_base_unit_symbol.hpp>
 #include <pqs/types/conversion_factor.hpp>
-#include <pqs/types/basic_unit.hpp>
+#include <pqs/concepts/associated/make_unit.hpp>
 
 namespace pqs{
 
     template < base_quantity Qb, measurement_system Sm>
     struct base_unit 
-    : basic_unit<
+    : make_unit<
          Sm,
          typename make_base_quantity_exp<Qb,std::ratio<1> >::type,
          conversion_factor<std::ratio<1>, exponent10<0> > 

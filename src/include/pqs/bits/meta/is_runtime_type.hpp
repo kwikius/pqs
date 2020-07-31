@@ -25,7 +25,7 @@
 namespace pqs{ namespace meta{
 
    namespace impl{
-      template <typename T, typename Where = void>
+      template <typename T>
       struct is_runtime_type_impl : std::true_type{}; 
    }
 

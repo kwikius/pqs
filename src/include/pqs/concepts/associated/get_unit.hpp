@@ -8,7 +8,7 @@
 namespace pqs{
 
    namespace impl{
-      template <typename T, typename Where = void>
+      template <typename T>
       struct get_unit_impl : pqs::undefined{};
    }
 

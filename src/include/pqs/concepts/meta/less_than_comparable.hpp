@@ -9,7 +9,7 @@ namespace pqs{ namespace meta{
 
    namespace impl {
 
-      template <typename TL, typename TR, typename Where = void>
+      template <typename TL, typename TR>
       struct are_less_than_comparable_impl : pqs::meta::is_bool_constant<
          pqs::binary_op<TL,pqs::less,TR>
       >{};

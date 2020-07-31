@@ -7,12 +7,12 @@ namespace pqs::meta{
 
    namespace impl{
 
-      template  <typename T, typename Where = void>
+      template  <typename T>
       struct is_bool_constant_impl : std::false_type{};
 
       template <typename T>
-      struct is_bool_constant_impl<T,
-         typename std::enable_if<(T::value || !T::value)>::type  
+            requires static_cast<bool>(T::value) || !static_cast<bool>(T::value)
+      struct is_bool_constant_impl<T 
       > : std::true_type{};
 
    }// impl
@@ -20,8 +20,8 @@ namespace pqs::meta{
 /**
  *  @brief Is T a valid compile time bool constant?
  *
- *  implementeation : is there a static 'value' member that is convertible to bool at compile time?
- *  SFINAE is used to detect the memeber so if it isnt there is not a bool constant, however
+ *  implementation : is there a static 'value' member that is convertible to bool at compile time?
+ *  SFINAE is used to detect the member so if it isnt there is not a bool constant, however
  *  if it is there  either value --> true or value --> false is ok
 */
    template <typename T>

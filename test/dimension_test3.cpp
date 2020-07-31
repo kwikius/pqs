@@ -71,7 +71,7 @@ namespace {
       auto constexpr acc = abstract_length_v / pow<2>(abstract_time_v) ;
 
       static_assert( dimension<decltype(acc)>);
-      static_assert( is_simple_dimension_list<decltype(acc)>);
+      static_assert( is_dimension_list<decltype(acc)>);
 
       auto constexpr acc_str_si = 
          dimension_to_fixed_string<

@@ -9,7 +9,7 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename T, typename Where = void>
+      template <typename T>
       struct get_measurement_system_impl : pqs::undefined{};
    }
 

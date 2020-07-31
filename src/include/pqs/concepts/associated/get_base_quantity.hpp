@@ -11,7 +11,7 @@ namespace pqs{
      /**
       *  @brief get base_quantity from a base_quantity_exponent - impl default
       */
-      template <typename T, typename Where = void>
+      template <typename T>
       struct get_base_quantity_impl : pqs::undefined{};
    }
 

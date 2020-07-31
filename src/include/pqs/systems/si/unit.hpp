@@ -2,7 +2,7 @@
 #define PQS_SI_UNIT_HPP_INCLUDED1
 
 #include <type_traits>
-#include <pqs/types/basic_unit.hpp>
+#include <pqs/concepts/associated/make_unit.hpp>
 #include <pqs/systems/si/quantity/measurement_system_def.hpp>
 #include <pqs/systems/si/quantity/base_unit_symbols.hpp>
 #include <pqs/systems/si/quantity/unit_symbol_prefix.hpp>
@@ -259,7 +259,7 @@ namespace pqs::si{
          dimension D, 
          conversion_factor CF
       >
-      struct unit_conversion : pqs::basic_unit<
+      struct unit_conversion : pqs::make_unit<
          pqs::si_measurement_system, 
          D, 
          decltype(CF)

@@ -6,7 +6,7 @@
 #include <pqs/concepts/dimensionless_quantity.hpp>
 #include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
-#include <pqs/types/basic_unit.hpp>
+#include <pqs/concepts/associated/make_unit.hpp>
 #include <pqs/bits/meta/min.hpp>
 
 namespace pqs{ 
@@ -33,7 +33,7 @@ namespace pqs{
             >;
 
          using result_unit = 
-            basic_unit<
+            make_unit<
                get_measurement_system<Lhs>,
                result_dimension,
                result_conversion_factor

@@ -39,7 +39,7 @@ namespace pqs{
                get_dimension<UR>
             >;
          using type =
-            pqs::basic_unit<
+            pqs::make_unit<
                measurement_system,
                dimension,
                conversion_factor
@@ -80,7 +80,7 @@ namespace pqs{
                get_dimension<UR>
             >;
          using basic_type =
-            pqs::basic_unit<
+            pqs::make_unit<
                pqs::si_measurement_system,
                dimension,
                conversion_factor
@@ -104,13 +104,13 @@ namespace {
 
    void unit_div_test()
    {
-      using L = basic_unit<
+      using L = make_unit<
          si_measurement_system,
          abstract_length_t,
          decltype(std::ratio<1>{} ^ exponent10<0>{})
       >;
 
-      using T = basic_unit<
+      using T = make_unit<
          si_measurement_system,
          abstract_time_t,
          decltype(std::ratio<1>{} ^ exponent10<0>{})
@@ -131,7 +131,7 @@ namespace {
       >;
 
       // has to be assumed non-normative?
-      using T = basic_unit<
+      using T = make_unit<
          si_measurement_system,
          abstract_time_t,
          decltype(std::ratio<1>{} ^ exponent10<-2>{})

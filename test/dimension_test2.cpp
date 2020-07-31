@@ -59,9 +59,9 @@ namespace {
    }
 
    template <typename T> 
-   constexpr bool is_simple_dimension_list(T t)
+   constexpr bool is_dimension_list(T t)
    {
-      return pqs::is_simple_dimension_list<T>;
+      return pqs::is_dimension_list<T>;
    }
 
    template <typename T> 
@@ -95,7 +95,7 @@ void dimension_test2()
          decltype(velocity),
          pqs:: dimension_list<pqs::exp_length<1>,pqs::exp_time<-1> >
       >::value,"");
-   static_assert(is_simple_dimension_list(velocity),"");
+   static_assert(is_dimension_list(velocity),"");
    static_assert(is_dimension(velocity),"");
    static_assert(not is_custom_dimension(velocity),"");
 
@@ -113,7 +113,7 @@ void dimension_test2()
             decltype(vertical_velocity)::simple_dimension
    >::value,"");
 
-   static_assert(is_simple_dimension_list(velocity2),"");
+   static_assert(is_dimension_list(velocity2),"");
 
    static_assert(same_no_cr<decltype(dimless1),pqs::dimensionless>::value,"");
    static_assert(same_no_cr<decltype(dimless2),pqs::dimensionless>::value,"");

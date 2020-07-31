@@ -13,7 +13,7 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename T, typename Where = void>
+      template <typename T>
       struct is_quantity_impl : std::false_type{};
 
    }// impl

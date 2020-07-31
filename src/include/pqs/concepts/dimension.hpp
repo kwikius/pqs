@@ -117,10 +117,8 @@ namespace pqs{
    } // impl
 
    template <pqs::dimension Lhs, pqs::dimension Rhs>
-   inline
-   constexpr
-   auto
-   operator*( Lhs, Rhs ) 
+   inline constexpr
+   auto operator*( Lhs, Rhs ) 
    {
       return pqs::binary_op_t<Lhs,pqs::times,Rhs>{};
    }
@@ -133,7 +131,7 @@ namespace pqs{
    }
 
    template <int N, int D, pqs::dimension Dim>
-      requires ( D != 0)
+      requires ( D != 0 )
    inline constexpr
    auto pow( Dim )
    {

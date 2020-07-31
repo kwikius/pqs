@@ -7,7 +7,7 @@
 namespace pqs{
 
    namespace impl{
-      template <typename T, typename Where = void>
+      template <typename T>
       struct get_numeric_type_impl : pqs::undefined{};
    }
 

@@ -23,7 +23,7 @@ namespace pqs{
       using conversion_factor = pqs::normalise<std::remove_cvref_t<ConversionFactor> >;
 
       template <intmax_t N, intmax_t D>
-      constexpr friend auto operator * (basic_unit, std::ratio<N,D> r)
+      constexpr friend auto operator*(basic_unit, std::ratio<N,D> r)
       {
          return basic_unit<
             quantity_system,

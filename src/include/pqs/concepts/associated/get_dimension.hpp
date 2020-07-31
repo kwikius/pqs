@@ -9,7 +9,7 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename T, typename Where = void>
+      template <typename T>
       struct get_dimension_impl : pqs::undefined{};
    }
 

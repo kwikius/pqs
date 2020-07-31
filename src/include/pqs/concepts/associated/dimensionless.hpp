@@ -31,7 +31,7 @@ namespace pqs{
    namespace impl{
 
       template <>
-      struct get_exponent_impl<dimensionless,void> {
+      struct get_exponent_impl<dimensionless> {
          using type = std::ratio<0,1>;
       };
 

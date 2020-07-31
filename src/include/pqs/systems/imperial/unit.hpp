@@ -2,14 +2,14 @@
 #define PQS_IMPERIAL_UNIT_HPP_INCLUDED
 
 #include <pqs/concepts/quantity.hpp>
-#include <pqs/types/basic_unit.hpp>
+#include <pqs/concepts/associated/make_unit.hpp>
 #include <pqs/types/base_unit.hpp>
 #include <pqs/systems/imperial/measurement_system.hpp>
 
 namespace pqs{ namespace imperial{
 
    template <typename Dimension, typename ConversionFactor>
-   struct unit_conversion : pqs::basic_unit<
+   struct unit_conversion : pqs::make_unit<
       pqs::imperial_measurement_system, 
       Dimension, 
       ConversionFactor

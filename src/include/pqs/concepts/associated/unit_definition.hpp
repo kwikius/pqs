@@ -7,7 +7,7 @@ namespace pqs{
 
    namespace impl{
 
-      template <typename T, typename Where = void>
+      template <typename T>
       struct is_unit_impl : std::false_type{};
    }
 

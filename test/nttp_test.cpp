@@ -39,7 +39,7 @@ template <auto D>
 inline constexpr void testd()
 {
    using d = decltype(D);
-   if constexpr ( pqs::is_simple_dimension_list<d> ){
+   if constexpr ( pqs::is_dimension_list<d> ){
       std::cout << "dimension list\n";
    }else {
       if constexpr ( pqs::base_quantity_exponent<d> ){

@@ -8,31 +8,31 @@ namespace pqs{ namespace meta{
 
   namespace impl{
 
-     template <typename List,typename T, typename Where = void>
+     template <typename List,typename T>
      struct push_back_impl;
 
-     template <typename List,typename T, typename Where = void>
+     template <typename List,typename T>
      struct push_front_impl;
 
-     template <typename List, typename Where = void>
+     template <typename List>
      struct get_num_elements_impl;
 
-     template <typename List, typename Where = void>
+     template <typename List>
      struct pop_front_impl;
 
-     template <typename List,typename Where = void>
+     template <typename List>
      struct pop_back_impl;
 
-     template <typename List,typename Where = void>
+     template <typename List>
      struct front_impl;
 
-     template <typename List,typename Where = void>
+     template <typename List>
      struct back_impl;
 
-     template <uint32_t N, typename List, typename Where = void>
+     template <uint32_t N, typename List>
      struct at_impl;
 
-     template <typename List, typename Where = void> 
+     template <typename List> 
      struct is_type_list_impl : std::false_type{};
 
    }

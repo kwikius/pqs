@@ -19,7 +19,7 @@ namespace pqs{
      /**
       * @brief make_base_quantity_exp_impl - customise per UUID
       */
-      template <typename UUID,typename Ratio,typename Where = void>
+      template <typename UUID,typename Ratio>
       struct make_base_quantity_exp_impl : pqs::undefined_arg<UUID>{};
      /** @} */
 

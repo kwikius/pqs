@@ -4,7 +4,7 @@
 #include <pqs/concepts/quantity/definition.hpp>
 #include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
-#include <pqs/types/basic_unit.hpp>
+#include <pqs/concepts/associated/make_unit.hpp>
 
 namespace pqs{
 
@@ -17,7 +17,7 @@ namespace pqs{
       // TODO 
       using result =
          pqs::make_quantity<
-            pqs::basic_unit<
+            pqs::make_unit<
                get_measurement_system<Q>,
                binary_op_t<
                   get_simple_dimension<Q>,

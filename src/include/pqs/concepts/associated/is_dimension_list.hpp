@@ -11,7 +11,7 @@ namespace pqs{
       * @brief simple dimension_list default impl
       */
       template <typename D>
-      struct is_simple_dimension_list_impl : std::false_type{};
+      struct is_dimension_list_impl : std::false_type{};
 
    } //impl
 
@@ -19,8 +19,8 @@ namespace pqs{
    * @brief simple dimension_list interface
    */
    template <typename D>
-   inline constexpr bool is_simple_dimension_list 
-      = impl::is_simple_dimension_list_impl< std::remove_cvref_t<D> >::value;
+   inline constexpr bool is_dimension_list 
+      = impl::is_dimension_list_impl< std::remove_cvref_t<D> >::value;
 
 } // pqs
 

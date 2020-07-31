@@ -74,7 +74,7 @@ namespace {
    void basic_quantity_concept_test()
    {
       basic_quantity<
-         basic_unit<
+         make_unit<
             dummy_system,
             decltype(abstract_length_v / abstract_time_v ),
             decltype( std::ratio<30,2>{} ^ exponent10<3>{})
