@@ -14,7 +14,7 @@ all : test
 test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
    box_example.o \
    wiki_ex1_base_dimension_exponent.o \
-   test.o \
+   capacitor_time_curve.o \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o

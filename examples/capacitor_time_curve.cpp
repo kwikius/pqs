@@ -1,6 +1,4 @@
 
-
-
 #include <pqs/systems/si/capacitance.hpp>
 #include <pqs/systems/si/resistance.hpp>
 #include <pqs/systems/si/time.hpp>
@@ -30,7 +28,6 @@ int main()
         else if( Vt >= 1q_nV )   std::cout << voltage::nV<>{Vt};
         else                     std::cout << voltage::pV<>{Vt};
         std::cout << "\n";
-
     }
 }
 
