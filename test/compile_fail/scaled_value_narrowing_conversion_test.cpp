@@ -7,8 +7,8 @@
 int main()
 {
 
-   typedef pqs::conversion_factor<std::ratio<1>,std::ratio<0> > cf_from;  
-   typedef pqs::conversion_factor<std::ratio<1,7>,std::ratio<0> > cf_to;
+   typedef pqs::conversion_factor<std::ratio<1>,pqs::exponent10<0> > cf_from;  
+   typedef pqs::conversion_factor<std::ratio<1,7>,pqs::exponent10<0> > cf_to;
 
    constexpr pqs::scaled_value<cf_from,double> sv{30.0};
 
