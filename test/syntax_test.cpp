@@ -13,7 +13,7 @@ using std::ratio;
 
 void custom_test1()
 {
-   auto cf = ratio<100,2>{} ^ exponent10<3>{};
+   auto cf = ratio<100,2>() ^ exponent10<3>();
 
    typedef imperial::length_unit::mi type1;
 
@@ -30,7 +30,7 @@ void custom_test2()
       ) 
    {} ;
 
-   basic_quantity< 
+   make_quantity< 
       si::normative_unit<abstract_velocity,exponent10<0> >, 
       double
    > v2;
@@ -82,25 +82,27 @@ void quantity_syntax_test()
    QUAN_CHECK (( std::is_same_v<qbe,exponent10<-1> > ))
          
    // slightly more verbose syntax
-   auto qc = basic_quantity<si::length_unit::mm, double>{};
+   auto qc = make_quantity<si::length_unit::mm, double>{};
 
    // construct a quantity by composing dimension
-   auto qd = basic_quantity<
+   auto qd = make_quantity<
       si::normative_unit<
          decltype( abstract_mass_v * abstract_length_v / pow<2>(abstract_time_v) ),
          exponent10<-3>
-      >
+      >,
+      double
    >{20.0};
 
-   auto constexpr qx = basic_quantity<
+   auto constexpr qx = make_quantity<
       si::unit_conversion<
          decltype( abstract_mass_v * abstract_length_v / pow<2>(abstract_time_v) ),
          std::ratio<383,100>{} ^ exponent10<-3>{} 
-      >
+      >,
+      double
    >{20.0};
 
    // construct a si quantity from raw ingredients
-   auto qe = basic_quantity<
+   auto qe = make_quantity<
       si::normative_unit<
          dimension_list<
             exp_length<1>,
@@ -116,7 +118,7 @@ void quantity_syntax_test()
    QUAN_CHECK(get_numeric_value(qe) == 1234567.)
 
    // construct a si quantity conversion from raw ingredients
-   auto qf = basic_quantity<
+   auto qf = make_quantity<
       si::unit_conversion<
          dimension_list<
             exp_length<1>,

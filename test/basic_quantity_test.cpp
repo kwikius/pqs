@@ -73,12 +73,13 @@ namespace {
      */
    void basic_quantity_concept_test()
    {
-      basic_quantity<
+      make_quantity<
          make_unit<
             dummy_system,
             decltype(abstract_length_v / abstract_time_v ),
             decltype( std::ratio<30,2>{} ^ exponent10<3>{})
-         >, double
+         >, 
+         double
       > constexpr q{20.0};
 
       using Q = decltype(q);
@@ -173,11 +174,12 @@ namespace {
       QUAN_CHECK( (get_numeric_value(q3) == 3210))
      // std::cout << "result of mux = "  << get_numeric_value(q3) <<'\n';
 
-      basic_quantity<
+      make_quantity<
          si::normative_unit<
             exp_length<-1>,
             exponent10<-1>
-         >
+         >, 
+         double
       > q4{2};
       auto v1 = q1 * q4;
       QUAN_CHECK( (v1 == 2.))
