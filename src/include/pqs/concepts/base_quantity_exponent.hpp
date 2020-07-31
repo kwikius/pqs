@@ -6,7 +6,6 @@
 #include <pqs/concepts/associated/base_quantity_exponent_definition.hpp>
 #include <pqs/concepts/associated/base_quantity_exponent_is_zero.hpp>
 #include <pqs/concepts/associated/make_base_quantity_exponent.hpp>
-#include <pqs/concepts/associated/is_custom_base_quantity_exponent.hpp>
 #include <pqs/concepts/associated/of_same_base_quantity.hpp>
 #include <pqs/concepts/associated/unary_op.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>

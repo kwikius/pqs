@@ -5,7 +5,7 @@
 #include <pqs/concepts/meta/type_list.hpp>
 #include <pqs/concepts/base_quantity_exponent.hpp>
 #include <pqs/concepts/associated/is_simple_dimension_list.hpp>
-#include <pqs/concepts/associated/is_custom_dimension_list.hpp>
+#include <pqs/concepts/associated/is_custom_dimension.hpp>
 #include <pqs/concepts/associated/get_simple_dimension.hpp>
 #include <pqs/concepts/associated/dimensionless.hpp>
 #include <pqs/concepts/associated/binary_op.hpp>
@@ -61,7 +61,7 @@ namespace pqs{
       template <typename T>
          requires std::is_base_of_v<pqs::detail::dimension_list_base,T> &&
          ! is_simple_dimension_list<T>
-      inline constexpr bool is_custom_dimension_list_impl<T> = true;
+      inline constexpr bool is_custom_dimension_impl<T> = true;
 
       template <typename T>
          requires std::is_base_of_v<pqs::detail::dimension_list_base,T>

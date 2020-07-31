@@ -3,6 +3,7 @@
 
 #include <pqs/concepts/base_quantity_exponent.hpp>
 #include <pqs/concepts/associated/get_simple_dimension.hpp>
+#include <pqs/concepts/associated/is_custom_dimension.hpp>
 
 namespace pqs{
 
@@ -46,7 +47,7 @@ namespace pqs{
           requires 
             std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
             ! base_quantity_exponent<T>
-        inline constexpr bool is_custom_base_quantity_exponent_impl<T> = true;
+        inline constexpr bool is_custom_dimension_impl<T> = true;
               
      /** @} */
    }//impl

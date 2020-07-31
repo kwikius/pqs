@@ -2,8 +2,8 @@
 #define PQS_CONCEPTS_ASSOCIATED_IS_CUSTOM_DIMENSION_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/concepts/associated/is_custom_dimension_list.hpp>
-#include <pqs/concepts/associated/is_custom_base_quantity_exponent.hpp>
+//#include <pqs/concepts/associated/is_custom_dimension_list.hpp>
+//#include <pqs/concepts/associated/is_custom_base_quantity_exponent.hpp>
 
 namespace pqs{
 
@@ -12,11 +12,14 @@ namespace pqs{
      /**
       * @brief custom dimension impl
       */
+//      template <typename D>
+//      inline constexpr bool is_custom_dimension_impl  =
+//         is_custom_dimension_list<D> || 
+//         is_custom_base_quantity_exponent<D>
+//      ;
+
       template <typename D>
-      inline constexpr bool is_custom_dimension_impl  =
-         is_custom_dimension_list<D> || 
-         is_custom_base_quantity_exponent<D>
-      ;
+      inline constexpr bool is_custom_dimension_impl = false;
    }
 
   /**
