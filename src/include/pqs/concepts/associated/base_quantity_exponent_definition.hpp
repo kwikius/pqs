@@ -27,7 +27,7 @@ namespace pqs{
       * @addtogroup base_quantity_exponent_concept_impl
       * @{ **/
       template <typename T>
-      inline constexpr bool is_base_quantity_exp_impl = false;
+      inline constexpr bool is_base_quantity_exponent_impl = false;
      /** @} */
 
    } // impl
@@ -37,15 +37,14 @@ namespace pqs{
    * @{ **/
    template <typename T>
    inline constexpr bool is_base_quantity_exponent = 
-      impl::is_base_quantity_exp_impl< std::remove_cvref_t<T> >;
+      impl::is_base_quantity_exponent_impl< std::remove_cvref_t<T> >;
   /** @} */
 
   /**
    * @addtogroup base_quantity_exponent_concept
    * @{ **/
    template <typename T>
-   concept base_quantity_exponent = 
-      impl::is_base_quantity_exp_impl< std::remove_cvref_t<T> >;
+   concept base_quantity_exponent = is_base_quantity_exponent<T>;
   /** @} */
 
 } // pqs

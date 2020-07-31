@@ -45,8 +45,8 @@ namespace pqs{
         template <typename T>
           requires 
             std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
-            ! pqs::is_base_quantity_exponent<T>
-        inline constexpr bool is_custom_base_quantity_exp_impl<T> = true;
+            ! base_quantity_exponent<T>
+        inline constexpr bool is_custom_base_quantity_exponent_impl<T> = true;
               
      /** @} */
    }//impl

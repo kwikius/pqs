@@ -78,14 +78,14 @@ namespace pqs{
        * @brief fulfill base_quantity_exponent requirements
        */
       template <int N>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_current<N> > = true;
+      constexpr inline bool is_base_quantity_exponent_impl< pqs::exp_current<N> > = true;
   /** @} */
 
   /**
    * @addtogroup base_quantity_exponent_concept_impl
    * @{ **/
       template <int N,int D>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_current<N,D> > = true;
+      constexpr inline bool is_base_quantity_exponent_impl< pqs::exp_current<N,D> > = true;
   /** @} */
 
 

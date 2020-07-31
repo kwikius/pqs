@@ -9,21 +9,21 @@ namespace pqs{
      /**
       * @addtogroup base_quantity_exponent_concept_impl
       * @{ 
-      * @brief is_custom_base_quantity_exp_impl default impl
+      * @brief is_custom_base_quantity_exponent_impl default impl
       **/
         template <typename T>
-        inline constexpr bool is_custom_base_quantity_exp_impl = false;
+        inline constexpr bool is_custom_base_quantity_exponent_impl = false;
        /** @} */
    }//impl
 
   /**
    * @addtogroup base_quantity_exponent_concept
    * @{ 
-   * @brief is_custom_base_quantity_exp - interface
+   * @brief is_custom_base_quantity_exponent - interface
    **/
    template <typename T>
-   inline constexpr bool is_custom_base_quantity_exp 
-      = impl::is_custom_base_quantity_exp_impl<std::remove_cvref_t<T> >;
+   inline constexpr bool is_custom_base_quantity_exponent 
+      = impl::is_custom_base_quantity_exponent_impl<std::remove_cvref_t<T> >;
   /** @} */
 
 }

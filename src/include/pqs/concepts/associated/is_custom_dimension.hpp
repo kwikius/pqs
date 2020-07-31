@@ -15,7 +15,7 @@ namespace pqs{
       template <typename D>
       inline constexpr bool is_custom_dimension_impl  =
          is_custom_dimension_list<D> || 
-         is_custom_base_quantity_exp<D>
+         is_custom_base_quantity_exponent<D>
       ;
    }
 

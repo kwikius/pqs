@@ -48,10 +48,10 @@ namespace pqs{
    namespace impl{
 
       template <int N>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_length<N>  > = true;
+      constexpr inline bool is_base_quantity_exponent_impl< pqs::exp_length<N>  > = true;
 
       template <int N,int D>
-      constexpr inline bool is_base_quantity_exp_impl< pqs::exp_length<N,D>  > = true;
+      constexpr inline bool is_base_quantity_exponent_impl< pqs::exp_length<N,D>  > = true;
 
       template <typename Ratio>
       struct make_base_quantity_exp_impl<pqs::newtonian_universe::length_uuid,Ratio>

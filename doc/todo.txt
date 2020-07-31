@@ -1,9 +1,3 @@
 
-rename is_base_quantity_exp to is_base_quantity_exponent
 
-
-rename si::normative_unit to si::normative_unit
-is_proper_si_unit
-
-to si::is_normative_unit
 

@@ -45,7 +45,7 @@ inline constexpr void testd()
       if constexpr ( pqs::base_quantity_exponent<d> ){
          std::cout << "base_quantity_exp\n";
       }else{
-         if constexpr (pqs::is_custom_base_quantity_exp<d> ){
+         if constexpr (pqs::is_custom_base_quantity_exponent<d> ){
             std::cout << "custom base_quantity_exp\n";
          } else{
             if constexpr (pqs::is_custom_dimension_list<d> ){
