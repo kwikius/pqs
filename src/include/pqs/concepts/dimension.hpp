@@ -26,7 +26,7 @@ namespace pqs{
          get_simple_dimension<Lhs>,
          pqs::times,
          Rhs
-       >{};
+      >{};
 
       // derived_dim * dim
       template <pqs::dimension Lhs, pqs::dimension Rhs>

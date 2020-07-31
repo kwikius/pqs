@@ -13,16 +13,14 @@ namespace pqs{ namespace impl{
 
          template <typename Float>
          static constexpr
-         typename std::enable_if<std::is_floating_point<Float>::value, Float>::type
-         apply(Float const & v)
+         Float apply(Float const & v)
          {
             return apply(v, 0, v/N);
          }
       private:
          template <typename Float>
          static constexpr 
-         typename std::enable_if< std::is_floating_point<Float>::value, Float>::type
-         approx(Float const & v, int const & iter , Float const & prev_approx)
+         Float approx(Float const & v, int const & iter , Float const & prev_approx)
          {
             return ( (N-1) * prev_approx + v * fn_to_negative_power_impl<1-N>(prev_approx) )/ N;
          }
@@ -35,8 +33,7 @@ namespace pqs{ namespace impl{
 
          template <typename Float>
          static constexpr 
-         typename std::enable_if< std::is_floating_point<Float>::value, Float>::type
-         apply (Float const & v,int const & iter,Float const& prev_approx ) noexcept
+         Float apply(Float const & v,int const & iter,Float const& prev_approx ) noexcept
          {
             return (do_abs( approx(v,iter,prev_approx) - prev_approx ) <= std::numeric_limits<Float>::epsilon()) 
                ? approx(v,iter,prev_approx)
@@ -47,9 +44,10 @@ namespace pqs{ namespace impl{
    } // impl
 
    template <int N, typename Float>
+   requires std::is_floating_point_v<Float>
    constexpr inline 
-   typename std::enable_if< std::is_floating_point<Float>::value, Float>::type
-   root (Float const & v)
+   //typename std::enable_if< std::is_floating_point<Float>::value, Float>::type
+   Float root (Float const & v)
    {
       return impl::root_impl<N>::apply(v);
    }

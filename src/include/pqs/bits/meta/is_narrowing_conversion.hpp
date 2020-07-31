@@ -13,22 +13,15 @@ namespace pqs { namespace meta{
 
    namespace impl{
 
-      template <typename From, typename To, typename Where = void>
+      template <typename From, typename To>
       struct is_narrowing_conversion_impl : std::false_type {};
 
       template <typename From, typename To>
+         requires
+            std::is_arithmetic_v<From> && std::is_arithmetic_v<To> &&
+            ! std::is_same_v<std::common_type_t<From, To>, To>
       struct is_narrowing_conversion_impl<
-         From,
-         To,
-         typename pqs::where_<
-            pqs::meta::and_<
-               std::is_arithmetic<From>,
-               std::is_arithmetic<To>,
-               pqs::meta::not_<
-                  std::is_same<typename std::common_type<From, To>::type, To>
-               >
-            >
-         >::type
+         From, To
       > : std::true_type {};
 
    }//impl

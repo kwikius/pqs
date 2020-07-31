@@ -29,6 +29,9 @@ namespace pqs{ namespace meta{
    template <typename T>
    struct is_type_function : impl::is_type_function_impl< std::remove_cvref_t<T> >{};
 
+   template <typename T>
+   inline constexpr bool is_type_function_v = is_type_function<T>::value;
+
 }} //pqs::meta
 
 #endif  // PQS_CONCEPTS_META_TYPE_FUNCTION_HPP_INCLUDED

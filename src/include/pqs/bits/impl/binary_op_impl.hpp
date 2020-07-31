@@ -63,8 +63,7 @@ namespace pqs{
        template <
           typename A,
           typename Op,
-          typename B,
-          typename Enable = void
+          typename B
        >
        struct binary_op_impl : pqs::undefined_arg<A,Op,B>{};
 
@@ -125,28 +124,6 @@ namespace pqs{
                >
             >::value
       struct binary_op_impl<A,Op,B> : std::common_type<A,B>{};
-
-/*
-      template <
-         typename A,
-         typename B
-      >
-      struct binary_op_impl<
-        A , pqs::to_power, B , 
-        typename pqs::where_<
-            and_<
-               std::is_arithmetic<A>,
-               and_<
-                  not_<eq_one<B> >,
-                  not_<eq_zero<B> >
-               >
-            >
-        >::type
-      > : std::common_type<
-            A,
-            pqs::quantity_traits::default_value_type
-          >{};
-*/
 
    }//impl
    

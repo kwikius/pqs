@@ -14,16 +14,13 @@ namespace pqs{
    namespace meta{
    namespace impl{
     
-      template <typename T, typename Where = void>
+      template <typename T>
       struct narrowest_runtime_type_impl : pqs::undefined_arg<T>{};
 
       template <typename R>
+         requires is_ratio<R>
       struct narrowest_runtime_type_impl<
-         R,
-         typename pqs::where_<
-            // TODO  greater than 0
-            pqs::impl::detail::is_std_ratio<R>
-         >::type
+         R
       > : pqs::meta::eval_if<
          std::integral_constant<bool,( R::den != 1)>,
             pqs::meta::identity<pqs::real_type>,

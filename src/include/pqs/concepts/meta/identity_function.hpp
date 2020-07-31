@@ -10,13 +10,13 @@ namespace pqs{ namespace meta{
 
    namespace impl {
 
-      template <typename T, typename Where = void>
+      template <typename T>
       struct is_identity_function_impl : std::false_type{};
 
       template <typename T>
+        requires pqs::meta::is_type_function_v<T>
       struct is_identity_function_impl <
-         T,
-         typename pqs::where_<pqs::meta::is_type_function<T> >::type
+         T 
       > : std::is_same<T,typename T::type>{};
 
    }

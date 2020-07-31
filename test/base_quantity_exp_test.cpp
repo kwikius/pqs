@@ -96,7 +96,7 @@ namespace {
    {
       using tl = exp_length<2>;
       using tr = exp_length<3>;
-      static_assert(pqs::impl::detail::is_std_ratio<std::ratio<5,1> >::value);
+      static_assert(pqs::is_ratio<std::ratio<5,1> >);
       using result_type = binary_op_t<tl,times,tr> ;
       using ratio = pqs::get_exponent<result_type>;
 

@@ -24,20 +24,17 @@
 
 #include <type_traits>
 #include <pqs/bits/where.hpp>
-#include <pqs/bits/meta/strip_cr.hpp>
 
 namespace pqs{ namespace meta{
 
     namespace impl{
 
-       template <typename T, typename Where = void>
-       struct is_numeric_impl : std::false_type{}; // : quan::meta::or_<std::is_arithmetic<ValueType>,quan::meta::is_angle<ValueType> >{};
+       template <typename T>
+       struct is_numeric_impl : std::false_type{}; 
   
        template <typename T>
-       struct is_numeric_impl<
-          T,
-          typename pqs::where_<std::is_arithmetic<T> >::type
-       > : std::true_type{};
+         requires std::is_arithmetic_v<T>
+       struct is_numeric_impl< T > : std::true_type{};
        
     }//impl
 
