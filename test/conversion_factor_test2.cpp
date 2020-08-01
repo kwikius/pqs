@@ -34,7 +34,7 @@ namespace {
    template <typename CF>
    void show_cf()
    {
-      std::cout << CF{} << " == " << pqs::conversion_factor_eval<CF>{}() ;
+      std::cout << CF{} << " == " << pqs::evaluate<CF>() ;
    }
    
    void compare_test1()

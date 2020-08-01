@@ -102,17 +102,16 @@ namespace pqs{
          }
       };
 
+    /**
+     * @brief evaluate a conversion factor. The member type has the type of the result
+     * static apply() does the evaluation
+     */
+      template <typename ConversionFactor>
+      struct conversion_factor_eval : 
+         pqs::detail::ll_conversion_factor_eval<
+            typename pqs::detail::to_ll_conversion_factor<ConversionFactor>::type
+         >{};
    }//detail
-
- /**
-  * @brief evaluate a conversion factor. The member type has the type of the result
-  * static apply() does the evaluation
-  */
-   template <typename ConversionFactor>
-   struct conversion_factor_eval : 
-      pqs::detail::ll_conversion_factor_eval<
-         typename pqs::detail::to_ll_conversion_factor<ConversionFactor>::type
-      >{};
 
 }// pqs
 

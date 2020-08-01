@@ -12,7 +12,7 @@ namespace pqs{
    inline constexpr
    auto evaluate()
    {
-      return conversion_factor_eval<ConversionFactor>{}();
+      return detail::conversion_factor_eval<ConversionFactor>{}();
    }
 
    template <typename ConversionFactor>
