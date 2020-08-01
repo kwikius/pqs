@@ -2,8 +2,6 @@
 #define PQS_IMPLICIT_CONVERSION_FUNCTIONS_HPP_INCLUDED
 
 #include <type_traits>
-#include <pqs/bits/where.hpp>
-#include <pqs/bits/meta/not.hpp>
 #include <pqs/bits/undefined_arg.hpp>
 #include <pqs/bits/meta/is_narrowing_conversion.hpp>
 #include <pqs/bits/ll_config.hpp>

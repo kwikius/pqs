@@ -3,8 +3,6 @@
 
 #include <type_traits>
 #include <pqs/concepts/meta/type_function.hpp>
-#include <pqs/bits/where.hpp>
-#include <pqs/bits/meta/strip_cr.hpp>
 
 namespace pqs{ namespace meta{
 

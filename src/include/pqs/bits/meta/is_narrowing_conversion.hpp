@@ -1,13 +1,7 @@
 #ifndef PQS_META_IS_NARROWING_CONVERSION_HPP_INCLUDED
 #define PQS_META_IS_NARROWING_CONVERSION_HPP_INCLUDED
 
-#pragma once
-
 #include <type_traits>
-#include <pqs/bits/where.hpp>
-#include <pqs/bits/meta/and.hpp>
-#include <pqs/bits/meta/not.hpp>
-#include <pqs/bits/meta/strip_cr.hpp>
 
 namespace pqs { namespace meta{
 
