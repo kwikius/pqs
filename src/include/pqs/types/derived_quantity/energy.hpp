@@ -6,7 +6,7 @@
 
 namespace pqs{
   
-   struct abstract_energy_t : decltype(abstract_force_v * abstract_length_v){};
+   struct abstract_energy_t : decltype( abstract_force_v * abstract_length_v ){};
    constexpr inline auto abstract_energy_v = abstract_energy_t{};
 }
 
