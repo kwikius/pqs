@@ -52,6 +52,8 @@ struct Box {
 
 int main()
 {
+  std::cout << "PQS box example\n";
+
   auto box = Box(si::length::mm<>{1000.0}, si::length::mm<>{500.0},si::length::mm<>{200.0});
   box.set_contents_density(si::density::kg_per_m3<>{1000.0});
 

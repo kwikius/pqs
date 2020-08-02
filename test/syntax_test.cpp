@@ -36,7 +36,7 @@ void custom_test2()
    > v2;
 
    static_assert(dimension<abstract_velocity>,"");
-   static_assert(is_quantity<decltype(v2)>,"");
+   static_assert(quantity<decltype(v2)>,"");
    static_assert(dimension<abstract_velocity>,"");
 
 

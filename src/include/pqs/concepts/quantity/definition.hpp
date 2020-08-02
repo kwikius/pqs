@@ -14,16 +14,12 @@ namespace pqs{
    namespace impl{
 
       template <typename T>
-      struct is_quantity_impl : std::false_type{};
+      inline constexpr bool is_quantity_impl = false;
 
    }// impl
 
    template <typename T>
-   inline constexpr bool is_quantity = 
-      impl::is_quantity_impl< std::remove_cvref_t<T> >::value;
-
-   template <typename T>
-   concept quantity = is_quantity<T>;
+   concept quantity = impl::is_quantity_impl< std::remove_cvref_t<T> >;
 
    namespace impl{
 

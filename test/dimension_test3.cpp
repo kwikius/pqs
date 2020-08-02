@@ -12,6 +12,8 @@ using namespace pqs;
 
 namespace {
 
+
+
    void mul_ee_test()
    {
       using x = std::remove_cvref_t< decltype(abstract_length_v / abstract_time_v) >;
@@ -98,4 +100,5 @@ void dimension_test3()
    dimensionless_mul_test();
    dimensionless_divide_test();
    dimension_list_example();
+
 }

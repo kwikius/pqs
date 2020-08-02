@@ -76,7 +76,15 @@ namespace {
       std::remove_cvref_t<T2>
    >{};
 
-   
+   void equality_test()
+   {
+      static_assert(length == length);
+      static_assert((length != length) == false);
+      static_assert(length == named_length_t());
+      static_assert( (length == time_) == false);
+      static_assert( force == mass * acceleration);
+      static_assert( force != mass * acceleration * time_);
+   }
 }
 
 #if defined PQS_STANDALONE
@@ -86,6 +94,7 @@ int main()
 void dimension_test2()
 #endif
 { 
+   equality_test();
    static_assert(same_no_cr<decltype(length),pqs::exp_length<1> >::value,"");
    static_assert(is_base_quantity_exponent(length),"");
    static_assert(is_dimension(length),"");

@@ -6,7 +6,7 @@ using namespace pqs;
 
 int main()
 {
-   std::cout << "PQS wiki example\n";
+   std::cout << "PQS wiki si normative quantity example\n";
 
    si::force::kgf<> q1{1};
    si::force::mN<> q2 = q1;

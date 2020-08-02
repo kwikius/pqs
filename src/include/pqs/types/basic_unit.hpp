@@ -50,7 +50,7 @@ namespace pqs{
 
       template <typename T>
          requires pqs::is_basic_unit<T>
-      struct is_unit_impl<T> : std::true_type{};
+      constexpr inline bool is_unit_impl<T> = true;
 
       template <typename T>
          requires pqs::is_basic_unit<T>

@@ -10,6 +10,7 @@ using namespace pqs::si::literals;
 
 int main()
 {
+    std::cout << "Pqs capacitor time curve example\n";
     std::cout.setf(std::ios_base::fixed,std::ios_base::floatfield);
     std::cout.precision(3);
 
