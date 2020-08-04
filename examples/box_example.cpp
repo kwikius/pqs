@@ -9,10 +9,11 @@
 #include <cassert>
 
 using namespace pqs;
+using namespace pqs::si::literals;
 
 struct Box {
-  static constexpr auto air_density = si::density::kg_per_m3<>{1.225};
-  static constexpr auto g = si::acceleration::m_per_s2<>{9.98};
+  static constexpr auto air_density = 1.225q_kg_per_m3;
+  static constexpr auto g = 9.98q_m_per_s2;
 
   si::length::m<> length;
   si::length::m<> width;
@@ -54,13 +55,13 @@ int main()
 {
   std::cout << "PQS box example\n";
 
-  auto box = Box(si::length::mm<>{1000.0}, si::length::mm<>{500.0},si::length::mm<>{200.0});
-  box.set_contents_density(si::density::kg_per_m3<>{1000.0});
+  auto box = Box{1000.0q_mm, 500.0q_mm,200.0q_mm};
+  box.set_contents_density(1000.0q_kg_per_m3);
 
   std::cout << "filled weight = " << box.filled_weight() <<'\n';
 
-  const auto fill_time = si::time::s<>{200.0};      // time since starting fill
-  const auto measured_mass = si::mass::kg<>{20.0};  // measured mass at fill_time
+  const auto fill_time = 200.0q_s;      // time since starting fill
+  const auto measured_mass = 20.0q_kg;  // measured mass at fill_time
 
   std::cout << "pqs box example...\n";
   std::cout << "fill height at " << fill_time << " = " << box.fill_level(measured_mass) << " ("

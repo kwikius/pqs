@@ -6,9 +6,10 @@
 
 namespace pqs{ namespace si { namespace area_unit{
 
-   struct m2  : si::normative_unit<abstract_area_t, exponent10< 0> >{};
-   struct cm2 : si::normative_unit<abstract_area_t, exponent10<-4> >{};
+   struct fm2 : si::normative_unit<abstract_area_t, exponent10<-30> >{};
    struct mm2 : si::normative_unit<abstract_area_t, exponent10<-6> >{};
+   struct cm2 : si::normative_unit<abstract_area_t, exponent10<-4> >{};
+   struct m2  : si::normative_unit<abstract_area_t, exponent10< 0> >{};
 
 #if 0
 // todo

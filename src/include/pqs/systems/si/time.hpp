@@ -10,6 +10,7 @@ namespace pqs::si {
    PQS_SI_QUANTITY_LITERAL(time,s)
    PQS_SI_QUANTITY_LITERAL(time,ms)
    PQS_SI_QUANTITY_LITERAL(time,min)
+   PQS_SI_QUANTITY_LITERAL(time,hr)
 
 } // pqs::si
 

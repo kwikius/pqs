@@ -4,6 +4,7 @@
 #include <pqs/bits/config.hpp>
 #include <pqs/concepts/dimensionless_quantity.hpp>
 #include <pqs/types/conversion_factor.hpp>
+#include <pqs/bits/implicit_cast.hpp>
 
 namespace pqs{
 
@@ -23,7 +24,7 @@ namespace pqs{
       scale_from (ValueTypeR const & vR, F const & f)
       {
          typedef typename pqs::binary_op<ConversionFactorR,pqs::divides,ConversionFactor>::type conv_factor;
-         return F::template apply<ValueType>(vR * evaluate<conv_factor>());    
+         return F::template apply<ValueType>(vR * implicit_cast<ValueTypeR>(evaluate<conv_factor>()));    
       }
 
       template <pqs::dimensionless_quantity V>

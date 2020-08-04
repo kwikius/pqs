@@ -17,6 +17,7 @@ test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
    capacitor_time_curve.o \
    conversion_factor_relation.o \
    pi_as_conversion_factor.o \
+   clcpp_response.o \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o

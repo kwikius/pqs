@@ -8,5 +8,6 @@
 #include <pqs/concepts/quantity/times.hpp>
 #include <pqs/concepts/quantity/divides.hpp>
 #include <pqs/concepts/quantity/pow.hpp>
+#include <pqs/concepts/quantity/explicit_cast.hpp>
 
 #endif // PQS_CONCEPTS_QUANTITY_HPP_INCLUDED

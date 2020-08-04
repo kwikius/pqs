@@ -12,6 +12,7 @@ namespace pqs::si {
    PQS_SI_QUANTITY_LITERAL(area,m2)
    PQS_SI_QUANTITY_LITERAL(area,mm2)
    PQS_SI_QUANTITY_LITERAL(area,cm2)
+   PQS_SI_QUANTITY_LITERAL(area,fm2)
 
 } // pqs::si
 

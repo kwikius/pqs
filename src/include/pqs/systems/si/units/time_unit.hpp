@@ -18,6 +18,13 @@ namespace pqs{ namespace si { namespace time_unit{
       >
    {};
 
+   struct hr : named<"hr"> ,
+      pqs::si::unit_conversion< 
+         abstract_time_t,
+         std::ratio<1,60*60>() ^ exponent10<0>()
+      >
+   {};
+
 }}} // pqs::si::time_unit
 
 #endif //PQS_SI_UNITS_TIME_UNIT_HPP_INCLUDED
