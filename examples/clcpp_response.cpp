@@ -99,8 +99,7 @@ void calcs_comparison()
   length::fm<float> LrA = explicit_cast<float>(L1A + L2A);
   
   std::cout.precision(20);
-  std::cout << L1A << " + " << L2A  << " = " << LrA <<'\n';
- // fmt::print("{:%.30Q %q}\n + {:%.30Q %q}\n   = {:%.30Q %q}\n\n",L1A,L2A,LrA);
+  std::cout << L1A << " + " << L2A  << " = " << LrA << " // distinct units\n\n";
 
   std::cout << "The single unit method must convert large\n"
                "or small values in other units to the base unit.\n"
@@ -110,28 +109,26 @@ void calcs_comparison()
   length::m<float> L2B = L2A;
   length::m<float> LrB = L1B + L2B;
    
-  std::cout << L1B << " + " << L2B  << " = " << LrB <<'\n';
- // fmt::print("{:%.30Q %q}\n + {:%.30Q %q}\n   = {:%.30Q %q}\n\n",L1B,L2B,LrB);
+  std::cout << L1B << " + " << L2B  << " = " << LrB << " // single unit\n\n";
 
   std::cout << "In multiplication and division:\n\n";
 
   area::fm2<float> ArA = L1A * L2A;
    
-  std::cout << L1A << " + " << L2A  << " = " << ArA <<'\n';
- // fmt::print("{:%.30Q %q}\n * {:%.30Q %q}\n   = {:%.30Q %q}\n\n",L1A,L2A,ArA);
+  std::cout << L1A << " + " << L2A  << " = " << ArA << " // distinct units\n\n";;
 
   std::cout << "similar problems arise\n\n";
 
   area::m2<float> ArB = L1B * L2B;
 
-  std::cout << L1B << " * " << L2B  << " = " << ArB <<'\n';
-  //fmt::print("{:%.30Q %q}\n * {:%.30Q %q}\n   = {:%.30Q %q}\n\n",L1B,L2B,ArB);
+  std::cout << L1B << " * " << L2B  << " = " << ArB << " // single unit\n";
 }
 
 int main()
 {
+  std::cout << "PQS distinct units demo\n\n";
   std::cout << "This demo was originally posted on comp.lang.c++.moderated in 2006\n";
-  std::cout << "http://compgroups.net/comp.lang.c++.moderated/dimensional-analysis-units/51712\n";
+  std::cout << "http://compgroups.net/comp.lang.c++.moderated/dimensional-analysis-units/51712\n\n";
 
   simple_quantities();
   quantities_with_typed_units();

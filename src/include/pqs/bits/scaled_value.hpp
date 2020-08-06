@@ -24,7 +24,12 @@ namespace pqs{
       scale_from (ValueTypeR const & vR, F const & f)
       {
          typedef typename pqs::binary_op<ConversionFactorR,pqs::divides,ConversionFactor>::type conv_factor;
-         return F::template apply<ValueType>(vR * implicit_cast<ValueTypeR>(evaluate<conv_factor>()));    
+         // evaluate<convfactor> returns a double, which needs to be cast to a float if ValutypeR is a float
+         // to avoid narrowing issues
+         if constexpr (std::is_same_v<ValueTypeR,float> && std::is_same_v<decltype(evaluate<conv_factor>()),double> )
+            return F::template apply<ValueType>(vR * static_cast<float>(evaluate<conv_factor>()));
+         else
+            return F::template apply<ValueType>(vR * evaluate<conv_factor>());    
       }
 
       template <pqs::dimensionless_quantity V>
