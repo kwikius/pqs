@@ -18,6 +18,8 @@ test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
    conversion_factor_relation.o \
    pi_as_conversion_factor.o \
    clcpp_response.o \
+	feet_and_inches.o \
+   feet_and_inches_imp.o \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o

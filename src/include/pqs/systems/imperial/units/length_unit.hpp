@@ -12,6 +12,10 @@ namespace pqs::imperial::length_unit{
       base_length,imperial_measurement_system
    >{};
 
+   struct in : named<"in">,
+      decltype( ft() / std::ratio<12>() )
+   {};
+
    struct yd : 
       decltype( ft() * std::ratio<3>() )
    {

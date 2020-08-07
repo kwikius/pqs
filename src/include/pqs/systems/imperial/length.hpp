@@ -3,18 +3,15 @@
 
 #include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/systems/imperial/units/length_unit.hpp>
+#include <pqs/systems/imperial/quantity/quantity_macro.hpp>
 
-namespace pqs::imperial::length{
+namespace pqs::imperial{
 
-   template <typename ValueType = double>
-   using ft = pqs::make_quantity<pqs::imperial::length_unit::ft,ValueType>;
-
-   template <typename ValueType = double>
-   using yd = pqs::make_quantity<pqs::imperial::length_unit::yd,ValueType>;
-
-   template <typename ValueType = double>
-   using mi = pqs::make_quantity<pqs::imperial::length_unit::mi,ValueType>;
-
-} // pqs::imperial::length
+   PQS_IMPERIAL_QUANTITY_LITERAL(length,in)
+   PQS_IMPERIAL_QUANTITY_LITERAL(length,ft)
+   PQS_IMPERIAL_QUANTITY_LITERAL(length,yd)
+   PQS_IMPERIAL_QUANTITY_LITERAL(length,m)
+   PQS_IMPERIAL_QUANTITY_LITERAL(length,mi)
+}
 
 #endif // PQS_IMPERIAL_LENGTH_HPP_INCLUDED
