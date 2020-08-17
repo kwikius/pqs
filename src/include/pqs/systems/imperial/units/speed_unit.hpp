@@ -1,5 +1,5 @@
-#ifndef PQS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
-#define PQS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
 
 #include <pqs/systems/imperial/units/length_unit.hpp>
 #include <pqs/systems/imperial/units/time_unit.hpp>
@@ -21,4 +21,4 @@ namespace pqs::imperial::speed_unit{
 
 } // pqs::imperaial::speed_unit
 
-#endif // PQS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
+#endif // PQS_SYSTEMS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED

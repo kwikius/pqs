@@ -1,20 +1,16 @@
-#ifndef PQS_IMPERIAL_SPEED_HPP_INCLUDED
-#define PQS_IMPERIAL_SPEED_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_SPEED_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_SPEED_HPP_INCLUDED
 
 #include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/systems/imperial/units/speed_unit.hpp>
+#include <pqs/systems/imperial/quantity/quantity_macro.hpp>
 
-namespace pqs::imperial::speed{
+namespace pqs::imperial{
    
-   template <typename ValueType = double>
-   using ft_per_s = pqs::make_quantity<pqs::imperial::speed_unit::ft_per_s,ValueType>;
-
-   template <typename ValueType = double>
-   using yd_per_s = pqs::make_quantity<pqs::imperial::speed_unit::yd_per_s,ValueType>;
-
-   template <typename ValueType = double>
-   using mi_per_hr = pqs::make_quantity<pqs::imperial::speed_unit::mi_per_hr,ValueType>;
+   PQS_IMPERIAL_QUANTITY_LITERAL(speed,ft_per_s)
+   PQS_IMPERIAL_QUANTITY_LITERAL(speed,yd_per_s)
+   PQS_IMPERIAL_QUANTITY_LITERAL(speed,mi_per_hr)
 
 }
 
-#endif // PQS_IMPERIAL_SPEED_HPP_INCLUDED
+#endif // PQS_SYSTEMS_IMPERIAL_SPEED_HPP_INCLUDED

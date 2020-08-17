@@ -1,20 +1,16 @@
-#ifndef PQS_IMPERIAL_TIME_HPP_INCLUDED
-#define PQS_IMPERIAL_TIME_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_TIME_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_TIME_HPP_INCLUDED
 
 #include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/systems/imperial/units/time_unit.hpp>
+#include <pqs/systems/imperial/quantity/quantity_macro.hpp>
 
-namespace pqs::imperial::time{
+namespace pqs::imperial{
 
-   template <typename ValueType = double>
-   using s = pqs::make_quantity<pqs::imperial::time_unit::s,ValueType>;
+   PQS_IMPERIAL_QUANTITY_LITERAL(time,s)
+   PQS_IMPERIAL_QUANTITY_LITERAL(time,min)
+   PQS_IMPERIAL_QUANTITY_LITERAL(time,hr)
 
-   template <typename ValueType = double>
-   using min = pqs::make_quantity<pqs::imperial::time_unit::min,ValueType>;
+} // pqs::imperial::time
 
-   template <typename ValueType = double>
-   using hr = pqs::make_quantity<pqs::imperial::time_unit::hr,ValueType>;
-
-} // pqs::imperial::length
-
-#endif // PQS_SI_TIME_HPP_INCLUDED
+#endif // PQS_SYSTEMS_IMPERIAL_TIME_HPP_INCLUDED

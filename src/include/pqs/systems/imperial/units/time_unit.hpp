@@ -1,5 +1,5 @@
-#ifndef PQS_IMPERIAL_TIME_UNIT_HPP_INCLUDED
-#define PQS_IMPERIAL_TIME_UNIT_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_TIME_UNIT_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_TIME_UNIT_HPP_INCLUDED
 
 #include <pqs/systems/imperial/unit.hpp>
 #include <pqs/types/base_quantity/time.hpp>
@@ -22,4 +22,4 @@ namespace pqs{ namespace imperial { namespace time_unit{
 }}} // pqs::si::time_unit
 
 
-#endif // PQS_IMPERIAL_TIME_UNIT_HPP_INCLUDED
+#endif // PQS_SYSTEMS_IMPERIAL_TIME_UNIT_HPP_INCLUDED

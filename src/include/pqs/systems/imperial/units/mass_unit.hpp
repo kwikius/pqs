@@ -1,5 +1,5 @@
-#ifndef PQS_IMPERIAL_MASS_UNIT_HPP_INCLUDED
-#define PQS_IMPERIAL_MASS_UNIT_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_MASS_UNIT_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_MASS_UNIT_HPP_INCLUDED
 
 #include <pqs/types/charset.hpp>
 #include <pqs/systems/imperial/unit.hpp>
@@ -12,7 +12,11 @@ namespace pqs::imperial::mass_unit{
       base_mass,imperial_measurement_system
    >{};
 
+   struct kg : named<"kg"> ,
+      decltype( lb() * std::ratio<2500000,1133981>())
+   {};
+
 } // pqs::si::mass_unit
 
 
-#endif // PQS_IMPERIAL_MASS_UNIT_HPP_INCLUDED
+#endif // PQS_SYSTEMS_IMPERIAL_MASS_UNIT_HPP_INCLUDED

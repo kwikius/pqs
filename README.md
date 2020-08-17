@@ -1,4 +1,6 @@
 
+
+
 PQS is a C++ library for modelling physical quantities. ( [PQS Wiki](https://github.com/kwikius/pqs/wiki) )
 
 PQS has a long history. [I started working on PQS in maybe 2002/3](https://github.com/kwikius/pqs/wiki/History). 
@@ -18,6 +20,15 @@ Anyway recently, after contributing to [mpusz/units](https://github.com/mpusz/un
 I decided to go back to the source and see how my old friend [PQS](https://github.com/kwikius/pqs/wiki) might look in C++23.
 
 So far it is a fun journey :-)
+
+#### Requirements
+
+Linux . Requires gcc-9 to be installed and visible
+
+#### Installation
+
+All that is required is to [download the zip file](https://github.com/kwikius/pqs/archive/master.zip) , unzip it, 
+head to the pqs-master directory and type `run_test.sh` . The examples and test should then run
 
 Please See [the PQS Wiki](https://github.com/kwikius/pqs/wiki) for detailed documentation.
 

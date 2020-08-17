@@ -1,5 +1,5 @@
-#ifndef PQS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
-#define PQS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
 
 #include <pqs/types/charset.hpp>
 #include <pqs/systems/imperial/unit.hpp>
@@ -46,4 +46,4 @@ namespace pqs::imperial::length_unit{
 } // pqs::si::length_unit
 
 
-#endif // PQS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED
+#endif // PQS_SYSTEMS_IMPERIAL_LENGTH_UNIT_HPP_INCLUDED

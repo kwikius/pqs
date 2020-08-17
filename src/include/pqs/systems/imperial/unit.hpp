@@ -1,5 +1,5 @@
-#ifndef PQS_IMPERIAL_UNIT_HPP_INCLUDED
-#define PQS_IMPERIAL_UNIT_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_UNIT_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_UNIT_HPP_INCLUDED
 
 #include <pqs/concepts/quantity.hpp>
 #include <pqs/concepts/associated/make_unit.hpp>

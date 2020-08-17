@@ -1,5 +1,5 @@
-#ifndef PQS_IMPERIAL_LENGTH_HPP_INCLUDED
-#define PQS_IMPERIAL_LENGTH_HPP_INCLUDED
+#ifndef PQS_SYSTEMS_IMPERIAL_LENGTH_HPP_INCLUDED
+#define PQS_SYSTEMS_IMPERIAL_LENGTH_HPP_INCLUDED
 
 #include <pqs/concepts/associated/make_quantity.hpp>
 #include <pqs/systems/imperial/units/length_unit.hpp>
@@ -14,4 +14,4 @@ namespace pqs::imperial{
    PQS_IMPERIAL_QUANTITY_LITERAL(length,mi)
 }
 
-#endif // PQS_IMPERIAL_LENGTH_HPP_INCLUDED
+#endif // PQS_SYSTEMS_IMPERIAL_LENGTH_HPP_INCLUDED
