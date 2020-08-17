@@ -28,7 +28,7 @@ Linux . Requires gcc-9 to be installed and visible
 #### Installation
 
 All that is required is to [download the zip file](https://github.com/kwikius/pqs/archive/master.zip) , unzip it, 
-head to the pqs-master directory and type `run_test.sh` . The examples and test should then run
+head to the pqs-master directory and type `run_tests.sh` . The examples and test should then run
 
 Please See [the PQS Wiki](https://github.com/kwikius/pqs/wiki) for detailed documentation.
 
