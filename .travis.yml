@@ -9,7 +9,6 @@ addons:
     packages:
     - build-essential
     - ccache
-    - g++-7
     - g++-9
     
 script: 
