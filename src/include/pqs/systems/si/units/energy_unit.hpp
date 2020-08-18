@@ -1,10 +1,9 @@
 #ifndef PQS_SYSTEMS_SI_UNITS_ENERGY_UNIT_HPP_INCLUDED
 #define PQS_SYSTEMS_SI_UNITS_ENERGY_UNIT_HPP_INCLUDED
 
-#include <pqs/systems/si/units/force_unit.hpp>
-#include <pqs/systems/si/units/length_unit.hpp>
 #include <pqs/types/derived_quantity/energy.hpp>
-#include <pqs/concepts/associated/unit_to_fixed_string.hpp>
+#include <pqs/concepts/associated/get_derived_quantity_symbol.hpp>
+#include <pqs/systems/si/unit.hpp>
 
 namespace pqs{
 

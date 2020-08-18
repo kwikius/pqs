@@ -1,5 +1,5 @@
-#ifndef PQS_BITS_UNIT_BINARY_OP_HPP_INCLUDED
-#define PQS_BITS_UNIT_BINARY_OP_HPP_INCLUDED
+#ifndef PQS_BITS_UNIT_BINARY_OP_HPP_INCLUDED1
+#define PQS_BITS_UNIT_BINARY_OP_HPP_INCLUDED1
 
 #include <pqs/concepts/unit.hpp>
 #include <pqs/bits/basic_unit_base.hpp>

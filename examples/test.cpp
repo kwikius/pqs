@@ -1,36 +1,54 @@
 
-
-
-#include <pqs/systems/si/capacitance.hpp>
-#include <pqs/systems/si/resistance.hpp>
 #include <pqs/systems/si/time.hpp>
-#include <pqs/systems/si/voltage.hpp>
-#include <cmath>
+#include <pqs/systems/si/length.hpp>
+#include <pqs/systems/si/acceleration.hpp>
+#include <pqs/systems/si/density.hpp>
+#include <pqs/systems/si/area.hpp>
+#include <pqs/systems/si/power.hpp>
+
+/*
+* @brief calculate output power of a fountain
+*/
 
 using namespace pqs::si;
 using namespace pqs::si::literals;
 
+namespace {
+   auto constexpr pi = 3.14159;
+   auto constexpr g = 9.8q_m_per_s2;
+   auto constexpr water_density = 1000.0q_kg_per_m3;
+}
+
 int main()
 {
-    std::cout.setf(std::ios_base::fixed,std::ios_base::floatfield);
-    std::cout.precision(3);
+   /**
+   *  @brief  height of fountain spray
+   */
+   auto constexpr spray_height = 0.6q_m;
+   auto constexpr nozzle_radius = 0.5q_mm; 
+   auto constexpr num_nozzles = 12;
 
-    #define let auto constexpr
+   /**
+   *  @brief velocity of water exiting nozzle to achive fountain height
+   * use v^2 = u^2 + 2 as
+   */
+   auto constexpr nozzle_velocity = pqs::pow<1,2>(2 * g * spray_height);
 
-    let C = 0.47q_uF;
-    let V0 = 5.0q_V;
-    let R = 4.7q_kR;
+   /**
+   *  @brief so volume of water per s from nozzles
+   */
+   auto constexpr volume_per_s = pi * pqs::pow<2,1>(nozzle_radius) * nozzle_velocity * num_nozzles;
 
-    for ( auto t = 0.0q_ms ; t <= 50.0q_ms; ++t ){
-        auto const Vt = V0 * std::exp(-t / (R * C));
-        std::cout << "at " << t << " voltage is " ;
-        if     ( Vt >= 1q_V )    std::cout << Vt ;
-        else if( Vt >= 1q_mV )   std::cout << voltage::mV<>{Vt};
-        else if( Vt >= 1q_uV )   std::cout << voltage::uV<>{Vt};
-        else if( Vt >= 1q_nV )   std::cout << voltage::nV<>{Vt};
-        else                     std::cout << voltage::pV<>{Vt};
-        std::cout << "\n";
+   /**
+   *  @brief so mass per s
+   */
+   auto constexpr mass_per_s =  volume_per_s * water_density;
 
-    }
+   /**
+   *  @brief so power = Force * distance / time ; force = mass * g , 
+   */
+   power::W<> constexpr power = mass_per_s * g * spray_height;
+
+   std::cout << "fountain output power = " << power <<'\n';
 }
 

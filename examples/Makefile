@@ -20,6 +20,7 @@ test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
    clcpp_response.o \
 	feet_and_inches.o \
    feet_and_inches_imp.o \
+   fountain.o \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o

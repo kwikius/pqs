@@ -2,7 +2,6 @@
 #define PQS_SYSTEMS_SI_UNITS_CAPACITANCE_UNIT_HPP_INCLUDED
 
 #include <pqs/types/derived_quantity/capacitance.hpp>
-
 #include <pqs/concepts/associated/get_derived_quantity_symbol.hpp>
 #include <pqs/systems/si/unit.hpp>
 

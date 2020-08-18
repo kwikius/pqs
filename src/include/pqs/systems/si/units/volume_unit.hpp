@@ -4,7 +4,9 @@
 #include <pqs/systems/si/unit.hpp>
 #include <pqs/types/derived_quantity/volume.hpp>
 
-namespace pqs{ namespace si { namespace volume_unit{
+namespace pqs{ namespace si { 
+
+  namespace volume_unit{
 
    struct m3  : si::normative_unit<abstract_volume_t, exponent10< 0> >{};
    struct cm3 : si::normative_unit<abstract_volume_t, exponent10<-6> >{};
