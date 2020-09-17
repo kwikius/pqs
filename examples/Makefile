@@ -21,6 +21,7 @@ test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
 	feet_and_inches.o \
    feet_and_inches_imp.o \
    fountain.o \
+   chrono_duration_support.o \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o
