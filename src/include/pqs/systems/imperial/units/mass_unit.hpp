@@ -16,6 +16,10 @@ namespace pqs::imperial::mass_unit{
       decltype( lb() * std::ratio<2500000,1133981>())
    {};
 
+   struct ton : named<"ton"> ,
+      decltype( lb() * std::ratio<2'000>())
+   {};
+
 } // pqs::si::mass_unit
 
 

@@ -9,7 +9,7 @@ namespace pqs::imperial{
 
    PQS_IMPERIAL_QUANTITY_LITERAL(mass,lb)
    PQS_IMPERIAL_QUANTITY_LITERAL(mass,kg)
-}
 
+}
 
 #endif //PQS_SYSTEMS_IMPERIAL_MASS_HPP_INCLUDED
