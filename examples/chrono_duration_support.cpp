@@ -70,7 +70,7 @@ namespace std::chrono{
     *
     * we can define in std::chrono or globally if that is not acceptable
     */
-   template< pqs::dimensionless_quantity Rep, typename Period >
+   template<pqs::dimensionless_quantity Rep, typename Period >
        requires pqs::is_ratio<Period>
    inline constexpr Rep get_numeric_value(std::chrono::duration<Rep, Period> const & q)
    {
