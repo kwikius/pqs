@@ -11,19 +11,28 @@
 namespace pqs::impl{
 
   /** @brief fulfill quantity requirements for chrono duration
+   *
+   * For the requirements to make a type a model of quantity 
    * see https://github.com/kwikius/pqs/wiki/concept-quantity#requires
+   *
+   * Here we chose to make the std::chrono::duration a model of a quantity in the si system.
    */
-   template < typename Rep,typename Period >
+   template < dimensionless_quantity Rep,typename Period >
+     requires pqs::is_ratio<Period>
    struct get_unit_impl<std::chrono::duration<Rep, Period> >{
 
-      // chrono Period is rational representing sec
-      using cf = decltype(typename Period::type() ^ pqs::exponent10<0>());
-      static auto constexpr cf_v = cf{};
+      // std::chrono::duration Period is a std::ratio<...> rational number representing
+      // conversion of the numeric value of its member count() to seconds.
+      // Use the convenience operator to create a conversion_factor from the Period 
+      // for compatibility with pqs::unit concept.
+      static auto constexpr cf_v = typename Period::type() ^ pqs::exponent10<0>();
+      using cf = decltype(cf_v);
       using cf_mux = typename cf::multiplier;
 
+      // A conversion_factor multiplier of 1 signifies a normative si quantity ...
       static bool constexpr is_normative = (cf_mux::den == 1) && (cf_mux::num == 1);
 
-      using measurement_system = pqs::si_measurement_system;
+      // choose a normative_unit if possible else a unit_conversion
       using type = std::conditional<
          is_normative,
          pqs::si::normative_unit<
@@ -39,7 +48,8 @@ namespace pqs::impl{
 
    /** @brief fulfill quantity requirements for chrono duration 
    */
-   template < typename  Rep,typename Period >
+   template <dimensionless_quantity Rep,typename Period >
+      requires pqs::is_ratio<Period>
    struct get_numeric_type_impl<std::chrono::duration<Rep, Period> >{
       using type = Rep;
    };
@@ -48,7 +58,8 @@ namespace pqs::impl{
     *
     * declare that std::chrono::duration is a model of pqs::quantity
     */
-   template< typename Rep, typename Period >
+   template<dimensionless_quantity Rep, typename Period>
+      requires pqs::is_ratio<Period>
    inline constexpr bool is_quantity_impl<std::chrono::duration<Rep, Period> > = true;
 
 }
@@ -72,20 +83,36 @@ namespace std::chrono{
 
 using namespace pqs;
 using namespace pqs::si::literals;
+using namespace std::literals::chrono_literals;
 
 int main()
 {
    std::cout << "PQS demo : make std::chrono duration a model of pqs::quantity\n\n";
 
    auto constexpr distance = 1.0q_m;
-   auto constexpr time = std::chrono::microseconds{2000000};
+   auto constexpr time = 2000000.0us ; //std::chrono::microseconds{2000000};
 
-   pqs::si::speed::m_per_s<> q1 = distance / time ;
+   // chrono::duration literals return a type with a long double rep type
+   // pqs quantity disallows implicit conversion of the numeric_value
+   // from long double to its default double numeric type as a narrowing conversion,
+   // so for simplicity we use a long double quantity value_type here.
+   // (See end of example for casting to the defualt)
+   pqs::si::speed::m_per_s<long double> q1 = distance / time ;
 
    std::cout 
    << "distance = " <<  distance 
       //for simplicity  cast the chrono duration to some pqs::basic_quantity which has stream output
-   << " and time = " << pqs::implicit_cast<si::time::ms<> >(time) 
+   << " and time = " << pqs::implicit_cast<si::time::ms<long double> >(time) 
    << " , so speed = " << q1 << '\n';
+
+   // to use the default double value type we need to use explicit_cast
+   pqs::si::time::ns<> constexpr t1 = pqs::explicit_cast<double>(1000000.0us);
+
+   auto constexpr q2 = distance / t1;
+
+   q1 = q2;  // ok to cast value from double to long double as not narrowing
+
+   std::cout << "\nnow speed = " << q1 <<'\n';
+   
 }
 
