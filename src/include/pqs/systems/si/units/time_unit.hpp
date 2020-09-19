@@ -8,8 +8,10 @@
 namespace pqs{ namespace si { namespace time_unit{
 
    struct s : si::base_unit<base_time>{};
-
    struct ms : si::normative_unit<exp_time<1>, exponent10<-3> >{};
+   struct us : si::normative_unit<exp_time<1>, exponent10<-6> >{};
+   struct ns : si::normative_unit<exp_time<1>, exponent10<-9> >{};
+   struct ps : si::normative_unit<exp_time<1>, exponent10<-12> >{};
 
    struct min : named<"min"> ,
       pqs::si::unit_conversion< 
