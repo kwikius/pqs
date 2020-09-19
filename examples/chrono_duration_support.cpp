@@ -108,9 +108,11 @@ int main()
    // to use the default double value type we need to use explicit_cast
    pqs::si::time::ns<> constexpr t1 = pqs::explicit_cast<double>(1000000.0us);
 
-   auto constexpr q2 = distance / t1;
+   auto q2 = distance / t1;
 
    q1 = q2;  // ok to cast value from double to long double as not narrowing
+
+   q2 = pqs::explicit_cast<double>(q1); // but requires a cast the other way
 
    std::cout << "\nnow speed = " << q1 <<'\n';
    
