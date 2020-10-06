@@ -61,68 +61,9 @@ namespace pqs::impl{
    template<dimensionless_quantity Rep, typename Period>
       requires pqs::is_ratio<Period>
    inline constexpr bool is_quantity_impl<std::chrono::duration<Rep, Period> > = true;
-#if 0
-  namespace detail{
- //-------------
-   // support for converting a suitable quantity to a chrono duration
-   // TODO clean this up 
-      
-      template <typename Mux, int64_t Exp>
-      struct expand_mux_exp{
 
-         using type = typename pqs::meta::eval_if_t<
-            std::bool_constant<(Exp < 0)>,
-               expand_mux_exp< 
-                  std::ratio_divide<Mux,std::ratio<10> >,
-                  Exp + 1 
-               >,
-            std::bool_constant<(Exp > 0)>,
-               expand_mux_exp< 
-                  std::ratio_multiply<Mux,std::ratio<10> >,
-                  Exp - 1 
-               >,
-               Mux
-         >;
-               
-      };
-
-   }
-   // We need to multiply the multiplier part of the conversion_factor by the exponent
-   // r1 -> cf.m * pqs::powerof10<cf.e>::value)
-   template <typename CF> 
-   struct conversion_factor_as_ratio_impl{
-       using multiplier = typename CF::multiplier ; // std::ratio
-       using exponent =  typename CF::exponent::ratio; // ratio
-   
-       // Only proceed if exponent is an integer 
-       static_assert(exponent::den == 1);
-
-       using type = typename pqs::impl::detail::expand_mux_exp<multiplier, exponent::num>::type;
-       
-   };
-#endif
 } // pqs::impl
-#if 0
-namespace pqs{
 
-   template <typename CF> 
-   using conversion_factor_as_ratio = typename impl::conversion_factor_as_ratio_impl<CF>::type;
-    
-    // cast a quantity to a chrono::duration
-    template <typename D, quantity Q>
-       requires dimensionally_equivalent<get_dimension<Q>, pqs::abstract_time_t>
-    auto constexpr duration_cast(Q const & q)
-    {
-        // an equivalent unit but as a chrono duration
-        using equivalent_type = std::chrono::duration<
-            get_numeric_type<Q>,
-            conversion_factor_as_ratio<get_conversion_factor<Q> > 
-        >;
-        //Its easier from here... use the chrono durations own casting mechanisms now
-        return duration_cast<D>(equivalent_type(get_numeric_value(q)));
-    }
-}
-#endif
 namespace std::chrono{
 
    /** @brief  fulfill quantity requirements for chrono duration.
@@ -138,7 +79,6 @@ namespace std::chrono{
 }
 
 // extra feature - Add support for converting a suitable quantity to a chrono duration
-
 namespace pqs::impl::detail{
 
    /**
@@ -207,6 +147,8 @@ namespace pqs{
     }
 }
 
+//------------------------------------------
+
 #include <pqs/systems/si/length.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/si/speed.hpp>
@@ -262,6 +204,3 @@ int main()
   std::cout <<  q3 << " == " <<  d3.count() << " chrono::duration::milliseconds\n";
    
 }
-
-
-
