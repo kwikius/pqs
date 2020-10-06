@@ -210,14 +210,15 @@ namespace {
       //std::cout << "result of div1 = "  << get_numeric_value(q5) <<'\n';
 
       si::time::min<> q6 = q4;
+     // std::cout << "q6 = "  << get_numeric_value(q6) <<'\n';
      // std::cout << "q6 cf = " << get_conversion_factor<decltype(q6)>() << '\n';
       static_assert(not si::is_normative_unit<get_unit<decltype(q6)> > );
 
       auto q7 = q1 / q6;
       static_assert( si::is_normative_unit<get_unit<decltype(q7)> > );
     //  std::cout << "q7 cf = " << get_conversion_factor<decltype(q7)>() << '\n';
-     // std::cout << "q7 = "  << get_numeric_value(q7) <<'\n';
-      QUAN_CHECK(( get_numeric_value(q7) == 0.02 ))
+    //  std::cout << "q7 = "  << get_numeric_value(q7) <<'\n';
+      QUAN_CHECK(( get_numeric_value(q7) == 20 ))
    }
 
    void scalar_multiply_test()

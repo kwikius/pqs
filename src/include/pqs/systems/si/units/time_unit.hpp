@@ -16,14 +16,14 @@ namespace pqs{ namespace si { namespace time_unit{
    struct min : named<"min"> ,
       pqs::si::unit_conversion< 
          abstract_time_t,
-         std::ratio<1,60>() ^ exponent10<0>()
+         std::ratio<60,1>() ^ exponent10<0>()
       >
    {};
 
    struct hr : named<"hr"> ,
       pqs::si::unit_conversion< 
          abstract_time_t,
-         std::ratio<1,60*60>() ^ exponent10<0>()
+         std::ratio<60*60,1>() ^ exponent10<0>()
       >
    {};
 

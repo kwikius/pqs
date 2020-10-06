@@ -21,6 +21,7 @@ namespace pqs::imperial::length_unit{
    {
      /**
       * @brief demonstrate alternative name customisation
+      * for when the utf8 charset name is diferent
       */ 
       template <typename CharSet>
       static constexpr auto name = 

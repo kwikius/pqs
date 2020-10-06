@@ -27,6 +27,7 @@ namespace pqs::imperial::speed_unit{
           pqs::abstract_speed_t,
           decltype(std::ratio<1687809711, 1000000000>() ^ pqs::exponent10<0>())
        >{};
-} // pqs::imperaial::speed_unit
+
+} // pqs::imperial::speed_unit
 
 #endif // PQS_SYSTEMS_IMPERIAL_SPEED_UNIT_HPP_INCLUDED
