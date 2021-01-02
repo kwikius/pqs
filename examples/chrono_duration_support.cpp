@@ -202,5 +202,7 @@ int main()
   auto constexpr d3 = duration_cast<std::chrono::milliseconds>(q3);
 
   std::cout <<  q3 << " == " <<  d3.count() << " chrono::duration::milliseconds\n";
+
+  static_assert(1s + 1q_s == 2q_s);
    
 }
