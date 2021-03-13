@@ -1,5 +1,6 @@
 
 #include <pqs/systems/si/capacitance.hpp>
+#include <pqs/systems/si/current.hpp>
 #include <pqs/systems/si/resistance.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/si/voltage.hpp>

@@ -190,6 +190,7 @@ int main()
 
    // How does duration as quantity concept play with existing duration operators ?
    // No conflict here since chrono is in a different namespace
+   // Note:the library incorporates mechanism to remove ambiguities if necessary
    
    auto constexpr d1 = time / 2;  // a chrono::duration
    auto constexpr d2 = time + time; // a chrono::duration

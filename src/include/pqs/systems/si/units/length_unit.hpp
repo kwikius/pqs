@@ -15,6 +15,7 @@ namespace pqs::si::length_unit{
     * @brief local derivation from base unit
     */
 
+   struct m : si::base_unit<base_length>{};
    struct fm : si::normative_unit<abstract_length_t, exponent10<-15> >{};
    struct pm : si::normative_unit<abstract_length_t, exponent10<-12> >{};
    struct nm : si::normative_unit<abstract_length_t, exponent10<-9> >{};
@@ -22,7 +23,6 @@ namespace pqs::si::length_unit{
    struct mm : si::normative_unit<abstract_length_t, exponent10<-3> >{};
    struct cm : si::normative_unit<abstract_length_t, exponent10<-2> >{};
    struct dm : si::normative_unit<abstract_length_t, exponent10<-1> >{};
-   struct m : si::base_unit<base_length>{};
    struct km : si::normative_unit<abstract_length_t, exponent10< 3> >{};
 
    /**

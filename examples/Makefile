@@ -23,6 +23,7 @@ test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
    fountain.o \
    chrono_duration_support.o \
    kitchen_units.o \
+   motor_speed.o \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o

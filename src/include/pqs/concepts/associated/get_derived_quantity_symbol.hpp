@@ -12,6 +12,10 @@ namespace pqs{
    * The symbol should be attached to a named_dimension( c++derived class 
    * of a simple dimension rather than a simple dimension, so that the 
    * dimensions with different names can be differentiated ( e.g torque and energy)
+   *
+   * NOTE : therefore named_dimension needs to be a C++ concept, then D below can be 
+   * a model of named_dimension
+,s o
    */
    template <
       dimension D,

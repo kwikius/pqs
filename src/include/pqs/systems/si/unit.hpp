@@ -43,6 +43,8 @@ namespace pqs::si{
 
   /**
    * @brief return true if D is a named dimension
+   *  Just looks to see if the get_derived_quantity_symbol
+   *  is not empty.
    */
    template <dimension D>
    inline constexpr bool is_named_dimension()
@@ -55,6 +57,7 @@ namespace pqs::si{
   /**
    * @brief Is a dimension and exponent10 combo prefixable
    *  with an si prefix for base_quantity_exponents?
+   *  
    */
    template <dimension D , typename Exp> 
    inline constexpr bool is_prefixable()
@@ -63,8 +66,8 @@ namespace pqs::si{
       if constexpr ( is_base_quantity_exponent<D> && (unit_exp::den == 1) ){
          using extent = get_exponent<D>;
          if constexpr ( 
-            ( extent::den == 1 ) && 
-            ( extent::num != 0 ) && 
+            ( extent::den == 1 ) &&    // integer exponent of dimension
+            ( extent::num != 0 ) &&    // not a base_unit
             ( (unit_exp::num % extent::num) == 0) ){
              auto constexpr prefix = (unit_exp::num / extent::num) + 
                 get_base_unit_prefix_offset<get_base_quantity<D> >;

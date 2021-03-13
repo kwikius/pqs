@@ -1,3 +1,11 @@
 
 
+Documentation
+
+- explain how to define units. Which ops are generic and which specific to a library
+   Discuss the generic mechanisms first. 
+- pqs si system implementation
+   Any unit is one of 
+      normative unit (formerly coherent unit, but coherent clashes with si coherent definition)
+      unit_conversion units from legacy systems which have conversion_factors to nomrmative_units
 
