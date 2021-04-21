@@ -28,7 +28,7 @@ using namespace pqs::si::literals;
 
 int main()
 {
-   //Lm is inductance of motor
+   // Lm is inductance of motor
    let Lm = 1.0q_mH;
    // Rm is motor winding resistance
    let Rm = 0.1q_R;
