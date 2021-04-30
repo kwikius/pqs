@@ -20,6 +20,16 @@ namespace pqs{
     };
     /** @} */
 
+   /**
+    * @brief implement exp_mass as a model of base_quantity_exponent.
+    * Though not a requirement, to shorten error messages, we instantiate 3 different versions:
+    * exp_mass<N>  - the most usual option
+    * exp_mass<N,D> - the option with a rational power of dimension (not often used but possible).
+    * exp_mass<N,1> - the option with a rational power of dimension whose denominator is 1 
+    * can be reduced to the integer option in error messages.
+    *
+    * To allow the specialisations, the default option uses variadic integer template params, but is not defined
+   */
    template <int... N>
    struct exp_mass;
 
@@ -42,6 +52,9 @@ namespace pqs{
    template <int N>
    struct exp_mass<N,1> : exp_mass<N>{};
 
+   /**
+    * @ brief fulfill the requirements to make exp_mass a conforming model of base_quantity_exponent
+    */
    namespace impl{
 
       template <int N>
@@ -53,11 +66,16 @@ namespace pqs{
       template <typename Ratio>
       struct make_base_quantity_exp_impl<pqs::newtonian_universe::mass_uuid,Ratio>
       : exp_mass<Ratio::type::num, Ratio::type::den>{};
-
    }// impl
 
+/**
+ * @brief Make a convenient typedef to express mass as a dimension in the standard naming convention
+ */
    using abstract_mass_t = exp_mass<1>;
 
+/**
+ * @brief Make a convenient constant to express mass as a dimension in the standard naming convention
+ */
    inline constexpr auto abstract_mass_v = abstract_mass_t{};
 
 }

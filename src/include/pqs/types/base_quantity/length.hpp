@@ -21,6 +21,16 @@ namespace pqs{
       typedef base_length type;
    };
    /** @} */
+   /**
+    * @brief implement exp_length as a model of base_quantity_exponent.
+    * Though not a requirement, to shorten error messages, we instantiate 3 different versions:
+    * exp_length<N>  - the most usual option
+    * exp_length<N,D> - the option with a rational power of dimension (not often used but possible).
+    * exp_length<N,1> - the option with a rational power of dimension whose denominator is 1 
+    * can be reduced to the integer option in error messages.
+    *
+    * To allow the specialisations, the default option uses variadic integer template params, but is not defined
+   */
 
    template <int... N>
    struct exp_length;
@@ -45,6 +55,9 @@ namespace pqs{
    template <int N>
    struct exp_length<N,1> : exp_length<N> {};
 
+   /**
+    * @ brief fulfill the requirements to make exp_length a conforming model of base_quantity_exponent
+    */
    namespace impl{
 
       template <int N>
@@ -58,9 +71,15 @@ namespace pqs{
       : exp_length<Ratio::type::num, Ratio::type::den>{};
 
    }// impl
-
+/**
+ * @brief Make a convenient typedef to express length as a dimension in the standard naming convention
+ */
    using abstract_length_t = exp_length<1>;
-   inline constexpr auto abstract_length_v  = abstract_length_t{};
+
+/**
+ * @brief Make a convenient constant to express length as a dimension in the standard naming convention
+ */
+   inline constexpr auto abstract_length_v = abstract_length_t{};
 
 }
 
