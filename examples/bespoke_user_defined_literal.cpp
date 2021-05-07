@@ -6,7 +6,7 @@
   Working for ints. TODO min_float
 */
 #include <iostream>
-
+#include <string>
 #include <limits>
 #include <type_traits>
 
@@ -24,6 +24,7 @@ struct my_type{
    template <typename T1>
       requires !meta::is_narrowing_conversion<T, T1>
    constexpr operator my_type<T1>() const { return {val};}
+
 };
 
 struct undefined;
@@ -34,9 +35,6 @@ struct undefined;
 template <unsigned long long V>
 struct min_int{
 
-   // https://github.com/kwikius/pqs/blob/master/src/include/pqs/bits/meta/eval_if.hpp
-   // eval_if return the first member type of element after the first true condition
-   // or last element
    typedef typename meta::eval_if<
          std::integral_constant<bool,(V < static_cast<unsigned long long>(std::numeric_limits<int8_t>::max()))>,
       meta::identity<int8_t>, // https://github.com/kwikius/pqs/blob/master/src/include/pqs/bits/meta/identity.hpp
@@ -52,8 +50,6 @@ struct min_int{
 
 template <unsigned long long V>
 using min_int_t = typename min_int<V>::type;
-
-
 //-- char digits ----------
 template <char C > struct is_digit_impl;
 
@@ -113,7 +109,6 @@ struct get_number<'.',C...>{
    static long double constexpr value = shiftpoint( static_cast<long double>(get_int<C...>::value));
    static constexpr unsigned int multiplier = 1U;
    static constexpr number_style style = number_style::Float;
-   
 };
 
 template<char Cf,char... C>
@@ -135,39 +130,53 @@ template <char... V>
 auto constexpr operator "" _my_type()
 {
     auto constexpr value = get_number<V...>::value;
-    using number_type = std::remove_const_t<
-      std::conditional_t<
-         std::is_floating_point_v<decltype(value)>,
-         decltype(value),
-         min_int_t<static_cast<unsigned long long>(value)>
-       >
-     >;
-    return my_type<number_type>(value);
+    if constexpr (std::is_floating_point_v<decltype(value)>){
+      if constexpr ( value < std::numeric_limits<float>::max() ){
+         return my_type<float>{static_cast<float>(value)};
+      }else if constexpr ( value < std::numeric_limits<double>::max()){
+         return my_type<double>{static_cast<double> (value)};
+      }else{
+         return my_type<long double>{value};
+      }
+    }else{
+       using number_type = min_int_t<value>;
+       return my_type<number_type>(value);
+    }
 }
 
 //#################################################
 
 int main()
 {
-
    auto x = 1_my_type;
    auto constexpr y = 20000_my_type;
    auto z = 65537_my_type;
 
-   //static_assert(std::is_same<decltype(x),my_type<int8_t> >::value,"");
+   static_assert(std::is_same<decltype(x),my_type<int8_t> >::value,"");
    static_assert(std::is_same<decltype(y),my_type<int16_t> const >::value,"");
    static_assert(std::is_same<decltype(z),my_type<int32_t> >::value,"");
 
    z = x;  // OK
    z = y;  // Great!
-  //#######################################
- //  x = z; // Error thank you for catching that!
-  //######################################
+   // x = z ;// Error!
 
-  auto constexpr a = 120.345_my_type;
-  static_assert(std::is_same<decltype(a),my_type<long double> const>::value,"");
+   auto constexpr a = 120.345_my_type;
+   static_assert(std::is_same<decltype(a),my_type<float> const>::value,"");
 
- //  int abc = a;
+   auto  b = 6000.345_my_type;
+   static_assert(std::is_same<decltype(b),my_type<float>>::value,"");
+
+   b = x; // OK but gives warning
+   b = y; // OK but gives warning
+   b = z; // OK but gives warning
+
+   my_type<double> c = b;
+
+   c = x; // OK but gives warning
+   c = y; // OK but gives warning
+   c = z; // OK but gives warning
+
+  // x = b; // error
 }
 
 
