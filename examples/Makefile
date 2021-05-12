@@ -24,6 +24,8 @@ test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
    chrono_duration_support.o \
    kitchen_units.o \
    motor_speed.o \
+   raise_quantity_to_fractional_power.o \
+   raise_quantity_to_fractional_power_imp.o \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o

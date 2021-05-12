@@ -130,6 +130,10 @@ template <char... V>
 auto constexpr operator "" _my_type()
 {
     auto constexpr value = get_number<V...>::value;
+    // N.B. This could be done better from the point of view of precision
+    // and deciding which floating point type to return, but at this point 
+    // it is just a question of verifying that it works
+    // and that you can return different types of floats from this function
     if constexpr (std::is_floating_point_v<decltype(value)>){
       if constexpr ( value < std::numeric_limits<float>::max() ){
          return my_type<float>{static_cast<float>(value)};
