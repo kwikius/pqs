@@ -1,6 +1,6 @@
 
 /*
-  UDT function that returns the type with smallest footprint
+  UDL function that returns the type with smallest footprint
   so for example
   127_my_type would return an underlying type of signed char etc
   Working for ints. TODO min_float
@@ -16,25 +16,27 @@
 
 namespace meta = pqs::meta;
 
+/**
+  some udt
+**/
 template <typename T>
 struct my_type{
-   constexpr my_type( T const & v): val{v}{}
+   constexpr my_type(T const & v): val{v}{}
    T val;
-
    template <typename T1>
-      requires !meta::is_narrowing_conversion<T, T1>
-   constexpr operator my_type<T1>() const { return {val};}
-
+      requires std::numeric_limits<T>::digits
+         <= std::numeric_limits<T1>::digits
+   constexpr operator my_type<T1>() const { return static_cast<T1>(val);}
 };
 
+//represent undefined
 struct undefined;
 
-/*
-  return type of min sized int that can hold V
-*/
+/**
+ * return type of min sized int that can hold V
+**/
 template <unsigned long long V>
 struct min_int{
-
    typedef typename meta::eval_if<
          std::integral_constant<bool,(V < static_cast<unsigned long long>(std::numeric_limits<int8_t>::max()))>,
       meta::identity<int8_t>, // https://github.com/kwikius/pqs/blob/master/src/include/pqs/bits/meta/identity.hpp
@@ -50,16 +52,16 @@ struct min_int{
 
 template <unsigned long long V>
 using min_int_t = typename min_int<V>::type;
-//-- char digits ----------
+
 template <char C > struct is_digit_impl;
 
 template <char C >
-  requires ( (C < '0') || ( C > '9') ) 
-  struct is_digit_impl<C> : std::integral_constant<bool,false>{};
+   requires ( (C < '0') || ( C > '9') ) 
+struct is_digit_impl<C> : std::integral_constant<bool,false>{};
 
 template <char C >
- requires ( (C >= '0') && ( C <= '9') ) 
-  struct is_digit_impl<C> : std::integral_constant<bool,true>{};
+   requires ( (C >= '0') && ( C <= '9') ) 
+struct is_digit_impl<C> : std::integral_constant<bool,true>{};
 template <char C> constexpr bool is_digit = is_digit_impl<C>::value;
 
 enum class number_style { Int, Float, Undefined};
@@ -112,7 +114,7 @@ struct get_number<'.',C...>{
 };
 
 template<char Cf,char... C>
-  requires is_digit<Cf> && (get_number<C...>::style == number_style::Float)
+   requires is_digit<Cf> && (get_number<C...>::style == number_style::Float)
 struct get_number<Cf,C...>{
    static long double constexpr value = get_int<Cf>::value * get_number<C...>::multiplier + get_number<C...>::value;
    static unsigned long long constexpr multiplier = get_number<C...>::multiplier * 10;
@@ -120,7 +122,7 @@ struct get_number<Cf,C...>{
 };
 
 template<char Cf,char... C>
-  requires is_digit<Cf> && (get_number<C...>::style == number_style::Int)
+   requires is_digit<Cf> && (get_number<C...>::style == number_style::Int)
 struct get_number<Cf,C...>{
    static constexpr auto value = get_int<Cf,C...>::value;
    static constexpr number_style style = number_style::Int;
@@ -152,6 +154,7 @@ auto constexpr operator "" _my_type()
 
 int main()
 {
+   std::cout << "UDT returned in smallest type\n";
    auto x = 1_my_type;
    auto constexpr y = 20000_my_type;
    auto z = 65537_my_type;
@@ -162,7 +165,7 @@ int main()
 
    z = x;  // OK
    z = y;  // Great!
-   // x = z ;// Error!
+   // x = z ;// N/A my_type<int32_t> --> N/A my_type<int8_t> 
 
    auto constexpr a = 120.345_my_type;
    static_assert(std::is_same<decltype(a),my_type<float> const>::value,"");
@@ -170,17 +173,16 @@ int main()
    auto  b = 6000.345_my_type;
    static_assert(std::is_same<decltype(b),my_type<float>>::value,"");
 
-   b = x; // OK but gives warning
-   b = y; // OK but gives warning
-   b = z; // OK but gives warning
+   b = x; // OK
+   b = y; // OK
+  // b = z; // N/A my_type<int32_t> --> my_type<float>
 
    my_type<double> c = b;
 
-   c = x; // OK but gives warning
-   c = y; // OK but gives warning
-   c = z; // OK but gives warning
-
-  // x = b; // error
+   c = x; // OK 
+   c = y; // OK 
+   c = z; // OK 
+   //x = b; //N/A  my_type<float> --> my_type<int8_t> 
 }
 
 
