@@ -3,7 +3,7 @@
 #include <chrono>
 #include <pqs/systems/si/time.hpp>
 
-namespace pqs{namespace si{
+namespace pqs::si{
 
    template <char... C>
    inline constexpr auto operator ""ns() -> auto
@@ -11,12 +11,23 @@ namespace pqs{namespace si{
       //N.B ##### simple return type for exposition only ####
       return si::time::ns<int>{1}; 
    }
-}}
+}
 
 int main()
 {
 
-#if 0
+#if 1
+
+   pqs::si::time::s<> a;
+   auto b = pqs::si::operator""ns<'5','.','3'>(); // [1]
+   auto c = pqs::si::time::ns<>(5.3); // alternative syntax (gcc9)
+   auto d = a + b;
+
+   std::chrono::nanoseconds x;
+   auto y = std::literals::operator""ns(5.3); // [2]
+   auto z = x + y;
+
+#else
 
    pqs::si::time::s a;
    auto b = pqs::si::5.3ns; // error n/a
@@ -24,16 +35,6 @@ int main()
 
    std::chrono::nanoseconds x;
    auto y = std::literals::5.3ns; // error n/a
-   auto z = x + y;
-
-#else
-
-   pqs::si::time::s<> a;
-   auto b = pqs::si::operator""ns<'5','.','3'>(); // [1]
-   auto c = a + b;
-
-   std::chrono::nanoseconds x;
-   auto y = std::literals::operator""ns(5.3); // [2]
    auto z = x + y;
 
 #endif
