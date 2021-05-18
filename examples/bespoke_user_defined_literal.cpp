@@ -154,7 +154,7 @@ auto constexpr operator "" _my_type()
 
 int main()
 {
-   std::cout << "UDT returned in smallest type\n";
+   std::cout << "UDT returned in smallest type that doesnt lose precision\n";
    auto x = 1_my_type;
    auto constexpr y = 20000_my_type;
    auto z = 65537_my_type;
@@ -183,6 +183,8 @@ int main()
    c = y; // OK 
    c = z; // OK 
    //x = b; //N/A  my_type<float> --> my_type<int8_t> 
+
+   auto a1 = operator""_my_type<'1','2','3'>();
 }
 
 
