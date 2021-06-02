@@ -3,7 +3,7 @@
 
 /**
  * @brief demonstrating how conversion_factors relate
- * dimensionallt equivalent quantities
+ * dimensionally equivalent quantities
  * in same measurement system with different conversion_factors
  */
 int main()
