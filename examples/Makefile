@@ -26,6 +26,7 @@ test  :  $(patsubst %.o,$(BIN_DIR)/%.exe , \
    motor_speed.o \
    raise_quantity_to_fractional_power.o \
    raise_quantity_to_fractional_power_imp.o \
+   moment_of_inertia.cpp \
 )
 
 $(BIN_DIR)/%.exe : $(BUILD_DIR)/%.o
