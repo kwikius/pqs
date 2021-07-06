@@ -1,6 +1,7 @@
 #ifndef PQS_SYSTEMS_SI_QUANTITY_POW_HPP_INCLUDED
 #define PQS_SYSTEMS_SI_QUANTITY_POW_HPP_INCLUDED
 
+#include <cmath>
 #include <pqs/concepts/quantity/pow.hpp>
 #include <pqs/systems/si/unit.hpp>
 

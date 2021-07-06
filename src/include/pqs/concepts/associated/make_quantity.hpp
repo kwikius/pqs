@@ -24,6 +24,12 @@ namespace pqs{
       typename impl::make_quantity_impl<
          Unit,ValueType
       >::type;
+
+   template <
+     auto U , dimensionless_quantity ValueType = pqs::real_type
+   >
+   requires unit<decltype(U)>
+   using make_v_quantity = make_quantity<decltype(U),ValueType>;
    
 } // pqs
 

@@ -1,11 +1,15 @@
 
 #include <pqs/concepts/associated/quantity_to_fixed_string.hpp>
-#include <pqs/systems/si/speed.hpp>
-#include <pqs/systems/si/area.hpp>
-#include <pqs/systems/si/acceleration.hpp>
 #include <pqs/systems/si/length.hpp>
 #include <pqs/systems/si/time.hpp>
 #include <pqs/systems/si/mass.hpp>
+#include <pqs/systems/si/current.hpp>
+#include <pqs/systems/si/temperature.hpp>
+#include <pqs/systems/si/substance.hpp>
+#include <pqs/systems/si/intensity.hpp>
+#include <pqs/systems/si/speed.hpp>
+#include <pqs/systems/si/area.hpp>
+#include <pqs/systems/si/acceleration.hpp>
 #include <pqs/systems/imperial/length.hpp>
 
 #include "test.hpp"
@@ -35,6 +39,31 @@ namespace {
    {
        static_assert(unit_to_fixed_string<charset_utf8>(0.0q_kg) == "kg");
        static_assert(unit_to_fixed_string<charset_utf8>(0.0q_g) == "g");
+   }
+
+   void current_out()
+   {
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_A) == "A");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_mA) == "mA");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_uA) == "\u00B5A");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_nA) == "nA");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_pA) == "pA");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_fA) == "fA");
+   }
+
+   void temperature_out()
+   {
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_K) == "K");
+   }
+
+   void substance_out()
+   {
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_mol) == "mol");
+   }
+
+   void intensity_out()
+   {
+     static_assert(unit_to_fixed_string<charset_utf8>(0.0q_cd) == "cd");
    }
 
    void area_out()
@@ -114,6 +143,10 @@ void output_test()
    length_out();
    time_out();
    mass_out();
+   current_out();
+   temperature_out();
+   substance_out();
+   intensity_out();
    area_out();
    acceleration_out();
    literal_test();

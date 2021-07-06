@@ -48,8 +48,8 @@ namespace pqs{
       
       /**
       * @addtogroup base_quantity_concept_impl
-      * @{ **/
-      /**
+      * @{ 
+      **/
        /**
        *  @brief fulfill base_quantity requirements for anything derived from base_quantity_base_class, which also needs a member identifier.
        */
