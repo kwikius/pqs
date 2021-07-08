@@ -73,12 +73,12 @@ namespace pqs{
           return *this;
       }
 
-      constexpr auto operator+() 
+      constexpr auto operator+() const
       {
          return basic_quantity{this->numeric_value()};
       }
    
-      constexpr auto operator-() 
+      constexpr auto operator-() const
       { 
          return basic_quantity{-this->numeric_value()};
       }
