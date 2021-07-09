@@ -58,9 +58,12 @@ namespace pqs{
       return U::template name<CharSet>;
    }
 
+   
    // unit binary expression
+   // except for division where divisor is not a primitive
    template <unit U,typename CharSet>
-      requires is_unit_binary_op<U>
+      requires is_unit_binary_op<U>  
+         && ( ! is_unit_division_op<U> || !is_unit_binary_op<typename U::rhs_unit>)
    inline constexpr 
    auto unit_to_fixed_string()
    {
@@ -71,6 +74,22 @@ namespace pqs{
        unit_to_fixed_string<
          typename U::rhs_unit,CharSet
       >(); 
+   }
+
+   // for divison where divisor is not a primitive
+   template <unit U,typename CharSet>
+      requires is_unit_binary_op<U>  && (  is_unit_division_op<U> && is_unit_binary_op<typename U::rhs_unit>)
+   inline constexpr 
+   auto unit_to_fixed_string()
+   {
+      return unit_to_fixed_string<
+         typename U::lhs_unit,CharSet
+      >()  +
+       op_output_symbol<typename U::operation,CharSet> +
+       basic_fixed_string<char,1>('(') +
+       unit_to_fixed_string<
+         typename U::rhs_unit,CharSet
+      >() + basic_fixed_string<char,1>(')');
    }
 
 }

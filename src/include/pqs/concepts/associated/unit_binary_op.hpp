@@ -49,6 +49,10 @@ namespace pqs{
          std::remove_cvref_t<U> 
       >;
 
+   template  <unit U>
+   inline constexpr bool is_unit_division_op =
+      is_unit_binary_op<U> && std::is_same_v<typename U::operation,divides>;
+
    template <unit Lhs, unit Rhs>
    inline constexpr
    auto operator/( Lhs, Rhs)
