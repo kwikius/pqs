@@ -3,7 +3,7 @@
   UDL function that returns the type with smallest footprint
   so for example
   127_my_type would return an underlying type of signed char etc
-  Working for ints. TODO min_float
+
 */
 #include <iostream>
 #include <string>
@@ -135,6 +135,8 @@ struct get_number<Cf,C...>{
  * To a first approximation, decide on basis of number of digits after decimal.
  * The exact values per type we can argue about. Also provides a way to force a type,
  * though the other way would just be to add a postfix
+ * Ultimately the UDL is a convenience. If you need higher precison, you can always declare your literal
+ * as my_quantity{1.234567890}. Generally UDLs are useful for init by 0 or 1 etc.
 **/
 
 template <typename T>
@@ -210,8 +212,6 @@ int main()
 
    auto e = 51.0000000_my_type; // force double
    static_assert(std::is_same<decltype(e),my_type<double> >::value,"");
-
-   
 }
 
 
