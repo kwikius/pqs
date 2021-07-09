@@ -5,9 +5,10 @@
 #include <pqs/types/derived_quantity/volume.hpp>
 
 namespace pqs{
-  
-   struct abstract_density_t : decltype ( abstract_mass_v / abstract_volume_v){};
-   constexpr inline auto abstract_density_v = abstract_density_t{};
+
+   constexpr inline auto abstract_density_v = abstract_mass_v / abstract_volume_v;
+   using abstract_density_t = std::remove_cvref_t<decltype(abstract_density_v)>;
+
 }
 
 #endif // PQS_DERIVED_QUANTITY_DENSITY_UNIT_HPP_INCLUDED
