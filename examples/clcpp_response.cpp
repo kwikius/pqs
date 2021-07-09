@@ -115,7 +115,7 @@ void calcs_comparison()
 
   area::fm2<float> ArA = L1A * L2A;
    
-  std::cout << L1A << " + " << L2A  << " = " << ArA << " // distinct units\n\n";;
+  std::cout << L1A << " * " << L2A  << " = " << ArA << " // distinct units\n\n";;
 
   std::cout << "similar problems arise\n\n";
 
