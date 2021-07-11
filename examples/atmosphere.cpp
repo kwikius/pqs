@@ -1,16 +1,11 @@
 
-
-
-
 #include "atmosphere.hpp"
 #include <pqs/systems/si/force.hpp>
 #include <pqs/systems/si/area.hpp>
 #include <pqs/systems/si/speed.hpp>
 
 /**
-// see https://en.wikipedia.org/wiki/Barometric_formula
-
-/// @todo air density
+ see https://en.wikipedia.org/wiki/Barometric_formula
 **/
 
 using namespace pqs;
@@ -34,13 +29,12 @@ namespace {
       K_per_m                    const lapse_rate;
    };    
 
-
    baro_constants_t constexpr 
    baro_constants[] = {
      {      0.0q_m , 101'325.00q_Pa , 1.225000q_kg_per_m3 , 288.15q_K , -0.0065q_K_per_m },
      { 11'000.0q_m ,  22'632.10q_Pa , 0.363910q_kg_per_m3 , 216.65q_K ,  0.0000q_K_per_m },
      { 20'000.0q_m ,   5'474.89q_Pa , 0.088030q_kg_per_m3 , 216.65q_K ,  0.0010q_K_per_m },
-     { 32'000.0q_m ,     868.02q_Pa , 0.013220q_kg_per_m3 ,  228.65q_K ,  0.0028q_K_per_m },
+     { 32'000.0q_m ,     868.02q_Pa , 0.013220q_kg_per_m3 , 228.65q_K ,  0.0028q_K_per_m },
      { 47'000.0q_m ,     110.91q_Pa , 0.001430q_kg_per_m3 , 270.65q_K ,  0.0000q_K_per_m },
      { 51'000.0q_m ,      66.94q_Pa , 0.000860q_kg_per_m3 , 270.65q_K , -0.0028q_K_per_m },
      { 71'000.0q_m ,       3.96q_Pa , 0.000064q_kg_per_m3 , 214.65q_K , -0.0020q_K_per_m }
