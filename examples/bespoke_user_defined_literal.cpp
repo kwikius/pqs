@@ -32,6 +32,7 @@ auto constexpr operator "" _my_type()
 int main()
 {
    std::cout << "UDT returned in smallest type that doesnt lose precision\n";
+
    auto x = 1_my_type;
    auto constexpr y = 20000_my_type;
    auto z = 65537_my_type;

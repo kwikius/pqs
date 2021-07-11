@@ -30,6 +30,13 @@ namespace pqs::meta::detail{
          (static_cast<unsigned int>(Cf) - static_cast<unsigned int>('0')) * multiplier + udl_get_int<C...>::value;
    };
 
+   template <char... C>
+     
+   struct udl_get_int<'\'',C...>{
+      static unsigned long long constexpr multiplier = udl_get_int<C...>::multiplier;
+      static unsigned long long constexpr value = udl_get_int<C...>::value;
+   };
+
    template <char Cf>
       requires pqs::meta::is_digit<Cf>
    struct udl_get_int<Cf>{
@@ -68,6 +75,8 @@ namespace pqs::meta::detail{
       static constexpr udl_number_style style = udl_number_style::Float;
    };
 
+   
+
    template<char Cf,char... C>
       requires pqs::meta::is_digit<Cf> && (udl_get_number<C...>::style == udl_number_style::Float)
    struct udl_get_number<Cf,C...>{
@@ -80,6 +89,17 @@ namespace pqs::meta::detail{
       static constexpr udl_number_style style = udl_number_style::Float;
    };
 
+   template<char... C>
+      requires udl_get_number<C...>::style == udl_number_style::Float
+   struct udl_get_number<'\'',C...>{
+      static long double constexpr value = udl_get_number<C...>::value;
+      static unsigned long long constexpr multiplier 
+        = udl_get_number<C...>::multiplier;
+      static constexpr unsigned int num_digits_after_point 
+        = udl_get_number<C...>::num_digits_after_point;
+      static constexpr udl_number_style style = udl_number_style::Float;
+   };
+   
    template<char Cf,char... C>
       requires pqs::meta::is_digit<Cf> && (udl_get_number<C...>::style == udl_number_style::Int)
    struct udl_get_number<Cf,C...>{

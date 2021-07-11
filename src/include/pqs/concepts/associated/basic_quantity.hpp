@@ -80,7 +80,7 @@ namespace pqs{
    
       constexpr auto operator-() const
       { 
-         return basic_quantity{-this->numeric_value()};
+         return basic_quantity{static_cast<value_type>(-this->numeric_value())};
       }
 
       constexpr basic_quantity & operator += (basic_quantity const & q)
