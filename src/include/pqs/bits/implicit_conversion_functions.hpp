@@ -19,14 +19,14 @@ namespace pqs{
    struct warn_narrowing_conversion{
 
        template <typename Tout, typename Tin>
-          requires ! meta::is_narrowing_conversion<Tin,Tout>
-       constexpr static 
+          requires (! meta::is_narrowing_conversion<Tin,Tout>)
+       constexpr static
        auto apply( Tin const & v)
        { return static_cast<Tout>(v);}
 
        template <typename Tout, typename Tin>
-         requires  meta::is_narrowing_conversion<Tin,Tout>
-       constexpr static 
+         requires ( meta::is_narrowing_conversion<Tin,Tout> )
+       constexpr static
        auto apply( Tin const & v)
        { return Tout{v};}
    };
@@ -34,30 +34,30 @@ namespace pqs{
    struct no_conversion{
 
        template <typename Tout, typename Tin>
-         requires std::is_same_v<Tout,Tin>
-       constexpr static 
+         requires ( std::is_same_v<Tout,Tin> )
+       constexpr static
        auto apply( Tin const & v)
        { return v;}
 
        template <typename Tout, typename Tin>
-         requires ! std::is_same_v<Tout,Tin>
-       constexpr static 
+         requires (! std::is_same_v<Tout,Tin>)
+       constexpr static
        auto apply( Tin const & v)
        { return pqs::invalid_conversion<Tin,Tout,no_conversion>{};}
-       
+
    };
 
    struct no_narrowing_conversion{
 
        template <typename Tout, typename Tin>
-         requires ! meta::is_narrowing_conversion<Tin,Tout>
-       constexpr static 
+         requires (! meta::is_narrowing_conversion<Tin,Tout>)
+       constexpr static
        auto apply( Tin const & v)
        { return static_cast<Tout>(v);}
 
        template <typename Tout, typename Tin>
-         requires meta::is_narrowing_conversion<Tin,Tout>
-       constexpr static 
+         requires ( meta::is_narrowing_conversion<Tin,Tout> )
+       constexpr static
        auto apply( Tin const & v)
        { return pqs::invalid_conversion<Tin,Tout,no_narrowing_conversion>{};}
    };
@@ -65,17 +65,17 @@ namespace pqs{
    struct range_checked_conversion{
 
       template <typename Tout, typename Tin>
-         requires ! meta::is_narrowing_conversion<Tin,Tout>
-      constexpr static 
+         requires ( ! meta::is_narrowing_conversion<Tin,Tout>)
+      constexpr static
       auto apply( Tin const & v)
       { return static_cast<Tout>(v);}
 
 #if ! defined PQS_NO_EXCEPTIONS
       template <typename Tout, typename Tin>
-         requires meta::is_narrowing_conversion<Tin,Tout>
-      constexpr static 
+         requires ( meta::is_narrowing_conversion<Tin,Tout> )
+      constexpr static
       auto apply( Tin const & v)
-      { 
+      {
 
          if ( ( v >= static_cast<Tin>(std::numeric_limits<Tout>::lowest()))
          && ( v <= static_cast<Tin>(std::numeric_limits<Tout>::max()) ) ){
@@ -99,18 +99,18 @@ namespace pqs{
    struct saturating_conversion{
 
       template <typename Tout, typename Tin>
-        requires ! meta::is_narrowing_conversion<Tin,Tout>
-      constexpr static 
+        requires (! meta::is_narrowing_conversion<Tin,Tout>)
+      constexpr static
       auto apply( Tin const & v)
       { return static_cast<Tout>(v);}
 
       template <typename Tout, typename Tin>
-         requires meta::is_narrowing_conversion<Tin,Tout>
-      constexpr static 
+         requires ( meta::is_narrowing_conversion<Tin,Tout> )
+      constexpr static
       auto apply( Tin const & v)
-      { 
+      {
          return static_cast<Tout>(
-            pqs::constrain(v, 
+            pqs::constrain(v,
                static_cast<Tin>(std::numeric_limits<Tout>::lowest()),
                static_cast<Tin>(std::numeric_limits<Tout>::max())
             )

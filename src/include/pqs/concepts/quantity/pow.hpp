@@ -9,12 +9,12 @@
 namespace pqs{
 
    template <int N, int D, quantity Q>
-      requires N != 0
+      requires ( N != 0 )
    inline constexpr
    auto pow( Q const & q)
    {
       using exp10 = typename std::ratio<N,D>::type;
-      // TODO 
+      // TODO
       using result =
          pqs::make_quantity<
             pqs::make_unit<
@@ -39,7 +39,7 @@ namespace pqs{
    }
 
    template <int N, int D, quantity Q>
-      requires N == 0
+      requires ( N == 0 )
    inline constexpr
    auto pow( Q const & q)
    {

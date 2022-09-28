@@ -11,15 +11,15 @@ namespace pqs{
    inline constexpr bool dimensionally_equivalent<Dx,Dy> =
       std::is_same_v<
          get_simple_dimension<Dx>,
-         get_simple_dimension<Dy> 
+         get_simple_dimension<Dy>
       >;
 
    namespace impl{
 
       template <pqs::dimension Lhs, pqs::dimension Rhs>
          requires
-            pqs::is_custom_dimension<Lhs> &&
-            ! pqs::is_custom_dimension<Rhs> 
+           ( pqs::is_custom_dimension<Lhs> &&
+            ! pqs::is_custom_dimension<Rhs> )
       struct binary_op_impl <
          Lhs,pqs::times,Rhs
       > : pqs::binary_op<
@@ -31,8 +31,8 @@ namespace pqs{
       // derived_dim * dim
       template <pqs::dimension Lhs, pqs::dimension Rhs>
          requires
-            ! is_custom_dimension<Lhs> &&
-            is_custom_dimension<Rhs>
+           ( ! is_custom_dimension<Lhs> &&
+            is_custom_dimension<Rhs> )
       struct binary_op_impl <
          Lhs,pqs::times,Rhs
        > : pqs::binary_op<
@@ -43,22 +43,22 @@ namespace pqs{
 
       // derived_dim / derived_dim
       template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires 
+         requires
             pqs::is_custom_dimension<Lhs> &&
             pqs::is_custom_dimension<Rhs>
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs
       > : pqs::binary_op<
          get_simple_dimension<Lhs>,
-         pqs::divides, 
+         pqs::divides,
          get_simple_dimension<Rhs>
       >{};
 
       // dim / derived_dim
       template <pqs::dimension Lhs, pqs::dimension Rhs>
-         requires 
-            pqs::is_custom_dimension<Lhs> &&
-            ! pqs::is_custom_dimension<Rhs>
+         requires
+          (  pqs::is_custom_dimension<Lhs> &&
+            ! pqs::is_custom_dimension<Rhs> )
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs
        > : pqs::binary_op<
@@ -70,8 +70,8 @@ namespace pqs{
       // derived_dim / dim
       template <pqs::dimension Lhs, pqs::dimension Rhs>
          requires
-            ! pqs::is_custom_dimension<Lhs> &&
-              is_custom_dimension<Rhs>
+           ( ! pqs::is_custom_dimension<Lhs> &&
+              is_custom_dimension<Rhs> )
       struct binary_op_impl <
          Lhs,pqs::divides,Rhs
        > : pqs::binary_op<
@@ -81,7 +81,7 @@ namespace pqs{
       >{};
 
       template <pqs::dimension Lhs, typename Rhs>
-         requires 
+         requires
             pqs::is_custom_dimension<Lhs> &&
             pqs::is_ratio<Rhs>
       struct binary_op_impl <
@@ -93,7 +93,7 @@ namespace pqs{
             struct pqs::to_power,
             Rhs
       >{};
-      
+
       template <pqs::dimension D>
       struct binary_op_impl<
          D, pqs::times, pqs::dimensionless
@@ -113,19 +113,19 @@ namespace pqs{
       struct binary_op_impl<
          pqs::dimensionless, pqs::divides,D
       > : unary_op<pqs::meta::reciprocal,D>{};
-   
+
    } // impl
 
    template <pqs::dimension Lhs, pqs::dimension Rhs>
    inline constexpr
-   auto operator*( Lhs, Rhs ) 
+   auto operator*( Lhs, Rhs )
    {
       return pqs::binary_op_t<Lhs,pqs::times,Rhs>{};
    }
 
    template <pqs::dimension Lhs, pqs::dimension Rhs>
    inline constexpr
-   auto operator/( Lhs, Rhs ) 
+   auto operator/( Lhs, Rhs )
    {
       return typename pqs::binary_op_t<Lhs,pqs::divides,Rhs>{};
    }
@@ -146,14 +146,14 @@ namespace pqs{
    }
 
    template < dimension DL, dimension DR>
-   inline constexpr 
+   inline constexpr
    auto operator==( DL, DR)
    {
       return dimensionally_equivalent<DL,DR>;
    }
 
    template < dimension DL, dimension DR>
-   inline constexpr 
+   inline constexpr
    auto operator!=( DL, DR)
    {
       return !dimensionally_equivalent<DL,DR>;

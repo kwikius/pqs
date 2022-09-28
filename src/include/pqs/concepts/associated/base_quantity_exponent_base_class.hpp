@@ -11,10 +11,10 @@ namespace pqs{
 
      /**
       * @addtogroup base_quantity_exponent_concept_impl
-      * @{ 
-      * @ brief convenience detect base class 
+      * @{
+      * @ brief convenience detect base class
       */
-      struct base_quantity_exp_base_class{}; 
+      struct base_quantity_exp_base_class{};
      /** @} */
    }
 
@@ -44,11 +44,11 @@ namespace pqs{
       * @addtogroup base_quantity_exponent_concept_impl
       * @{ **/
         template <typename T>
-          requires 
-            std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
-            ! base_quantity_exponent<T>
+          requires
+           ( std::is_base_of_v<pqs::detail::base_quantity_exp_base_class,T> &&
+            ! base_quantity_exponent<T>)
         inline constexpr bool is_custom_dimension_impl<T> = true;
-              
+
      /** @} */
    }//impl
 

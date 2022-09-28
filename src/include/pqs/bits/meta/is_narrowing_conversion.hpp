@@ -12,8 +12,8 @@ namespace pqs { namespace meta{
 
       template <typename From, typename To>
          requires
-            std::is_arithmetic_v<From> && std::is_arithmetic_v<To> &&
-            ! std::is_same_v<std::common_type_t<From, To>, To>
+           ( std::is_arithmetic_v<From> && std::is_arithmetic_v<To> &&
+            ! std::is_same_v<std::common_type_t<From, To>, To>)
       struct is_narrowing_conversion_impl<
          From, To
       > : std::true_type {};
@@ -21,7 +21,7 @@ namespace pqs { namespace meta{
    }//impl
 
    template <typename From, typename To>
-   inline constexpr bool is_narrowing_conversion = 
+   inline constexpr bool is_narrowing_conversion =
       impl::is_narrowing_conversion_impl<
       std::remove_cvref_t<From>,
       std::remove_cvref_t<To>

@@ -11,8 +11,8 @@ namespace pqs::meta{
       struct is_bool_constant_impl : std::false_type{};
 
       template <typename T>
-            requires static_cast<bool>(T::value) || !static_cast<bool>(T::value)
-      struct is_bool_constant_impl<T 
+            requires (static_cast<bool>(T::value) || !static_cast<bool>(T::value) )
+      struct is_bool_constant_impl<T
       > : std::true_type{};
 
    }// impl

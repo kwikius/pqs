@@ -13,7 +13,7 @@ namespace pqs{
     * @return normative_quantity
     */
    template <int N, int D, quantity Q>
-      requires N != 0 && si::is_normative_unit<get_unit<Q> >
+      requires (N != 0 && si::is_normative_unit<get_unit<Q> > )
    inline constexpr
    auto pow( Q const & q)
    {
@@ -28,7 +28,7 @@ namespace pqs{
          typename std::ratio<N,D>::type
          >;
       */
-         
+
       using result =
          pqs::make_quantity<
             si::normative_unit<

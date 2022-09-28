@@ -26,48 +26,48 @@ namespace pqs{
       template <quantity Q>
       constexpr basic_quantity( Q const & q)
          requires
-            dimensionally_equivalent<basic_quantity,Q> &&
+           ( dimensionally_equivalent<basic_quantity,Q> &&
             same_measurement_system<basic_quantity,Q>  &&
-            ! pqs::meta::is_narrowing_conversion<get_numeric_type<Q>,value_type>
+            ! pqs::meta::is_narrowing_conversion<get_numeric_type<Q>,value_type> )
       :  m_scaled_value{scaled_value<
             get_conversion_factor<Q>,
-            get_numeric_type<Q> 
+            get_numeric_type<Q>
          >{get_numeric_value(q)}}
       {}
 
       template <dimensionless_quantity V>
-         requires 
-            std::is_assignable_v<
+         requires
+           ( std::is_assignable_v<
                value_type&,
                decltype(std::declval<value_type>() * std::declval<V>())
             >
             && ! meta::is_narrowing_conversion<
                decltype(std::declval<value_type>() * std::declval<V>()),
                value_type
-               >
-      constexpr 
+               > )
+      constexpr
       basic_quantity & operator *= (V const & v)
       {
-          this->m_scaled_value.set_numeric_value( 
+          this->m_scaled_value.set_numeric_value(
               this->numeric_value() * v
           );
           return *this;
       }
 
       template <dimensionless_quantity V>
-         requires 
-            std::is_assignable_v<
+         requires
+           ( std::is_assignable_v<
                value_type&,
                decltype(std::declval<value_type>() / std::declval<V>())
             >
             && ! meta::is_narrowing_conversion<
                decltype(std::declval<value_type>() / std::declval<V>()),
                value_type
-               >
-      constexpr 
+               > )
+      constexpr
       basic_quantity & operator /= (V const & v)
       {
-          this->m_scaled_value.set_numeric_value( 
+          this->m_scaled_value.set_numeric_value(
               this->numeric_value() / v
           );
           return *this;
@@ -77,15 +77,15 @@ namespace pqs{
       {
          return basic_quantity{this->numeric_value()};
       }
-   
+
       constexpr auto operator-() const
-      { 
+      {
          return basic_quantity{static_cast<value_type>(-this->numeric_value())};
       }
 
       constexpr basic_quantity & operator += (basic_quantity const & q)
       {
-          this->m_scaled_value.set_numeric_value( 
+          this->m_scaled_value.set_numeric_value(
               this->numeric_value() + q.numeric_value()
           );
           return *this;
@@ -93,7 +93,7 @@ namespace pqs{
 
       constexpr basic_quantity & operator -= (basic_quantity const & q)
       {
-          this->m_scaled_value.set_numeric_value( 
+          this->m_scaled_value.set_numeric_value(
               this->numeric_value() - q.numeric_value()
           );
           return *this;
@@ -101,7 +101,7 @@ namespace pqs{
 
       constexpr basic_quantity & operator++()
       {
-          this->m_scaled_value.set_numeric_value( 
+          this->m_scaled_value.set_numeric_value(
               this->numeric_value() + implicit_cast<value_type>(1)
           );
           return *this;
@@ -109,17 +109,17 @@ namespace pqs{
 
       constexpr basic_quantity & operator--()
       {
-          this->m_scaled_value.set_numeric_value( 
+          this->m_scaled_value.set_numeric_value(
               this->numeric_value() - implicit_cast<value_type>(1)
           );
           return *this;
       }
 
-      constexpr value_type numeric_value() const 
+      constexpr value_type numeric_value() const
       { return m_scaled_value.numeric_value(); }
 
       // fulfill requirements for basic_quantity to be a model of pqs::quantity
-      friend inline constexpr 
+      friend inline constexpr
       value_type get_numeric_value(basic_quantity const & q)
       {
          return q.numeric_value();
@@ -146,7 +146,7 @@ namespace pqs{
       // TODO check Unit and ValueType concepts
       template <typename Unit, typename ValueType>
       inline constexpr bool is_quantity_impl<
-         basic_quantity<Unit,ValueType> 
+         basic_quantity<Unit,ValueType>
       > = true;
 
       template <typename Unit, typename ValueType>
