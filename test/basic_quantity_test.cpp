@@ -19,9 +19,9 @@
 #include <iomanip>
 #include <iostream>
 
-struct dummy_system{ 
+struct dummy_system{
 
-   typedef dummy_system type; 
+   typedef dummy_system type;
 };
 
 namespace pqs{
@@ -41,7 +41,7 @@ namespace {
       using r = std::ratio<N,D>;
       if constexpr ( r::den == 1)
          return os  << r::num ;
-      else 
+      else
          return os << "(" << r::num << "/" << r::den << ")" ;
    }
 
@@ -50,7 +50,7 @@ namespace {
    std::ostream & operator << (std::ostream & os, pqs::exponent10<N,D> )
    {
       using r = typename pqs::exponent10<N,D>::ratio;
-      if constexpr ( r::den ==1) 
+      if constexpr ( r::den ==1)
          return os << r::num;
       else
          return os << "(" << r::num << "/" << r::den << ")" ;
@@ -78,7 +78,7 @@ namespace {
             dummy_system,
             decltype(abstract_length_v / abstract_time_v ),
             decltype( std::ratio<30,2>{} ^ exponent10<3>{})
-         >, 
+         >,
          double
       > constexpr q{20.0};
 
@@ -89,7 +89,7 @@ namespace {
       using U = get_unit<Q>;
 
       static_assert( ! si::is_normative_unit<U> );
-         
+
       using D = get_dimension<Q>;
 
       using V = get_numeric_type<Q>;
@@ -139,7 +139,7 @@ namespace {
 
       using Cf5 = get_conversion_factor<decltype(q5)>;
 
-      static_assert( std::is_same_v< 
+      static_assert( std::is_same_v<
          Cf5, conversion_factor<std::ratio<1>,exponent10<-1> >
       > );
 
@@ -178,20 +178,20 @@ namespace {
          si::normative_unit<
             exp_length<-1>,
             exponent10<-1>
-         >, 
+         >,
          double
       > q4{2};
       auto v1 = q1 * q4;
       QUAN_CHECK( (v1 == 2.))
-     // std::cout << "result of dimless mux = "  << v1 <<'\n'; 
+     // std::cout << "result of dimless mux = "  << v1 <<'\n';
 
       si::length::ft<> q5 = q1;
       using U5 = get_unit<decltype(q5)>;
       static_assert( not si::is_normative_unit<U5> );
 
-      auto q6 = q5 * q2; 
+      auto q6 = q5 * q2;
       static_assert( si::is_normative_unit<get_unit<decltype(q6)> > );
-     // std::cout << "result of mux1 = "  << get_numeric_value(q6) <<'\n';  
+     // std::cout << "result of mux1 = "  << get_numeric_value(q6) <<'\n';
    }
 
    void basic_quantity_divide_test()
@@ -397,14 +397,14 @@ namespace {
       static_assert( evaluate<get_conversion_factor<Qb> >() == 1 );
       static_assert( evaluate<get_conversion_factor<Q> >() != 1 );
 
-      constexpr dimensionless_quantity n = -12345.678;
-      
+      constexpr dimensionless_quantity auto n = -12345.678;
+
       constexpr Q  q{n};
       constexpr Qb qB = q;
 
-      static_assert( 
-         get_numeric_value(qB) == 
-            get_numeric_value(q) * evaluate<get_conversion_factor<Q> >() 
+      static_assert(
+         get_numeric_value(qB) ==
+            get_numeric_value(q) * evaluate<get_conversion_factor<Q> >()
       );
    }
 
@@ -421,7 +421,7 @@ namespace {
       QUAN_CHECK( (get_numeric_value(f) == 1020.0) );
 
       --f;
-      QUAN_CHECK( (get_numeric_value(f) == 1019.0) );   
+      QUAN_CHECK( (get_numeric_value(f) == 1019.0) );
    }
 
    void times_eq_test()
@@ -441,7 +441,7 @@ namespace {
       si::length::ft<> constexpr q2 = q1;
 
       auto constexpr q3 = si::speed::m_per_s<>{100};
-    
+
      // output<charset_utf8>( std::cout << std::setprecision(7), q1);
      // output< charset_utf8>( std::cout << " speed = ", q3) << '\n';
 

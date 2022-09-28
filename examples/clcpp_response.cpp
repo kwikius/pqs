@@ -30,12 +30,12 @@ void simple_quantities()
   using distance = length::m<>;
   using q_time = time::s<>;
 
-  constexpr distance km = 1.0q_km;
-  constexpr distance miles = 1.0q_mi;
+  constexpr distance km = 1.0_q_km;
+  constexpr distance miles = 1.0_q_mi;
 
-  constexpr q_time sec = 1.0q_s;
-  constexpr q_time min = 1.0q_min;
-  constexpr q_time hr = 1.0q_hr;
+  constexpr q_time sec = 1.0_q_s;
+  constexpr q_time min = 1.0_q_min;
+  constexpr q_time hr = 1.0_q_hr;
 
   std::cout << "A physical quantities library can choose the simple\n";
   std::cout << "option to provide output using a single type for each base unit:\n\n";
@@ -48,12 +48,12 @@ void simple_quantities()
 
 void quantities_with_typed_units()
 {
-  constexpr length::km<> km = 1.0q_km;
-  constexpr length::mi<> miles = 1.0q_mi;
+  constexpr length::km<> km = 1.0_q_km;
+  constexpr length::mi<> miles = 1.0_q_mi;
 
-  constexpr time::s<> sec = 1q_s;
-  constexpr time::min<> min = 1q_min;
-  constexpr time::hr<> hr = 1q_hr;
+  constexpr time::s<> sec = 1_q_s;
+  constexpr time::min<> min = 1_q_min;
+  constexpr time::hr<> hr = 1_q_hr;
 
   std::cout << "A more flexible option is to provide separate types for each unit,\n\n";
   std::cout << km << '\n';
@@ -62,7 +62,7 @@ void quantities_with_typed_units()
   std::cout << min << '\n';
   std::cout << hr << "\n\n";
 
-  constexpr length::m<> meter = 1q_m;
+  constexpr length::m<> meter = 1_q_m;
   std::cout << "then a wide range of pre-defined units can be defined and converted,\n"
                " for consistency and repeatability across applications:\n\n";
 
@@ -94,10 +94,10 @@ void calcs_comparison()
                "when adding two values of the same very big\n"
                "or very small type:\n\n";
 
-  length::fm<float> L1A = explicit_cast<float>(2.q_fm);
-  length::fm<float> L2A = explicit_cast<float>(3.q_fm);
+  length::fm<float> L1A = explicit_cast<float>(2._q_fm);
+  length::fm<float> L2A = explicit_cast<float>(3._q_fm);
   length::fm<float> LrA = explicit_cast<float>(L1A + L2A);
-  
+
   std::cout.precision(20);
   std::cout << L1A << " + " << L2A  << " = " << LrA << " // distinct units\n\n";
 
@@ -108,13 +108,13 @@ void calcs_comparison()
   length::m<float> L1B = L1A;
   length::m<float> L2B = L2A;
   length::m<float> LrB = L1B + L2B;
-   
+
   std::cout << L1B << " + " << L2B  << " = " << LrB << " // single unit\n\n";
 
   std::cout << "In multiplication and division:\n\n";
 
   area::fm2<float> ArA = L1A * L2A;
-   
+
   std::cout << L1A << " * " << L2A  << " = " << ArA << " // distinct units\n\n";;
 
   std::cout << "similar problems arise\n\n";

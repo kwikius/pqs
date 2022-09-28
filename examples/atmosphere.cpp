@@ -12,11 +12,11 @@ using namespace pqs;
 using namespace si::literals;
 
 namespace {
-   
-   using K_per_m = 
+
+   using K_per_m =
    make_v_quantity< si::temperature_unit::K() / si::length_unit::m()>;
 
-   constexpr K_per_m operator "" q_K_per_m ( long double v)
+   constexpr K_per_m operator "" _q_K_per_m ( long double v)
    {
       return K_per_m{static_cast<double>(v)};
    }
@@ -27,17 +27,17 @@ namespace {
       si::density::kg_per_m3<>   const ref_density;
       si::temperature::K<>       const ref_temperature;
       K_per_m                    const lapse_rate;
-   };    
+   };
 
-   baro_constants_t constexpr 
+   baro_constants_t constexpr
    baro_constants[] = {
-     {      0.0q_m , 101'325.00q_Pa , 1.225000q_kg_per_m3 , 288.15q_K , -0.0065q_K_per_m },
-     { 11'000.0q_m ,  22'632.10q_Pa , 0.363910q_kg_per_m3 , 216.65q_K ,  0.0000q_K_per_m },
-     { 20'000.0q_m ,   5'474.89q_Pa , 0.088030q_kg_per_m3 , 216.65q_K ,  0.0010q_K_per_m },
-     { 32'000.0q_m ,     868.02q_Pa , 0.013220q_kg_per_m3 , 228.65q_K ,  0.0028q_K_per_m },
-     { 47'000.0q_m ,     110.91q_Pa , 0.001430q_kg_per_m3 , 270.65q_K ,  0.0000q_K_per_m },
-     { 51'000.0q_m ,      66.94q_Pa , 0.000860q_kg_per_m3 , 270.65q_K , -0.0028q_K_per_m },
-     { 71'000.0q_m ,       3.96q_Pa , 0.000064q_kg_per_m3 , 214.65q_K , -0.0020q_K_per_m }
+     {      0.0_q_m , 101'325.00_q_Pa , 1.225000_q_kg_per_m3 , 288.15_q_K , -0.0065_q_K_per_m },
+     { 11'000.0_q_m ,  22'632.10_q_Pa , 0.363910_q_kg_per_m3 , 216.65_q_K ,  0.0000_q_K_per_m },
+     { 20'000.0_q_m ,   5'474.89_q_Pa , 0.088030_q_kg_per_m3 , 216.65_q_K ,  0.0010_q_K_per_m },
+     { 32'000.0_q_m ,     868.02_q_Pa , 0.013220_q_kg_per_m3 , 228.65_q_K ,  0.0028_q_K_per_m },
+     { 47'000.0_q_m ,     110.91_q_Pa , 0.001430_q_kg_per_m3 , 270.65_q_K ,  0.0000_q_K_per_m },
+     { 51'000.0_q_m ,      66.94_q_Pa , 0.000860_q_kg_per_m3 , 270.65_q_K , -0.0028_q_K_per_m },
+     { 71'000.0_q_m ,       3.96_q_Pa , 0.000064_q_kg_per_m3 , 214.65_q_K , -0.0020_q_K_per_m }
    };
 
    int get_baro_constant_idx(si::length::m<> const & asl)
@@ -53,12 +53,12 @@ namespace {
 
 }
 
-si::density::kg_per_m3<> 
+si::density::kg_per_m3<>
 air::get_density(pqs::si::length::m<> const & asl)
 {
    int const idx = get_baro_constant_idx(asl);
    auto const & bc = baro_constants[idx];
-  
+
    auto const rhoB = bc.ref_density;
    auto const Tb = bc.ref_temperature;
    auto const Lb = bc.lapse_rate;
@@ -68,21 +68,21 @@ air::get_density(pqs::si::length::m<> const & asl)
       si::energy_unit::J() / ( si::substance_unit::mol() * si::temperature_unit::K())
    >{8.3144598};
 
-   auto constexpr g0 = 9.80665q_m_per_s2;
+   auto constexpr g0 = 9.80665_q_m_per_s2;
 
    auto constexpr M = make_v_quantity<
       si::mass_unit::kg() / si::substance_unit::mol()
    >{0.0289644};
 
-   if ( bc.lapse_rate == 0.0q_K_per_m){
-      return rhoB * std::exp( 
+   if ( bc.lapse_rate == 0.0_q_K_per_m){
+      return rhoB * std::exp(
             (-g0  * M * (asl - hb))/( R * Tb)
          );
    }else{
       auto const exponent = ( 1 + (g0 * M)/(R * Lb));
-      return rhoB 
+      return rhoB
          * std::pow(
-               Tb / ( Tb + Lb  * ( asl - hb) ), 
+               Tb / ( Tb + Lb  * ( asl - hb) ),
                exponent
           );
    }
@@ -93,7 +93,7 @@ air::get_static_pressure(si::length::m<> const & asl)
 {
    int const idx = get_baro_constant_idx(asl);
    auto const & bc = baro_constants[idx];
-  
+
    auto const Pb = bc.ref_pressure;
    auto const Tb = bc.ref_temperature;
    auto const Lb = bc.lapse_rate;
@@ -103,24 +103,24 @@ air::get_static_pressure(si::length::m<> const & asl)
       si::energy_unit::J() / ( si::substance_unit::mol() * si::temperature_unit::K())
    >{8.3144598};
 
-   auto constexpr g0 = 9.80665q_m_per_s2;
+   auto constexpr g0 = 9.80665_q_m_per_s2;
 
    auto constexpr M = make_v_quantity<
       si::mass_unit::kg() / si::substance_unit::mol()
    >{0.0289644};
 
-   if ( bc.lapse_rate == 0.0q_K_per_m){
-      return Pb * 
+   if ( bc.lapse_rate == 0.0_q_K_per_m){
+      return Pb *
          std::exp(
             (g0 * -1 * M * ( asl - hb))/( R * Tb)
          );
    }else{
       auto const exponent = (-g0  * M )/ ( R * Lb);
-      return  Pb * 
+      return  Pb *
          std::pow(
             ( (Tb + Lb * ( asl - hb) )/ Tb )
             ,exponent
-         ); 
+         );
    }
 }
 
@@ -129,9 +129,9 @@ using namespace si::literals;
 
 namespace {
 
-   si::force::N<> 
+   si::force::N<>
    get_lift(
-      double const & Cl, 
+      double const & Cl,
       si::area::m2<> const & s,
       si::speed::m_per_s<> const & v,
       si::length::m<> const & asl
@@ -155,42 +155,42 @@ int main()
    std::cout << air::specific_gas_constant() << '\n';
    std::cout << air::get_sea_level_pressure() << '\n';
 
-   std::cout << air::get_static_pressure(100.0q_m ) << '\n';
-   std::cout << air::get_density(100.0q_m ) << '\n';
+   std::cout << air::get_static_pressure(100.0_q_m ) << '\n';
+   std::cout << air::get_density(100.0_q_m ) << '\n';
 
-   std::cout << air::get_static_pressure(100.0q_m ) / air::get_sea_level_pressure() <<'\n';
+   std::cout << air::get_static_pressure(100.0_q_m ) / air::get_sea_level_pressure() <<'\n';
 
    // sea level lift
    si::force::N<> weight = get_lift(
       0.5,
-      2q_m * 0.15q_m,
-      10q_m_per_s,
-      0q_m
+      2_q_m * 0.15_q_m,
+      10_q_m_per_s,
+      0_q_m
    );
 
    std::cout << get_lift(
       0.5,
-      2q_m * 0.15q_m,
-      10q_m_per_s,
-      100q_m
+      2_q_m * 0.15_q_m,
+      10_q_m_per_s,
+      100_q_m
    ) << '\n';
 
    std::cout << get_lift(
       0.5,
-      2q_m * 0.15q_m,
-      10q_m_per_s,
-      10000q_m
+      2_q_m * 0.15_q_m,
+      10_q_m_per_s,
+      10000_q_m
    ) << '\n';
 
    // note how higher CL is required at altitude
    double CL = get_CL(
-      weight,  
-      2q_m * 0.15q_m, 
-      10q_m_per_s,
-      1.0q_km
+      weight,
+      2_q_m * 0.15_q_m,
+      10_q_m_per_s,
+      1.0_q_km
    );
 
    std::cout << "CL =" << CL << '\n';
-   
+
 }
-  
+

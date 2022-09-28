@@ -21,61 +21,61 @@ namespace {
 
    void length_out()
    {
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_m) == "m");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_mm) == "mm");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_cm) == "cm");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_km) == "km");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_ft) == "ft");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_m) == "m");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_mm) == "mm");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_cm) == "cm");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_km) == "km");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_ft) == "ft");
    }
 
    void time_out()
    {
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_s) == "s");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_ms) == "ms");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_min) == "min");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_s) == "s");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_ms) == "ms");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_min) == "min");
    }
 
    void mass_out()
    {
-       static_assert(unit_to_fixed_string<charset_utf8>(0.0q_kg) == "kg");
-       static_assert(unit_to_fixed_string<charset_utf8>(0.0q_g) == "g");
+       static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_kg) == "kg");
+       static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_g) == "g");
    }
 
    void current_out()
    {
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_A) == "A");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_mA) == "mA");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_uA) == "\u00B5A");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_nA) == "nA");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_pA) == "pA");
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_fA) == "fA");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_A) == "A");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_mA) == "mA");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_uA) == "\u00B5A");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_nA) == "nA");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_pA) == "pA");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_fA) == "fA");
    }
 
    void temperature_out()
    {
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_K) == "K");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_K) == "K");
    }
 
    void substance_out()
    {
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_mol) == "mol");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_mol) == "mol");
    }
 
    void intensity_out()
    {
-     static_assert(unit_to_fixed_string<charset_utf8>(0.0q_cd) == "cd");
+     static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_cd) == "cd");
    }
 
    void area_out()
    {
-       static_assert(unit_to_fixed_string<charset_utf8>(0.0q_m2) == "m²");
-       static_assert(unit_to_fixed_string<charset_utf8>(0.0q_mm2) == "mm²");
-       static_assert(unit_to_fixed_string<charset_utf8>(0.0q_cm2) == "cm²");
+       static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_m2) == "m²");
+       static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_mm2) == "mm²");
+       static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_cm2) == "cm²");
    }
 
    void acceleration_out()
    {
-      static_assert(unit_to_fixed_string<charset_utf8>(0.0q_m_per_s2) == "m⋅s⁻²");
+      static_assert(unit_to_fixed_string<charset_utf8>(0.0_q_m_per_s2) == "m⋅s⁻²");
    }
 
    void sig_test()
@@ -113,20 +113,20 @@ namespace {
    //   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_utf8>()  << '\n';
    //   std::cout <<  pqs::dimension_to_fixed_string<L1, pqs::charset_ascii>()  << '\n';
 
-   } 
+   }
 
    void literal_test()
    {
-      auto constexpr q1 = 1.0q_m;
-      auto constexpr q2 = -1q_m;
-      auto constexpr q3 = 1.0q_cm;
-      auto constexpr q4 = -1q_cm;
-      auto constexpr q5 = 1.0q_mm;
-      auto constexpr q6 = -1q_mm;
-      auto constexpr q7 = 1.0q_km;
-      auto constexpr q8 = -1q_km;
-      auto constexpr q10 = 1.0q_mm2;
- 
+      auto constexpr q1 = 1.0_q_m;
+      auto constexpr q2 = -1_q_m;
+      auto constexpr q3 = 1.0_q_cm;
+      auto constexpr q4 = -1_q_cm;
+      auto constexpr q5 = 1.0_q_mm;
+      auto constexpr q6 = -1_q_mm;
+      auto constexpr q7 = 1.0_q_km;
+      auto constexpr q8 = -1_q_km;
+      auto constexpr q10 = 1.0_q_mm2;
+
    }
 
 }

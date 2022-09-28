@@ -17,20 +17,20 @@ int main()
 
    #define let auto constexpr
 
-   let C = 0.47q_uF;
-   let V0 = 5.0q_V;
-   let R = 4.7q_kR;
+   let C = 0.47_q_uF;
+   let V0 = 5.0_q_V;
+   let R = 4.7_q_kR;
 
-   for ( auto t = 0.0q_ms ; t <= 50.0q_ms; ++t ){
+   for ( auto t = 0.0_q_ms ; t <= 50.0_q_ms; ++t ){
       auto const Vt = V0 * std::exp(-t / (R * C));
       std::cout << "at " << t << " voltage is " ;
-      if     ( Vt >= 1q_V )
+      if     ( Vt >= 1_q_V )
          std::cout << Vt ;
-      else if( Vt >= 1q_mV )
+      else if( Vt >= 1_q_mV )
          std::cout << implicit_cast<voltage::mV<> >(Vt);
-      else if( Vt >= 1q_uV )
+      else if( Vt >= 1_q_uV )
          std::cout << implicit_cast<voltage::uV<> >(Vt);
-      else if( Vt >= 1q_nV )
+      else if( Vt >= 1_q_nV )
          std::cout << implicit_cast<voltage::nV<> >(Vt);
       else
          std::cout << implicit_cast<voltage::pV<> >(Vt);

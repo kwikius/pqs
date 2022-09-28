@@ -18,7 +18,7 @@ Vm is voltage across motor
 Vlm = Lm * DIm/Dt
 Vrm = Im * Rm
 
-Em = Vm - ( Vlm + Vrm) 
+Em = Vm - ( Vlm + Vrm)
 
 Vm = 0 or Vm = Vmax
 */
@@ -29,19 +29,19 @@ using namespace pqs::si::literals;
 int main()
 {
    // Lm is inductance of motor
-   let Lm = 1.0q_mH;
+   let Lm = 1.0_q_mH;
    // Rm is motor winding resistance
-   let Rm = 0.1q_R;
+   let Rm = 0.1_q_R;
    // current at now and prev
-   let Im0 = 0.1q_A;
-   let Im1 = 0.2q_A;
+   let Im0 = 0.1_q_A;
+   let Im1 = 0.2_q_A;
 
-   let dt = 0.05q_s;
+   let dt = 0.05_q_s;
 
    let Vlm = Lm * (Im1 - Im0) / dt;
    let Vrm = Im1 * Rm;
-   
-   let Vm = 5.0q_V;
+
+   let Vm = 5.0_q_V;
 
    pqs::si::voltage::V<> Em = Vm - ( Vlm + Vrm);
    std::cout << "back emf = " << Em <<'\n';

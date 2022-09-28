@@ -14,7 +14,7 @@ int main()
 {
     std::cout << "PQS feet and inches demo ( si measurement system)\n\n";
 
-    auto constexpr  q = 1.25q_ft;
+    auto constexpr  q = 1.25_q_ft;
 
     // feet part demoing explicit cast of value_type to int
     auto constexpr q_ft = explicit_cast<int>(floor(q)); // feet part
@@ -23,7 +23,7 @@ int main()
     // first to length in inches ( implicit_cast shows intent here)
     // then to int value_type
     auto constexpr q_in = explicit_cast<int>(
-       implicit_cast< length::in<> >(q - q_ft) 
+       implicit_cast< length::in<> >(q - q_ft)
     );
 
     std::cout << q << " = " << q_ft << " " << q_in <<'\n';
