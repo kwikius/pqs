@@ -9,7 +9,7 @@
 namespace pqs{
 
    template <int N, int D, quantity Q>
-      requires ( N != 0 )
+      requires ( N != 0 && provide_operator_pow<Q,N,D> )
    inline constexpr
    auto pow( Q const & q)
    {

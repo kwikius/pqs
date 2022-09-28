@@ -24,21 +24,21 @@ namespace pqs{
    namespace impl{
 
       template <quantity Q>
-      struct get_dimension_impl<Q> 
+      struct get_dimension_impl<Q>
       : get_dimension<get_unit<Q> >{};
 
       template <quantity Q>
-      struct get_conversion_factor_impl<Q> 
+      struct get_conversion_factor_impl<Q>
       : get_conversion_factor<get_unit<Q> >{};
 
       template <quantity Q>
-      struct get_measurement_system_impl<Q> 
+      struct get_measurement_system_impl<Q>
       : get_measurement_system<get_unit<Q> >{};
 
       template <quantity Q>
-      struct get_simple_dimension_impl<Q> 
+      struct get_simple_dimension_impl<Q>
       : get_simple_dimension<get_unit<Q> >{};
-    
+
       template <typename Lhs, typename Rhs>
       struct provide_operator_plus_impl : std::true_type{};
       template <typename Lhs, typename Rhs>
@@ -50,36 +50,39 @@ namespace pqs{
       template <typename Lhs, typename Rhs>
       struct provide_operator_cmp_impl : std::true_type{};
 
+      template <typename Q,int N,int D>
+      struct provide_operator_pow_impl : std::true_type{};
+
     }
-  
+
 // TODO this should maybe test the semantic
     // e.g dimensionally_equivalent
     template <quantity Lhs, quantity Rhs>
-    inline constexpr bool provide_operator_plus = 
+    inline constexpr bool provide_operator_plus =
     impl::provide_operator_plus_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
     template <quantity Lhs, quantity Rhs>
-    inline constexpr bool provide_operator_minus = 
+    inline constexpr bool provide_operator_minus =
     impl::provide_operator_minus_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
     template <typename Lhs, typename Rhs>
-    inline constexpr bool provide_operator_times = 
+    inline constexpr bool provide_operator_times =
     impl::provide_operator_times_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
     template <typename Lhs, typename Rhs>
-    inline constexpr bool provide_operator_divides = 
+    inline constexpr bool provide_operator_divides =
     impl::provide_operator_divides_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
 
     template <typename Lhs, typename Rhs>
-    inline constexpr bool provide_operator_cmp = 
+    inline constexpr bool provide_operator_cmp =
     impl::provide_operator_cmp_impl<
        std::remove_cvref_t<Lhs>, std::remove_cvref_t<Rhs>
     >::value;
@@ -92,8 +95,14 @@ namespace pqs{
     inline constexpr bool dimensionally_equivalent<Qj,Qk> =
        dimensionally_equivalent<
           get_dimension<Qj>,
-          get_dimension<Qk> 
+          get_dimension<Qk>
        >;
+
+    template  <typename Q,int N,int D>
+    inline constexpr bool provide_operator_pow =
+    impl::provide_operator_pow_impl<
+       std::remove_cvref_t<Q>,N,D
+    >::value;
 
 }// pqs
 

@@ -7,6 +7,14 @@
 
 namespace pqs{
 
+   namespace impl{
+
+      template <typename Q,int N,int D>
+       requires (si::is_normative_unit<get_unit<Q> > )
+      struct provide_operator_pow_impl<Q,N,D> : std::false_type{};
+
+   }
+
    /**
     * @brief refinement of pow for normative quantity
     * @param  normative_quantity
